@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import GameObject from '../models/game-object';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -24,22 +24,20 @@ interface DefaultDisplayProps {
   gameObject: GameObject,
 }
 
-const DefaultDisplay = ({ gameObject }: DefaultDisplayProps) => {
-  return (
-    <div style={classes.gameObject}>
-      <div style={classes.header}>
-        <div style={classes.title}>{gameObject.name}</div>
+const DefaultDisplay = ({ gameObject }: DefaultDisplayProps) => (
+  <div style={classes.gameObject}>
+    <div style={classes.header}>
+      <div style={classes.title}>{gameObject.name}</div>
 
-        <div>
-          {gameObject.macros.map((macro) => (
-            <button>{macro.name}</button>
-          ))}
-        </div>
+      <div>
+        {gameObject.macros.map((macro) => (
+          <button type="button">{macro.name}</button>
+        ))}
       </div>
-
-      <div>{gameObject.description}</div>
     </div>
-  );
-}
+
+    <div>{gameObject.description}</div>
+  </div>
+);
 
 export default DefaultDisplay;

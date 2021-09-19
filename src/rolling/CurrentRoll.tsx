@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import Roll from '../models/dice/roll';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -11,12 +11,10 @@ interface CurrentRollProps {
   roll: Roll,
 }
 
-const CurrentRoll = ({ roll }: CurrentRollProps) => {
-  return (
-    <div style={classes.roll}>
-      {}
-    </div>
-  );
-}
+const CurrentRoll = ({ roll }: CurrentRollProps) => (
+  <div style={classes.roll}>
+    {roll.baseValue}
+  </div>
+);
 
 export default CurrentRoll;

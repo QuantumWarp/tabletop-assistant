@@ -1,9 +1,12 @@
-import GameMacro from "./game-macro";
+import GameMacro from './game-macro';
 
 export default class GameObject {
   name: string;
+
   description: string;
+
   value: any;
+
   macros: GameMacro[];
 
   constructor(

@@ -1,6 +1,8 @@
 export default class Die {
   value: number = 0;
+
   rolled = false;
+
   faces: number;
 
   constructor(faces: number) {

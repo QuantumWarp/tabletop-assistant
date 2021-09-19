@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import GameObject from '../models/game-object';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -25,22 +25,20 @@ interface MultiNumberDisplayProps {
   largeObj: GameObject,
 }
 
-const MultiNumberDisplay = ({ smallObj, largeObj }: MultiNumberDisplayProps) => {
-  return (
-    <div style={classes.gameObject}>
-      <div style={classes.small}>
-        {smallObj.value}
-      </div>
-
-      <div style={classes.large}>
-        {largeObj.value}
-      </div>
-
-      <div style={classes.name}>
-        {largeObj.name}
-      </div>
+const MultiNumberDisplay = ({ smallObj, largeObj }: MultiNumberDisplayProps) => (
+  <div style={classes.gameObject}>
+    <div style={classes.small}>
+      {smallObj.value}
     </div>
-  );
-}
+
+    <div style={classes.large}>
+      {largeObj.value}
+    </div>
+
+    <div style={classes.name}>
+      {largeObj.name}
+    </div>
+  </div>
+);
 
 export default MultiNumberDisplay;

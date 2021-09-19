@@ -1,12 +1,11 @@
-import State from "./game-state";
-
-export default class Macro {
+export default class GameMacro {
   name: string;
-  action: (state: State) => any;
+
+  action: (state: any) => any;
 
   constructor(
     name: string,
-    action: (state: State) => any,
+    action: (state: any) => any,
   ) {
     this.name = name;
     this.action = action;

@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import Roll from '../models/dice/roll';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -11,17 +11,19 @@ interface RollerProps {
   roll: Roll,
 }
 
-const Roller = ({ roll }: RollerProps) => {
-  return (
-    <div style={classes.roller}>
-      {roll.baseValue}
+const Roller = ({ roll }: RollerProps) => (
+  <div style={classes.roller}>
+    {roll.baseValue}
 
-      {roll.faceDict.map((x) => (
-        <span>{x.count}d{x.count}</span>
-      ))}
+    {roll.faceDict.map((x) => (
+      <span>
+        {x.count}
+        d
+        {x.count}
+      </span>
+    ))}
 
-    </div>
-  );
-};
+  </div>
+);
 
 export default Roller;

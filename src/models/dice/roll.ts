@@ -1,4 +1,4 @@
-import Die from "./die";
+import Die from './die';
 
 interface FaceCount {
   faces: number;
@@ -7,6 +7,7 @@ interface FaceCount {
 
 export default class Roll {
   baseValue: number = 0;
+
   dice: Die[] = [];
 
   get value(): number {
@@ -34,7 +35,7 @@ export default class Roll {
     this.dice.push(die);
     return this;
   }
-  
+
   roll() {
     this.dice.forEach((die) => die.roll());
   }

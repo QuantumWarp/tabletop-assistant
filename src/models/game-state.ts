@@ -1,4 +1,4 @@
-import GameObject from "./game-object";
+import GameObject from './game-object';
 
 export default class GameState {
   gameObjects: GameObject[];
