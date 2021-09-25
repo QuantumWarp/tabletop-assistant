@@ -1,16 +1,27 @@
-import React from 'react';
-import GameState from './models/game-state';
-import objects from './example/objects';
-import DefaultDisplay from './display/DefaultDisplay';
+import React, { CSSProperties, useEffect } from 'react';
+import objects from './examples/objects';
+import { useAppDispatch } from './store/store';
+import {
+  addGameObjects,
+} from './store/main-slice';
+import MainLayout from './layout/MainLayout';
+
+const classes: { [key: string]: CSSProperties } = {
+  app: {
+    display: 'flex',
+  },
+};
 
 const App = () => {
-  const state = new GameState(...objects);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(addGameObjects(...objects));
+  }, [dispatch]);
 
   return (
-    <div>
-      {state.gameObjects.map((obj) => (
-        <DefaultDisplay gameObject={obj} />
-      ))}
+    <div style={classes.app}>
+      <MainLayout />
     </div>
   );
 };

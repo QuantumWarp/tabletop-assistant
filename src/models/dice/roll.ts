@@ -1,4 +1,5 @@
 import Die from './die';
+import RollResult from './roll-result';
 
 interface FaceCount {
   faces: number;
@@ -9,10 +10,6 @@ export default class Roll {
   baseValue: number = 0;
 
   dice: Die[] = [];
-
-  get value(): number {
-    return this.dice.reduce((val, die) => val + die.value, this.baseValue);
-  }
 
   get faceDict(): FaceCount[] {
     return this.dice.reduce((arr: FaceCount[], die: Die) => {
@@ -31,12 +28,24 @@ export default class Roll {
     return this;
   }
 
-  withDie(die: Die) {
-    this.dice.push(die);
+  withDie(...die: Die[]) {
+    this.dice.push(...die);
     return this;
   }
 
   roll() {
-    this.dice.forEach((die) => die.roll());
+    return new RollResult(
+      this.baseValue,
+      this.dice.map((die) => ({
+        die,
+        value: die.roll(),
+      })),
+    );
+  }
+
+  clone() {
+    return new Roll()
+      .withBaseValue(this.baseValue)
+      .withDie(...this.dice);
   }
 }

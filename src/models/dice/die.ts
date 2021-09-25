@@ -1,8 +1,4 @@
 export default class Die {
-  value: number = 0;
-
-  rolled = false;
-
   faces: number;
 
   constructor(faces: number) {
@@ -10,7 +6,6 @@ export default class Die {
   }
 
   roll() {
-    this.rolled = true;
-    this.value = Math.floor(Math.random() * this.faces);
+    return Math.floor(Math.random() * this.faces);
   }
 }
