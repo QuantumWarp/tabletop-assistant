@@ -3,12 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Roll from '../models/dice/roll';
 import RollResult from '../models/dice/roll-result';
 import GameObject from '../models/game-object';
-import HistoryNode from '../models/history-node';
 import type { RootState } from './store';
 
 interface MainState {
   selectedTab: string;
-  history: HistoryNode[],
+  history: RollResult[],
   gameObjects: GameObject[],
   currentRoll: Roll | null,
   currentRollResult: RollResult | null,
@@ -29,7 +28,7 @@ export const mainSlice = createSlice({
     setTab: (state, action: PayloadAction<string>) => {
       state.selectedTab = action.payload;
     },
-    addHistory: (state, action: PayloadAction<HistoryNode>) => {
+    addHistory: (state, action: PayloadAction<RollResult>) => {
       state.history.push(action.payload);
     },
     addGameObjects: (state, action: PayloadAction<GameObject[]>) => {
@@ -37,10 +36,12 @@ export const mainSlice = createSlice({
     },
     startRoll: (state, action: PayloadAction<Roll>) => {
       state.currentRoll = action.payload;
+      state.selectedTab = 'roller';
     },
     performRoll: (state) => {
       if (!state.currentRoll) return;
       state.currentRollResult = state.currentRoll.roll();
+      state.history.push(state.currentRollResult);
     },
   },
 });

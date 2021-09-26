@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import HistoryNode from '../models/history-node';
+import RollResult from '../models/dice/roll-result';
 
 const classes: { [key: string]: CSSProperties } = {
   historyNode: {
@@ -8,12 +8,14 @@ const classes: { [key: string]: CSSProperties } = {
 };
 
 interface HistoryRowProps {
-  node: HistoryNode,
+  node: RollResult,
 }
 
 const HistoryRow = ({ node }: HistoryRowProps) => (
   <div style={classes.historyNode}>
-    {node}
+    Roll
+    {' '}
+    {node.value}
   </div>
 );
 

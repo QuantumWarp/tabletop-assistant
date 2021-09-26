@@ -1,10 +1,8 @@
 import React, { CSSProperties, useEffect } from 'react';
-import objects from './examples/objects';
 import { useAppDispatch } from './store/store';
-import {
-  addGameObjects,
-} from './store/main-slice';
+import { addGameObjects } from './store/main-slice';
 import MainLayout from './layout/MainLayout';
+import objects from './examples/objects';
 
 const classes: { [key: string]: CSSProperties } = {
   app: {
@@ -16,7 +14,7 @@ const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(addGameObjects(...objects));
+    dispatch(addGameObjects([...objects]));
   }, [dispatch]);
 
   return (
