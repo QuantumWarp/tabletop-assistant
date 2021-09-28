@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { performRoll, selectCurrentRoll } from '../store/main-slice';
+import { performRoll, selectRoll } from '../store/main-slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -10,7 +10,7 @@ const classes: { [key: string]: CSSProperties } = {
 
 const Roller = () => {
   const dispatch = useAppDispatch();
-  const roll = useAppSelector(selectCurrentRoll);
+  const roll = useAppSelector(selectRoll);
 
   return (
     <div style={classes.roller}>

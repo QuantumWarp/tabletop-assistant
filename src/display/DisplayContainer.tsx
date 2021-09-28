@@ -1,11 +1,12 @@
 import React, { CSSProperties } from 'react';
-import layout from '../examples/layout';
 import DefaultDisplay from './DefaultDisplay';
 import { useAppSelector } from '../store/store';
 import {
   selectGameObjects,
 } from '../store/main-slice';
 import DotCounterDisplay from './DotCounterDisplay';
+import LayoutTab from '../models/layout/layout-tab';
+import DisplayType from '../models/layout/display-type';
 
 const classes: { [key: string]: CSSProperties } = {
   app: {
@@ -13,28 +14,36 @@ const classes: { [key: string]: CSSProperties } = {
   },
 };
 
-const DisplayContainer = () => {
+interface DisplayContainerProps {
+  tab: LayoutTab,
+}
+
+const DisplayContainer = ({ tab }: DisplayContainerProps) => {
   const gameObjects = useAppSelector(selectGameObjects);
 
   return (
     <div style={classes.app}>
       <div>
-        {gameObjects.map((obj) => (
-          <>
-            {layout[obj.name] === 'default' && (
-              <DefaultDisplay
-                key={obj.name}
-                gameObject={obj}
-              />
-            )}
-            {layout[obj.name] === 'dot-counter' && (
-              <DotCounterDisplay
-                key={obj.name}
-                gameObject={obj}
-              />
-            )}
-          </>
-        ))}
+        {tab.entries.map((entry) => {
+          const obj = gameObjects.find((x) => entry.key === x.key);
+
+          return (
+            <>
+              {obj && entry.display === DisplayType.default && (
+                <DefaultDisplay
+                  key={entry.key}
+                  gameObject={obj}
+                />
+              )}
+              {obj && entry.display === DisplayType.dotCounter && (
+                <DotCounterDisplay
+                  key={entry.key}
+                  gameObject={obj}
+                />
+              )}
+            </>
+          );
+        })}
       </div>
     </div>
   );

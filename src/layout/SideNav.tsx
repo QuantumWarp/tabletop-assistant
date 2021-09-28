@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
-import { setTab } from '../store/main-slice';
-import { useAppDispatch } from '../store/store';
+import { selectLayout, setTabIndex } from '../store/main-slice';
+import { useAppDispatch, useAppSelector } from '../store/store';
 
 const classes: { [key: string]: CSSProperties } = {
   app: {
@@ -10,12 +10,17 @@ const classes: { [key: string]: CSSProperties } = {
 
 const SideNav = () => {
   const dispatch = useAppDispatch();
+  const layout = useAppSelector(selectLayout);
+  const tabCount = layout ? layout.tabs.length : 0;
 
   return (
     <div style={classes.sideNav}>
-      <button type="button" onClick={() => dispatch(setTab('display'))}>Display</button>
-      <button type="button" onClick={() => dispatch(setTab('roller'))}>Roller</button>
-      <button type="button" onClick={() => dispatch(setTab('history'))}>History</button>
+      {layout && layout.tabs.map((tab, index) => (
+        <button type="button" onClick={() => dispatch(setTabIndex(index))}>{tab.name}</button>
+      ))}
+
+      <button type="button" onClick={() => dispatch(setTabIndex(tabCount + 1))}>Roller</button>
+      <button type="button" onClick={() => dispatch(setTabIndex(tabCount + 2))}>History</button>
     </div>
   );
 };

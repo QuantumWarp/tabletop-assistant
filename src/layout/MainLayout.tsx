@@ -4,7 +4,7 @@ import HistoryView from '../history/HistoryView';
 import SideNav from './SideNav';
 import DisplayContainer from '../display/DisplayContainer';
 import { useAppSelector } from '../store/store';
-import { selectTab } from '../store/main-slice';
+import { selectLayout, selectTabIndex } from '../store/main-slice';
 
 const classes: { [key: string]: CSSProperties } = {
   app: {
@@ -13,16 +13,19 @@ const classes: { [key: string]: CSSProperties } = {
 };
 
 const MainLayout = () => {
-  const tab = useAppSelector(selectTab);
+  const tabIndex = useAppSelector(selectTabIndex);
+  const layout = useAppSelector(selectLayout);
+  const tabCount = layout ? layout.tabs.length : 0;
+  const tab = layout ? layout.tabs[tabIndex] : null;
 
   return (
     <div style={classes.mainLayout}>
       <SideNav />
 
       <main>
-        {tab === 'display' && <DisplayContainer />}
-        {tab === 'roller' && <Roller />}
-        {tab === 'history' && <HistoryView />}
+        {tab && <DisplayContainer tab={tab} />}
+        {tabIndex === tabCount + 1 && <Roller />}
+        {tabIndex === tabCount + 2 && <HistoryView />}
       </main>
     </div>
   );
