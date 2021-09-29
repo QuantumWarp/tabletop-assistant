@@ -1,21 +1,32 @@
+import { CSSProperties } from 'react';
+
 export default class LayoutPosition {
-  columnStart: number;
+  left: number;
 
-  columnEnd: number;
+  top: number;
 
-  rowStart: number;
+  width: number;
 
-  rowEnd: number;
+  height: number;
+
+  get sizing(): CSSProperties {
+    return {
+      left: `${this.left}%`,
+      top: `${this.top}%`,
+      width: `${this.width}%`,
+      height: `${this.height}%`,
+    };
+  }
 
   constructor(
-    columnStart: number,
-    columnEnd: number,
-    rowStart: number,
-    rowEnd: number,
+    left: number,
+    top: number,
+    width: number,
+    height: number,
   ) {
-    this.columnStart = columnStart;
-    this.columnEnd = columnEnd;
-    this.rowStart = rowStart;
-    this.rowEnd = rowEnd;
+    this.left = left;
+    this.top = top;
+    this.width = width;
+    this.height = height;
   }
 }

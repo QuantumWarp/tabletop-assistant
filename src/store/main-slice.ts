@@ -7,6 +7,7 @@ import Layout from '../models/layout/layout';
 import type { RootState } from './store';
 
 interface MainState {
+  configure: boolean;
   tabIndex: number;
   layout: Layout | null,
   gameObjects: GameObject[],
@@ -16,6 +17,7 @@ interface MainState {
 }
 
 const initialState: MainState = {
+  configure: false,
   tabIndex: 0,
   layout: null,
   gameObjects: [],
@@ -28,6 +30,9 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
+    toggleConfigure(state) {
+      state.configure = !state.configure;
+    },
     setTabIndex: (state, action: PayloadAction<number>) => {
       state.tabIndex = action.payload;
     },
@@ -52,6 +57,7 @@ export const mainSlice = createSlice({
 });
 
 export const {
+  toggleConfigure,
   setTabIndex,
   setLayout,
   addGameObjects,
@@ -60,6 +66,7 @@ export const {
   addHistory,
 } = mainSlice.actions;
 
+export const selectConfigure = (state: RootState) => state.main.configure;
 export const selectTabIndex = (state: RootState) => state.main.tabIndex;
 export const selectLayout = (state: RootState) => state.main.layout;
 export const selectGameObjects = (state: RootState) => state.main.gameObjects;
