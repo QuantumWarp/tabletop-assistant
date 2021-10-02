@@ -1,4 +1,6 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useState } from 'react';
+import DisplayType from '../models/layout/display-type';
+import LayoutPosition from '../models/layout/layout-position';
 import LayoutTab from '../models/layout/layout-tab';
 import LayoutBox from './LayoutBox';
 
@@ -15,15 +17,32 @@ interface LayoutContainerProps {
   tab: LayoutTab,
 }
 
-const LayoutContainer = ({ tab }: LayoutContainerProps) => (
-  <div style={classes.layoutContainer}>
-    {tab.entries.map((entry) => (
-      <LayoutBox
-        key={entry.key}
-        entry={entry}
-      />
-    ))}
-  </div>
-);
+const LayoutContainer = ({ tab }: LayoutContainerProps) => {
+  const [entries, setEntries] = useState(tab.entries);
+
+  const addEntry = () => {
+    setEntries(entries.concat({
+      display: DisplayType.default,
+      position: new LayoutPosition(0, 0, 10, 10),
+      key: '',
+    }));
+  };
+
+  return (
+    <div
+      style={classes.layoutContainer}
+      onDoubleClick={addEntry}
+    >
+      {entries.map((entry) => (
+        <LayoutBox
+          containerSize={{ width: 1000, height: 1000 }}
+          key={entry.key}
+          entry={entry}
+          onChange={() => setEntries([...entries])}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default LayoutContainer;

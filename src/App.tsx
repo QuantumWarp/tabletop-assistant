@@ -8,6 +8,7 @@ import layout from './examples/layout';
 const classes: { [key: string]: CSSProperties } = {
   app: {
     display: 'flex',
+    justifyContent: 'center',
   },
 };
 

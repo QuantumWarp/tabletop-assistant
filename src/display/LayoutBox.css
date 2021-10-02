@@ -1,0 +1,20 @@
+.layout-box {
+  position: absolute;
+  padding: 0px;
+}
+.layout-box .inner {
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 8px;
+  height: 100%;
+  width: 100%;
+}
+.layout-box-hover:hover {
+  background-color:lightblue;
+}
+.left, .right {
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  cursor: col-resize;
+}
