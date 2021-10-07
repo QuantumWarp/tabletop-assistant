@@ -1,5 +1,7 @@
 import React, { CSSProperties, useState } from 'react';
+import { DraggableData, ResizableDelta } from 'react-rnd';
 import DisplayType from '../models/layout/display-type';
+import LayoutEntry from '../models/layout/layout-entry';
 import LayoutPosition from '../models/layout/layout-position';
 import LayoutTab from '../models/layout/layout-tab';
 import LayoutBox from './LayoutBox';
@@ -12,6 +14,8 @@ const classes: { [key: string]: CSSProperties } = {
     border: '1px solid black',
   },
 };
+
+const containerSize = { width: 1000, height: 1000 };
 
 interface LayoutContainerProps {
   tab: LayoutTab,
@@ -28,6 +32,16 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
     }));
   };
 
+  const updatePosition = (entry: LayoutEntry, data: DraggableData) => {
+    entry.position.updatePosition(containerSize, data);
+    setEntries([...entries]);
+  };
+
+  const updateSize = (entry: LayoutEntry, dir: string, delta: ResizableDelta) => {
+    entry.position.updateSize(containerSize, dir, delta);
+    setEntries([...entries]);
+  };
+
   return (
     <div
       style={classes.layoutContainer}
@@ -35,10 +49,11 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
     >
       {entries.map((entry) => (
         <LayoutBox
-          containerSize={{ width: 1000, height: 1000 }}
+          containerSize={containerSize}
           key={entry.key}
           entry={entry}
-          onChange={() => setEntries([...entries])}
+          onPositionChange={(data) => updatePosition(entry, data)}
+          onSizeChange={(dir, delta) => updateSize(entry, dir, delta)}
         />
       ))}
     </div>

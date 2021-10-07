@@ -2,36 +2,40 @@ import React from 'react';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
 import ContainerSize from '../models/layout/container-size';
 import LayoutEntry from '../models/layout/layout-entry';
+import { selectGameObjects } from '../store/main-slice';
+import { useAppSelector } from '../store/store';
 import './LayoutBox.css';
 
 interface LayoutBoxProps {
   containerSize: ContainerSize,
   entry: LayoutEntry,
-  onChange: (entry: LayoutEntry) => void;
+  onPositionChange: (data: DraggableData) => void,
+  onSizeChange: (dir: string, delta: ResizableDelta) => void,
 }
 
-const LayoutBox = ({ containerSize, entry, onChange }: LayoutBoxProps) => {
-  const updatePosition = (data: DraggableData) => {
-    entry.position.updatePosition(containerSize, data);
-    onChange(entry);
-  };
+const LayoutBox = ({
+  containerSize, entry, onPositionChange, onSizeChange,
+}: LayoutBoxProps) => {
+  const gameObjects = useAppSelector(selectGameObjects);
 
-  const updateSize = (dir: string, delta: ResizableDelta) => {
-    entry.position.updateSize(containerSize, dir, delta);
-    onChange(entry);
-  };
+  const obj = gameObjects.find((x) => x.key === entry.key);
 
   return (
     <Rnd
       className="layout-box"
       position={entry.position.position(containerSize)}
       size={entry.position.size(containerSize)}
-      onDragStop={(_e, data) => updatePosition(data)}
-      onResizeStop={(_e, dir, _el, delta) => updateSize(dir, delta)}
+      onDragStop={(_e, data) => onPositionChange(data)}
+      onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
       bounds="parent"
     >
       <div className="inner">
-        {entry.key}
+        <div>{obj ? obj.name : 'Empty'}</div>
+        <div>
+          Type -
+          {' '}
+          {entry.display}
+        </div>
       </div>
     </Rnd>
   );

@@ -29,7 +29,7 @@ const DisplayContainer = ({ tab }: DisplayContainerProps) => {
           const obj = gameObjects.find((x) => entry.key === x.key);
 
           return (
-            <>
+            <div style={entry.position.styles}>
               {obj && entry.display === DisplayType.default && (
                 <DefaultDisplay
                   key={entry.key}
@@ -42,7 +42,7 @@ const DisplayContainer = ({ tab }: DisplayContainerProps) => {
                   gameObject={obj}
                 />
               )}
-            </>
+            </div>
           );
         })}
       </div>

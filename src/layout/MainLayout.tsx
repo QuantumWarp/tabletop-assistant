@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../store/store';
 import {
   selectConfigure, selectLayout, selectTabIndex, toggleConfigure,
 } from '../store/main-slice';
-import LayoutContainer from '../display/LayoutContiner';
+import LayoutContainer from '../display/LayoutContainer';
 
 const classes: { [key: string]: CSSProperties } = {
   app: {
