@@ -52,6 +52,11 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
           containerSize={containerSize}
           key={entry.key}
           entry={entry}
+          onDetailChange={(updatedEntry) => {
+            const index = entries.indexOf(entry);
+            entries[index] = updatedEntry;
+            setEntries([...entries]);
+          }}
           onPositionChange={(data) => updatePosition(entry, data)}
           onSizeChange={(dir, delta) => updateSize(entry, dir, delta)}
         />
