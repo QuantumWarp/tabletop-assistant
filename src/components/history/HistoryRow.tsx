@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import RollResult from '../models/dice/roll-result';
+import RollResult from '../../models/dice/roll-result';
 
 const classes: { [key: string]: CSSProperties } = {
   historyNode: {

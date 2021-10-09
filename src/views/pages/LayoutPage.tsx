@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { selectTabIndex, selectTabs, setTabIndex } from '../../store/configuration-slice';
-import DisplayContainer from '../../display/DisplayContainer';
+import LayoutContainer from '../../components/layout/LayoutContainer';
 
 const LayoutPage = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ const LayoutPage = () => {
         ))}
       </Tabs>
 
-      {currentTab && <DisplayContainer tab={currentTab} />}
+      {currentTab && <LayoutContainer tab={currentTab} />}
     </div>
   );
 };

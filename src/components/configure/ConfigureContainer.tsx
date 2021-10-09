@@ -1,10 +1,10 @@
 import React, { CSSProperties, useState } from 'react';
 import { DraggableData, ResizableDelta } from 'react-rnd';
-import DisplayType from '../models/layout/display-type';
-import LayoutEntry from '../models/layout/layout-entry';
-import LayoutPosition from '../models/layout/layout-position';
-import LayoutTab from '../models/layout/layout-tab';
-import LayoutBox from './LayoutBox';
+import DisplayType from '../../models/layout/display-type';
+import LayoutEntry from '../../models/layout/layout-entry';
+import LayoutPosition from '../../models/layout/layout-position';
+import LayoutTab from '../../models/layout/layout-tab';
+import ConfigureBox from './ConfigureBox';
 
 const classes: { [key: string]: CSSProperties } = {
   layoutContainer: {
@@ -17,11 +17,11 @@ const classes: { [key: string]: CSSProperties } = {
 
 const containerSize = { width: 1000, height: 1000 };
 
-interface LayoutContainerProps {
+interface ConfigureContainerProps {
   tab: LayoutTab,
 }
 
-const LayoutContainer = ({ tab }: LayoutContainerProps) => {
+const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
   const [entries, setEntries] = useState(tab.entries);
 
   const addEntry = () => {
@@ -48,7 +48,7 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
       onDoubleClick={addEntry}
     >
       {entries.map((entry) => (
-        <LayoutBox
+        <ConfigureBox
           containerSize={containerSize}
           key={entry.key}
           entry={entry}
@@ -65,4 +65,4 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
   );
 };
 
-export default LayoutContainer;
+export default ConfigureContainer;

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
-import ContainerSize from '../models/layout/container-size';
-import LayoutEntry from '../models/layout/layout-entry';
-import { selectGameObjects } from '../store/configuration-slice';
-import { useAppSelector } from '../store/store';
-import './LayoutBox.css';
-import LayoutBoxDialog from './LayoutBoxDialog';
+import ContainerSize from '../../models/layout/container-size';
+import LayoutEntry from '../../models/layout/layout-entry';
+import { selectGameObjects } from '../../store/configuration-slice';
+import { useAppSelector } from '../../store/store';
+import ConfigureBoxDialog from './ConfigureBoxDialog';
+import './ConfigureBox.css';
 
 interface LayoutBoxProps {
   containerSize: ContainerSize,
@@ -43,7 +43,7 @@ const LayoutBox = ({
           {' '}
           {entry.display}
         </div>
-        <LayoutBoxDialog
+        <ConfigureBoxDialog
           open={dialogOpen}
           entry={entry}
           onUpdate={onDetailChange}

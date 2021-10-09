@@ -3,7 +3,7 @@ import {
   Tabs,
   Tab,
 } from '@mui/material';
-import LayoutContainer from '../../display/LayoutContainer';
+import ConfigureContainer from '../../components/configure/ConfigureContainer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { selectTabIndex, selectTabs, setTabIndex } from '../../store/configuration-slice';
 
@@ -25,7 +25,7 @@ const MainLayout = () => {
         ))}
       </Tabs>
 
-      {currentTab && <LayoutContainer tab={currentTab} />}
+      {currentTab && <ConfigureContainer tab={currentTab} />}
     </div>
   );
 };

@@ -9,11 +9,10 @@ import {
   MenuItem,
   Select,
 } from '@mui/material';
-import DisplayType from '../models/layout/display-type';
-import LayoutEntry from '../models/layout/layout-entry';
-import { selectGameObjects } from '../store/configuration-slice';
-import { useAppSelector } from '../store/store';
-import './LayoutBox.css';
+import DisplayType from '../../models/layout/display-type';
+import LayoutEntry from '../../models/layout/layout-entry';
+import { selectGameObjects } from '../../store/configuration-slice';
+import { useAppSelector } from '../../store/store';
 
 interface LayoutBoxDialogProps {
   open: boolean,

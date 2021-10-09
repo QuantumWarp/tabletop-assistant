@@ -1,10 +1,10 @@
 import React, { CSSProperties } from 'react';
-import DefaultDisplay from './DefaultDisplay';
-import { useAppSelector } from '../store/store';
-import { selectGameObjects } from '../store/configuration-slice';
-import DotCounterDisplay from './DotCounterDisplay';
-import LayoutTab from '../models/layout/layout-tab';
-import DisplayType from '../models/layout/display-type';
+import DefaultDisplay from './DisplaySimpleCard';
+import { useAppSelector } from '../../store/store';
+import { selectGameObjects } from '../../store/configuration-slice';
+import DotCounterDisplay from './DisplayDotCounter';
+import LayoutTab from '../../models/layout/layout-tab';
+import DisplayType from '../../models/layout/display-type';
 
 const classes: { [key: string]: CSSProperties } = {
   displayContainer: {
@@ -15,11 +15,11 @@ const classes: { [key: string]: CSSProperties } = {
   },
 };
 
-interface DisplayContainerProps {
+interface LayoutContainerProps {
   tab: LayoutTab,
 }
 
-const DisplayContainer = ({ tab }: DisplayContainerProps) => {
+const LayoutContainer = ({ tab }: LayoutContainerProps) => {
   const gameObjects = useAppSelector(selectGameObjects);
 
   return (
@@ -50,4 +50,4 @@ const DisplayContainer = ({ tab }: DisplayContainerProps) => {
   );
 };
 
-export default DisplayContainer;
+export default LayoutContainer;

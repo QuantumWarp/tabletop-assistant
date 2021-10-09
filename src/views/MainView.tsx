@@ -3,7 +3,7 @@ import {
   Route, Switch, useParams, useRouteMatch,
 } from 'react-router-dom';
 import './MainView.css';
-import SideNav from '../common/SideNav';
+import SideNav from '../components/common/SideNav';
 import Roller from './pages/RollerPage';
 import HistoryView from './pages/HistoryPage';
 import LayoutPage from './pages/LayoutPage';

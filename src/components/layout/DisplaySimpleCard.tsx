@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { useDispatch } from 'react-redux';
-import GameObject from '../models/game-object';
+import GameObject from '../../models/game-object';
 
 const classes: { [key: string]: CSSProperties } = {
   gameObject: {
