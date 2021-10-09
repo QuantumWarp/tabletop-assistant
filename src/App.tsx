@@ -20,7 +20,7 @@ const App = () => {
           <HomePage />
         </Route>
 
-        <Route path="/configuration/:configurationId/layout">
+        <Route path="/configuration/:configurationId">
           <MainView />
         </Route>
       </Switch>

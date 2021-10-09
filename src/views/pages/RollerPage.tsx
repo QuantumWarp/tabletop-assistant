@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
-import { performRoll, selectRoll } from '../store/configuration-slice';
-import { useAppDispatch, useAppSelector } from '../store/store';
+import { performRoll, selectRoll } from '../../store/configuration-slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 
 const classes: { [key: string]: CSSProperties } = {
   roller: {

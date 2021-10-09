@@ -1,3 +1,4 @@
+import RollResult from './dice/roll-result';
 import GameObject from './game-object';
 import LayoutTab from './layout/layout-tab';
 
@@ -8,4 +9,5 @@ export default interface Configuration {
   img: string;
   objects: GameObject[];
   tabs: LayoutTab[];
+  history: RollResult[];
 }
