@@ -8,10 +8,10 @@ import {
   DialogTitle,
   MenuItem,
   Select,
-} from '@material-ui/core';
+} from '@mui/material';
 import DisplayType from '../models/layout/display-type';
 import LayoutEntry from '../models/layout/layout-entry';
-import { selectGameObjects } from '../store/main-slice';
+import { selectGameObjects } from '../store/configuration-slice';
 import { useAppSelector } from '../store/store';
 import './LayoutBox.css';
 

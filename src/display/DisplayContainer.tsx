@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import DefaultDisplay from './DefaultDisplay';
 import { useAppSelector } from '../store/store';
-import { selectGameObjects } from '../store/main-slice';
+import { selectGameObjects } from '../store/configuration-slice';
 import DotCounterDisplay from './DotCounterDisplay';
 import LayoutTab from '../models/layout/layout-tab';
 import DisplayType from '../models/layout/display-type';

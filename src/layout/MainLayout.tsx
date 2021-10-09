@@ -5,8 +5,8 @@ import SideNav from './SideNav';
 import DisplayContainer from '../display/DisplayContainer';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import {
-  selectConfigure, selectLayout, selectTabIndex, toggleConfigure,
-} from '../store/main-slice';
+  selectConfigure, selectTabIndex, selectTabs, toggleConfigure,
+} from '../store/configuration-slice';
 import LayoutContainer from '../display/LayoutContainer';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -18,10 +18,10 @@ const classes: { [key: string]: CSSProperties } = {
 const MainLayout = () => {
   const dispatch = useAppDispatch();
   const tabIndex = useAppSelector(selectTabIndex);
-  const layout = useAppSelector(selectLayout);
+  const tabs = useAppSelector(selectTabs);
   const configure = useAppSelector(selectConfigure);
-  const tabCount = layout ? layout.tabs.length : 0;
-  const tab = layout ? layout.tabs[tabIndex] : null;
+  const tabCount = tabs ? tabs.length : 0;
+  const tab = tabs ? tabs[tabIndex] : null;
 
   return (
     <div style={classes.mainLayout}>

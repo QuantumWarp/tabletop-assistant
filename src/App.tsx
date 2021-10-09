@@ -1,28 +1,29 @@
-import React, { CSSProperties, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { useAppDispatch } from './store/store';
-import { addGameObjects, setLayout } from './store/main-slice';
-import MainLayout from './layout/MainLayout';
-import objects from './examples/objects';
-import layout from './examples/layout';
-
-const classes: { [key: string]: CSSProperties } = {
-  app: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-};
+import { loadConfigurations } from './store/main-slice';
+import HomePage from './views/HomePage';
+import MainView from './views/MainView';
+import './App.css';
 
 const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setLayout(layout));
-    dispatch(addGameObjects([...objects]));
+    dispatch(loadConfigurations());
   }, [dispatch]);
 
   return (
-    <div style={classes.app}>
-      <MainLayout />
+    <div className="app">
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+
+        <Route path="/configuration/:configurationId/layout">
+          <MainView />
+        </Route>
+      </Switch>
     </div>
   );
 };

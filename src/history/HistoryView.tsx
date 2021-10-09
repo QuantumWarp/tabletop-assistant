@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { selectHistory } from '../store/main-slice';
+import { selectHistory } from '../store/configuration-slice';
 import { useAppSelector } from '../store/store';
 import HistoryRow from './HistoryRow';
 

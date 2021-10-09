@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
 import ContainerSize from '../models/layout/container-size';
 import LayoutEntry from '../models/layout/layout-entry';
-import { selectGameObjects } from '../store/main-slice';
+import { selectGameObjects } from '../store/configuration-slice';
 import { useAppSelector } from '../store/store';
 import './LayoutBox.css';
 import LayoutBoxDialog from './LayoutBoxDialog';

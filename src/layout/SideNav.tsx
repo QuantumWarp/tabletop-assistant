@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { selectLayout, setTabIndex } from '../store/main-slice';
+import { selectTabs, setTabIndex } from '../store/configuration-slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -10,12 +10,12 @@ const classes: { [key: string]: CSSProperties } = {
 
 const SideNav = () => {
   const dispatch = useAppDispatch();
-  const layout = useAppSelector(selectLayout);
-  const tabCount = layout ? layout.tabs.length : 0;
+  const tabs = useAppSelector(selectTabs);
+  const tabCount = tabs ? tabs.length : 0;
 
   return (
     <div style={classes.sideNav}>
-      {layout && layout.tabs.map((tab, index) => (
+      {tabs && tabs.map((tab, index) => (
         <button type="button" onClick={() => dispatch(setTabIndex(index))}>{tab.name}</button>
       ))}
 
