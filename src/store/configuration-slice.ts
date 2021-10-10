@@ -1,12 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { v4 as guid } from 'uuid';
 import produce from 'immer';
 import Configuration from '../models/configuration';
 import Roll from '../models/dice/roll';
 import RollResult from '../models/dice/roll-result';
 import DisplayType from '../models/layout/display-type';
 import LayoutEntry from '../models/layout/layout-entry';
-import LayoutPosition from '../models/layout/layout-position';
+import { createPosition } from '../models/layout/layout-position';
 import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
 
@@ -49,8 +50,9 @@ export const configurationSlice = createSlice({
     // LayoutEntry
     addEntry(state) {
       const entry: LayoutEntry = {
+        id: guid(),
         display: DisplayType.simpleCard,
-        position: new LayoutPosition(0, 0, 10, 10),
+        position: createPosition(0, 0, 10, 10),
         key: '',
       };
 

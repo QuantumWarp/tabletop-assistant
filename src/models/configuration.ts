@@ -3,7 +3,7 @@ import GameObject from './objects/game-object';
 import LayoutTab from './layout/layout-tab';
 
 export default interface Configuration {
-  id: number;
+  id: string;
   name: string;
   description: string;
   img: string;

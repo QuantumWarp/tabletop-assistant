@@ -21,7 +21,11 @@ const LayoutPage = () => {
         centered
       >
         {tabs?.map((tab, index) => (
-          <Tab label={tab.name} value={index} />
+          <Tab
+            key={tab.id}
+            label={tab.name}
+            value={index}
+          />
         ))}
       </Tabs>
 

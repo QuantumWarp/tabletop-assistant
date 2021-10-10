@@ -1,6 +1,7 @@
 import React, { CSSProperties, useState } from 'react';
 import { DraggableData, ResizableDelta } from 'react-rnd';
 import LayoutEntry from '../../models/layout/layout-entry';
+import { updatePosition, updateSize } from '../../models/layout/layout-position';
 import LayoutTab from '../../models/layout/layout-tab';
 import { addEntry } from '../../store/configuration-slice';
 import { useAppDispatch } from '../../store/store';
@@ -25,13 +26,15 @@ const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
   const dispatch = useAppDispatch();
   const [entries, setEntries] = useState(tab.entries);
 
-  const updatePosition = (entry: LayoutEntry, data: DraggableData) => {
-    entry.position.updatePosition(containerSize, data);
+  const updatePos = (entry: LayoutEntry, data: DraggableData) => {
+    // eslint-disable-next-line no-param-reassign
+    entry.position = updatePosition(entry.position, containerSize, data);
     setEntries([...entries]);
   };
 
-  const updateSize = (entry: LayoutEntry, dir: string, delta: ResizableDelta) => {
-    entry.position.updateSize(containerSize, dir, delta);
+  const updateS = (entry: LayoutEntry, dir: string, delta: ResizableDelta) => {
+    // eslint-disable-next-line no-param-reassign
+    entry.position = updateSize(entry.position, containerSize, dir, delta);
     setEntries([...entries]);
   };
 
@@ -50,8 +53,8 @@ const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
             entries[index] = updatedEntry;
             setEntries([...entries]);
           }}
-          onPositionChange={(data) => updatePosition(entry, data)}
-          onSizeChange={(dir, delta) => updateSize(entry, dir, delta)}
+          onPositionChange={(data) => updatePos(entry, data)}
+          onSizeChange={(dir, delta) => updateS(entry, dir, delta)}
         />
       ))}
     </div>

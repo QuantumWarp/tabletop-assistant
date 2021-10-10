@@ -14,16 +14,16 @@ import LayoutEntry from '../../models/layout/layout-entry';
 import { selectGameObjects } from '../../store/configuration-slice';
 import { useAppSelector } from '../../store/store';
 
-interface LayoutBoxDialogProps {
+interface ConfigureBoxDialogProps {
   open: boolean,
   entry: LayoutEntry,
   onUpdate: (entry: LayoutEntry) => void,
   onClose: () => void,
 }
 
-const LayoutBoxDialog = ({
+const ConfigureBoxDialog = ({
   open, entry, onUpdate, onClose,
-}: LayoutBoxDialogProps) => {
+}: ConfigureBoxDialogProps) => {
   const gameObjects = useAppSelector(selectGameObjects);
 
   const [gameObjKey, setGameObjKey] = useState(entry.key);
@@ -43,7 +43,12 @@ const LayoutBoxDialog = ({
           onChange={(e) => setGameObjKey(e.target.value as string)}
         >
           {gameObjects.map((obj) => (
-            <MenuItem value={obj.key}>{obj.name}</MenuItem>
+            <MenuItem
+              key={obj.id}
+              value={obj.id}
+            >
+              {obj.name}
+            </MenuItem>
           ))}
         </Select>
 
@@ -71,4 +76,4 @@ const LayoutBoxDialog = ({
   );
 };
 
-export default LayoutBoxDialog;
+export default ConfigureBoxDialog;

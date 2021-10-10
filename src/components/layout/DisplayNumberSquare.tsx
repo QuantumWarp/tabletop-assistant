@@ -20,11 +20,11 @@ const classes: { [key: string]: CSSProperties } = {
   },
 };
 
-interface MultiNumberDisplayProps {
+interface DisplayNumberSquareProps {
   gameObject: GameObject,
 }
 
-const MultiNumberDisplay = ({ gameObject }: MultiNumberDisplayProps) => (
+const DisplayNumberSquare = ({ gameObject }: DisplayNumberSquareProps) => (
   <div style={classes.gameObject}>
     <div style={classes.small}>
       {gameObject.value.small}
@@ -40,4 +40,4 @@ const MultiNumberDisplay = ({ gameObject }: MultiNumberDisplayProps) => (
   </div>
 );
 
-export default MultiNumberDisplay;
+export default DisplayNumberSquare;

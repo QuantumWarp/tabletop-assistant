@@ -23,7 +23,7 @@ const HomePage = () => {
 
       <Grid container spacing={4}>
         {configurations.map((con) => (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={con.id}>
             <Card onClick={() => history.push(`/configuration/${con.id}/layout`)}>
               <CardMedia
                 component="img"

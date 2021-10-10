@@ -21,22 +21,25 @@ const classes: { [key: string]: CSSProperties } = {
   },
 };
 
-interface DotCounterDisplayProps {
+interface DisplayDotCounterProps {
   gameObject: GameObject,
 }
 
-const DotCounterDisplay = ({ gameObject }: DotCounterDisplayProps) => (
+const DisplayDotCounter = ({ gameObject }: DisplayDotCounterProps) => (
   <div style={classes.counterDisplay}>
     <span style={classes.name}>{gameObject.name}</span>
 
     {Array(gameObject.value.max).fill(0).map((_x, index) => (
-      <div style={{
-        ...classes.dot,
-        ...(index < gameObject.value.current - 1 ? classes.filled : {}),
-      }}
+      <div
+        // eslint-disable-next-line react/no-array-index-key
+        key={index}
+        style={{
+          ...classes.dot,
+          ...(index < gameObject.value.current - 1 ? classes.filled : {}),
+        }}
       />
     ))}
   </div>
 );
 
-export default DotCounterDisplay;
+export default DisplayDotCounter;

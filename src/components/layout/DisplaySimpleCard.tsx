@@ -20,11 +20,12 @@ const classes: { [key: string]: CSSProperties } = {
   },
 };
 
-interface DefaultDisplayProps {
+interface DisplaySimpleCardProps {
   gameObject: GameObject,
 }
 
-const DefaultDisplay = ({ gameObject }: DefaultDisplayProps) => {
+const DisplaySimpleCard = ({ gameObject }: DisplaySimpleCardProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const useAppDispatch = useDispatch();
 
   return (
@@ -33,7 +34,7 @@ const DefaultDisplay = ({ gameObject }: DefaultDisplayProps) => {
         <div style={classes.title}>{gameObject.name}</div>
 
         <div>
-          {gameObject.macros.map((macro) => (
+          {/* {gameObject.macros?.map((macro) => (
             <button
               key={macro.name}
               type="button"
@@ -41,7 +42,7 @@ const DefaultDisplay = ({ gameObject }: DefaultDisplayProps) => {
             >
               {macro.name}
             </button>
-          ))}
+          ))} */}
         </div>
       </div>
 
@@ -50,4 +51,4 @@ const DefaultDisplay = ({ gameObject }: DefaultDisplayProps) => {
   );
 };
 
-export default DefaultDisplay;
+export default DisplaySimpleCard;
