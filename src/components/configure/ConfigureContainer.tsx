@@ -1,9 +1,9 @@
 import React, { CSSProperties, useState } from 'react';
 import { DraggableData, ResizableDelta } from 'react-rnd';
-import DisplayType from '../../models/layout/display-type';
 import LayoutEntry from '../../models/layout/layout-entry';
-import LayoutPosition from '../../models/layout/layout-position';
 import LayoutTab from '../../models/layout/layout-tab';
+import { addEntry } from '../../store/configuration-slice';
+import { useAppDispatch } from '../../store/store';
 import ConfigureBox from './ConfigureBox';
 
 const classes: { [key: string]: CSSProperties } = {
@@ -22,15 +22,8 @@ interface ConfigureContainerProps {
 }
 
 const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
+  const dispatch = useAppDispatch();
   const [entries, setEntries] = useState(tab.entries);
-
-  const addEntry = () => {
-    setEntries(entries.concat({
-      display: DisplayType.default,
-      position: new LayoutPosition(0, 0, 10, 10),
-      key: '',
-    }));
-  };
 
   const updatePosition = (entry: LayoutEntry, data: DraggableData) => {
     entry.position.updatePosition(containerSize, data);
@@ -45,7 +38,7 @@ const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
   return (
     <div
       style={classes.layoutContainer}
-      onDoubleClick={addEntry}
+      onDoubleClick={() => dispatch(addEntry())}
     >
       {entries.map((entry) => (
         <ConfigureBox

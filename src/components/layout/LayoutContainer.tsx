@@ -1,10 +1,12 @@
 import React, { CSSProperties } from 'react';
-import DefaultDisplay from './DisplaySimpleCard';
 import { useAppSelector } from '../../store/store';
 import { selectGameObjects } from '../../store/configuration-slice';
-import DotCounterDisplay from './DisplayDotCounter';
 import LayoutTab from '../../models/layout/layout-tab';
 import DisplayType from '../../models/layout/display-type';
+import DisplaySimpleCard from './DisplaySimpleCard';
+import DisplaySimpleToggle from './DisplaySimpleToggle';
+import DisplayNumberSquare from './DisplayNumberSquare';
+import DisplayDotCounter from './DisplayDotCounter';
 
 const classes: { [key: string]: CSSProperties } = {
   displayContainer: {
@@ -30,14 +32,26 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
 
           return (
             <div style={entry.position.styles}>
-              {obj && entry.display === DisplayType.default && (
-                <DefaultDisplay
+              {obj && entry.display === DisplayType.simpleCard && (
+                <DisplaySimpleCard
+                  key={entry.key}
+                  gameObject={obj}
+                />
+              )}
+              {obj && entry.display === DisplayType.simpleToggle && (
+                <DisplaySimpleToggle
+                  key={entry.key}
+                  gameObject={obj}
+                />
+              )}
+              {obj && entry.display === DisplayType.numberSquare && (
+                <DisplayNumberSquare
                   key={entry.key}
                   gameObject={obj}
                 />
               )}
               {obj && entry.display === DisplayType.dotCounter && (
-                <DotCounterDisplay
+                <DisplayDotCounter
                   key={entry.key}
                   gameObject={obj}
                 />

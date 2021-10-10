@@ -1,9 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import produce from 'immer';
 import Configuration from '../models/configuration';
 import Roll from '../models/dice/roll';
 import RollResult from '../models/dice/roll-result';
-import GameObject from '../models/game-object';
+import DisplayType from '../models/layout/display-type';
+import LayoutEntry from '../models/layout/layout-entry';
+import LayoutPosition from '../models/layout/layout-position';
+import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
 
 interface MainState {
@@ -30,9 +34,43 @@ export const configurationSlice = createSlice({
     setTabIndex: (state, action: PayloadAction<number>) => {
       state.tabIndex = action.payload;
     },
-    addGameObjects: (state, action: PayloadAction<GameObject[]>) => {
-      state.configuration?.objects.push(...action.payload);
+
+    // GameObjects
+    addGameObject: (state, action: PayloadAction<GameObject>) => {
+      state.configuration?.objects.push(action.payload);
     },
+    updateGameObject() {
+
+    },
+    deleteGameObject() {
+
+    },
+
+    // LayoutEntry
+    addEntry(state) {
+      const entry: LayoutEntry = {
+        display: DisplayType.simpleCard,
+        position: new LayoutPosition(0, 0, 10, 10),
+        key: '',
+      };
+
+      state = produce(state, (draft) => {
+        if (!draft.configuration) return;
+        const tab = draft.configuration.tabs[state.tabIndex];
+        tab.entries.push(entry);
+      });
+    },
+    updateEntry() {
+
+    },
+    updateEntryPosition() {
+
+    },
+    deleteEntry() {
+
+    },
+
+    // Rolling
     startRoll: (state, action: PayloadAction<Roll>) => {
       state.roll = action.payload;
     },
@@ -41,8 +79,13 @@ export const configurationSlice = createSlice({
       state.rollResult = state.roll.roll();
       state.configuration?.history.push(state.rollResult);
     },
+
+    // History
     addHistory: (state, action: PayloadAction<RollResult>) => {
       state.configuration?.history.push(action.payload);
+    },
+    deleteHistory() {
+
     },
   },
 });
@@ -50,10 +93,21 @@ export const configurationSlice = createSlice({
 export const {
   setConfiguration,
   setTabIndex,
-  addGameObjects,
+
+  addGameObject,
+  updateGameObject,
+  deleteGameObject,
+
+  addEntry,
+  updateEntry,
+  updateEntryPosition,
+  deleteEntry,
+
   startRoll,
   performRoll,
+
   addHistory,
+  deleteHistory,
 } = configurationSlice.actions;
 
 export const selectConfiguration = (state: RootState) => state.configuration.configuration;

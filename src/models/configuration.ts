@@ -1,5 +1,5 @@
 import RollResult from './dice/roll-result';
-import GameObject from './game-object';
+import GameObject from './objects/game-object';
 import LayoutTab from './layout/layout-tab';
 
 export default interface Configuration {

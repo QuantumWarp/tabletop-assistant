@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import GameObject from '../../models/game-object';
+import GameObject from '../../models/objects/game-object';
 
 const classes: { [key: string]: CSSProperties } = {
   gameObject: {
@@ -21,22 +21,21 @@ const classes: { [key: string]: CSSProperties } = {
 };
 
 interface MultiNumberDisplayProps {
-  smallObj: GameObject,
-  largeObj: GameObject,
+  gameObject: GameObject,
 }
 
-const MultiNumberDisplay = ({ smallObj, largeObj }: MultiNumberDisplayProps) => (
+const MultiNumberDisplay = ({ gameObject }: MultiNumberDisplayProps) => (
   <div style={classes.gameObject}>
     <div style={classes.small}>
-      {smallObj.value}
+      {gameObject.value.small}
     </div>
 
     <div style={classes.large}>
-      {largeObj.value}
+      {gameObject.value.large}
     </div>
 
     <div style={classes.name}>
-      {largeObj.name}
+      {gameObject.name}
     </div>
   </div>
 );

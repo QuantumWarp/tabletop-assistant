@@ -51,8 +51,10 @@ const LayoutBoxDialog = ({
           value={display}
           onChange={(e) => setDisplay(e.target.value as DisplayType)}
         >
-          <MenuItem value={DisplayType.default}>Default</MenuItem>
-          <MenuItem value={DisplayType.dotCounter}>Dot Counter</MenuItem>
+          <MenuItem value={DisplayType.simpleCard}>{DisplayType.simpleCard}</MenuItem>
+          <MenuItem value={DisplayType.simpleToggle}>{DisplayType.simpleToggle}</MenuItem>
+          <MenuItem value={DisplayType.numberSquare}>{DisplayType.numberSquare}</MenuItem>
+          <MenuItem value={DisplayType.dotCounter}>{DisplayType.dotCounter}</MenuItem>
         </Select>
       </DialogContent>
 
