@@ -6,7 +6,7 @@ import { selectGameObjects } from '../../store/configuration-slice';
 import { useAppSelector } from '../../store/store';
 import ConfigureBoxDialog from './ConfigureBoxDialog';
 import './ConfigureBox.css';
-import { getPosition, getSize } from '../../models/layout/layout-position';
+import { LayoutPositionHelper } from '../../models/layout/layout-position';
 
 interface LayoutBoxProps {
   containerSize: ContainerSize,
@@ -28,8 +28,8 @@ const LayoutBox = ({
   return (
     <Rnd
       className="layout-box"
-      position={getPosition(entry.position, containerSize)}
-      size={getSize(entry.position, containerSize)}
+      position={LayoutPositionHelper.getPosition(entry.position, containerSize)}
+      size={LayoutPositionHelper.getSize(entry.position, containerSize)}
       onDragStop={(_e, data) => onPositionChange(data)}
       onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
       bounds="parent"

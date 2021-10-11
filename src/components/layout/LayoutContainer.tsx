@@ -7,7 +7,7 @@ import DisplaySimpleCard from './DisplaySimpleCard';
 import DisplaySimpleToggle from './DisplaySimpleToggle';
 import DisplayNumberSquare from './DisplayNumberSquare';
 import DisplayDotCounter from './DisplayDotCounter';
-import { getStyles } from '../../models/layout/layout-position';
+import { LayoutPositionHelper } from '../../models/layout/layout-position';
 
 const classes: { [key: string]: CSSProperties } = {
   displayContainer: {
@@ -34,7 +34,7 @@ const LayoutContainer = ({ tab }: LayoutContainerProps) => {
           return (
             <div
               key={entry.id}
-              style={getStyles(entry.position)}
+              style={LayoutPositionHelper.getStyles(entry.position)}
             >
               {obj && entry.display === DisplayType.simpleCard && (
                 <DisplaySimpleCard

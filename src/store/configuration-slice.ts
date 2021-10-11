@@ -1,24 +1,24 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as guid } from 'uuid';
-import produce from 'immer';
 import Configuration from '../models/configuration';
 import Roll from '../models/dice/roll';
 import RollResult from '../models/dice/roll-result';
 import DisplayType from '../models/layout/display-type';
 import LayoutEntry from '../models/layout/layout-entry';
-import { createPosition } from '../models/layout/layout-position';
 import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
+import { LayoutPositionHelper } from '../models/layout/layout-position';
+import LayoutPositionUpdate from '../models/layout/layout-position-update';
 
-interface MainState {
+interface ConfigurationState {
   configuration: Configuration | null;
   tabIndex: number;
   roll: Roll | null,
   rollResult: RollResult | null,
 }
 
-const initialState: MainState = {
+const initialState: ConfigurationState = {
   configuration: null,
   tabIndex: 0,
   roll: null,
@@ -49,27 +49,34 @@ export const configurationSlice = createSlice({
 
     // LayoutEntry
     addEntry(state) {
+      if (!state.configuration) return;
       const entry: LayoutEntry = {
         id: guid(),
         display: DisplayType.simpleCard,
-        position: createPosition(0, 0, 10, 10),
+        position: LayoutPositionHelper.createPosition(0, 0, 10, 10),
         key: '',
       };
 
-      state = produce(state, (draft) => {
-        if (!draft.configuration) return;
-        const tab = draft.configuration.tabs[state.tabIndex];
-        tab.entries.push(entry);
-      });
+      const tab = state.configuration.tabs[state.tabIndex];
+      tab.entries.push(entry);
     },
-    updateEntry() {
-
+    updateEntry(state, action: PayloadAction<Partial<LayoutEntry>>) {
+      if (!state.configuration) return;
+      const tab = state.configuration.tabs[state.tabIndex];
+      const entry = tab.entries.find((x) => x.id === action.payload.id);
+      Object.assign(entry, action.payload);
     },
-    updateEntryPosition() {
-
+    updateEntryPosition(state, action: PayloadAction<LayoutPositionUpdate>) {
+      if (!state.configuration) return;
+      const tab = state.configuration.tabs[state.tabIndex];
+      const entry = tab.entries.find((x) => x.id === action.payload.entryId);
+      if (!entry) return;
+      entry.position = LayoutPositionHelper.updatePositionAndSize(entry.position, action.payload);
     },
-    deleteEntry() {
-
+    deleteEntry(state, action: PayloadAction<string>) {
+      if (!state.configuration) return;
+      const tab = state.configuration.tabs[state.tabIndex];
+      tab.entries = tab.entries.filter((x) => x.id === action.payload);
     },
 
     // Rolling

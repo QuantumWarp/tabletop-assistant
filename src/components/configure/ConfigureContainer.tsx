@@ -1,9 +1,6 @@
-import React, { CSSProperties, useState } from 'react';
-import { DraggableData, ResizableDelta } from 'react-rnd';
-import LayoutEntry from '../../models/layout/layout-entry';
-import { updatePosition, updateSize } from '../../models/layout/layout-position';
+import React, { CSSProperties } from 'react';
 import LayoutTab from '../../models/layout/layout-tab';
-import { addEntry } from '../../store/configuration-slice';
+import { addEntry, updateEntry, updateEntryPosition } from '../../store/configuration-slice';
 import { useAppDispatch } from '../../store/store';
 import ConfigureBox from './ConfigureBox';
 
@@ -24,37 +21,35 @@ interface ConfigureContainerProps {
 
 const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
   const dispatch = useAppDispatch();
-  const [entries, setEntries] = useState(tab.entries);
-
-  const updatePos = (entry: LayoutEntry, data: DraggableData) => {
-    // eslint-disable-next-line no-param-reassign
-    entry.position = updatePosition(entry.position, containerSize, data);
-    setEntries([...entries]);
-  };
-
-  const updateS = (entry: LayoutEntry, dir: string, delta: ResizableDelta) => {
-    // eslint-disable-next-line no-param-reassign
-    entry.position = updateSize(entry.position, containerSize, dir, delta);
-    setEntries([...entries]);
-  };
 
   return (
     <div
       style={classes.layoutContainer}
       onDoubleClick={() => dispatch(addEntry())}
     >
-      {entries.map((entry) => (
+      {tab.entries.map((entry) => (
         <ConfigureBox
           containerSize={containerSize}
-          key={entry.key}
+          key={entry.id}
           entry={entry}
-          onDetailChange={(updatedEntry) => {
-            const index = entries.indexOf(entry);
-            entries[index] = updatedEntry;
-            setEntries([...entries]);
-          }}
-          onPositionChange={(data) => updatePos(entry, data)}
-          onSizeChange={(dir, delta) => updateS(entry, dir, delta)}
+          onDetailChange={(updatedEntry) => dispatch(updateEntry(updatedEntry))}
+          onPositionChange={(data) => dispatch(updateEntryPosition({
+            entryId: entry.id,
+            containerSize,
+            position: {
+              x: data.x,
+              y: data.y,
+            },
+          }))}
+          onSizeChange={(direction, delta) => dispatch(updateEntryPosition({
+            entryId: entry.id,
+            containerSize,
+            resize: {
+              direction,
+              deltaHeight: delta.height,
+              deltaWidth: delta.width,
+            },
+          }))}
         />
       ))}
     </div>
