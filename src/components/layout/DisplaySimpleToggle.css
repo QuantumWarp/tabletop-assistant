@@ -1,0 +1,10 @@
+.display-simple-toggle {
+  width: 100%;
+  display: flex;
+  padding: 2px;
+}
+
+.display-simple-toggle .title {
+  font-weight: bold;
+  font-size: 18px;
+}

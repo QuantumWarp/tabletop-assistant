@@ -1,52 +1,30 @@
-import React, { CSSProperties } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import GameObject from '../../models/objects/game-object';
-
-const classes: { [key: string]: CSSProperties } = {
-  gameObject: {
-    border: '1px solid black',
-    padding: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  title: {
-    fontWeight: 'bold',
-  },
-};
+import { setAction } from '../../store/configuration-slice';
+import { useAppDispatch } from '../../store/store';
+import './DisplaySimpleToggle.css';
 
 interface DisplaySimpleToggleProps {
   gameObject: GameObject,
 }
 
 const DisplaySimpleToggle = ({ gameObject }: DisplaySimpleToggleProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const useAppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const dispatchFirstAction = () => {
+    const action = gameObject.actions?.find((x) => x.trigger === 'manual');
+    if (!action) return;
+    dispatch(setAction(action.id));
+  };
 
   return (
-    <div style={classes.gameObject}>
-      <div style={classes.header}>
-        <div style={classes.title}>{gameObject.name}</div>
-
-        <div>
-          {/* {gameObject.macros.map((macro) => (
-            <button
-              key={macro.name}
-              type="button"
-              onClick={() => macro.action(useAppDispatch)}
-            >
-              {macro.name}
-            </button>
-          ))} */}
-        </div>
+    <div
+      className="display-simple-toggle"
+      onClick={dispatchFirstAction}
+    >
+      <div className="title">
+        {gameObject.name}
       </div>
-
-      <div>{gameObject.description}</div>
     </div>
   );
 };
