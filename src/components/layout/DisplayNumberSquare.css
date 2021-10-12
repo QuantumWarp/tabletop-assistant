@@ -1,0 +1,28 @@
+.display-number-square {
+  padding: 2px;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.display-number-square .container {
+  border: 1px solid black;
+  border-radius: 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.display-number-square .number {
+  flex: 4;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display-number-square .name {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}

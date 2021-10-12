@@ -26,7 +26,6 @@ export class LayoutPositionHelper {
 
   static getStyles(pos: LayoutPosition): CSSProperties {
     return {
-      position: 'absolute',
       left: `${pos.left}%`,
       top: `${pos.top}%`,
       width: `${pos.width}%`,

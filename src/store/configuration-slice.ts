@@ -80,6 +80,10 @@ export const configurationSlice = createSlice({
     },
 
     // Rolling
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setAction(state, action: PayloadAction<string>) {
+
+    },
     startRoll: (state, action: PayloadAction<Roll>) => {
       state.roll = action.payload;
     },
@@ -112,6 +116,7 @@ export const {
   updateEntryPosition,
   deleteEntry,
 
+  setAction,
   startRoll,
   performRoll,
 

@@ -38,12 +38,14 @@ const LayoutBox = ({
         className="inner"
         onDoubleClick={(e) => { e.stopPropagation(); setDialogOpen(true); }}
       >
-        <div>{obj ? obj.name : 'Empty'}</div>
         <div>
-          Type -
-          {' '}
+          <b>{obj ? obj.name : 'Empty'}</b>
+        </div>
+
+        <div>
           {entry.display}
         </div>
+
         <ConfigureBoxDialog
           open={dialogOpen}
           entry={entry}
