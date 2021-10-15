@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import './MainView.css';
 import SideNav from '../components/common/SideNav';
-import Roller from './pages/RollerPage';
+import ActionPage from './pages/ActionPage';
 import HistoryView from './pages/HistoryPage';
 import LayoutPage from './pages/LayoutPage';
 import { useAppDispatch, useAppSelector } from '../store/store';
@@ -42,8 +42,8 @@ const MainView = () => {
           <NotesPage />
         </Route>
 
-        <Route path={`${path}/roller`}>
-          <Roller />
+        <Route path={`${path}/action`}>
+          <ActionPage />
         </Route>
 
         <Route path={`${path}/history`}>

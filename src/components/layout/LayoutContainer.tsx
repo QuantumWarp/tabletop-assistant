@@ -11,16 +11,16 @@ import { LayoutPositionHelper } from '../../models/layout/layout-position';
 import './LayoutContainer.css';
 
 interface LayoutContainerProps {
-  tab: LayoutTab,
+  layout: LayoutTab,
 }
 
-const LayoutContainer = ({ tab }: LayoutContainerProps) => {
+const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const gameObjects = useAppSelector(selectGameObjects);
 
   return (
     <div className="display-container">
       <div>
-        {tab.entries.map((entry) => {
+        {layout.entries.map((entry) => {
           const obj = gameObjects.find((x) => entry.key === x.id);
 
           return (

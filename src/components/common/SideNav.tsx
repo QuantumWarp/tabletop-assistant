@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import {
   BackupTable as LayoutsIcon,
-  Casino as RollerIcon,
+  Casino as ActionIcon,
   History as HistoryIcon,
   Note as NotesIcon,
   SettingsApplications as ConfigureIcon,
@@ -45,11 +45,11 @@ const MainView = () => {
           <ListItemText primary="Notes" />
         </ListItem>
 
-        <ListItem button onClick={() => history.push('./roller')}>
+        <ListItem button onClick={() => history.push('./action')}>
           <ListItemIcon>
-            <RollerIcon />
+            <ActionIcon />
           </ListItemIcon>
-          <ListItemText primary="Roller" />
+          <ListItemText primary="Action" />
         </ListItem>
 
         <ListItem button onClick={() => history.push('./history')}>

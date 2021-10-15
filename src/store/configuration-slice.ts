@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as guid } from 'uuid';
 import Configuration from '../models/configuration';
-import Roll from '../models/dice/roll';
 import RollResult from '../models/dice/roll-result';
 import DisplayType from '../models/layout/display-type';
 import LayoutEntry from '../models/layout/layout-entry';
@@ -10,19 +9,19 @@ import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
 import { LayoutPositionHelper } from '../models/layout/layout-position';
 import LayoutPositionUpdate from '../models/layout/layout-position-update';
+import GameAction from '../models/objects/game-action';
+import ActionTree, { ActionTreeHelper } from '../models/objects/action-tree';
 
 interface ConfigurationState {
   configuration: Configuration | null;
-  tabIndex: number;
-  roll: Roll | null,
-  rollResult: RollResult | null,
+  layoutIndex: number;
+  actionTree: ActionTree;
 }
 
 const initialState: ConfigurationState = {
+  layoutIndex: 0,
   configuration: null,
-  tabIndex: 0,
-  roll: null,
-  rollResult: null,
+  actionTree: [],
 };
 
 export const configurationSlice = createSlice({
@@ -32,8 +31,8 @@ export const configurationSlice = createSlice({
     setConfiguration(state, action: PayloadAction<Configuration | null>) {
       state.configuration = action.payload;
     },
-    setTabIndex: (state, action: PayloadAction<number>) => {
-      state.tabIndex = action.payload;
+    setLayoutIndex: (state, action: PayloadAction<number>) => {
+      state.layoutIndex = action.payload;
     },
 
     // GameObjects
@@ -57,40 +56,35 @@ export const configurationSlice = createSlice({
         key: '',
       };
 
-      const tab = state.configuration.tabs[state.tabIndex];
+      const tab = state.configuration.layouts[state.layoutIndex];
       tab.entries.push(entry);
     },
     updateEntry(state, action: PayloadAction<Partial<LayoutEntry>>) {
       if (!state.configuration) return;
-      const tab = state.configuration.tabs[state.tabIndex];
+      const tab = state.configuration.layouts[state.layoutIndex];
       const entry = tab.entries.find((x) => x.id === action.payload.id);
       Object.assign(entry, action.payload);
     },
     updateEntryPosition(state, action: PayloadAction<LayoutPositionUpdate>) {
       if (!state.configuration) return;
-      const tab = state.configuration.tabs[state.tabIndex];
+      const tab = state.configuration.layouts[state.layoutIndex];
       const entry = tab.entries.find((x) => x.id === action.payload.entryId);
       if (!entry) return;
       entry.position = LayoutPositionHelper.updatePositionAndSize(entry.position, action.payload);
     },
     deleteEntry(state, action: PayloadAction<string>) {
       if (!state.configuration) return;
-      const tab = state.configuration.tabs[state.tabIndex];
+      const tab = state.configuration.layouts[state.layoutIndex];
       tab.entries = tab.entries.filter((x) => x.id === action.payload);
     },
 
-    // Rolling
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setAction(state, action: PayloadAction<string>) {
-
-    },
-    startRoll: (state, action: PayloadAction<Roll>) => {
-      state.roll = action.payload;
-    },
-    performRoll: (state) => {
-      if (!state.roll) return;
-      state.rollResult = state.roll.roll();
-      state.configuration?.history.push(state.rollResult);
+    // Action
+    setAction(state, action: PayloadAction<GameAction>) {
+      if (!state.configuration) return;
+      state.actionTree = ActionTreeHelper.createActionTree(
+        action.payload,
+        state.configuration.actions,
+      );
     },
 
     // History
@@ -105,7 +99,7 @@ export const configurationSlice = createSlice({
 
 export const {
   setConfiguration,
-  setTabIndex,
+  setLayoutIndex,
 
   addGameObject,
   updateGameObject,
@@ -117,20 +111,20 @@ export const {
   deleteEntry,
 
   setAction,
-  startRoll,
-  performRoll,
 
   addHistory,
   deleteHistory,
 } = configurationSlice.actions;
 
 export const selectConfiguration = (state: RootState) => state.configuration.configuration;
-export const selectTabIndex = (state: RootState) => state.configuration.tabIndex;
-export const selectTabs = (state: RootState) => state.configuration.configuration?.tabs;
+export const selectLayouts = (state: RootState) => state.configuration.configuration?.layouts;
 export const selectGameObjects = (state: RootState) => state.configuration.configuration?.objects
   || [];
-export const selectRoll = (state: RootState) => state.configuration.roll;
-export const selectRollResult = (state: RootState) => state.configuration.rollResult;
+export const selectActions = (state: RootState) => state.configuration.configuration?.actions;
+export const selectObjectActions = (objectId: string) => (state: RootState) => selectActions(state)
+  ?.filter((x) => x.objectId === objectId);
 export const selectHistory = (state: RootState) => state.configuration.configuration?.history || [];
+export const selectLayoutIndex = (state: RootState) => state.configuration.layoutIndex;
+export const selectActionTree = (state: RootState) => state.configuration.actionTree;
 
 export default configurationSlice.reducer;

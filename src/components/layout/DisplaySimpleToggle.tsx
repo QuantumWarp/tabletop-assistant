@@ -1,7 +1,7 @@
 import React from 'react';
 import GameObject from '../../models/objects/game-object';
-import { setAction } from '../../store/configuration-slice';
-import { useAppDispatch } from '../../store/store';
+import { selectObjectActions, setAction } from '../../store/configuration-slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import './DisplaySimpleToggle.css';
 
 interface DisplaySimpleToggleProps {
@@ -10,11 +10,12 @@ interface DisplaySimpleToggleProps {
 
 const DisplaySimpleToggle = ({ gameObject }: DisplaySimpleToggleProps) => {
   const dispatch = useAppDispatch();
+  const actions = useAppSelector(selectObjectActions(gameObject.id));
 
   const dispatchFirstAction = () => {
-    const action = gameObject.actions?.find((x) => x.trigger === 'manual');
-    if (!action) return;
-    dispatch(setAction(action.id));
+    const firstAction = actions?.find((action) => action.triggers.find((x) => x.manual));
+    if (!firstAction) return;
+    dispatch(setAction(firstAction));
   };
 
   return (

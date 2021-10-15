@@ -16,10 +16,10 @@ const classes: { [key: string]: CSSProperties } = {
 const containerSize = { width: 1000, height: 1000 };
 
 interface ConfigureContainerProps {
-  tab: LayoutTab,
+  layout: LayoutTab,
 }
 
-const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
+const ConfigureContainer = ({ layout }: ConfigureContainerProps) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -27,7 +27,7 @@ const ConfigureContainer = ({ tab }: ConfigureContainerProps) => {
       style={classes.layoutContainer}
       onDoubleClick={() => dispatch(addEntry())}
     >
-      {tab.entries.map((entry) => (
+      {layout.entries.map((entry) => (
         <ConfigureBox
           containerSize={containerSize}
           key={entry.id}
