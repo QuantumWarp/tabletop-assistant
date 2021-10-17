@@ -1,0 +1,4 @@
+.side-nav {
+  min-width: 200px;
+  border-right: thin solid rgba(0, 0, 0, 0.12);
+}

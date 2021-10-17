@@ -1,21 +1,14 @@
-import React, { CSSProperties } from 'react';
-import RollResult from '../../models/dice/roll-result';
-
-const classes: { [key: string]: CSSProperties } = {
-  historyNode: {
-
-  },
-};
+import React from 'react';
+import HistoryEntry from '../../models/history/history-entry';
 
 interface HistoryRowProps {
-  node: RollResult,
+  entry: HistoryEntry,
 }
 
-const HistoryRow = ({ node }: HistoryRowProps) => (
-  <div style={classes.historyNode}>
-    Roll
-    {' '}
-    {node.value}
+const HistoryRow = ({ entry }: HistoryRowProps) => (
+  <div>
+    {entry.date.toTimeString()}
+    {entry.name}
   </div>
 );
 

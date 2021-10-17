@@ -7,7 +7,7 @@ import ConfigureContainer from '../../components/configure/ConfigureContainer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { selectLayoutIndex, selectLayouts, setLayoutIndex } from '../../store/configuration-slice';
 
-const MainLayout = () => {
+const LayoutConfigPage = () => {
   const dispatch = useAppDispatch();
   const layouts = useAppSelector(selectLayouts);
   const layoutIndex = useAppSelector(selectLayoutIndex);
@@ -34,4 +34,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default LayoutConfigPage;

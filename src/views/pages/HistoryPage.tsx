@@ -9,7 +9,7 @@ const HistoryPage = () => {
   return (
     <div>
       {nodes.map((x) => (
-        <HistoryRow node={x} />
+        <HistoryRow entry={x} />
       ))}
     </div>
   );

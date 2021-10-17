@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import configuration from '../examples/configuration';
+import configurations from '../examples/configurations';
 import Configuration from '../models/configuration';
 import type { RootState } from './store';
 
@@ -17,7 +17,7 @@ export const mainSlice = createSlice({
   initialState,
   reducers: {
     loadConfigurations(state) {
-      state.configurations = [configuration];
+      state.configurations = configurations;
     },
   },
 });

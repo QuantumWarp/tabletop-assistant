@@ -10,8 +10,9 @@ import LayoutPage from './pages/LayoutPage';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { setConfiguration } from '../store/configuration-slice';
 import { selectConfigurations } from '../store/main-slice';
-import ConfigurePage from './pages/ConfigurePage';
 import NotesPage from './pages/NotesPage';
+import LayoutConfigPage from './pages/LayoutConfigPage';
+import ObjectConfigPage from './pages/ObjectConfigPage';
 
 const MainView = () => {
   const dispatch = useAppDispatch();
@@ -29,27 +30,33 @@ const MainView = () => {
     <div className="main-view">
       <SideNav />
 
-      <Switch>
-        <Route path={`${path}/layout`}>
-          <LayoutPage />
-        </Route>
+      <main className="content">
+        <Switch>
+          <Route path={`${path}/layout`}>
+            <LayoutPage />
+          </Route>
 
-        <Route path={`${path}/configure`}>
-          <ConfigurePage />
-        </Route>
+          <Route path={`${path}/notes`}>
+            <NotesPage />
+          </Route>
 
-        <Route path={`${path}/notes`}>
-          <NotesPage />
-        </Route>
+          <Route path={`${path}/action`}>
+            <ActionPage />
+          </Route>
 
-        <Route path={`${path}/action`}>
-          <ActionPage />
-        </Route>
+          <Route path={`${path}/history`}>
+            <HistoryView />
+          </Route>
 
-        <Route path={`${path}/history`}>
-          <HistoryView />
-        </Route>
-      </Switch>
+          <Route path={`${path}/layout-config`}>
+            <LayoutConfigPage />
+          </Route>
+
+          <Route path={`${path}/object-config`}>
+            <ObjectConfigPage />
+          </Route>
+        </Switch>
+      </main>
     </div>
   );
 };

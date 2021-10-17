@@ -1,5 +1,6 @@
-export default interface Notes {
+export default interface Note {
   title: string;
-  subtitle: string;
+  subtitle?: string;
+  img?: string;
   text: string;
 }

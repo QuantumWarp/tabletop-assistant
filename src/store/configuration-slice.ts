@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as guid } from 'uuid';
 import Configuration from '../models/configuration';
-import RollResult from '../models/dice/roll-result';
 import DisplayType from '../models/layout/display-type';
 import LayoutEntry from '../models/layout/layout-entry';
 import GameObject from '../models/objects/game-object';
@@ -11,6 +10,7 @@ import { LayoutPositionHelper } from '../models/layout/layout-position';
 import LayoutPositionUpdate from '../models/layout/layout-position-update';
 import GameAction from '../models/objects/game-action';
 import ActionTree, { ActionTreeHelper } from '../models/objects/action-tree';
+import HistoryEntry from '../models/history/history-entry';
 
 interface ConfigurationState {
   configuration: Configuration | null;
@@ -88,7 +88,7 @@ export const configurationSlice = createSlice({
     },
 
     // History
-    addHistory: (state, action: PayloadAction<RollResult>) => {
+    addHistory: (state, action: PayloadAction<HistoryEntry>) => {
       state.configuration?.history.push(action.payload);
     },
     deleteHistory() {
@@ -126,5 +126,6 @@ export const selectObjectActions = (objectId: string) => (state: RootState) => s
 export const selectHistory = (state: RootState) => state.configuration.configuration?.history || [];
 export const selectLayoutIndex = (state: RootState) => state.configuration.layoutIndex;
 export const selectActionTree = (state: RootState) => state.configuration.actionTree;
+export const selectNotes = (state: RootState) => state.configuration.configuration?.notes || [];
 
 export default configurationSlice.reducer;
