@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react';
 import LayoutTab from '../../models/layout/layout-tab';
 import { addEntry, updateEntry, updateEntryPosition } from '../../store/configuration-slice';
 import { useAppDispatch } from '../../store/store';
-import ConfigureBox from './ConfigureBox';
+import ConfigureBox from './LayoutConfigBox';
 
 const classes: { [key: string]: CSSProperties } = {
   layoutContainer: {
@@ -15,11 +15,11 @@ const classes: { [key: string]: CSSProperties } = {
 
 const containerSize = { width: 1000, height: 1000 };
 
-interface ConfigureContainerProps {
+interface LayoutConfigContainerProps {
   layout: LayoutTab,
 }
 
-const ConfigureContainer = ({ layout }: ConfigureContainerProps) => {
+const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -56,4 +56,4 @@ const ConfigureContainer = ({ layout }: ConfigureContainerProps) => {
   );
 };
 
-export default ConfigureContainer;
+export default LayoutConfigContainer;

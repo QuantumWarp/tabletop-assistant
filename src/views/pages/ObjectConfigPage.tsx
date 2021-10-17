@@ -1,15 +1,25 @@
-import React from 'react';
-import { selectGameObjects } from '../../store/configuration-slice';
-import { useAppSelector } from '../../store/store';
+import React, { useState } from 'react';
+import { TextField } from '@mui/material';
+import ActionList from '../../components/object-config/ActionList';
+import ObjectList from '../../components/object-config/ObjectList';
+import './ObjectConfigPage.css';
 
 const ObjectConfigPage = () => {
-  const gameObjects = useAppSelector(selectGameObjects);
+  const [filter, setFilter] = useState('');
 
   return (
-    <div>
-      {gameObjects.map((x) => (
-        <div>{x.name}</div>
-      ))}
+    <div className="object-config-page">
+      <TextField
+        label="Search"
+        variant="filled"
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
+
+      <div className="lists">
+        <ObjectList filter={filter} />
+        <ActionList filter={filter} />
+      </div>
     </div>
   );
 };

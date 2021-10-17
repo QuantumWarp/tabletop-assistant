@@ -4,8 +4,8 @@ import ContainerSize from '../../models/layout/container-size';
 import LayoutEntry from '../../models/layout/layout-entry';
 import { selectGameObjects } from '../../store/configuration-slice';
 import { useAppSelector } from '../../store/store';
-import ConfigureBoxDialog from './ConfigureBoxDialog';
-import './ConfigureBox.css';
+import LayoutConfigDialog from './LayoutConfigDialog';
+import './LayoutConfigBox.css';
 import { LayoutPositionHelper } from '../../models/layout/layout-position';
 
 interface LayoutBoxProps {
@@ -16,7 +16,7 @@ interface LayoutBoxProps {
   onSizeChange: (dir: string, delta: ResizableDelta) => void,
 }
 
-const LayoutBox = ({
+const LayoutConfigBox = ({
   containerSize, entry, onDetailChange, onPositionChange, onSizeChange,
 }: LayoutBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -46,7 +46,7 @@ const LayoutBox = ({
           {entry.display}
         </div>
 
-        <ConfigureBoxDialog
+        <LayoutConfigDialog
           open={dialogOpen}
           entry={entry}
           onUpdate={onDetailChange}
@@ -57,4 +57,4 @@ const LayoutBox = ({
   );
 };
 
-export default LayoutBox;
+export default LayoutConfigBox;

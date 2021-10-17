@@ -3,7 +3,7 @@ import {
   Tabs,
   Tab,
 } from '@mui/material';
-import ConfigureContainer from '../../components/configure/ConfigureContainer';
+import LayoutConfigContainer from '../../components/layout-config/LayoutConfigContainer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { selectLayoutIndex, selectLayouts, setLayoutIndex } from '../../store/configuration-slice';
 
@@ -29,7 +29,7 @@ const LayoutConfigPage = () => {
         ))}
       </Tabs>
 
-      {currentLayout && <ConfigureContainer layout={currentLayout} />}
+      {currentLayout && <LayoutConfigContainer layout={currentLayout} />}
     </div>
   );
 };

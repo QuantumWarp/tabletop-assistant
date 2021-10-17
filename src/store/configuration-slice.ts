@@ -37,14 +37,30 @@ export const configurationSlice = createSlice({
     },
 
     // GameObjects
-    addGameObject: (state, action: PayloadAction<GameObject>) => {
-      state.configuration?.objects.push(action.payload);
+    upsertObject: (state, action: PayloadAction<GameObject>) => {
+      if (!state.configuration) return;
+      const currentNoteIndex = state.configuration.objects
+        .findIndex((x) => x.id === action.payload.id);
+
+      if (currentNoteIndex !== -1) {
+        state.configuration.objects[currentNoteIndex] = action.payload;
+      } else {
+        state.configuration.objects.push(action.payload);
+      }
     },
-    updateGameObject() {
+    deleteObject() {
 
     },
-    deleteGameObject() {
+    upsertAction: (state, action: PayloadAction<GameAction>) => {
+      if (!state.configuration) return;
+      const currentNoteIndex = state.configuration.actions
+        .findIndex((x) => x.id === action.payload.id);
 
+      if (currentNoteIndex !== -1) {
+        state.configuration.actions[currentNoteIndex] = action.payload;
+      } else {
+        state.configuration.actions.push(action.payload);
+      }
     },
 
     // LayoutEntry
@@ -115,9 +131,8 @@ export const {
   setConfiguration,
   setLayoutIndex,
 
-  addGameObject,
-  updateGameObject,
-  deleteGameObject,
+  upsertObject,
+  upsertAction,
 
   addEntry,
   updateEntry,
@@ -136,7 +151,7 @@ export const selectConfiguration = (state: RootState) => state.configuration.con
 export const selectLayouts = (state: RootState) => state.configuration.configuration?.layouts;
 export const selectGameObjects = (state: RootState) => state.configuration.configuration?.objects
   || [];
-export const selectActions = (state: RootState) => state.configuration.configuration?.actions;
+export const selectActions = (state: RootState) => state.configuration.configuration?.actions || [];
 export const selectObjectActions = (objectId: string) => (state: RootState) => selectActions(state)
   ?.filter((x) => x.objectId === objectId);
 export const selectHistory = (state: RootState) => state.configuration.configuration?.history || [];

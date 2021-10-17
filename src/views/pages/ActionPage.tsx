@@ -10,7 +10,10 @@ const ActionPage = () => {
   return (
     <div className="action-page">
       {actionTree.map((x) => (
-        <ActionNode node={x} />
+        <ActionNode
+          level={0}
+          node={x}
+        />
       ))}
     </div>
   );
