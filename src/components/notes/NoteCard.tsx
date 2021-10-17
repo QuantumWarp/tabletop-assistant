@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Card,
   CardActionArea,
@@ -10,35 +10,32 @@ import Note from '../../models/notes/note';
 
 interface NoteCardProps {
   note: Note;
+  onClick: () => void;
 }
 
-const NoteCard = ({ note }: NoteCardProps) => {
-  const [, setDialogOpen] = useState(false);
+const NoteCard = ({ note, onClick }: NoteCardProps) => (
+  <Card sx={{ maxWidth: 345 }}>
+    <CardActionArea onClick={onClick}>
+      {note.img && (
+        <CardMedia
+          component="img"
+          height="140"
+          image={note.img}
+          alt="Image not available"
+        />
+      )}
 
-  return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea onClick={() => setDialogOpen(true)}>
-        {note.img && (
-          <CardMedia
-            component="img"
-            height="140"
-            image={note.img}
-            alt="Image not available"
-          />
-        )}
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {note.title}
+        </Typography>
 
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {note.title}
-          </Typography>
-
-          <Typography variant="body2" color="text.secondary">
-            {note.subtitle}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-};
+        <Typography variant="body2" color="text.secondary">
+          {note.subtitle}
+        </Typography>
+      </CardContent>
+    </CardActionArea>
+  </Card>
+);
 
 export default NoteCard;

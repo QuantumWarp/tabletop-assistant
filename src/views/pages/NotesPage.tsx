@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material';
 import React, { useState } from 'react';
-import NotesList from '../../components/notes/NotesList';
+import NoteList from '../../components/notes/NoteList';
 import { selectNotes } from '../../store/configuration-slice';
 import { useAppSelector } from '../../store/store';
 import './NotesPage.css';
@@ -18,7 +18,7 @@ const NotesPage = () => {
         onChange={(e) => setFilter(e.target.value)}
       />
 
-      <NotesList
+      <NoteList
         notes={notes}
         filter={filter}
       />

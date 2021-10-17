@@ -11,6 +11,7 @@ import LayoutPositionUpdate from '../models/layout/layout-position-update';
 import GameAction from '../models/objects/game-action';
 import ActionTree, { ActionTreeHelper } from '../models/objects/action-tree';
 import HistoryEntry from '../models/history/history-entry';
+import Note from '../models/notes/note';
 
 interface ConfigurationState {
   configuration: Configuration | null;
@@ -87,6 +88,19 @@ export const configurationSlice = createSlice({
       );
     },
 
+    // Notes
+    upsertNote(state, action: PayloadAction<Note>) {
+      if (!state.configuration) return;
+      const currentNoteIndex = state.configuration.notes
+        .findIndex((x) => x.id === action.payload.id);
+
+      if (currentNoteIndex !== -1) {
+        state.configuration.notes[currentNoteIndex] = action.payload;
+      } else {
+        state.configuration.notes.push(action.payload);
+      }
+    },
+
     // History
     addHistory: (state, action: PayloadAction<HistoryEntry>) => {
       state.configuration?.history.push(action.payload);
@@ -111,6 +125,8 @@ export const {
   deleteEntry,
 
   setAction,
+
+  upsertNote,
 
   addHistory,
   deleteHistory,
