@@ -7,7 +7,7 @@ interface HistoryRowProps {
 
 const HistoryRow = ({ entry }: HistoryRowProps) => (
   <div>
-    {entry.date.toTimeString()}
+    {entry.date}
     {entry.name}
   </div>
 );

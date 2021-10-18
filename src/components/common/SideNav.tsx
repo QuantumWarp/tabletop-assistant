@@ -1,71 +1,120 @@
 import React from 'react';
 import {
-  Divider,
-  List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
 import {
+  Autorenew as SwitchIcon,
   BackupTable as LayoutsIcon,
   Casino as ActionIcon,
   History as HistoryIcon,
   Note as NotesIcon,
   SettingsApplications as ConfigureIcon,
 } from '@mui/icons-material';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import './SideNav.css';
+import { useAppSelector } from '../../store/store';
+import { selectConfiguration } from '../../store/configuration-slice';
 
 const MainView = () => {
   const history = useHistory();
+  const configuration = useAppSelector(selectConfiguration);
 
   return (
     <div className="side-nav">
-      <List>
-        <ListItem button onClick={() => history.push('./layout')}>
-          <ListItemIcon>
-            <LayoutsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Layouts" />
+      <div className="top">
+        <ListItem className="top-item" button>
+          <img
+            className="top-item-image"
+            src={configuration?.img}
+            alt={configuration?.name}
+          />
+
+          <span className="top-item-text">
+            {configuration?.shortName}
+          </span>
         </ListItem>
 
-        <ListItem button onClick={() => history.push('./notes')}>
-          <ListItemIcon>
-            <NotesIcon />
-          </ListItemIcon>
-          <ListItemText primary="Notes" />
+        <ListItem
+          button
+          className="menu-item"
+          activeClassName="Mui-selected"
+          component={NavLink}
+          to="./layout"
+        >
+          <LayoutsIcon className="icon" />
+          <span className="name">Layouts</span>
         </ListItem>
 
-        <ListItem button onClick={() => history.push('./action')}>
-          <ListItemIcon>
-            <ActionIcon />
-          </ListItemIcon>
-          <ListItemText primary="Action" />
+        <ListItem
+          button
+          className="menu-item"
+          activeClassName="Mui-selected"
+          component={NavLink}
+          to="./notes"
+        >
+          <NotesIcon className="icon" />
+          <span className="name">Notes</span>
         </ListItem>
 
-        <ListItem button onClick={() => history.push('./history')}>
-          <ListItemIcon>
-            <HistoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="History" />
+        <ListItem
+          button
+          className="menu-item"
+          activeClassName="Mui-selected"
+          component={NavLink}
+          to="./action"
+        >
+          <ActionIcon className="icon" />
+          <span className="name">Action</span>
         </ListItem>
 
-        <Divider />
+        <ListItem
+          button
+          className="menu-item"
+          activeClassName="Mui-selected"
+          component={NavLink}
+          to="./history"
+        >
+          <HistoryIcon className="icon" />
+          <span className="name">History</span>
+        </ListItem>
+      </div>
 
-        <ListItem button onClick={() => history.push('./layout-config')}>
+      <div className="bottom">
+        <ListItem
+          button
+          activeClassName="Mui-selected"
+          component={NavLink}
+          to="./layout-config"
+        >
           <ListItemIcon>
             <ConfigureIcon />
           </ListItemIcon>
           <ListItemText primary="Layout Config" />
         </ListItem>
 
-        <ListItem button onClick={() => history.push('./object-config')}>
+        <ListItem
+          button
+          activeClassName="Mui-selected"
+          component={NavLink}
+          to="./object-config"
+        >
           <ListItemIcon>
             <ConfigureIcon />
           </ListItemIcon>
           <ListItemText primary="Object Config" />
         </ListItem>
-      </List>
+
+        <ListItem
+          button
+          className="menu-item"
+          onClick={() => history.push('/')}
+        >
+          <SwitchIcon className="icon" />
+          <span className="name">Switch</span>
+        </ListItem>
+      </div>
     </div>
   );
 };

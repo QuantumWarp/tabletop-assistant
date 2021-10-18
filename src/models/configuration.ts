@@ -6,6 +6,7 @@ import HistoryEntry from './history/history-entry';
 
 export default interface Configuration {
   id: string;
+  shortName: string;
   name: string;
   description: string;
   img: string;

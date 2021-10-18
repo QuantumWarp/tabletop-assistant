@@ -1,4 +1,4 @@
 export default interface HistoryEntry {
-  date: Date;
+  date: string;
   name: string;
 }

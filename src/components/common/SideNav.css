@@ -1,4 +1,55 @@
 .side-nav {
+  padding: 0;
   min-width: 200px;
+  max-width: 200px;
   border-right: thin solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.side-nav .top {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+}
+
+.side-nav .bottom {
+  border-top: thin solid rgba(0, 0, 0, 0.12);
+}
+
+.side-nav .menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  padding: 20px;
+  border-top: thin solid rgba(0, 0, 0, 0.12);
+}
+
+.side-nav .top-item {
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+}
+.side-nav .top-item-image {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+.side-nav .top-item-text {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  padding: 5px;
+}
+
+.side-nav .menu-item svg {
+  color: rgba(0, 0, 0, 0.85);
+  height: 60px;
+  width: 60px;
+}
+.side-nav .menu-item .name {
+  font-size: 20px;
 }
