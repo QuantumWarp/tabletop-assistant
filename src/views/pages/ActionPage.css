@@ -1,0 +1,17 @@
+.action-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action-page .action-content {
+  padding: 30px;
+}
+
+.action-page .action-controls {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px;
+}

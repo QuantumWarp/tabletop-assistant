@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as guid } from 'uuid';
 import {
   Button,
   Dialog,
@@ -8,65 +9,85 @@ import {
   TextField,
 } from '@mui/material';
 import Note from '../../models/notes/note';
+import { useAppDispatch } from '../../store/store';
+import { upsertNote } from '../../store/configuration-slice';
 
 interface NoteUpdateDialogProps {
-  currentNote: Note;
+  note?: Partial<Note>;
   open: boolean;
-  onUpdate: (note: Note) => void;
-  onClose: () => void;
+  onClose: (note?: Note) => void;
 }
 
-const NoteUpdateDialog = ({
-  currentNote, open, onUpdate, onClose,
-}: NoteUpdateDialogProps) => {
-  const [note, setNote] = useState(currentNote);
+const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) => {
+  const dispatch = useAppDispatch();
+
+  const [title, setTitle] = useState(note.title || '');
+  const [subtitle, setSubtitle] = useState(note.subtitle || '');
+  const [image, setImage] = useState(note.image || '');
+  const [text, setText] = useState(note.text || '');
+
+  const saveNote = () => {
+    const updatedNote = {
+      id: note?.id || guid(),
+      title,
+      subtitle,
+      image,
+      text,
+    };
+    dispatch(upsertNote(updatedNote));
+    onClose(updatedNote);
+  };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>Update Note</DialogTitle>
 
       <DialogContent>
         <TextField
           label="Title"
           variant="standard"
-          value={note.title}
-          onChange={(e) => setNote({ ...note, title: e.target.value })}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
 
         <TextField
           label="Subtitle"
           variant="standard"
-          value={note.subtitle}
-          onChange={(e) => setNote({ ...note, subtitle: e.target.value })}
+          value={subtitle}
+          onChange={(e) => setSubtitle(e.target.value)}
         />
 
         <TextField
           label="Image URL"
           variant="standard"
-          value={note.img}
-          onChange={(e) => setNote({ ...note, img: e.target.value })}
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
         />
 
         <TextField
           label="Detail"
           variant="standard"
           multiline
-          value={note.text}
-          onChange={(e) => setNote({ ...note, text: e.target.value })}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         />
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={() => onClose()} color="primary">
           Cancel
         </Button>
 
-        <Button onClick={() => { onUpdate(note); onClose(); }} color="primary">
+        <Button onClick={saveNote} color="primary">
           Save
         </Button>
       </DialogActions>
     </Dialog>
   );
+};
+
+NoteUpdateDialog.defaultProps = {
+  note: {},
 };
 
 export default NoteUpdateDialog;

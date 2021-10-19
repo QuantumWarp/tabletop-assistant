@@ -1,17 +1,9 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import LayoutTab from '../../models/layout/layout-tab';
 import { addEntry, updateEntry, updateEntryPosition } from '../../store/configuration-slice';
 import { useAppDispatch } from '../../store/store';
 import ConfigureBox from './LayoutConfigBox';
-
-const classes: { [key: string]: CSSProperties } = {
-  layoutContainer: {
-    position: 'relative',
-    height: '1000px',
-    width: '1000px',
-    border: '1px solid black',
-  },
-};
+import './LayoutConfigContainer.css';
 
 const containerSize = { width: 1000, height: 1000 };
 
@@ -24,7 +16,7 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
 
   return (
     <div
-      style={classes.layoutContainer}
+      className="layout-config-container"
       onDoubleClick={() => dispatch(addEntry())}
     >
       {layout.entries.map((entry) => (

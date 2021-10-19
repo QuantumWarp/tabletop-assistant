@@ -18,7 +18,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const gameObjects = useAppSelector(selectGameObjects);
 
   return (
-    <div className="display-container">
+    <div className="layout-container">
       <div>
         {layout.entries.map((entry) => {
           const obj = gameObjects.find((x) => entry.key === x.id);

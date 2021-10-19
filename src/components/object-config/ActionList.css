@@ -1,0 +1,12 @@
+.action-list-header {
+  padding: 20px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+}
+
+.action-list-header .title {
+  font-size: 25px;
+  font-weight: bold;
+}

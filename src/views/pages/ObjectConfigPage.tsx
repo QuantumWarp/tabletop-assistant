@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
-import { TextField } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import ActionList from '../../components/object-config/ActionList';
 import ObjectList from '../../components/object-config/ObjectList';
 import './ObjectConfigPage.css';
+import TopBar from '../../components/common/TopBar';
 
 const ObjectConfigPage = () => {
   const [filter, setFilter] = useState('');
 
   return (
     <div className="object-config-page">
-      <TextField
-        label="Search"
-        variant="filled"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
+      <TopBar title="Object Config">
+        <div className="object-config-controls">
+          <TextField
+            label="Search"
+            variant="standard"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          />
+        </div>
+      </TopBar>
 
-      <div className="lists">
-        <ObjectList filter={filter} />
-        <ActionList filter={filter} />
+      <div className="object-config-content">
+        <Grid container spacing={6}>
+          <Grid item xs={6}>
+            <ObjectList filter={filter} />
+          </Grid>
+
+          <Grid item xs={6}>
+            <ActionList filter={filter} />
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

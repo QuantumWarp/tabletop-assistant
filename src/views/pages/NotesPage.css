@@ -2,4 +2,20 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+}
+
+.notes-page .notes-content {
+  padding: 30px;
+}
+
+.notes-page .notes-controls {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.notes-page .notes-controls :first-child {
+  width: 50%;
 }

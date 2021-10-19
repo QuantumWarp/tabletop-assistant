@@ -17,7 +17,7 @@ import './SideNav.css';
 import { useAppSelector } from '../../store/store';
 import { selectConfiguration } from '../../store/configuration-slice';
 
-const MainView = () => {
+const SideNav = () => {
   const history = useHistory();
   const configuration = useAppSelector(selectConfiguration);
 
@@ -119,4 +119,4 @@ const MainView = () => {
   );
 };
 
-export default MainView;
+export default SideNav;

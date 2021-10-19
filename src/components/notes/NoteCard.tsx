@@ -14,13 +14,13 @@ interface NoteCardProps {
 }
 
 const NoteCard = ({ note, onClick }: NoteCardProps) => (
-  <Card sx={{ maxWidth: 345 }}>
+  <Card>
     <CardActionArea onClick={onClick}>
-      {note.img && (
+      {note.image && (
         <CardMedia
           component="img"
-          height="140"
-          image={note.img}
+          height="180"
+          image={note.image}
           alt="Image not available"
         />
       )}

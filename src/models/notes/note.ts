@@ -1,7 +1,7 @@
 export default interface Note {
   id: string;
   title: string;
-  subtitle?: string;
-  img?: string;
+  subtitle: string;
+  image: string;
   text: string;
 }
