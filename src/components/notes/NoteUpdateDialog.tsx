@@ -40,10 +40,14 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
 
   return (
     <Dialog open={open} onClose={() => onClose()}>
-      <DialogTitle>Update Note</DialogTitle>
+      <DialogTitle>
+        {note.id ? 'Update ' : 'Create '}
+        Note
+      </DialogTitle>
 
       <DialogContent>
         <TextField
+          fullWidth
           label="Title"
           variant="standard"
           value={title}
@@ -51,6 +55,7 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
         />
 
         <TextField
+          fullWidth
           label="Subtitle"
           variant="standard"
           value={subtitle}
@@ -58,6 +63,7 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
         />
 
         <TextField
+          fullWidth
           label="Image URL"
           variant="standard"
           value={image}
@@ -65,9 +71,11 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
         />
 
         <TextField
+          fullWidth
           label="Detail"
           variant="standard"
           multiline
+          rows={6}
           value={text}
           onChange={(e) => setText(e.target.value)}
         />

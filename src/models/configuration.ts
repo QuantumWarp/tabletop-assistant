@@ -9,7 +9,7 @@ export default interface Configuration {
   shortName: string;
   name: string;
   description: string;
-  img: string;
+  image: string;
   layouts: LayoutTab[];
   objects: GameObject[];
   actions: GameAction[];

@@ -30,7 +30,7 @@ const HomePage = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={con.img}
+                  image={con.image}
                   alt={con.name}
                 />
 

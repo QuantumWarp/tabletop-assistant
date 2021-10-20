@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ListItem,
   ListItemIcon,
@@ -16,18 +16,25 @@ import { NavLink, useHistory } from 'react-router-dom';
 import './SideNav.css';
 import { useAppSelector } from '../../store/store';
 import { selectConfiguration } from '../../store/configuration-slice';
+import ConfigUpdateDialog from '../config/ConfigUpdateDialog';
+import Configuration from '../../models/configuration';
 
 const SideNav = () => {
   const history = useHistory();
   const configuration = useAppSelector(selectConfiguration);
+  const [editConfig, setEditConfig] = useState<Configuration | null>(null);
 
   return (
     <div className="side-nav">
       <div className="top">
-        <ListItem className="top-item" button>
+        <ListItem
+          className="top-item"
+          button
+          onClick={() => setEditConfig(configuration)}
+        >
           <img
             className="top-item-image"
-            src={configuration?.img}
+            src={configuration?.image}
             alt={configuration?.name}
           />
 
@@ -35,6 +42,14 @@ const SideNav = () => {
             {configuration?.shortName}
           </span>
         </ListItem>
+
+        {editConfig && (
+          <ConfigUpdateDialog
+            config={editConfig}
+            open={Boolean(editConfig)}
+            onClose={() => setEditConfig(null)}
+          />
+        )}
 
         <ListItem
           button

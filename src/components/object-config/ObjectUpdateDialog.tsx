@@ -27,6 +27,7 @@ const ObjectUpdateDialog = ({
 
       <DialogContent>
         <TextField
+          fullWidth
           label="Name"
           variant="standard"
           value={gameObject.name}
@@ -34,18 +35,21 @@ const ObjectUpdateDialog = ({
         />
 
         <TextField
-          label="Description"
-          variant="standard"
-          multiline
-          value={gameObject.description}
-          onChange={(e) => setGameObject({ ...gameObject, description: e.target.value })}
-        />
-
-        <TextField
+          fullWidth
           label="Value"
           variant="standard"
           value={gameObject.value}
           onChange={(e) => setGameObject({ ...gameObject, value: e.target.value })}
+        />
+
+        <TextField
+          fullWidth
+          label="Description"
+          variant="standard"
+          multiline
+          rows={6}
+          value={gameObject.description}
+          onChange={(e) => setGameObject({ ...gameObject, description: e.target.value })}
         />
       </DialogContent>
 

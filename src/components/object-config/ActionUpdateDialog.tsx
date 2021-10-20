@@ -32,13 +32,16 @@ const ActionUpdateDialog = ({
 
       <DialogContent>
         <TextField
-          label="Name (Optional)"
+          fullWidth
+          label="Name"
           variant="standard"
           value={action.name}
           onChange={(e) => setAction({ ...action, name: e.target.value })}
         />
 
         <Select
+          fullWidth
+          variant="standard"
           value={action.objectId}
           label="Attach to Object"
           onChange={(e) => setAction({ ...action, objectId: e.target.value })}
