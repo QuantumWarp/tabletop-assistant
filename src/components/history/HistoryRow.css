@@ -1,0 +1,15 @@
+.history-row {
+  display: flex;
+  flex-direction: row;
+  max-width: 1000px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.history-row .date {
+  flex: 1;
+}
+
+.history-row .entry {
+  flex: 3;
+}

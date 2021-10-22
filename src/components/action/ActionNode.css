@@ -1,0 +1,33 @@
+.action-node {
+  width: 500px;
+  height: 80px;
+  border: 1px solid black;
+  border-radius: 8px;
+  display: flex;
+}
+
+.action-node .icon {
+  width: 60px;
+  border-right: 1px solid black;
+  display: flex;
+}
+
+.action-node .middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-node .middle .title {
+  font-weight: bold;
+}
+
+.action-node .middle .content {
+  flex: 1;
+}
+
+.action-node .button {
+  width: 60px;
+  border-left: 1px solid black;
+  display: flex;
+}

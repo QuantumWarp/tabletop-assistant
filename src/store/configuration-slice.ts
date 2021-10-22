@@ -118,8 +118,16 @@ export const configurationSlice = createSlice({
     },
 
     // History
-    addHistory: (state, action: PayloadAction<HistoryEntry>) => {
-      state.configuration?.history.push(action.payload);
+    upsertHistory: (state, action: PayloadAction<HistoryEntry>) => {
+      if (!state.configuration) return;
+      const currentHistoryIndex = state.configuration.history
+        .findIndex((x) => x.id === action.payload.id);
+
+      if (currentHistoryIndex !== -1) {
+        state.configuration.history[currentHistoryIndex] = action.payload;
+      } else {
+        state.configuration.history = [action.payload].concat(state.configuration.history);
+      }
     },
     deleteHistory() {
 
@@ -143,7 +151,7 @@ export const {
 
   upsertNote,
 
-  addHistory,
+  upsertHistory,
   deleteHistory,
 } = configurationSlice.actions;
 
