@@ -2,11 +2,10 @@ import {
   Button,
   List, ListItem, ListItemButton, ListItemText, Paper,
 } from '@mui/material';
-import { v4 as guid } from 'uuid';
 import React, { useState } from 'react';
 import GameObject from '../../models/objects/game-object';
-import { selectGameObjects, upsertObject } from '../../store/configuration-slice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { selectGameObjects } from '../../store/configuration-slice';
+import { useAppSelector } from '../../store/store';
 import ObjectUpdateDialog from './ObjectUpdateDialog';
 import './ObjectList.css';
 
@@ -15,11 +14,10 @@ interface ObjectListProps {
 }
 
 const ObjectList = ({ filter }: ObjectListProps) => {
-  const dispatch = useAppDispatch();
   const gameObjects = useAppSelector(selectGameObjects);
   const filteredObjs = gameObjects
     .filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
-  const [editObject, setEditObject] = useState<GameObject | null>(null);
+  const [editObject, setEditObject] = useState<Partial<GameObject> | null>(null);
 
   return (
     <Paper elevation={3}>
@@ -28,10 +26,7 @@ const ObjectList = ({ filter }: ObjectListProps) => {
 
         <Button
           variant="outlined"
-          onClick={() => setEditObject({
-            id: guid(),
-            name: '',
-          })}
+          onClick={() => setEditObject({})}
         >
           New
         </Button>
@@ -48,9 +43,8 @@ const ObjectList = ({ filter }: ObjectListProps) => {
 
         {editObject && (
           <ObjectUpdateDialog
-            currentObject={editObject}
+            gameObject={editObject}
             open={Boolean(editObject)}
-            onUpdate={(obj) => dispatch(upsertObject(obj))}
             onClose={() => setEditObject(null)}
           />
         )}

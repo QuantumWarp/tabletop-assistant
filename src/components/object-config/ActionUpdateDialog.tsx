@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { v4 as guid } from 'uuid';
 import {
   Button,
   Dialog,
@@ -10,41 +11,55 @@ import {
   TextField,
 } from '@mui/material';
 import GameAction from '../../models/objects/game-action';
-import { useAppSelector } from '../../store/store';
-import { selectGameObjects } from '../../store/configuration-slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { selectGameObjects, upsertAction } from '../../store/configuration-slice';
 
 interface ActionUpdateDialogProps {
-  currentAction: GameAction;
+  action?: Partial<GameAction>;
   open: boolean;
-  onUpdate: (action: GameAction) => void;
-  onClose: () => void;
+  onClose: (action?: GameAction) => void;
 }
 
-const ActionUpdateDialog = ({
-  currentAction, open, onUpdate, onClose,
-}: ActionUpdateDialogProps) => {
+const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogProps) => {
+  const dispatch = useAppDispatch();
   const gameObjects = useAppSelector(selectGameObjects);
-  const [action, setAction] = useState(currentAction);
+
+  const [name, setName] = useState(action.name || '');
+  const [objectId, setObjectId] = useState(action.objectId || '');
+
+  const saveAction = () => {
+    const updatedAction = {
+      id: action?.id || guid(),
+      name,
+      objectId,
+      triggers: action?.triggers || [],
+    };
+    dispatch(upsertAction(updatedAction));
+    onClose(updatedAction);
+  };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Update Action</DialogTitle>
+    <Dialog open={open} onClose={() => onClose()}>
+      <DialogTitle>
+        {action.id ? 'Update ' : 'Create '}
+        Action
+      </DialogTitle>
 
       <DialogContent>
         <TextField
           fullWidth
           label="Name"
           variant="standard"
-          value={action.name}
-          onChange={(e) => setAction({ ...action, name: e.target.value })}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <Select
           fullWidth
           variant="standard"
-          value={action.objectId}
+          value={objectId}
           label="Attach to Object"
-          onChange={(e) => setAction({ ...action, objectId: e.target.value })}
+          onChange={(e) => setObjectId(e.target.value)}
         >
           {gameObjects.map((x) => (
             <MenuItem value={x.id}>{x.name}</MenuItem>
@@ -53,16 +68,20 @@ const ActionUpdateDialog = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={() => onClose()} color="primary">
           Cancel
         </Button>
 
-        <Button onClick={() => { onUpdate(action); onClose(); }} color="primary">
+        <Button onClick={saveAction} color="primary">
           Save
         </Button>
       </DialogActions>
     </Dialog>
   );
+};
+
+ActionUpdateDialog.defaultProps = {
+  action: {},
 };
 
 export default ActionUpdateDialog;

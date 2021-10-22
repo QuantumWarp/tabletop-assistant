@@ -2,11 +2,10 @@ import {
   Button,
   List, ListItem, ListItemButton, ListItemText, Paper,
 } from '@mui/material';
-import { v4 as guid } from 'uuid';
 import React, { useState } from 'react';
 import GameAction from '../../models/objects/game-action';
-import { selectActions, selectGameObjects, upsertAction } from '../../store/configuration-slice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
+import { selectActions, selectGameObjects } from '../../store/configuration-slice';
+import { useAppSelector } from '../../store/store';
 import ActionUpdateDialog from './ActionUpdateDialog';
 import './ActionList.css';
 
@@ -15,7 +14,6 @@ interface ActionListProps {
 }
 
 const ActionList = ({ filter }: ActionListProps) => {
-  const dispatch = useAppDispatch();
   const gameObjects = useAppSelector(selectGameObjects);
   const actions = useAppSelector(selectActions);
   const filteredActions = actions
@@ -24,7 +22,7 @@ const ActionList = ({ filter }: ActionListProps) => {
       return action.name?.toLowerCase().includes(filter.toLowerCase())
         || obj?.name.toLowerCase().includes(filter.toLowerCase());
     });
-  const [editAction, setEditAction] = useState<GameAction | null>(null);
+  const [editAction, setEditAction] = useState<Partial<GameAction> | null>(null);
 
   return (
     <Paper elevation={3}>
@@ -33,11 +31,7 @@ const ActionList = ({ filter }: ActionListProps) => {
 
         <Button
           variant="outlined"
-          onClick={() => setEditAction({
-            id: guid(),
-            objectId: '',
-            triggers: [],
-          })}
+          onClick={() => setEditAction({})}
         >
           New
         </Button>
@@ -58,9 +52,8 @@ const ActionList = ({ filter }: ActionListProps) => {
 
         {editAction && (
           <ActionUpdateDialog
-            currentAction={editAction}
+            action={editAction}
             open={Boolean(editAction)}
-            onUpdate={(action) => dispatch(upsertAction(action))}
             onClose={() => setEditAction(null)}
           />
         )}
