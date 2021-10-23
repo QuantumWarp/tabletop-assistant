@@ -11,19 +11,18 @@ import { LayoutPositionHelper } from '../../models/layout/layout-position';
 interface LayoutBoxProps {
   containerSize: ContainerSize,
   entry: LayoutEntry,
-  onDetailChange: (entry: LayoutEntry) => void,
   onPositionChange: (data: DraggableData) => void,
   onSizeChange: (dir: string, delta: ResizableDelta) => void,
 }
 
 const LayoutConfigBox = ({
-  containerSize, entry, onDetailChange, onPositionChange, onSizeChange,
+  containerSize, entry, onPositionChange, onSizeChange,
 }: LayoutBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const gameObjects = useAppSelector(selectGameObjects);
 
-  const obj = gameObjects.find((x) => x.id === entry.key);
+  const obj = gameObjects.find((x) => x.id === entry.objectId);
 
   return (
     <Rnd
@@ -49,7 +48,6 @@ const LayoutConfigBox = ({
         <LayoutConfigDialog
           open={dialogOpen}
           entry={entry}
-          onUpdate={onDetailChange}
           onClose={() => setDialogOpen(false)}
         />
       </div>

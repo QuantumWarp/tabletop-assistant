@@ -21,7 +21,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     <div className="layout-container">
       <div>
         {layout.entries.map((entry) => {
-          const obj = gameObjects.find((x) => entry.key === x.id);
+          const obj = gameObjects.find((x) => entry.objectId === x.id);
 
           return (
             <div
@@ -31,25 +31,25 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
             >
               {obj && entry.display === DisplayType.simpleCard && (
                 <DisplaySimpleCard
-                  key={entry.key}
+                  key={entry.objectId}
                   gameObject={obj}
                 />
               )}
               {obj && entry.display === DisplayType.simpleToggle && (
                 <DisplaySimpleToggle
-                  key={entry.key}
+                  key={entry.objectId}
                   gameObject={obj}
                 />
               )}
               {obj && entry.display === DisplayType.numberSquare && (
                 <DisplayNumberSquare
-                  key={entry.key}
+                  key={entry.objectId}
                   gameObject={obj}
                 />
               )}
               {obj && entry.display === DisplayType.dotCounter && (
                 <DisplayDotCounter
-                  key={entry.key}
+                  key={entry.objectId}
                   gameObject={obj}
                 />
               )}

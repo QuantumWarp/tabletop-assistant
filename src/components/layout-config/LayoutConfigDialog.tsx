@@ -1,46 +1,61 @@
 import React, { useState } from 'react';
+import { v4 as guid } from 'uuid';
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   MenuItem,
   Select,
 } from '@mui/material';
 import DisplayType from '../../models/layout/display-type';
 import LayoutEntry from '../../models/layout/layout-entry';
-import { selectGameObjects } from '../../store/configuration-slice';
-import { useAppSelector } from '../../store/store';
+import { deleteEntry, selectGameObjects, upsertEntry } from '../../store/configuration-slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { LayoutPositionHelper } from '../../models/layout/layout-position';
+import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 
 interface LayoutConfigDialogProps {
-  open: boolean,
-  entry: LayoutEntry,
-  onUpdate: (entry: LayoutEntry) => void,
-  onClose: () => void,
+  entry?: Partial<LayoutEntry>;
+  open: boolean;
+  onClose: (entry?: LayoutEntry) => void;
 }
 
-const LayoutConfigDialog = ({
-  open, entry, onUpdate, onClose,
-}: LayoutConfigDialogProps) => {
+const LayoutConfigDialog = ({ entry = {}, open, onClose }: LayoutConfigDialogProps) => {
+  const dispatch = useAppDispatch();
   const gameObjects = useAppSelector(selectGameObjects);
 
-  const [gameObjKey, setGameObjKey] = useState(entry.key);
-  const [display, setDisplay] = useState(entry.display);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
+  const [objectId, setObjectId] = useState(entry.objectId || '');
+  const [display, setDisplay] = useState(entry.display || DisplayType.simpleCard);
+
+  const saveLayoutConfig = () => {
+    const updatedEntry = {
+      id: entry?.id || guid(),
+      objectId,
+      display,
+      position: entry?.position || LayoutPositionHelper.createPosition(0, 0, 20, 20),
+    };
+    dispatch(upsertEntry(updatedEntry));
+    onClose(updatedEntry);
+  };
 
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Update Box</DialogTitle>
+    <Dialog open={open} onClose={() => onClose()}>
+      <DialogTitle>
+        {entry.id ? 'Update ' : 'Create '}
+        Layout Entry
+      </DialogTitle>
 
       <DialogContent>
-        <DialogContentText>
-          Update
-        </DialogContentText>
-
         <Select
-          value={gameObjKey}
-          onChange={(e) => setGameObjKey(e.target.value as string)}
+          fullWidth
+          variant="standard"
+          value={objectId}
+          label="Object"
+          onChange={(e) => setObjectId(e.target.value)}
         >
           {gameObjects.map((obj) => (
             <MenuItem
@@ -64,16 +79,36 @@ const LayoutConfigDialog = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} variant="outlined">
+        {entry.id && (
+          <>
+            <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
+              Delete
+            </Button>
+
+            <DeleteConfirmDialog
+              objType="Entry"
+              objName="entry"
+              open={deleteOpen}
+              onDelete={() => { dispatch(deleteEntry(entry.id as string)); onClose(); }}
+              onClose={() => setDeleteOpen(false)}
+            />
+          </>
+        )}
+
+        <Button onClick={() => onClose()} variant="outlined">
           Cancel
         </Button>
 
-        <Button onClick={() => { onUpdate({ ...entry, key: gameObjKey, display }); onClose(); }} variant="outlined">
+        <Button onClick={saveLayoutConfig} variant="outlined">
           Save
         </Button>
       </DialogActions>
     </Dialog>
   );
+};
+
+LayoutConfigDialog.defaultProps = {
+  entry: {},
 };
 
 export default LayoutConfigDialog;

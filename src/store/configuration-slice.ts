@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as guid } from 'uuid';
 import Configuration from '../models/configuration';
-import DisplayType from '../models/layout/display-type';
 import LayoutEntry from '../models/layout/layout-entry';
 import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
@@ -71,23 +69,17 @@ export const configurationSlice = createSlice({
     },
 
     // LayoutEntry
-    addEntry(state) {
+    upsertEntry(state, action: PayloadAction<LayoutEntry>) {
       if (!state.configuration) return;
-      const entry: LayoutEntry = {
-        id: guid(),
-        display: DisplayType.simpleCard,
-        position: LayoutPositionHelper.createPosition(0, 0, 10, 10),
-        key: '',
-      };
+      const tab = state.configuration.layouts[state.layoutIndex];
+      const currentEntryIndex = tab.entries
+        .findIndex((x) => x.id === action.payload.id);
 
-      const tab = state.configuration.layouts[state.layoutIndex];
-      tab.entries.push(entry);
-    },
-    updateEntry(state, action: PayloadAction<Partial<LayoutEntry>>) {
-      if (!state.configuration) return;
-      const tab = state.configuration.layouts[state.layoutIndex];
-      const entry = tab.entries.find((x) => x.id === action.payload.id);
-      Object.assign(entry, action.payload);
+      if (currentEntryIndex !== -1) {
+        tab.entries[currentEntryIndex] = action.payload;
+      } else {
+        tab.entries.push(action.payload);
+      }
     },
     updateEntryPosition(state, action: PayloadAction<LayoutPositionUpdate>) {
       if (!state.configuration) return;
@@ -99,7 +91,7 @@ export const configurationSlice = createSlice({
     deleteEntry(state, action: PayloadAction<string>) {
       if (!state.configuration) return;
       const tab = state.configuration.layouts[state.layoutIndex];
-      tab.entries = tab.entries.filter((x) => x.id === action.payload);
+      tab.entries = tab.entries.filter((x) => x.id !== action.payload);
     },
 
     // Action
@@ -158,8 +150,7 @@ export const {
   upsertAction,
   deleteAction,
 
-  addEntry,
-  updateEntry,
+  upsertEntry,
   updateEntryPosition,
   deleteEntry,
 
