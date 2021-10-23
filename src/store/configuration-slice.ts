@@ -32,12 +32,12 @@ export const configurationSlice = createSlice({
     setConfiguration(state, action: PayloadAction<Configuration | null>) {
       state.configuration = action.payload;
     },
-    setLayoutIndex: (state, action: PayloadAction<number>) => {
+    setLayoutIndex(state, action: PayloadAction<number>) {
       state.layoutIndex = action.payload;
     },
 
     // GameObjects
-    upsertObject: (state, action: PayloadAction<GameObject>) => {
+    upsertObject(state, action: PayloadAction<GameObject>) {
       if (!state.configuration) return;
       const currentNoteIndex = state.configuration.objects
         .findIndex((x) => x.id === action.payload.id);
@@ -48,10 +48,12 @@ export const configurationSlice = createSlice({
         state.configuration.objects.push(action.payload);
       }
     },
-    deleteObject() {
-
+    deleteObject(state, action: PayloadAction<string>) {
+      if (!state.configuration) return;
+      state.configuration.objects = state.configuration.objects
+        .filter((x) => x.id !== action.payload);
     },
-    upsertAction: (state, action: PayloadAction<GameAction>) => {
+    upsertAction(state, action: PayloadAction<GameAction>) {
       if (!state.configuration) return;
       const currentNoteIndex = state.configuration.actions
         .findIndex((x) => x.id === action.payload.id);
@@ -61,6 +63,11 @@ export const configurationSlice = createSlice({
       } else {
         state.configuration.actions.push(action.payload);
       }
+    },
+    deleteAction(state, action: PayloadAction<string>) {
+      if (!state.configuration) return;
+      state.configuration.actions = state.configuration.actions
+        .filter((x) => x.id !== action.payload);
     },
 
     // LayoutEntry
@@ -116,6 +123,11 @@ export const configurationSlice = createSlice({
         state.configuration.notes.push(action.payload);
       }
     },
+    deleteNote(state, action: PayloadAction<string>) {
+      if (!state.configuration) return;
+      state.configuration.notes = state.configuration.notes
+        .filter((x) => x.id !== action.payload);
+    },
 
     // History
     upsertHistory: (state, action: PayloadAction<HistoryEntry>) => {
@@ -129,8 +141,10 @@ export const configurationSlice = createSlice({
         state.configuration.history = [action.payload].concat(state.configuration.history);
       }
     },
-    deleteHistory() {
-
+    deleteHistory(state, action: PayloadAction<string>) {
+      if (!state.configuration) return;
+      state.configuration.history = state.configuration.history
+        .filter((x) => x.id !== action.payload);
     },
   },
 });
@@ -140,7 +154,9 @@ export const {
   setLayoutIndex,
 
   upsertObject,
+  deleteObject,
   upsertAction,
+  deleteAction,
 
   addEntry,
   updateEntry,
@@ -150,6 +166,7 @@ export const {
   setAction,
 
   upsertNote,
+  deleteNote,
 
   upsertHistory,
   deleteHistory,

@@ -8,9 +8,11 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../store/store';
 import Configuration from '../../models/configuration';
-import { upsertConfiguration } from '../../store/main-slice';
+import { deleteConfiguration, upsertConfiguration } from '../../store/main-slice';
+import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 
 interface ConfigUpdateDialogProps {
   config?: Partial<Configuration>;
@@ -20,6 +22,9 @@ interface ConfigUpdateDialogProps {
 
 const ConfigUpdateDialog = ({ config = {}, open, onClose }: ConfigUpdateDialogProps) => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(config.name || '');
   const [shortName, setShortName] = useState(config.shortName || '');
@@ -87,11 +92,27 @@ const ConfigUpdateDialog = ({ config = {}, open, onClose }: ConfigUpdateDialogPr
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => onClose()} color="primary">
+        {config.id && (
+          <>
+            <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
+              Delete
+            </Button>
+
+            <DeleteConfirmDialog
+              objType="Config"
+              objName={config.shortName}
+              open={deleteOpen}
+              onDelete={() => { dispatch(deleteConfiguration(config.id as string)); onClose(); history.push('/'); }}
+              onClose={() => setDeleteOpen(false)}
+            />
+          </>
+        )}
+
+        <Button onClick={() => onClose()} variant="outlined">
           Cancel
         </Button>
 
-        <Button onClick={saveConfig} color="primary">
+        <Button onClick={saveConfig} variant="outlined">
           Save
         </Button>
       </DialogActions>

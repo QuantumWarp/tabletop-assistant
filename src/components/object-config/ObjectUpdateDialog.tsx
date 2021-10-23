@@ -10,7 +10,8 @@ import {
 } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
-import { upsertObject } from '../../store/configuration-slice';
+import { deleteObject, upsertObject } from '../../store/configuration-slice';
+import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 
 interface ObjectUpdateDialogProps {
   gameObject?: Partial<GameObject>;
@@ -20,6 +21,8 @@ interface ObjectUpdateDialogProps {
 
 const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDialogProps) => {
   const dispatch = useAppDispatch();
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(gameObject.name || '');
   const [value, setValue] = useState(gameObject.value || '');
@@ -69,11 +72,27 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => onClose()} color="primary">
+        {gameObject.id && (
+          <>
+            <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
+              Delete
+            </Button>
+
+            <DeleteConfirmDialog
+              objType="Object"
+              objName={gameObject.name}
+              open={deleteOpen}
+              onDelete={() => { dispatch(deleteObject(gameObject.id as string)); onClose(); }}
+              onClose={() => setDeleteOpen(false)}
+            />
+          </>
+        )}
+
+        <Button onClick={() => onClose()} variant="outlined">
           Cancel
         </Button>
 
-        <Button onClick={saveObject} color="primary">
+        <Button onClick={saveObject} variant="outlined">
           Save
         </Button>
       </DialogActions>

@@ -29,12 +29,17 @@ export const mainSlice = createSlice({
         state.configurations.push(action.payload);
       }
     },
+    deleteConfiguration(state, action: PayloadAction<string>) {
+      state.configurations = state.configurations
+        .filter((x) => x.id !== action.payload);
+    },
   },
 });
 
 export const {
   loadConfigurations,
   upsertConfiguration,
+  deleteConfiguration,
 } = mainSlice.actions;
 
 export const selectConfigurations = (state: RootState) => state.main.configurations;

@@ -64,11 +64,11 @@ const LayoutConfigDialog = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} variant="outlined">
           Cancel
         </Button>
 
-        <Button onClick={() => { onUpdate({ ...entry, key: gameObjKey, display }); onClose(); }} color="primary">
+        <Button onClick={() => { onUpdate({ ...entry, key: gameObjKey, display }); onClose(); }} variant="outlined">
           Save
         </Button>
       </DialogActions>

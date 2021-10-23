@@ -9,8 +9,9 @@ import {
   TextField,
 } from '@mui/material';
 import { useAppDispatch } from '../../store/store';
-import { upsertHistory } from '../../store/configuration-slice';
+import { deleteHistory, upsertHistory } from '../../store/configuration-slice';
 import HistoryEntryCustom from '../../models/history/history-entry-custom';
+import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 
 interface HistoryUpdateDialogProps {
   entry?: Partial<HistoryEntryCustom>;
@@ -20,6 +21,8 @@ interface HistoryUpdateDialogProps {
 
 const HistoryUpdateDialog = ({ entry = {}, open, onClose }: HistoryUpdateDialogProps) => {
   const dispatch = useAppDispatch();
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [title, setTitle] = useState(entry.title || '');
   const [text, setText] = useState(entry.text || '');
@@ -63,11 +66,27 @@ const HistoryUpdateDialog = ({ entry = {}, open, onClose }: HistoryUpdateDialogP
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => onClose()} color="primary">
+        {entry.id && (
+          <>
+            <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
+              Delete
+            </Button>
+
+            <DeleteConfirmDialog
+              objType="History Entry"
+              objName={entry.title}
+              open={deleteOpen}
+              onDelete={() => { dispatch(deleteHistory(entry.id as string)); onClose(); }}
+              onClose={() => setDeleteOpen(false)}
+            />
+          </>
+        )}
+
+        <Button onClick={() => onClose()} variant="outlined">
           Cancel
         </Button>
 
-        <Button onClick={saveHistory} color="primary">
+        <Button onClick={saveHistory} variant="outlined">
           Save
         </Button>
       </DialogActions>
