@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Card,
@@ -11,10 +11,12 @@ import {
 import { useAppSelector } from '../store/store';
 import { selectConfigurations } from '../store/main-slice';
 import './HomePage.css';
+import ConfigUpdateDialog from '../components/config/ConfigUpdateDialog';
 
 const HomePage = () => {
   const history = useHistory();
   const configurations = useAppSelector(selectConfigurations);
+  const [newConfigDialogOpen, setNewConfigDialogOpen] = useState(false);
 
   return (
     <div className="home-page">
@@ -50,11 +52,18 @@ const HomePage = () => {
 
         <Grid item xs={4}>
           <Card>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                Add New
-              </Typography>
-            </CardContent>
+            <CardActionArea onClick={() => setNewConfigDialogOpen(true)}>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Add New
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+
+            <ConfigUpdateDialog
+              open={newConfigDialogOpen}
+              onClose={() => setNewConfigDialogOpen(false)}
+            />
           </Card>
         </Grid>
       </Grid>
