@@ -5,5 +5,6 @@ export default interface GameAction {
   objectId: string;
   triggers: ActionTrigger[];
   name?: string;
+  roll?: string;
   macro?: string;
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import { ActionTreeNode } from '../../models/objects/action-tree';
+import RollComboParser from '../../models/rolling/roll-combo-parser';
 import { selectGameObjects } from '../../store/configuration-slice';
 import { useAppSelector } from '../../store/store';
 import './ActionNode.css';
+import ActionNodeContent from './ActionRollContent';
 
 interface ActionNodeProps {
   level: number;
@@ -29,7 +31,11 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
           </div>
 
           <div className="content">
-            Action Node Content
+            {node.action.roll && (
+              <ActionNodeContent
+                combo={RollComboParser.parse(node.action.roll)}
+              />
+            )}
           </div>
         </div>
 
@@ -40,6 +46,7 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
 
       {node.children.map((x) => (
         <ActionNode
+          key={x.action.id}
           level={level + 1}
           node={x}
         />

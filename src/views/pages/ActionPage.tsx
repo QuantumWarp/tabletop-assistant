@@ -24,6 +24,7 @@ const ActionPage = () => {
       <div className="action-content">
         {actionTree.map((x) => (
           <ActionNode
+            key={x.action.id}
             level={0}
             node={x}
           />
