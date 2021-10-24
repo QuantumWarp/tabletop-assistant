@@ -1,8 +1,14 @@
 import React from 'react';
+import { Button } from '@mui/material';
+import {
+  Casino as RollIcon,
+  ArrowRightAlt as ArrowRightIcon,
+} from '@mui/icons-material';
 import { ActionTreeNode } from '../../models/objects/action-tree';
 import RollComboParser from '../../models/rolling/roll-combo-parser';
 import { selectGameObjects } from '../../store/configuration-slice';
 import { useAppSelector } from '../../store/store';
+import TabletopIcon from '../common/TabletopIcon';
 import './ActionNode.css';
 import ActionNodeContent from './ActionRollContent';
 
@@ -14,6 +20,7 @@ interface ActionNodeProps {
 const ActionNode = ({ level, node }: ActionNodeProps) => {
   const gameObjects = useAppSelector(selectGameObjects);
   const gameObject = gameObjects.find((x) => x.id === node.action.objectId);
+  const icon = node.action.icon || gameObject?.icon;
 
   return (
     <>
@@ -21,7 +28,11 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
         style={{ marginLeft: `${level * 20}px` }}
         className="action-node"
       >
-        <div className="icon">Icon</div>
+        {icon && (
+          <div className="icon">
+            <TabletopIcon icon={icon} />
+          </div>
+        )}
 
         <div className="middle">
           <div className="title">
@@ -39,9 +50,12 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
           </div>
         </div>
 
-        <div className="button">
-          Button
-        </div>
+        {node.action.roll && (
+          <Button className="button">
+            <RollIcon className="roll" />
+            <ArrowRightIcon className="arrow" />
+          </Button>
+        )}
       </div>
 
       {node.children.map((x) => (

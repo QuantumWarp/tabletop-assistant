@@ -1,0 +1,19 @@
+.action-roll-content {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.action-roll-content .face-combo .sign {
+  padding: 0 2px;
+}
+
+.action-roll-content .face-combo .d {
+  color: brown;
+}
+
+.action-roll-content .face-combo .faces {
+  color: brown;
+}

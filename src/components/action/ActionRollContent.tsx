@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
-import './ActionNode.css';
 import ActionRollDialog from './ActionRollDialog';
+import './ActionRollContent.css';
 
 interface ActionNodeContentProps {
   combo: RollCombo;
@@ -16,13 +16,13 @@ const ActionNodeContent = ({ combo }: ActionNodeContentProps) => {
   return (
     <>
       <div className="action-roll-content" onClick={() => setEditCombo(true)}>
-        <span>{staticValue}</span>
+        <span className="static">{staticValue}</span>
         {Object.keys(faceComboDict).map((x) => (
-          <span>
-            +
-            {faceComboDict[Number(x)].length}
-            d
-            {Number(x)}
+          <span className="face-combo">
+            <span className="sign">+</span>
+            <span className="amount">{faceComboDict[Number(x)].length}</span>
+            <span className="d">d</span>
+            <span className="faces">{Number(x)}</span>
           </span>
         ))}
       </div>
