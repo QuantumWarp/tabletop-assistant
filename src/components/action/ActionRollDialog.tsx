@@ -11,13 +11,33 @@ import { useAppSelector } from '../../store/store';
 import { selectActions } from '../../store/configuration-slice';
 import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
 import GameAction from '../../models/objects/game-action';
+import './ActionRollDialog.css';
 
-const ActionCombo = (combo: RollCombo, action?: GameAction) => (
-  <div>
-    Action:
-    {action?.name}
+const FaceCombo = (combo: RollCombo) => (
+  <div className="face-combo">
+    {combo.length}
+    d
+    {combo[0].faces}
   </div>
 );
+
+const ActionCombo = (combo: RollCombo, action?: GameAction) => {
+  const staticValue = combo.filter((x) => x.static).reduce((sum, x) => sum + x.faces, 0);
+  const faceComboDict = RollComboHelper.groupByFaces(combo.filter((x) => !x.static));
+
+  return (
+    <div className="action-combo">
+      <span>{ action?.name || 'Custom' }</span>
+
+      <div className="face-combos">
+        <span>{staticValue}</span>
+        {Object.keys(faceComboDict).map((x) => (
+          FaceCombo(faceComboDict[Number(x)])
+        ))}
+      </div>
+    </div>
+  );
+};
 
 interface ActionRollDialogProps {
   combo: RollCombo;

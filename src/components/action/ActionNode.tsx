@@ -33,7 +33,7 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
           <div className="content">
             {node.action.roll && (
               <ActionNodeContent
-                combo={RollComboParser.parse(node.action.roll)}
+                combo={RollComboParser.parse(node.action.roll, node.action.id)}
               />
             )}
           </div>

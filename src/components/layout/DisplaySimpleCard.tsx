@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import GameObject from '../../models/objects/game-object';
 import { selectObjectActions, setAction } from '../../store/configuration-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -10,6 +11,7 @@ interface DisplaySimpleCardProps {
 
 const DisplaySimpleCard = ({ gameObject }: DisplaySimpleCardProps) => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const actions = useAppSelector(selectObjectActions(gameObject.id));
 
   return (
@@ -26,7 +28,7 @@ const DisplaySimpleCard = ({ gameObject }: DisplaySimpleCardProps) => {
                   key={action.id}
                   className="action"
                   type="button"
-                  onClick={() => dispatch(setAction(action))}
+                  onClick={() => { dispatch(setAction(action)); history.push('./action'); }}
                 >
                   {action.name}
                 </button>

@@ -1,9 +1,9 @@
 import RollCombo from './roll-combo';
 
 export default class RollComboParser {
-  static parse(comboString: string): RollCombo {
+  static parse(comboString: string, actionId: string): RollCombo {
     const parts = this.getParts(comboString);
-    const parsedCombos = parts.map((x) => this.parsePart(x));
+    const parsedCombos = parts.map((x) => this.parsePart(x, actionId));
     const combo = parsedCombos.reduce((arr, x) => arr.concat(x), []);
     return combo;
   }
@@ -14,11 +14,12 @@ export default class RollComboParser {
       .filter((x) => x !== '');
   }
 
-  static parsePart(part: string): RollCombo {
+  static parsePart(part: string, actionId: string): RollCombo {
     const isStatic = !part.includes('d');
 
     if (isStatic) {
       return [{
+        actionId,
         static: true,
         faces: Number(part.replace('+', '')),
       }];
@@ -31,6 +32,7 @@ export default class RollComboParser {
     return new Array(amount)
       .fill(0)
       .map(() => ({
+        actionId,
         faces,
       }));
   }
