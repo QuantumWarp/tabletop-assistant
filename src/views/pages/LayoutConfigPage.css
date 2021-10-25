@@ -9,3 +9,15 @@
 .layout-config-page .layout-config-content {
   padding: 30px;
 }
+
+.layout-config-page .layout-config-controls {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding:  0 20px 0 0;
+}
+
+.layout-config-page .icon-buttons {
+  display: flex;
+  align-items: center;
+}

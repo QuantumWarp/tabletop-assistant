@@ -4,7 +4,7 @@ import {
   Tab,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { selectLayoutIndex, selectLayouts, setLayoutIndex } from '../../store/configuration-slice';
+import { selectCurrentLayout, selectLayouts, setCurrentLayoutId } from '../../store/configuration-slice';
 import LayoutContainer from '../../components/layout/LayoutContainer';
 import TopBar from '../../components/common/TopBar';
 import './LayoutPage.css';
@@ -12,22 +12,21 @@ import './LayoutPage.css';
 const LayoutPage = () => {
   const dispatch = useAppDispatch();
   const layouts = useAppSelector(selectLayouts);
-  const layoutIndex = useAppSelector(selectLayoutIndex);
-  const currentLayout = layouts && layouts[layoutIndex];
+  const currentLayout = useAppSelector(selectCurrentLayout);
 
   return (
     <div className="layout-page">
       <TopBar title="Layout">
         <Tabs
-          value={layoutIndex}
-          onChange={(_e, val) => dispatch(setLayoutIndex(val))}
+          value={currentLayout?.id}
+          onChange={(_e, val) => dispatch(setCurrentLayoutId(val))}
           centered
         >
-          {layouts?.map((tab, index) => (
+          {layouts?.map((layout) => (
             <Tab
-              key={tab.id}
-              label={tab.name}
-              value={index}
+              key={layout.id}
+              label={layout.name}
+              value={layout.id}
             />
           ))}
         </Tabs>

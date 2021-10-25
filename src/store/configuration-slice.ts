@@ -10,15 +10,16 @@ import GameAction from '../models/objects/game-action';
 import ActionTree, { ActionTreeHelper } from '../models/objects/action-tree';
 import HistoryEntry from '../models/history/history-entry';
 import Note from '../models/notes/note';
+import LayoutTab from '../models/layout/layout-tab';
 
 interface ConfigurationState {
+  currentLayoutId: string;
   configuration: Configuration | null;
-  layoutIndex: number;
   actionTree: ActionTree;
 }
 
 const initialState: ConfigurationState = {
-  layoutIndex: 0,
+  currentLayoutId: '',
   configuration: null,
   actionTree: [],
 };
@@ -29,9 +30,10 @@ export const configurationSlice = createSlice({
   reducers: {
     setConfiguration(state, action: PayloadAction<Configuration | null>) {
       state.configuration = action.payload;
+      state.currentLayoutId = state.configuration?.layouts[0].id || '';
     },
-    setLayoutIndex(state, action: PayloadAction<number>) {
-      state.layoutIndex = action.payload;
+    setCurrentLayoutId(state, action: PayloadAction<string>) {
+      state.currentLayoutId = action.payload;
     },
 
     // GameObjects
@@ -68,10 +70,37 @@ export const configurationSlice = createSlice({
         .filter((x) => x.id !== action.payload);
     },
 
+    // Layouts
+    addLayout(state, action: PayloadAction<LayoutTab>) {
+      if (!state.configuration) return;
+      state.configuration.layouts.push(action.payload);
+      state.currentLayoutId = action.payload.id;
+    },
+    deleteLayout(state, action: PayloadAction<string>) {
+      if (!state.configuration) return;
+      state.configuration.layouts = state.configuration.layouts
+        .filter((x) => x.id !== action.payload);
+      state.currentLayoutId = state.configuration?.layouts[0].id || '';
+    },
+    moveLayout(state, action: PayloadAction<{ id: string, index: number }>) {
+      if (!state.configuration) return;
+
+      const endIndex = action.payload.index;
+      if (endIndex < 0 || endIndex >= state.configuration.layouts.length) return;
+
+      const startIndex = state.configuration.layouts.findIndex((x) => x.id === action.payload.id);
+      if (startIndex === endIndex) return;
+
+      const layout = state.configuration.layouts[startIndex];
+      state.configuration.layouts.splice(startIndex, 1);
+      state.configuration.layouts.splice(endIndex, 0, layout);
+    },
+
     // LayoutEntry
     upsertEntry(state, action: PayloadAction<LayoutEntry>) {
       if (!state.configuration) return;
-      const tab = state.configuration.layouts[state.layoutIndex];
+      const tab = state.configuration.layouts.find((x) => x.id === state.currentLayoutId);
+      if (!tab) return;
       const currentEntryIndex = tab.entries
         .findIndex((x) => x.id === action.payload.id);
 
@@ -83,14 +112,16 @@ export const configurationSlice = createSlice({
     },
     updateEntryPosition(state, action: PayloadAction<LayoutPositionUpdate>) {
       if (!state.configuration) return;
-      const tab = state.configuration.layouts[state.layoutIndex];
+      const tab = state.configuration.layouts.find((x) => x.id === state.currentLayoutId);
+      if (!tab) return;
       const entry = tab.entries.find((x) => x.id === action.payload.entryId);
       if (!entry) return;
       entry.position = LayoutPositionHelper.updatePositionAndSize(entry.position, action.payload);
     },
     deleteEntry(state, action: PayloadAction<string>) {
       if (!state.configuration) return;
-      const tab = state.configuration.layouts[state.layoutIndex];
+      const tab = state.configuration.layouts.find((x) => x.id === state.currentLayoutId);
+      if (!tab) return;
       tab.entries = tab.entries.filter((x) => x.id !== action.payload);
     },
 
@@ -143,12 +174,16 @@ export const configurationSlice = createSlice({
 
 export const {
   setConfiguration,
-  setLayoutIndex,
+  setCurrentLayoutId,
 
   upsertObject,
   deleteObject,
   upsertAction,
   deleteAction,
+
+  addLayout,
+  deleteLayout,
+  moveLayout,
 
   upsertEntry,
   updateEntryPosition,
@@ -164,14 +199,16 @@ export const {
 } = configurationSlice.actions;
 
 export const selectConfiguration = (state: RootState) => state.configuration.configuration;
-export const selectLayouts = (state: RootState) => state.configuration.configuration?.layouts;
+export const selectLayouts = (state: RootState) => state.configuration.configuration
+  ?.layouts;
 export const selectGameObjects = (state: RootState) => state.configuration.configuration?.objects
   || [];
 export const selectActions = (state: RootState) => state.configuration.configuration?.actions || [];
 export const selectObjectActions = (objectId: string) => (state: RootState) => selectActions(state)
   ?.filter((x) => x.objectId === objectId);
 export const selectHistory = (state: RootState) => state.configuration.configuration?.history || [];
-export const selectLayoutIndex = (state: RootState) => state.configuration.layoutIndex;
+export const selectCurrentLayout = (state: RootState) => state.configuration.configuration?.layouts
+  .find((x) => x.id === state.configuration.currentLayoutId);
 export const selectActionTree = (state: RootState) => state.configuration.actionTree;
 export const selectNotes = (state: RootState) => state.configuration.configuration?.notes || [];
 

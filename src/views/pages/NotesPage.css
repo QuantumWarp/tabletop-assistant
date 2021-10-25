@@ -13,7 +13,7 @@
   flex: 1;
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
+  padding:  0 20px 0 0;
 }
 
 .notes-page .notes-controls :first-child {
