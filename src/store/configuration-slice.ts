@@ -71,10 +71,17 @@ export const configurationSlice = createSlice({
     },
 
     // Layouts
-    addLayout(state, action: PayloadAction<LayoutTab>) {
+    upsertLayout(state, action: PayloadAction<LayoutTab>) {
       if (!state.configuration) return;
-      state.configuration.layouts.push(action.payload);
-      state.currentLayoutId = action.payload.id;
+      const currentLayoutIndex = state.configuration.layouts
+        .findIndex((x) => x.id === action.payload.id);
+
+      if (currentLayoutIndex !== -1) {
+        state.configuration.layouts[currentLayoutIndex] = action.payload;
+      } else {
+        state.configuration.layouts.push(action.payload);
+        state.currentLayoutId = action.payload.id;
+      }
     },
     deleteLayout(state, action: PayloadAction<string>) {
       if (!state.configuration) return;
@@ -181,7 +188,7 @@ export const {
   upsertAction,
   deleteAction,
 
-  addLayout,
+  upsertLayout,
   deleteLayout,
   moveLayout,
 

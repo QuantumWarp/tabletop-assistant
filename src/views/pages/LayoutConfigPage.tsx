@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Tabs,
   Tab,
   IconButton,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/AddCircle';
 import LeftIcon from '@mui/icons-material/ArrowLeft';
 import RightIcon from '@mui/icons-material/ArrowRight';
 import LayoutConfigContainer from '../../components/layout-config/LayoutConfigContainer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import {
-  deleteLayout,
   moveLayout, selectCurrentLayout, selectLayouts, setCurrentLayoutId,
 } from '../../store/configuration-slice';
 import TopBar from '../../components/common/TopBar';
 import './LayoutConfigPage.css';
+import LayoutConfigTabDialog from '../../components/layout-config/LayoutConfigTabDialog';
+import LayoutTab from '../../models/layout/layout-tab';
 
 const LayoutConfigPage = () => {
   const dispatch = useAppDispatch();
+  const [editLayout, setEditLayout] = useState<Partial<LayoutTab> | null>(null);
+
   const layouts = useAppSelector(selectLayouts);
   const currentLayout = useAppSelector(selectCurrentLayout);
   const currentIndex = currentLayout && layouts?.indexOf(currentLayout);
@@ -66,19 +69,27 @@ const LayoutConfigPage = () => {
               </IconButton>
 
               <IconButton
-                color="error"
-                title="Delete Layout"
-                onClick={() => dispatch(deleteLayout(currentLayout.id))}
+                title="Edit Layout"
+                onClick={() => setEditLayout(currentLayout)}
               >
-                <DeleteIcon />
+                <EditIcon />
               </IconButton>
 
               <IconButton
                 color="primary"
                 title="New Layout"
+                onClick={() => setEditLayout({})}
               >
                 <AddIcon />
               </IconButton>
+
+              {editLayout && (
+                <LayoutConfigTabDialog
+                  layout={editLayout}
+                  open={Boolean(editLayout)}
+                  onClose={() => setEditLayout(null)}
+                />
+              )}
             </div>
           )}
         </div>
