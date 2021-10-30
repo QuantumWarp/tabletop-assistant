@@ -154,6 +154,9 @@ export const configurationSlice = createSlice({
         rollResult: result,
       });
     },
+    clearAction(state) {
+      state.actionTree = [];
+    },
 
     // Notes
     upsertNote(state, action: PayloadAction<Note>) {
@@ -212,6 +215,7 @@ export const {
 
   setAction,
   rollAction,
+  clearAction,
 
   upsertNote,
   deleteNote,

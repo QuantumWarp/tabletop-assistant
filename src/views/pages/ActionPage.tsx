@@ -1,12 +1,15 @@
 import { Button } from '@mui/material';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import ActionNode from '../../components/action/ActionNode';
 import TopBar from '../../components/common/TopBar';
-import { selectActionTree } from '../../store/configuration-slice';
-import { useAppSelector } from '../../store/store';
+import { clearAction, selectActionTree } from '../../store/configuration-slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import './ActionPage.css';
 
 const ActionPage = () => {
+  const history = useHistory();
+  const dispatch = useAppDispatch();
   const actionTree = useAppSelector(selectActionTree);
 
   return (
@@ -16,8 +19,17 @@ const ActionPage = () => {
           <Button
             variant="outlined"
           >
-            Finished
+            Custom Roll
           </Button>
+
+          {actionTree.length > 0 && (
+            <Button
+              variant="outlined"
+              onClick={() => { dispatch(clearAction()); history.push('./layout'); }}
+            >
+              Finish
+            </Button>
+          )}
         </div>
       </TopBar>
 
