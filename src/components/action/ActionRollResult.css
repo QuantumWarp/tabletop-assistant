@@ -1,0 +1,36 @@
+.action-roll-result {
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 28px;
+  font-weight: bold;
+  padding: 0 8px;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.action-roll-result .static {
+
+}
+
+.action-roll-result .combo {
+
+}
+
+.action-roll-result .combo .sign {
+  
+}
+
+.action-roll-result .combo .result {
+  
+}
+.action-roll-result .combo .lowest {
+  color: red;
+}
+.action-roll-result .combo.highest {
+  color: green;
+}
+
+.action-roll-result .combo .faces {
+  
+}
