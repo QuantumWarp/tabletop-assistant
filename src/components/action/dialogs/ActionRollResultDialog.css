@@ -9,28 +9,9 @@
   cursor: pointer;
 }
 
-.action-roll-result .static {
-
-}
-
-.action-roll-result .combo {
-
-}
-
-.action-roll-result .combo .sign {
-  
-}
-
-.action-roll-result .combo .result {
-  
-}
 .action-roll-result .combo .lowest {
   color: red;
 }
 .action-roll-result .combo.highest {
   color: green;
-}
-
-.action-roll-result .combo .faces {
-  
 }

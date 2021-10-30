@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
-import ActionRollDialog from './ActionRollDialog';
-import './ActionRollContent.css';
+import RollCombo, { RollComboHelper } from '../../../models/rolling/roll-combo';
+import ActionRollDialog from '../dialogs/ActionRollDialog';
+import './ActionRoll.css';
 
-interface ActionNodeContentProps {
+interface ActionRollProps {
   combo: RollCombo;
 }
 
-const ActionNodeContent = ({ combo }: ActionNodeContentProps) => {
+const ActionRoll = ({ combo }: ActionRollProps) => {
   const [editCombo, setEditCombo] = useState<boolean | null>(null);
 
   const staticValue = combo.filter((x) => x.static).reduce((sum, x) => sum + x.faces, 0);
@@ -15,7 +15,7 @@ const ActionNodeContent = ({ combo }: ActionNodeContentProps) => {
 
   return (
     <>
-      <div className="action-roll-content" onClick={() => setEditCombo(true)}>
+      <div className="action-roll" onClick={() => setEditCombo(true)}>
         <span className="static">{staticValue}</span>
         {Object.keys(faceComboDict).map((x) => (
           <span className="face-combo">
@@ -36,4 +36,4 @@ const ActionNodeContent = ({ combo }: ActionNodeContentProps) => {
   );
 };
 
-export default ActionNodeContent;
+export default ActionRoll;

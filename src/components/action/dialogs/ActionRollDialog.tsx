@@ -6,11 +6,11 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import Note from '../../models/notes/note';
-import { useAppSelector } from '../../store/store';
-import { selectActions } from '../../store/configuration-slice';
-import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
-import GameAction from '../../models/objects/game-action';
+import Note from '../../../models/notes/note';
+import { useAppSelector } from '../../../store/store';
+import { selectActions } from '../../../store/configuration-slice';
+import RollCombo, { RollComboHelper } from '../../../models/rolling/roll-combo';
+import GameAction from '../../../models/objects/game-action';
 import './ActionRollDialog.css';
 
 const FaceCombo = (combo: RollCombo) => (

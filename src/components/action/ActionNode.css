@@ -1,67 +1,33 @@
 .action-node {
   display: flex;
 }
-.action-node .action {
-  width: 500px;
-  height: 80px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  display: flex;
-}
-.action-node .results {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
+.action-node.level0:not(:first-child) {
+  margin-top: 20px;
 }
 
-.action-node .icon {
+.action-node .left {
+  max-width: 400px;
+  width: 400px;
+}
+
+.action-node .center {
+  max-width: 100px;
+  width: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-}
-.action-node .icon > * {
-  width: 60%;
-  height: 100%;
 }
 
-.action-node .middle {
-  padding: 4px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.action-node .center .button {
+  height: 80%;
+  width: 80%;
+}
+.action-node .center .button * {
+  height: 30px;
+  width: 30px;
 }
 
-.action-node .middle .title {
-  font-weight: bold;
-}
-
-.action-node .middle .content {
-  flex: 1;
-}
-
-.action-node .button {
-  cursor: pointer;
-  width: 60px;
-  border-left: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0;
-  padding-top: 10px;
-  overflow: hidden;
-}
-
-.action-node .button > .roll {
-  height: 40%;
-  width: 100%;
-}
-
-.action-node .button > .arrow {
-  margin-top: -8px;
-  height: 40%;
-  width: 100%;
+.action-node .right {
+  max-width: 250px;
+  width: 250px;
 }

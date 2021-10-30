@@ -56,13 +56,15 @@ export class ActionTreeHelper {
   }
 
   static findNode(tree: ActionTree, actionId: string): ActionTreeNode {
-    const matches = tree.reduce((arr, node) => {
+    return this.findNodes(tree, actionId)[0];
+  }
+
+  static findNodes(tree: ActionTree, actionId: string): ActionTreeNode[] {
+    return tree.reduce((arr, node) => {
       const match = node.action.id === actionId;
       return arr
         .concat(match ? [node] : [])
-        .concat(this.findNode(node.children, actionId));
+        .concat(this.findNodes(node.children, actionId));
     }, [] as ActionTree);
-
-    return matches[0];
   }
 }

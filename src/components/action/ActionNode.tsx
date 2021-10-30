@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@mui/material';
 import {
   Casino as RollIcon,
   ArrowRightAlt as ArrowRightIcon,
 } from '@mui/icons-material';
 import { ActionTreeNode } from '../../models/objects/action-tree';
-import RollComboParser from '../../models/rolling/roll-combo-parser';
-import { rollAction, selectGameObjects } from '../../store/configuration-slice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import TabletopIcon from '../common/TabletopIcon';
+import { rollAction } from '../../store/configuration-slice';
+import { useAppDispatch } from '../../store/store';
+import ActionNodeLeft from './ActionNodeLeft';
+import ActionNodeRight from './ActionNodeRight';
 import './ActionNode.css';
-import ActionNodeContent from './ActionRollContent';
-import ActionRollResult from './ActionRollResult';
 
 interface ActionNodeProps {
   level: number;
@@ -20,59 +18,30 @@ interface ActionNodeProps {
 
 const ActionNode = ({ level, node }: ActionNodeProps) => {
   const dispatch = useAppDispatch();
-  const [selectedResult, setSelectedResult] = useState(0);
-
-  const gameObjects = useAppSelector(selectGameObjects);
-  const gameObject = gameObjects.find((x) => x.id === node.action.objectId);
-  const icon = node.action.icon || gameObject?.icon;
 
   return (
     <>
-      <div className="action-node">
-        <div
-          style={{ marginLeft: `${level * 20}px` }}
-          className="action"
-        >
-          {icon && (
-            <div className="icon">
-              <TabletopIcon icon={icon} />
-            </div>
-          )}
+      <div className={`action-node${level === 0 ? ' level0' : ''}`}>
+        <div className="left">
+          <ActionNodeLeft level={level} node={node} />
+        </div>
 
-          <div className="middle">
-            <div className="title">
-              {gameObject?.name}
-              {' - '}
-              {node.action.name}
-            </div>
-
-            <div className="content">
-              {node.action.roll && (
-                <ActionNodeContent
-                  combo={RollComboParser.parse(node.action.roll, node.action.id)}
-                />
-              )}
-            </div>
-          </div>
-
-          {node.action.roll && (
-            <Button className="button" onClick={() => dispatch(rollAction(node.action.id))}>
-              <RollIcon className="roll" />
-              <ArrowRightIcon className="arrow" />
+        <div className="center">
+          {node.combo && (
+            <Button
+              className="button"
+              onClick={() => dispatch(rollAction(node.action.id))}
+            >
+              <RollIcon />
+              <ArrowRightIcon />
             </Button>
           )}
         </div>
 
-        <div className="results">
-          {node.combo && [...node.results].reverse().map((res, index) => (
-            <ActionRollResult
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              expanded={selectedResult === index}
-              combo={res}
-              onClick={() => setSelectedResult(index)}
-            />
-          ))}
+        <div className="right">
+          {node.combo && (
+            <ActionNodeRight node={node} />
+          )}
         </div>
       </div>
 

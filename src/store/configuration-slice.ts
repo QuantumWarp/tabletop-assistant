@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { v4 as guid } from 'uuid';
 import Configuration from '../models/configuration';
 import LayoutEntry from '../models/layout/layout-entry';
 import GameObject from '../models/objects/game-object';
@@ -145,7 +146,13 @@ export const configurationSlice = createSlice({
       if (!state.configuration) return;
       const node = ActionTreeHelper.findNode(state.actionTree, action.payload);
       if (!node.combo) return;
-      node.results.push(RollComboHelper.roll(node.combo));
+      const result = RollComboHelper.roll(node.combo);
+      node.results.push(result);
+      state.configuration.history.push({
+        id: guid(),
+        date: Date.now(),
+        rollResult: result,
+      });
     },
 
     // Notes
