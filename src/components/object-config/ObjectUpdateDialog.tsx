@@ -78,7 +78,10 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
           onChange={(e) => setIcon(e.target.value)}
         >
           {Object.values(TabletopIconType).map((x) => (
-            <MenuItem value={x}>
+            <MenuItem
+              key={x}
+              value={x}
+            >
               <TabletopIcon icon={x as TabletopIconType} />
               {x}
             </MenuItem>
@@ -131,7 +134,7 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
           onChange={(e) => setText(e.target.value)}
         />
 
-        <FormControlLabel control={<Checkbox value={disabled} onChange={(e) => setDisabled(e.target.checked)} />} label="Manual" />
+        <FormControlLabel control={<Checkbox value={disabled} onChange={(e) => setDisabled(e.target.checked)} />} label="Disabled" />
       </DialogContent>
 
       <DialogActions>

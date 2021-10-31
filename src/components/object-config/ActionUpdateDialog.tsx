@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { v4 as guid } from 'uuid';
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   MenuItem,
   Select,
   TextField,
@@ -19,6 +20,8 @@ import {
 } from '../../store/configuration-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
+import ActionTrigger from '../../models/objects/action-trigger';
+import ActionTriggerUpdateDialog from './ActionTriggerUpdateDialog';
 
 interface ActionUpdateDialogProps {
   action?: Partial<GameAction>;
@@ -32,19 +35,22 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
   const gameObjects = useAppSelector(selectGameObjects);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [editTrigger, setEditTrigger] = useState<ActionTrigger | undefined>();
 
   const [name, setName] = useState(action.name || '');
   const [icon, setIcon] = useState(action.icon || '');
   const [roll, setRoll] = useState(action.roll || '');
   const [objectId, setObjectId] = useState(action.objectId || '');
+  const [triggers, setTriggers] = useState(action.triggers || []);
 
   const saveAction = () => {
     const updatedAction = {
       id: action?.id || guid(),
       name,
       icon: icon as TabletopIconType,
+      roll,
       objectId,
-      triggers: action?.triggers || [],
+      triggers,
     };
     dispatch(upsertAction(updatedAction));
     onClose(updatedAction);
@@ -74,7 +80,7 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
           onChange={(e) => setObjectId(e.target.value)}
         >
           {gameObjects.map((x) => (
-            <MenuItem value={x.id}>{x.name}</MenuItem>
+            <MenuItem key={x.id} value={x.id}>{x.name}</MenuItem>
           ))}
         </Select>
 
@@ -86,7 +92,10 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
           onChange={(e) => setIcon(e.target.value)}
         >
           {Object.values(TabletopIconType).map((x) => (
-            <MenuItem value={x}>
+            <MenuItem
+              key={x}
+              value={x}
+            >
               <TabletopIcon icon={x as TabletopIconType} />
               {x}
             </MenuItem>
@@ -103,28 +112,46 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
 
         Triggers
 
-        {action.triggers?.map(() => (
-          <div className="trigger-row">
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Manual" />
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Sibling" />
-            <Select
-              fullWidth
-              label="Action"
-              variant="standard"
+        <Button onClick={() => setEditTrigger({})}>
+          Add
+        </Button>
+
+        {editTrigger && (
+          <ActionTriggerUpdateDialog
+            open={Boolean(editTrigger)}
+            trigger={editTrigger}
+            onDelete={() => setTriggers(triggers.filter((x) => x !== editTrigger))}
+            onClose={(updated) => {
+              const index = triggers.indexOf(editTrigger);
+              setEditTrigger(undefined);
+              if (!updated) return;
+              const array = [...triggers];
+              if (index === -1) array.push(updated);
+              else array[index] = updated;
+              setTriggers(array);
+            }}
+          />
+        )}
+
+        {triggers.map((trigger) => {
+          const triggerAction = gameActions.find((x) => x.id === trigger.actionId);
+          const triggerObj = gameObjects.find((x) => x.id === triggerAction?.objectId);
+          const text = `${triggerAction?.name} (${triggerObj?.name})
+${trigger.manual ? ' - Manual' : ''}
+${trigger.sibling ? ' - Sibling' : ''}`;
+
+          return (
+            <ListItem
+              dense
+              key={trigger.manual ? 'manual' : trigger.actionId}
+              className="trigger-row"
             >
-              {gameActions.map((act) => {
-                const obj = gameObjects.find((x) => x.id === act.objectId);
-                return (
-                  <MenuItem value={act.id}>
-                    {obj?.name}
-                    {' - '}
-                    {act.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </div>
-        ))}
+              <ListItemButton onClick={() => setEditTrigger(trigger)}>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
       </DialogContent>
 
       <DialogActions>

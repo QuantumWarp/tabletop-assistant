@@ -42,7 +42,10 @@ const ActionList = ({ filter }: ActionListProps) => {
           const obj = gameObjects.find((x) => x.id === action.objectId);
 
           return (
-            <ListItem disablePadding>
+            <ListItem
+              key={action.id}
+              disablePadding
+            >
               <ListItemButton onClick={() => setEditAction(action)}>
                 <ListItemText primary={`${action.name || 'Action'} (${obj?.name})`} />
               </ListItemButton>

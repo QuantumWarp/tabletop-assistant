@@ -34,7 +34,10 @@ const ObjectList = ({ filter }: ObjectListProps) => {
 
       <List>
         {filteredObjs.map((obj) => (
-          <ListItem disablePadding>
+          <ListItem
+            key={obj.id}
+            disablePadding
+          >
             <ListItemButton onClick={() => setEditObject(obj)}>
               <ListItemText primary={obj.name} />
             </ListItemButton>
