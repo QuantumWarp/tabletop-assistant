@@ -30,7 +30,10 @@ const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialog
         <span className="total">{RollComboHelper.totalValue(combo)}</span>
         <span className="static">{RollComboHelper.totalValue(staticResults)}</span>
         {nonStaticResults.map((x) => (
-          <span className="combo">
+          <span
+            key={x.id}
+            className="combo"
+          >
             <span className="sign">+</span>
             <span
               className={`result${x.result === 1 ? ' lowest' : ''}${x.result === x.faces ? ' highest' : ''}`}

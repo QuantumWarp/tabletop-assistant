@@ -1,4 +1,7 @@
+import { v4 as guid } from 'uuid';
+
 interface RollComboEntry {
+  id: string;
   actionId?: string;
   static?: boolean;
   staticObjectId?: string;
@@ -14,6 +17,7 @@ export default RollCombo;
 export class RollComboHelper {
   static roll(combo: RollCombo): RollCombo {
     return combo.map((x) => ({
+      id: guid(),
       actionId: x.actionId,
       static: x.static,
       faces: x.faces,
@@ -23,6 +27,7 @@ export class RollComboHelper {
 
   static clone(combo: RollCombo, includeResult = false): RollCombo {
     return combo.map((x) => ({
+      id: guid(),
       actionId: x.actionId,
       static: x.static,
       faces: x.faces,

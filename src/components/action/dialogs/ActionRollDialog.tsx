@@ -14,7 +14,10 @@ import GameAction from '../../../models/objects/game-action';
 import './ActionRollDialog.css';
 
 const FaceCombo = (combo: RollCombo) => (
-  <div className="face-combo">
+  <div
+    key={combo.map((entry) => entry.id).join(',')}
+    className="face-combo"
+  >
     {combo.length}
     d
     {combo[0].faces}
@@ -26,7 +29,10 @@ const ActionCombo = (combo: RollCombo, action?: GameAction) => {
   const faceComboDict = RollComboHelper.groupByFaces(combo.filter((x) => !x.static));
 
   return (
-    <div className="action-combo">
+    <div
+      key={combo.map((entry) => entry.id).join(',')}
+      className="action-combo"
+    >
       <span>{ action?.name || 'Custom' }</span>
 
       <div className="face-combos">

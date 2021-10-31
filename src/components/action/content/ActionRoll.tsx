@@ -18,7 +18,10 @@ const ActionRoll = ({ combo }: ActionRollProps) => {
       <div className="action-roll" onClick={() => setEditCombo(true)}>
         <span className="static">{staticValue}</span>
         {Object.keys(faceComboDict).map((x) => (
-          <span className="face-combo">
+          <span
+            key={faceComboDict[Number(x)].map((entry) => entry.id).join(',')}
+            className="face-combo"
+          >
             <span className="sign">+</span>
             <span className="amount">{faceComboDict[Number(x)].length}</span>
             <span className="d">d</span>

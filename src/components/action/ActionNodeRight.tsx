@@ -13,13 +13,12 @@ const ActionNodeRight = ({ node }: ActionNodeRightProps) => {
 
   return (
     <div className="action-node-right">
-      {[...node.results].reverse().map((res, index) => {
+      {[...node.results].reverse().map((res) => {
         const { min, max } = RollComboHelper.hasMinMax(res);
 
         return (
           <div
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
+            key={res.map((x) => x.id).join(',')}
             className={`result${min ? ' min' : ''}${max ? ' max' : ''}`}
             onClick={() => setEditComboResult(res)}
           >

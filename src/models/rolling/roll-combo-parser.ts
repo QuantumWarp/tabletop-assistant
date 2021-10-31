@@ -1,3 +1,4 @@
+import { v4 as guid } from 'uuid';
 import RollCombo from './roll-combo';
 
 export default class RollComboParser {
@@ -19,6 +20,7 @@ export default class RollComboParser {
 
     if (isStatic) {
       return [{
+        id: guid(),
         actionId,
         static: true,
         faces: Number(part.replace('+', '')),
@@ -32,6 +34,7 @@ export default class RollComboParser {
     return new Array(amount)
       .fill(0)
       .map(() => ({
+        id: guid(),
         actionId,
         faces,
       }));
