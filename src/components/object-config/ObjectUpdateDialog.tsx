@@ -6,12 +6,15 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
+  Select,
   TextField,
 } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
 import { deleteObject, upsertObject } from '../../store/configuration-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
+import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 
 interface ObjectUpdateDialogProps {
   gameObject?: Partial<GameObject>;
@@ -25,6 +28,7 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(gameObject.name || '');
+  const [icon, setIcon] = useState(gameObject.icon || '');
   const [value, setValue] = useState(gameObject.value || '');
   const [description, setDescription] = useState(gameObject.description || '');
 
@@ -32,6 +36,7 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
     const updatedObject = {
       id: gameObject?.id || guid(),
       name,
+      icon: icon as TabletopIconType,
       value,
       description,
     };
@@ -51,6 +56,23 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          fullWidth
+          label="Icon"
+          variant="standard"
+          value={icon}
+          onChange={(e) => setIcon(e.target.value)}
+        >
+          {Object.values(TabletopIconType).map((x) => (
+            <MenuItem value={x}>
+              <TabletopIcon icon={x as TabletopIconType} />
+              {x}
+            </MenuItem>
+          ))}
+        </Select>
 
         <TextField
           fullWidth

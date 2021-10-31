@@ -14,6 +14,7 @@ import GameAction from '../../models/objects/game-action';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { deleteAction, selectGameObjects, upsertAction } from '../../store/configuration-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
+import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 
 interface ActionUpdateDialogProps {
   action?: Partial<GameAction>;
@@ -28,12 +29,14 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(action.name || '');
+  const [icon, setIcon] = useState(action.icon || '');
   const [objectId, setObjectId] = useState(action.objectId || '');
 
   const saveAction = () => {
     const updatedAction = {
       id: action?.id || guid(),
       name,
+      icon: icon as TabletopIconType,
       objectId,
       triggers: action?.triggers || [],
     };
@@ -66,6 +69,23 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
         >
           {gameObjects.map((x) => (
             <MenuItem value={x.id}>{x.name}</MenuItem>
+          ))}
+        </Select>
+
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          fullWidth
+          label="Icon"
+          variant="standard"
+          value={icon}
+          onChange={(e) => setIcon(e.target.value)}
+        >
+          {Object.values(TabletopIconType).map((x) => (
+            <MenuItem value={x}>
+              <TabletopIcon icon={x as TabletopIconType} />
+              {x}
+            </MenuItem>
           ))}
         </Select>
       </DialogContent>
