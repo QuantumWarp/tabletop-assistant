@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { v4 as guid } from 'uuid';
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   MenuItem,
   Select,
   TextField,
@@ -29,16 +31,27 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
 
   const [name, setName] = useState(gameObject.name || '');
   const [icon, setIcon] = useState(gameObject.icon || '');
-  const [value, setValue] = useState(gameObject.value || '');
   const [description, setDescription] = useState(gameObject.description || '');
+
+  const [value, setValue] = useState(gameObject.fields?.value);
+  const [maxValue, setMaxValue] = useState(gameObject.fields?.maxValue);
+  const [title, setTitle] = useState(gameObject.fields?.title);
+  const [text, setText] = useState(gameObject.fields?.text);
+  const [disabled, setDisabled] = useState(gameObject.fields?.disabled);
 
   const saveObject = () => {
     const updatedObject = {
       id: gameObject?.id || guid(),
       name,
       icon: icon as TabletopIconType,
-      value,
       description,
+      fields: {
+        value,
+        maxValue,
+        title,
+        text,
+        disabled,
+      },
     };
     dispatch(upsertObject(updatedObject));
     onClose(updatedObject);
@@ -74,14 +87,6 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
 
         <TextField
           fullWidth
-          label="Value"
-          variant="standard"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-
-        <TextField
-          fullWidth
           label="Description"
           variant="standard"
           multiline
@@ -89,6 +94,44 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
+        Fields
+
+        <TextField
+          fullWidth
+          type="number"
+          label="Value"
+          variant="standard"
+          value={value}
+          onChange={(e) => setValue(Number(e.target.value))}
+        />
+
+        <TextField
+          fullWidth
+          type="number"
+          label="Max Value"
+          variant="standard"
+          value={maxValue}
+          onChange={(e) => setMaxValue(Number(e.target.value))}
+        />
+
+        <TextField
+          fullWidth
+          label="Title"
+          variant="standard"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
+        <TextField
+          fullWidth
+          label="Text"
+          variant="standard"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+
+        <FormControlLabel control={<Checkbox value={disabled} onChange={(e) => setDisabled(e.target.checked)} />} label="Manual" />
       </DialogContent>
 
       <DialogActions>

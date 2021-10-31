@@ -24,7 +24,7 @@ const DisplaySimpleToggle = ({ gameObject }: DisplaySimpleToggleProps) => {
       onClick={dispatchFirstAction}
     >
       <div className="title">
-        {gameObject.name}
+        {gameObject.fields.title || gameObject.name}
       </div>
     </div>
   );

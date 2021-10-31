@@ -28,10 +28,10 @@ const DisplaySimpleCard = ({ gameObject }: DisplaySimpleCardProps) => {
 
         <div className="content">
           <div className="header">
-            {gameObject.name}
+            {gameObject.fields.title || gameObject.name}
           </div>
 
-          <div>{gameObject.description}</div>
+          <div>{gameObject.fields.text || gameObject.description}</div>
         </div>
 
         {firstAction && (

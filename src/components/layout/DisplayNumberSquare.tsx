@@ -10,11 +10,11 @@ const DisplayNumberSquare = ({ gameObject }: DisplayNumberSquareProps) => (
   <div className="display-number-square">
     <div className="container">
       <div className="number">
-        {gameObject.value}
+        {gameObject.fields.value}
       </div>
 
       <div className="name">
-        {gameObject.name}
+        {gameObject.fields.title || gameObject.name}
       </div>
     </div>
   </div>
