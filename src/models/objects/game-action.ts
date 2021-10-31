@@ -8,5 +8,4 @@ export default interface GameAction {
   icon?: TabletopIconType;
   name?: string;
   roll?: string;
-  macro?: string;
 }

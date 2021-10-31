@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { v4 as guid } from 'uuid';
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   MenuItem,
   Select,
   TextField,
 } from '@mui/material';
 import GameAction from '../../models/objects/game-action';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { deleteAction, selectGameObjects, upsertAction } from '../../store/configuration-slice';
+import {
+  deleteAction, selectActions, selectGameObjects, upsertAction,
+} from '../../store/configuration-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 
@@ -24,12 +28,14 @@ interface ActionUpdateDialogProps {
 
 const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogProps) => {
   const dispatch = useAppDispatch();
+  const gameActions = useAppSelector(selectActions);
   const gameObjects = useAppSelector(selectGameObjects);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(action.name || '');
   const [icon, setIcon] = useState(action.icon || '');
+  const [roll, setRoll] = useState(action.roll || '');
   const [objectId, setObjectId] = useState(action.objectId || '');
 
   const saveAction = () => {
@@ -73,8 +79,6 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
         </Select>
 
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           fullWidth
           label="Icon"
           variant="standard"
@@ -88,6 +92,39 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
             </MenuItem>
           ))}
         </Select>
+
+        <TextField
+          fullWidth
+          label="Roll"
+          variant="standard"
+          value={roll}
+          onChange={(e) => setRoll(e.target.value)}
+        />
+
+        Triggers
+
+        {action.triggers?.map(() => (
+          <div className="trigger-row">
+            <FormControlLabel control={<Checkbox defaultChecked />} label="Manual" />
+            <FormControlLabel control={<Checkbox defaultChecked />} label="Sibling" />
+            <Select
+              fullWidth
+              label="Action"
+              variant="standard"
+            >
+              {gameActions.map((act) => {
+                const obj = gameObjects.find((x) => x.id === act.objectId);
+                return (
+                  <MenuItem value={act.id}>
+                    {obj?.name}
+                    {' - '}
+                    {act.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </div>
+        ))}
       </DialogContent>
 
       <DialogActions>

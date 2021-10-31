@@ -58,8 +58,6 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
         />
 
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
           fullWidth
           label="Icon"
           variant="standard"

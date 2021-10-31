@@ -42,8 +42,7 @@ export class ActionTreeHelper {
       .filter((x) => x.triggers
         .find((trigger) => !trigger.manual
           && Boolean(trigger.sibling) === Boolean(sibling)
-          && ((trigger.actionId === action.id)
-          || (!trigger.actionId && trigger.gameObjectId === action.objectId))));
+          && trigger.actionId === action.id));
   }
 
   static createNode(action: GameAction): ActionTreeNode {
