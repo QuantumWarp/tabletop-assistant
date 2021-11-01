@@ -22,7 +22,8 @@ const MainView = () => {
   const { configurationId } = useParams<{ configurationId: string }>();
 
   useEffect(() => {
-    const config = configurations.find((x) => x.id.toString() === configurationId) || null;
+    const config = configurations.find((x) => x.id.toString() === configurationId);
+    if (!config) return;
     dispatch(setConfiguration(config));
   }, [configurationId, configurations, dispatch]);
 

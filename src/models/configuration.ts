@@ -16,3 +16,16 @@ export default interface Configuration {
   notes: Note[];
   history: HistoryEntry[];
 }
+
+export const defaultConfig: () => Configuration = () => ({
+  id: '',
+  shortName: '',
+  name: '',
+  description: '',
+  image: '',
+  layouts: [],
+  objects: [],
+  actions: [],
+  notes: [],
+  history: [],
+});

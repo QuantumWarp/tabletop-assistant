@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as guid } from 'uuid';
-import Configuration from '../models/configuration';
+import Configuration, { defaultConfig } from '../models/configuration';
 import LayoutEntry from '../models/layout/layout-entry';
 import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
@@ -16,13 +16,13 @@ import { RollComboHelper } from '../models/rolling/roll-combo';
 
 interface ConfigurationState {
   currentLayoutId: string;
-  configuration: Configuration | null;
+  configuration: Configuration;
   actionTree: ActionTree;
 }
 
 const initialState: ConfigurationState = {
   currentLayoutId: '',
-  configuration: null,
+  configuration: defaultConfig(),
   actionTree: [],
 };
 
@@ -30,7 +30,7 @@ export const configurationSlice = createSlice({
   name: 'configuration',
   initialState,
   reducers: {
-    setConfiguration(state, action: PayloadAction<Configuration | null>) {
+    setConfiguration(state, action: PayloadAction<Configuration>) {
       state.configuration = action.payload;
       state.currentLayoutId = state.configuration?.layouts[0].id || '';
     },
@@ -40,7 +40,6 @@ export const configurationSlice = createSlice({
 
     // GameObjects
     upsertObject(state, action: PayloadAction<GameObject>) {
-      if (!state.configuration) return;
       const currentNoteIndex = state.configuration.objects
         .findIndex((x) => x.id === action.payload.id);
 
@@ -51,12 +50,10 @@ export const configurationSlice = createSlice({
       }
     },
     deleteObject(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       state.configuration.objects = state.configuration.objects
         .filter((x) => x.id !== action.payload);
     },
     upsertAction(state, action: PayloadAction<GameAction>) {
-      if (!state.configuration) return;
       const currentNoteIndex = state.configuration.actions
         .findIndex((x) => x.id === action.payload.id);
 
@@ -67,14 +64,12 @@ export const configurationSlice = createSlice({
       }
     },
     deleteAction(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       state.configuration.actions = state.configuration.actions
         .filter((x) => x.id !== action.payload);
     },
 
     // Layouts
     upsertLayout(state, action: PayloadAction<LayoutTab>) {
-      if (!state.configuration) return;
       const currentLayoutIndex = state.configuration.layouts
         .findIndex((x) => x.id === action.payload.id);
 
@@ -86,14 +81,11 @@ export const configurationSlice = createSlice({
       }
     },
     deleteLayout(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       state.configuration.layouts = state.configuration.layouts
         .filter((x) => x.id !== action.payload);
       state.currentLayoutId = state.configuration?.layouts[0].id || '';
     },
     moveLayout(state, action: PayloadAction<{ id: string, index: number }>) {
-      if (!state.configuration) return;
-
       const endIndex = action.payload.index;
       if (endIndex < 0 || endIndex >= state.configuration.layouts.length) return;
 
@@ -107,7 +99,6 @@ export const configurationSlice = createSlice({
 
     // LayoutEntry
     upsertEntry(state, action: PayloadAction<LayoutEntry>) {
-      if (!state.configuration) return;
       const tab = state.configuration.layouts.find((x) => x.id === state.currentLayoutId);
       if (!tab) return;
       const currentEntryIndex = tab.entries
@@ -120,7 +111,6 @@ export const configurationSlice = createSlice({
       }
     },
     updateEntryPosition(state, action: PayloadAction<LayoutPositionUpdate>) {
-      if (!state.configuration) return;
       const tab = state.configuration.layouts.find((x) => x.id === state.currentLayoutId);
       if (!tab) return;
       const entry = tab.entries.find((x) => x.id === action.payload.entryId);
@@ -128,7 +118,6 @@ export const configurationSlice = createSlice({
       entry.position = LayoutPositionHelper.updatePositionAndSize(entry.position, action.payload);
     },
     deleteEntry(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       const tab = state.configuration.layouts.find((x) => x.id === state.currentLayoutId);
       if (!tab) return;
       tab.entries = tab.entries.filter((x) => x.id !== action.payload);
@@ -136,14 +125,12 @@ export const configurationSlice = createSlice({
 
     // Action
     setAction(state, action: PayloadAction<GameAction>) {
-      if (!state.configuration) return;
       state.actionTree = ActionTreeHelper.createActionTree(
         action.payload,
         state.configuration.actions,
       );
     },
     rollAction(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       const node = ActionTreeHelper.findNode(state.actionTree, action.payload);
       if (!node.combo) return;
       const result = RollComboHelper.roll(node.combo);
@@ -160,7 +147,6 @@ export const configurationSlice = createSlice({
 
     // Notes
     upsertNote(state, action: PayloadAction<Note>) {
-      if (!state.configuration) return;
       const currentNoteIndex = state.configuration.notes
         .findIndex((x) => x.id === action.payload.id);
 
@@ -171,14 +157,12 @@ export const configurationSlice = createSlice({
       }
     },
     deleteNote(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       state.configuration.notes = state.configuration.notes
         .filter((x) => x.id !== action.payload);
     },
 
     // History
     upsertHistory: (state, action: PayloadAction<HistoryEntry>) => {
-      if (!state.configuration) return;
       const currentHistoryIndex = state.configuration.history
         .findIndex((x) => x.id === action.payload.id);
 
@@ -189,7 +173,6 @@ export const configurationSlice = createSlice({
       }
     },
     deleteHistory(state, action: PayloadAction<string>) {
-      if (!state.configuration) return;
       state.configuration.history = state.configuration.history
         .filter((x) => x.id !== action.payload);
     },
