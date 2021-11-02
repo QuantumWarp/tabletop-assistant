@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import Note from '../../models/notes/note';
 import { useAppDispatch } from '../../store/store';
-import { deleteNote, upsertNote } from '../../store/configuration-slice';
+import { deleteNote, upsertNote } from '../../store/config-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 
 interface NoteUpdateDialogProps {

@@ -2,36 +2,37 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import GameObject from '../../models/objects/game-object';
-import { selectObjectActions, setAction } from '../../store/configuration-slice';
+import { selectActions, setAction } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import TabletopIcon from '../common/TabletopIcon';
 import './DisplaySimpleCard.css';
 
 interface DisplaySimpleCardProps {
-  gameObject: GameObject,
+  obj: GameObject,
 }
 
-const DisplaySimpleCard = ({ gameObject }: DisplaySimpleCardProps) => {
+const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const actions = useAppSelector(selectObjectActions(gameObject.id));
-  const firstAction = actions?.find((action) => action.triggers.find((x) => x.manual));
+  const actions = useAppSelector(selectActions);
+  const objActions = actions.filter((x) => x.objectId === obj.id);
+  const firstAction = objActions?.find((action) => action.triggers.find((x) => x.manual));
 
   return (
     <div className="display-simple-card">
       <div className="container">
-        {gameObject.icon && (
+        {obj.icon && (
           <div className="icon">
-            <TabletopIcon icon={gameObject.icon} />
+            <TabletopIcon icon={obj.icon} />
           </div>
         )}
 
         <div className="content">
           <div className="header">
-            {gameObject.fields.title || gameObject.name}
+            {obj.fields.title || obj.name}
           </div>
 
-          <div>{gameObject.fields.text || gameObject.description}</div>
+          <div>{obj.fields.text || obj.description}</div>
         </div>
 
         {firstAction && (

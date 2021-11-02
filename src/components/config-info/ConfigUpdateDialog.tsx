@@ -10,48 +10,55 @@ import {
 } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../store/store';
-import Configuration from '../../models/configuration';
-import { deleteConfiguration, upsertConfiguration } from '../../store/main-slice';
+import { deleteConfig, upsertConfig } from '../../store/main-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
+import ConfigInfo from '../../models/config-info';
+import { setInfo } from '../../store/config-slice';
+import { defaultConfiguration } from '../../models/configuration';
 
 interface ConfigUpdateDialogProps {
-  config?: Partial<Configuration>;
+  info?: Partial<ConfigInfo>;
+  configId?: string;
   open: boolean;
   onClose: () => void;
 }
 
-const ConfigUpdateDialog = ({ config = {}, open, onClose }: ConfigUpdateDialogProps) => {
+const ConfigUpdateDialog = ({
+  info = {}, configId, open, onClose,
+}: ConfigUpdateDialogProps) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const [name, setName] = useState(config.name || '');
-  const [shortName, setShortName] = useState(config.shortName || '');
-  const [image, setImage] = useState(config.image || '');
-  const [description, setDescription] = useState(config.description || '');
+  const [name, setName] = useState(info.name || '');
+  const [shortName, setShortName] = useState(info.shortName || '');
+  const [image, setImage] = useState(info.image || '');
+  const [description, setDescription] = useState(info.description || '');
 
   const saveConfig = () => {
-    const updatedConfig: Configuration = {
-      id: config?.id || guid(),
+    const updatedConfig: ConfigInfo = {
       name,
       shortName,
       image,
       description,
-      actions: config.actions || [],
-      history: config.history || [],
-      layouts: config.layouts || [],
-      notes: config.notes || [],
-      objects: config.objects || [],
     };
-    dispatch(upsertConfiguration(updatedConfig));
+    if (configId) {
+      dispatch(setInfo(updatedConfig));
+    } else {
+      dispatch(upsertConfig({
+        ...defaultConfiguration(),
+        id: guid(),
+        info: updatedConfig,
+      }));
+    }
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        {config.id ? 'Update ' : 'Create '}
+        {configId ? 'Update ' : 'Create '}
         Config
       </DialogTitle>
 
@@ -92,7 +99,7 @@ const ConfigUpdateDialog = ({ config = {}, open, onClose }: ConfigUpdateDialogPr
       </DialogContent>
 
       <DialogActions>
-        {config.id && (
+        {configId && (
           <>
             <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
               Delete
@@ -100,9 +107,9 @@ const ConfigUpdateDialog = ({ config = {}, open, onClose }: ConfigUpdateDialogPr
 
             <DeleteConfirmDialog
               objType="Config"
-              objName={config.shortName}
+              objName={info.shortName}
               open={deleteOpen}
-              onDelete={() => { dispatch(deleteConfiguration(config.id as string)); onClose(); history.push('/'); }}
+              onDelete={() => { dispatch(deleteConfig(configId)); onClose(); history.push('/'); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
@@ -121,7 +128,8 @@ const ConfigUpdateDialog = ({ config = {}, open, onClose }: ConfigUpdateDialogPr
 };
 
 ConfigUpdateDialog.defaultProps = {
-  config: {},
+  info: {},
+  configId: undefined,
 };
 
 export default ConfigUpdateDialog;

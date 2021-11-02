@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 import { useAppDispatch } from '../../store/store';
-import { deleteLayout, upsertLayout } from '../../store/configuration-slice';
+import { deleteLayout, upsertLayout } from '../../store/config-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import LayoutTab from '../../models/layout/layout-tab';
 

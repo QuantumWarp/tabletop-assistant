@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import DisplayType from '../../models/layout/display-type';
 import LayoutEntry from '../../models/layout/layout-entry';
-import { deleteEntry, selectGameObjects, upsertEntry } from '../../store/configuration-slice';
+import { deleteEntry, selectObjects, upsertEntry } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { LayoutPositionHelper } from '../../models/layout/layout-position';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
@@ -24,7 +24,7 @@ interface LayoutConfigDialogProps {
 
 const LayoutConfigDialog = ({ entry = {}, open, onClose }: LayoutConfigDialogProps) => {
   const dispatch = useAppDispatch();
-  const gameObjects = useAppSelector(selectGameObjects);
+  const objects = useAppSelector(selectObjects);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -57,7 +57,7 @@ const LayoutConfigDialog = ({ entry = {}, open, onClose }: LayoutConfigDialogPro
           label="Object"
           onChange={(e) => setObjectId(e.target.value)}
         >
-          {gameObjects.map((obj) => (
+          {objects.map((obj) => (
             <MenuItem
               key={obj.id}
               value={obj.id}

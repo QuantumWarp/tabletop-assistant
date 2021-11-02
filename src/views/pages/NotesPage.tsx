@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import TopBar from '../../components/common/TopBar';
 import NoteList from '../../components/notes/NoteList';
 import NoteUpdateDialog from '../../components/notes/NoteUpdateDialog';
-import { selectNotes } from '../../store/configuration-slice';
+import { selectNotes } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
 import './NotesPage.css';
 

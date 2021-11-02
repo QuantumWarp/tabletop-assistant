@@ -11,7 +11,7 @@ import {
   Select,
 } from '@mui/material';
 import { useAppSelector } from '../../store/store';
-import { selectActions, selectGameObjects } from '../../store/configuration-slice';
+import { selectActions, selectObjects } from '../../store/config-slice';
 import ActionTrigger from '../../models/objects/action-trigger';
 
 interface ActionUpdateDialogProps {
@@ -24,8 +24,8 @@ interface ActionUpdateDialogProps {
 const ActionUpdateDialog = ({
   trigger = {}, open, onDelete, onClose,
 }: ActionUpdateDialogProps) => {
-  const gameActions = useAppSelector(selectActions);
-  const gameObjects = useAppSelector(selectGameObjects);
+  const actions = useAppSelector(selectActions);
+  const objects = useAppSelector(selectObjects);
 
   const [actionId, setActionId] = useState(trigger.actionId || '');
   const [manual, setManual] = useState(trigger.manual);
@@ -55,8 +55,8 @@ const ActionUpdateDialog = ({
           value={actionId}
           onChange={(e) => setActionId(e.target.value)}
         >
-          {gameActions.map((act) => {
-            const obj = gameObjects.find((x) => x.id === act.objectId);
+          {actions.map((act) => {
+            const obj = objects.find((x) => x.id === act.objectId);
             return (
               <MenuItem key={act.id} value={act.id}>
                 {obj?.name}

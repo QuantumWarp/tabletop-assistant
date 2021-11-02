@@ -16,8 +16,8 @@ import {
 import GameAction from '../../models/objects/game-action';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import {
-  deleteAction, selectActions, selectGameObjects, upsertAction,
-} from '../../store/configuration-slice';
+  deleteAction, selectActions, selectObjects, upsertAction,
+} from '../../store/config-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import ActionTrigger from '../../models/objects/action-trigger';
@@ -31,8 +31,8 @@ interface ActionUpdateDialogProps {
 
 const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogProps) => {
   const dispatch = useAppDispatch();
-  const gameActions = useAppSelector(selectActions);
-  const gameObjects = useAppSelector(selectGameObjects);
+  const actions = useAppSelector(selectActions);
+  const objects = useAppSelector(selectObjects);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editTrigger, setEditTrigger] = useState<ActionTrigger | undefined>();
@@ -79,7 +79,7 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
           label="Attach to Object"
           onChange={(e) => setObjectId(e.target.value)}
         >
-          {gameObjects.map((x) => (
+          {objects.map((x) => (
             <MenuItem key={x.id} value={x.id}>{x.name}</MenuItem>
           ))}
         </Select>
@@ -134,9 +134,9 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
         )}
 
         {triggers.map((trigger) => {
-          const triggerAction = gameActions.find((x) => x.id === trigger.actionId);
-          const triggerObj = gameObjects.find((x) => x.id === triggerAction?.objectId);
-          const text = `${triggerAction?.name} (${triggerObj?.name})
+          const triggerAction = actions.find((x) => x.id === trigger.actionId);
+          const triggerObject = objects.find((x) => x.id === triggerAction?.objectId);
+          const text = `${triggerAction?.name} (${triggerObject?.name})
 ${trigger.manual ? ' - Manual' : ''}
 ${trigger.sibling ? ' - Sibling' : ''}`;
 

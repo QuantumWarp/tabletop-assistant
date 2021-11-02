@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 import { useAppDispatch } from '../../store/store';
-import { deleteHistory, upsertHistory } from '../../store/configuration-slice';
+import { deleteHistory, upsertHistory } from '../../store/config-slice';
 import HistoryEntryCustom from '../../models/history/history-entry-custom';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 

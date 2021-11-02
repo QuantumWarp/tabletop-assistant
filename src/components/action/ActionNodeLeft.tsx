@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionTreeNode } from '../../models/objects/action-tree';
 import RollComboParser from '../../models/rolling/roll-combo-parser';
-import { selectGameObjects } from '../../store/configuration-slice';
+import { selectObjects } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
 import TabletopIcon from '../common/TabletopIcon';
 import ActionRoll from './content/ActionRoll';
@@ -13,9 +13,9 @@ interface ActionNodeLeftProps {
 }
 
 const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
-  const gameObjects = useAppSelector(selectGameObjects);
-  const gameObject = gameObjects.find((x) => x.id === node.action.objectId);
-  const icon = node.action.icon || gameObject?.icon;
+  const objects = useAppSelector(selectObjects);
+  const obj = objects.find((x) => x.id === node.action.objectId);
+  const icon = node.action.icon || obj?.icon;
 
   return (
     <div
@@ -30,7 +30,7 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
 
       <div className="content">
         <div className="title">
-          {gameObject?.name}
+          {obj?.name}
           {' - '}
           {node.action.name}
         </div>

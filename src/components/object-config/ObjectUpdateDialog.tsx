@@ -14,34 +14,34 @@ import {
 } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
-import { deleteObject, upsertObject } from '../../store/configuration-slice';
+import { deleteObject, upsertObject } from '../../store/config-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 
 interface ObjectUpdateDialogProps {
-  gameObject?: Partial<GameObject>;
+  obj?: Partial<GameObject>;
   open: boolean;
-  onClose: (gameObject?: GameObject) => void;
+  onClose: (obj?: GameObject) => void;
 }
 
-const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDialogProps) => {
+const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps) => {
   const dispatch = useAppDispatch();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const [name, setName] = useState(gameObject.name || '');
-  const [icon, setIcon] = useState(gameObject.icon || '');
-  const [description, setDescription] = useState(gameObject.description || '');
+  const [name, setName] = useState(obj.name || '');
+  const [icon, setIcon] = useState(obj.icon || '');
+  const [description, setDescription] = useState(obj.description || '');
 
-  const [value, setValue] = useState(gameObject.fields?.value);
-  const [maxValue, setMaxValue] = useState(gameObject.fields?.maxValue);
-  const [title, setTitle] = useState(gameObject.fields?.title);
-  const [text, setText] = useState(gameObject.fields?.text);
-  const [disabled, setDisabled] = useState(gameObject.fields?.disabled);
+  const [value, setValue] = useState(obj.fields?.value);
+  const [maxValue, setMaxValue] = useState(obj.fields?.maxValue);
+  const [title, setTitle] = useState(obj.fields?.title);
+  const [text, setText] = useState(obj.fields?.text);
+  const [disabled, setDisabled] = useState(obj.fields?.disabled);
 
   const saveObject = () => {
     const updatedObject = {
-      id: gameObject?.id || guid(),
+      id: obj?.id || guid(),
       name,
       icon: icon as TabletopIconType,
       description,
@@ -138,7 +138,7 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
       </DialogContent>
 
       <DialogActions>
-        {gameObject.id && (
+        {obj.id && (
           <>
             <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
               Delete
@@ -146,9 +146,9 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
 
             <DeleteConfirmDialog
               objType="Object"
-              objName={gameObject.name}
+              objName={obj.name}
               open={deleteOpen}
-              onDelete={() => { dispatch(deleteObject(gameObject.id as string)); onClose(); }}
+              onDelete={() => { dispatch(deleteObject(obj.id as string)); onClose(); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
@@ -167,7 +167,7 @@ const ObjectUpdateDialog = ({ gameObject = {}, open, onClose }: ObjectUpdateDial
 };
 
 ObjectUpdateDialog.defaultProps = {
-  gameObject: {},
+  obj: {},
 };
 
 export default ObjectUpdateDialog;

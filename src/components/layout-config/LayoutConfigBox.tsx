@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
 import ContainerSize from '../../models/layout/container-size';
 import LayoutEntry from '../../models/layout/layout-entry';
-import { selectGameObjects } from '../../store/configuration-slice';
+import { selectObjects } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
 import LayoutConfigDialog from './LayoutConfigDialog';
 import './LayoutConfigBox.css';
@@ -20,9 +20,9 @@ const LayoutConfigBox = ({
 }: LayoutBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const gameObjects = useAppSelector(selectGameObjects);
+  const objects = useAppSelector(selectObjects);
 
-  const obj = gameObjects.find((x) => x.id === entry.objectId);
+  const obj = objects.find((x) => x.id === entry.objectId);
 
   return (
     <Rnd

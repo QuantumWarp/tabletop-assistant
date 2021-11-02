@@ -15,14 +15,15 @@ import {
 import { NavLink, useHistory } from 'react-router-dom';
 import './SideNav.css';
 import { useAppSelector } from '../../store/store';
-import { selectConfiguration } from '../../store/configuration-slice';
-import ConfigUpdateDialog from '../config/ConfigUpdateDialog';
-import Configuration from '../../models/configuration';
+import { selectConfigId, selectInfo } from '../../store/config-slice';
+import ConfigUpdateDialog from '../config-info/ConfigUpdateDialog';
+import ConfigInfo from '../../models/config-info';
 
 const SideNav = () => {
   const history = useHistory();
-  const configuration = useAppSelector(selectConfiguration);
-  const [editConfig, setEditConfig] = useState<Configuration | null>(null);
+  const configId = useAppSelector(selectConfigId);
+  const info = useAppSelector(selectInfo);
+  const [editInfo, setEditInfo] = useState<ConfigInfo | null>(null);
 
   return (
     <div className="side-nav">
@@ -30,24 +31,25 @@ const SideNav = () => {
         <ListItem
           className="top-item"
           button
-          onClick={() => setEditConfig(configuration)}
+          onClick={() => setEditInfo(info)}
         >
           <img
             className="top-item-image"
-            src={configuration?.image}
-            alt={configuration?.name}
+            src={info.image}
+            alt={info.name}
           />
 
           <span className="top-item-text">
-            {configuration?.shortName}
+            {info.shortName}
           </span>
         </ListItem>
 
-        {editConfig && (
+        {editInfo && (
           <ConfigUpdateDialog
-            config={editConfig}
-            open={Boolean(editConfig)}
-            onClose={() => setEditConfig(null)}
+            info={editInfo}
+            configId={configId}
+            open={Boolean(editInfo)}
+            onClose={() => setEditInfo(null)}
           />
         )}
 

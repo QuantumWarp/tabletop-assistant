@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import GameObject from '../../models/objects/game-object';
-import { selectGameObjects } from '../../store/configuration-slice';
+import { selectObjects } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
 import ObjectUpdateDialog from './ObjectUpdateDialog';
 import './ObjectList.css';
@@ -14,9 +14,8 @@ interface ObjectListProps {
 }
 
 const ObjectList = ({ filter }: ObjectListProps) => {
-  const gameObjects = useAppSelector(selectGameObjects);
-  const filteredObjs = gameObjects
-    .filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
+  const objects = useAppSelector(selectObjects);
+  const filteredObjs = objects.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
   const [editObject, setEditObject] = useState<Partial<GameObject> | null>(null);
 
   return (
@@ -46,7 +45,7 @@ const ObjectList = ({ filter }: ObjectListProps) => {
 
         {editObject && (
           <ObjectUpdateDialog
-            gameObject={editObject}
+            obj={editObject}
             open={Boolean(editObject)}
             onClose={() => setEditObject(null)}
           />

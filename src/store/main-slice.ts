@@ -1,47 +1,45 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import configurations from '../examples/configurations';
+import configs from '../examples/configurations';
 import Configuration from '../models/configuration';
 import type { RootState } from './store';
 
 interface MainState {
-  configurations: Configuration[];
+  configs: Configuration[];
 }
 
 const initialState: MainState = {
-  configurations: [],
+  configs: [],
 };
 
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadConfigurations(state) {
-      state.configurations = configurations;
+    loadConfigs(state) {
+      state.configs = configs;
     },
-    upsertConfiguration(state, action: PayloadAction<Configuration>) {
-      const currentConfigIndex = state.configurations
-        .findIndex((x) => x.id === action.payload.id);
+    upsertConfig(state, action: PayloadAction<Configuration>) {
+      const index = state.configs.findIndex((x) => x.id === action.payload.id);
 
-      if (currentConfigIndex !== -1) {
-        state.configurations[currentConfigIndex] = action.payload;
+      if (index !== -1) {
+        state.configs[index] = action.payload;
       } else {
-        state.configurations.push(action.payload);
+        state.configs.push(action.payload);
       }
     },
-    deleteConfiguration(state, action: PayloadAction<string>) {
-      state.configurations = state.configurations
-        .filter((x) => x.id !== action.payload);
+    deleteConfig(state, action: PayloadAction<string>) {
+      state.configs = state.configs.filter((x) => x.id !== action.payload);
     },
   },
 });
 
 export const {
-  loadConfigurations,
-  upsertConfiguration,
-  deleteConfiguration,
+  loadConfigs,
+  upsertConfig,
+  deleteConfig,
 } = mainSlice.actions;
 
-export const selectConfigurations = (state: RootState) => state.main.configurations;
+export const selectConfigs = (state: RootState) => state.main.configs;
 
 export default mainSlice.reducer;

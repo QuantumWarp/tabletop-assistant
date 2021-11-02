@@ -8,8 +8,8 @@ import ActionPage from './pages/ActionPage';
 import HistoryView from './pages/HistoryPage';
 import LayoutPage from './pages/LayoutPage';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { selectConfiguration, setConfiguration } from '../store/configuration-slice';
-import { selectConfigurations, upsertConfiguration } from '../store/main-slice';
+import { selectConfig, loadConfig } from '../store/config-slice';
+import { selectConfigs } from '../store/main-slice';
 import NotesPage from './pages/NotesPage';
 import LayoutConfigPage from './pages/LayoutConfigPage';
 import ObjectConfigPage from './pages/ObjectConfigPage';
@@ -19,20 +19,20 @@ const MainView = () => {
   const dispatch = useAppDispatch();
   const { path } = useRouteMatch();
 
-  const currentConfig = useAppSelector(selectConfiguration);
-  const configurations = useAppSelector(selectConfigurations);
-  const { configurationId } = useParams<{ configurationId: string }>();
+  const currentConfig = useAppSelector(selectConfig);
+  const configs = useAppSelector(selectConfigs);
+  const { configId } = useParams<{ configId: string }>();
 
   useEffect(() => {
-    const newConfig = configurations.find((x) => x.id.toString() === configurationId);
+    const newConfig = configs.find((x) => x.id.toString() === configId);
     if (newConfig) {
       if (currentConfig.id === newConfig.id) return;
-      dispatch(upsertConfiguration(currentConfig));
-      dispatch(setConfiguration(newConfig));
+      // dispatch(upsertConfig(currentConfig));
+      dispatch(loadConfig(newConfig));
     } else {
       history.push('/');
     }
-  }, [configurationId, configurations, dispatch, history, currentConfig]);
+  }, [configId, configs, dispatch, history, currentConfig]);
 
   return (
     <div className="main-view">

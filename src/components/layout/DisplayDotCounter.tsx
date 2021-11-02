@@ -3,18 +3,18 @@ import GameObject from '../../models/objects/game-object';
 import './DisplayDotCounter.css';
 
 interface DisplayDotCounterProps {
-  gameObject: GameObject,
+  obj: GameObject,
 }
 
-const DisplayDotCounter = ({ gameObject }: DisplayDotCounterProps) => (
+const DisplayDotCounter = ({ obj }: DisplayDotCounterProps) => (
   <div className="display-dot-counter">
-    <span className="name">{gameObject.name}</span>
+    <span className="name">{obj.name}</span>
 
-    {Array(gameObject.fields.maxValue).fill(0).map((_x, index) => (
+    {Array(obj.fields.maxValue).fill(0).map((_x, index) => (
       <div
         // eslint-disable-next-line react/no-array-index-key
         key={index}
-        className={`dot${index < (gameObject.fields.value || 0) - 1 ? ' filled' : ''}`}
+        className={`dot${index < (obj.fields.value || 0) - 1 ? ' filled' : ''}`}
       />
     ))}
   </div>

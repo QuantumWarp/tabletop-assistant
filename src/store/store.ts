@@ -4,12 +4,12 @@ import {
   FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import configurationReducer from './configuration-slice';
+import configurationReducer from './config-slice';
 import mainReducer from './main-slice';
 
 const reducers = combineReducers({
   main: mainReducer,
-  configuration: configurationReducer,
+  config: configurationReducer,
 });
 
 const persistConfig = {

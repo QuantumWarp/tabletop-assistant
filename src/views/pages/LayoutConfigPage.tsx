@@ -11,8 +11,8 @@ import RightIcon from '@mui/icons-material/ArrowRight';
 import LayoutConfigContainer from '../../components/layout-config/LayoutConfigContainer';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import {
-  moveLayout, selectCurrentLayout, selectLayouts, setCurrentLayoutId,
-} from '../../store/configuration-slice';
+  moveLayout, selectCurrentLayout, selectLayouts, setLayoutId,
+} from '../../store/config-slice';
 import TopBar from '../../components/common/TopBar';
 import './LayoutConfigPage.css';
 import LayoutConfigTabDialog from '../../components/layout-config/LayoutConfigTabDialog';
@@ -32,7 +32,7 @@ const LayoutConfigPage = () => {
         <div className="layout-config-controls">
           <Tabs
             value={currentLayout?.id}
-            onChange={(_e, val) => dispatch(setCurrentLayoutId(val))}
+            onChange={(_e, val) => dispatch(setLayoutId(val))}
             centered
           >
             {layouts?.map((layout) => (

@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import GameAction from '../../models/objects/game-action';
-import { selectActions, selectGameObjects } from '../../store/configuration-slice';
+import { selectActions, selectObjects } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
 import ActionUpdateDialog from './ActionUpdateDialog';
 import './ActionList.css';
@@ -14,11 +14,11 @@ interface ActionListProps {
 }
 
 const ActionList = ({ filter }: ActionListProps) => {
-  const gameObjects = useAppSelector(selectGameObjects);
+  const objects = useAppSelector(selectObjects);
   const actions = useAppSelector(selectActions);
   const filteredActions = actions
     .filter((action) => {
-      const obj = gameObjects.find((x) => x.id === action.objectId);
+      const obj = objects.find((x) => x.id === action.objectId);
       return action.name?.toLowerCase().includes(filter.toLowerCase())
         || obj?.name.toLowerCase().includes(filter.toLowerCase());
     });
@@ -39,7 +39,7 @@ const ActionList = ({ filter }: ActionListProps) => {
 
       <List>
         {filteredActions.map((action) => {
-          const obj = gameObjects.find((x) => x.id === action.objectId);
+          const obj = objects.find((x) => x.id === action.objectId);
 
           return (
             <ListItem

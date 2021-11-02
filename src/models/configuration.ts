@@ -3,13 +3,11 @@ import LayoutTab from './layout/layout-tab';
 import GameAction from './objects/game-action';
 import Note from './notes/note';
 import HistoryEntry from './history/history-entry';
+import ConfigInfo, { defaultConfigInfo } from './config-info';
 
 export default interface Configuration {
   id: string;
-  shortName: string;
-  name: string;
-  description: string;
-  image: string;
+  info: ConfigInfo,
   layouts: LayoutTab[];
   objects: GameObject[];
   actions: GameAction[];
@@ -17,12 +15,9 @@ export default interface Configuration {
   history: HistoryEntry[];
 }
 
-export const defaultConfig: () => Configuration = () => ({
+export const defaultConfiguration: () => Configuration = () => ({
   id: '',
-  shortName: '',
-  name: '',
-  description: '',
-  image: '',
+  info: defaultConfigInfo(),
   layouts: [],
   objects: [],
   actions: [],

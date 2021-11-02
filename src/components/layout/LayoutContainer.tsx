@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../store/store';
-import { selectGameObjects } from '../../store/configuration-slice';
+import { selectObjects } from '../../store/config-slice';
 import LayoutTab from '../../models/layout/layout-tab';
 import DisplayType from '../../models/layout/display-type';
 import DisplaySimpleCard from './DisplaySimpleCard';
@@ -15,13 +15,13 @@ interface LayoutContainerProps {
 }
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
-  const gameObjects = useAppSelector(selectGameObjects);
+  const objects = useAppSelector(selectObjects);
 
   return (
     <div className="layout-container">
       <div>
         {layout.entries.map((entry) => {
-          const obj = gameObjects.find((x) => entry.objectId === x.id);
+          const obj = objects.find((x) => entry.objectId === x.id);
 
           return (
             <div
@@ -32,25 +32,25 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               {obj && entry.display === DisplayType.simpleCard && (
                 <DisplaySimpleCard
                   key={entry.objectId}
-                  gameObject={obj}
+                  obj={obj}
                 />
               )}
               {obj && entry.display === DisplayType.simpleToggle && (
                 <DisplaySimpleToggle
                   key={entry.objectId}
-                  gameObject={obj}
+                  obj={obj}
                 />
               )}
               {obj && entry.display === DisplayType.numberSquare && (
                 <DisplayNumberSquare
                   key={entry.objectId}
-                  gameObject={obj}
+                  obj={obj}
                 />
               )}
               {obj && entry.display === DisplayType.dotCounter && (
                 <DisplayDotCounter
                   key={entry.objectId}
-                  gameObject={obj}
+                  obj={obj}
                 />
               )}
             </div>

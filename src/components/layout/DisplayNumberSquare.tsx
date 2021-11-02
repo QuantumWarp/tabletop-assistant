@@ -3,18 +3,18 @@ import GameObject from '../../models/objects/game-object';
 import './DisplayNumberSquare.css';
 
 interface DisplayNumberSquareProps {
-  gameObject: GameObject,
+  obj: GameObject,
 }
 
-const DisplayNumberSquare = ({ gameObject }: DisplayNumberSquareProps) => (
+const DisplayNumberSquare = ({ obj }: DisplayNumberSquareProps) => (
   <div className="display-number-square">
     <div className="container">
       <div className="number">
-        {gameObject.fields.value}
+        {obj.fields.value}
       </div>
 
       <div className="name">
-        {gameObject.fields.title || gameObject.name}
+        {obj.fields.title || obj.name}
       </div>
     </div>
   </div>

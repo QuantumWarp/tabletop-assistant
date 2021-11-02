@@ -9,13 +9,13 @@ import {
   CardActionArea,
 } from '@mui/material';
 import { useAppSelector } from '../store/store';
-import { selectConfigurations } from '../store/main-slice';
+import { selectConfigs } from '../store/main-slice';
 import './HomePage.css';
-import ConfigUpdateDialog from '../components/config/ConfigUpdateDialog';
+import ConfigUpdateDialog from '../components/config-info/ConfigUpdateDialog';
 
 const HomePage = () => {
   const history = useHistory();
-  const configurations = useAppSelector(selectConfigurations);
+  const configs = useAppSelector(selectConfigs);
   const [newConfigDialogOpen, setNewConfigDialogOpen] = useState(false);
 
   return (
@@ -25,24 +25,24 @@ const HomePage = () => {
       </div>
 
       <Grid container spacing={4}>
-        {configurations.map((con) => (
+        {configs.map((con) => (
           <Grid item xs={4} key={con.id}>
             <Card>
               <CardActionArea onClick={() => history.push(`/configuration/${con.id}/layout`)}>
                 <CardMedia
                   component="img"
                   height="200"
-                  image={con.image}
-                  alt={con.name}
+                  image={con.info.image}
+                  alt={con.info.name}
                 />
 
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {con.name}
+                    {con.info.name}
                   </Typography>
 
                   <Typography variant="body2" color="text.secondary">
-                    {con.description}
+                    {con.info.description}
                   </Typography>
                 </CardContent>
               </CardActionArea>

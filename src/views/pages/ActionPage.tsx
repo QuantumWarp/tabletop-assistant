@@ -3,7 +3,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import ActionNode from '../../components/action/ActionNode';
 import TopBar from '../../components/common/TopBar';
-import { clearAction, selectActionTree } from '../../store/configuration-slice';
+import { clearAction, selectActionTree } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import './ActionPage.css';
 

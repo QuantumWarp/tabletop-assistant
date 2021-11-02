@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LayoutTab from '../../models/layout/layout-tab';
-import { updateEntryPosition } from '../../store/configuration-slice';
+import { updateEntryPosition } from '../../store/config-slice';
 import { useAppDispatch } from '../../store/store';
 import LayoutConfigBox from './LayoutConfigBox';
 import './LayoutConfigContainer.css';

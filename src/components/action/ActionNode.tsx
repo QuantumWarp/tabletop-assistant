@@ -5,7 +5,7 @@ import {
   ArrowRightAlt as ArrowRightIcon,
 } from '@mui/icons-material';
 import { ActionTreeNode } from '../../models/objects/action-tree';
-import { rollAction } from '../../store/configuration-slice';
+import { rollAction } from '../../store/config-slice';
 import { useAppDispatch } from '../../store/store';
 import ActionNodeLeft from './ActionNodeLeft';
 import ActionNodeRight from './ActionNodeRight';
