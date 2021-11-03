@@ -15,6 +15,7 @@ import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import ConfigInfo from '../../models/config-info';
 import { setInfo } from '../../store/config-slice';
 import { defaultConfiguration } from '../../models/configuration';
+import ConfigExportDialog from '../export/ConfigExportDialog';
 
 interface ConfigUpdateDialogProps {
   info?: Partial<ConfigInfo>;
@@ -30,6 +31,7 @@ const ConfigUpdateDialog = ({
   const history = useHistory();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
 
   const [name, setName] = useState(info.name || '');
   const [shortName, setShortName] = useState(info.shortName || '');
@@ -101,6 +103,15 @@ const ConfigUpdateDialog = ({
       <DialogActions>
         {configId && (
           <>
+            <Button onClick={() => setExportOpen(true)} variant="outlined">
+              Export
+            </Button>
+
+            <ConfigExportDialog
+              open={exportOpen}
+              onClose={() => setExportOpen(false)}
+            />
+
             <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
               Delete
             </Button>

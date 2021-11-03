@@ -12,11 +12,14 @@ import { useAppSelector } from '../store/store';
 import { selectConfigs } from '../store/main-slice';
 import './HomePage.css';
 import ConfigUpdateDialog from '../components/config-info/ConfigUpdateDialog';
+import ConfigImportDialog from '../components/export/ConfigImportDialog';
 
 const HomePage = () => {
   const history = useHistory();
   const configs = useAppSelector(selectConfigs);
+
   const [newConfigDialogOpen, setNewConfigDialogOpen] = useState(false);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   return (
     <div className="home-page">
@@ -63,6 +66,19 @@ const HomePage = () => {
             <ConfigUpdateDialog
               open={newConfigDialogOpen}
               onClose={() => setNewConfigDialogOpen(false)}
+            />
+
+            <CardActionArea onClick={() => setImportDialogOpen(true)}>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Import
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+
+            <ConfigImportDialog
+              open={importDialogOpen}
+              onClose={() => setImportDialogOpen(false)}
             />
           </Card>
         </Grid>
