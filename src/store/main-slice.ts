@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import configs from '../examples/configurations';
 import Configuration from '../models/configuration';
 import type { RootState } from './store';
 
@@ -16,9 +15,6 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadConfigs(state) {
-      state.configs = configs;
-    },
     upsertConfig(state, action: PayloadAction<Configuration>) {
       const index = state.configs.findIndex((x) => x.id === action.payload.id);
 
@@ -35,7 +31,6 @@ export const mainSlice = createSlice({
 });
 
 export const {
-  loadConfigs,
   upsertConfig,
   deleteConfig,
 } = mainSlice.actions;

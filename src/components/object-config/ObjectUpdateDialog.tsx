@@ -7,16 +7,22 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   FormControlLabel,
+  Grid,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
 import { deleteObject, upsertObject } from '../../store/config-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
+import './ObjectUpdateDialog.css';
+import ObjectExampleLayout from './ObjectExampleLayout';
 
 interface ObjectUpdateDialogProps {
   obj?: Partial<GameObject>;
@@ -39,21 +45,27 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
   const [title, setTitle] = useState(obj.fields?.title);
   const [text, setText] = useState(obj.fields?.text);
   const [toggle, setToggle] = useState(obj.fields?.toggle);
+  const [secondaryToggle, setSecondaryToggle] = useState(obj.fields?.secondaryToggle);
+
+  const getUpdatedObject = () => ({
+    name,
+    disabled,
+    icon: icon as TabletopIconType,
+    description,
+    fields: {
+      value,
+      secondaryValue,
+      title,
+      text,
+      toggle,
+      secondaryToggle,
+    },
+  });
 
   const saveObject = () => {
     const updatedObject = {
       id: obj?.id || guid(),
-      name,
-      disabled,
-      icon: icon as TabletopIconType,
-      description,
-      fields: {
-        value,
-        secondaryValue,
-        title,
-        text,
-        toggle,
-      },
+      ...getUpdatedObject(),
     };
     dispatch(upsertObject(updatedObject));
     onClose(updatedObject);
@@ -64,81 +76,143 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
       <DialogTitle>Update Object</DialogTitle>
 
       <DialogContent>
-        <TextField
-          fullWidth
-          label="Name"
-          variant="standard"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item container spacing={2}>
+            <Grid item container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  required
+                  label="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Grid>
 
-        <FormControlLabel control={<Checkbox checked={disabled} onChange={(e) => setDisabled(e.target.checked)} />} label="Disabled" />
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel>Icon</InputLabel>
+                  <Select
+                    label="Icon"
+                    value={icon}
+                    onChange={(e) => setIcon(e.target.value)}
+                  >
+                    {Object.values(TabletopIconType).map((x) => (
+                      <MenuItem
+                        key={x}
+                        value={x}
+                      >
+                        <div className="icon-menu-item">
+                          <TabletopIcon icon={x as TabletopIconType} />
+                          <span>{x}</span>
+                        </div>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
 
-        <Select
-          fullWidth
-          label="Icon"
-          variant="standard"
-          value={icon}
-          onChange={(e) => setIcon(e.target.value)}
-        >
-          {Object.values(TabletopIconType).map((x) => (
-            <MenuItem
-              key={x}
-              value={x}
-            >
-              <TabletopIcon icon={x as TabletopIconType} />
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
+              <Grid item xs={6}>
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      checked={disabled}
+                      onChange={(e) => setDisabled(e.target.checked)}
+                    />
+                  )}
+                  label="Disabled"
+                />
+              </Grid>
 
-        <TextField
-          fullWidth
-          label="Description"
-          variant="standard"
-          multiline
-          rows={6}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Description"
+                  multiline
+                  rows={4}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Grid>
+            </Grid>
 
-        Fields
+            <Grid item>
+              <Typography variant="h6">
+                Fields
+              </Typography>
+            </Grid>
 
-        <TextField
-          fullWidth
-          type="number"
-          label="Value"
-          variant="standard"
-          value={value}
-          onChange={(e) => setValue(Number(e.target.value))}
-        />
+            <Grid item container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Value"
+                  value={value}
+                  onChange={(e) => setValue(Number(e.target.value))}
+                />
+              </Grid>
 
-        <TextField
-          fullWidth
-          type="number"
-          label="Secondary Value"
-          variant="standard"
-          value={secondaryValue}
-          onChange={(e) => setSecondaryValue(Number(e.target.value))}
-        />
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Secondary Value"
+                  value={secondaryValue}
+                  onChange={(e) => setSecondaryValue(Number(e.target.value))}
+                />
+              </Grid>
 
-        <TextField
-          fullWidth
-          label="Title"
-          variant="standard"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </Grid>
 
-        <TextField
-          fullWidth
-          label="Text"
-          variant="standard"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+              </Grid>
 
-        <FormControlLabel control={<Checkbox checked={toggle} onChange={(e) => setToggle(e.target.checked)} />} label="Toggle" />
+              <Grid item xs={6}>
+                <FormControlLabel
+                  label="Toggle"
+                  control={(
+                    <Checkbox
+                      checked={toggle}
+                      onChange={(e) => setToggle(e.target.checked)}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormControlLabel
+                  label="Secondary Toggle"
+                  control={(
+                    <Checkbox
+                      checked={secondaryToggle}
+                      onChange={(e) => setSecondaryToggle(e.target.checked)}
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item>
+            <ObjectExampleLayout
+              obj={getUpdatedObject()}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>
