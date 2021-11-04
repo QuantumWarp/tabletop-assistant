@@ -40,7 +40,7 @@ const LayoutConfigTabDialog = ({ layout = {}, open, onClose }: LayoutConfigTabDi
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
         {layout.id ? 'Update ' : 'Create '}
-        Note
+        Layout
       </DialogTitle>
 
       <DialogContent>

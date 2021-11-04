@@ -30,27 +30,29 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(obj.name || '');
+  const [disabled, setDisabled] = useState(obj.disabled || false);
   const [icon, setIcon] = useState(obj.icon || '');
   const [description, setDescription] = useState(obj.description || '');
 
   const [value, setValue] = useState(obj.fields?.value);
-  const [maxValue, setMaxValue] = useState(obj.fields?.maxValue);
+  const [secondaryValue, setSecondaryValue] = useState(obj.fields?.secondaryValue);
   const [title, setTitle] = useState(obj.fields?.title);
   const [text, setText] = useState(obj.fields?.text);
-  const [disabled, setDisabled] = useState(obj.fields?.disabled);
+  const [toggle, setToggle] = useState(obj.fields?.toggle);
 
   const saveObject = () => {
     const updatedObject = {
       id: obj?.id || guid(),
       name,
+      disabled,
       icon: icon as TabletopIconType,
       description,
       fields: {
         value,
-        maxValue,
+        secondaryValue,
         title,
         text,
-        disabled,
+        toggle,
       },
     };
     dispatch(upsertObject(updatedObject));
@@ -69,6 +71,8 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+
+        <FormControlLabel control={<Checkbox checked={disabled} onChange={(e) => setDisabled(e.target.checked)} />} label="Disabled" />
 
         <Select
           fullWidth
@@ -112,10 +116,10 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
         <TextField
           fullWidth
           type="number"
-          label="Max Value"
+          label="Secondary Value"
           variant="standard"
-          value={maxValue}
-          onChange={(e) => setMaxValue(Number(e.target.value))}
+          value={secondaryValue}
+          onChange={(e) => setSecondaryValue(Number(e.target.value))}
         />
 
         <TextField
@@ -134,7 +138,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
           onChange={(e) => setText(e.target.value)}
         />
 
-        <FormControlLabel control={<Checkbox value={disabled} onChange={(e) => setDisabled(e.target.checked)} />} label="Disabled" />
+        <FormControlLabel control={<Checkbox checked={toggle} onChange={(e) => setToggle(e.target.checked)} />} label="Toggle" />
       </DialogContent>
 
       <DialogActions>

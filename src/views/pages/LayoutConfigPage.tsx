@@ -44,54 +44,56 @@ const LayoutConfigPage = () => {
             ))}
           </Tabs>
 
-          {currentLayout !== undefined && currentIndex !== undefined && (
-            <div className="icon-buttons">
-              <IconButton
-                color="primary"
-                title="Move Layout Left"
-                disabled={currentIndex === 0}
-                onClick={() => dispatch(moveLayout(
-                  { id: currentLayout.id, index: currentIndex - 1 },
-                ))}
-              >
-                <LeftIcon />
-              </IconButton>
+          <div className="icon-buttons">
+            {currentLayout !== undefined && currentIndex !== undefined && (
+              <>
+                <IconButton
+                  color="primary"
+                  title="Move Layout Left"
+                  disabled={currentIndex === 0}
+                  onClick={() => dispatch(moveLayout(
+                    { id: currentLayout.id, index: currentIndex - 1 },
+                  ))}
+                >
+                  <LeftIcon />
+                </IconButton>
 
-              <IconButton
-                color="primary"
-                title="Move Layout Right"
-                disabled={currentIndex + 1 === layouts?.length}
-                onClick={() => dispatch(moveLayout(
-                  { id: currentLayout.id, index: currentIndex + 1 },
-                ))}
-              >
-                <RightIcon />
-              </IconButton>
+                <IconButton
+                  color="primary"
+                  title="Move Layout Right"
+                  disabled={currentIndex + 1 === layouts?.length}
+                  onClick={() => dispatch(moveLayout(
+                    { id: currentLayout.id, index: currentIndex + 1 },
+                  ))}
+                >
+                  <RightIcon />
+                </IconButton>
 
-              <IconButton
-                title="Edit Layout"
-                onClick={() => setEditLayout(currentLayout)}
-              >
-                <EditIcon />
-              </IconButton>
+                <IconButton
+                  title="Edit Layout"
+                  onClick={() => setEditLayout(currentLayout)}
+                >
+                  <EditIcon />
+                </IconButton>
+              </>
+            )}
 
-              <IconButton
-                color="primary"
-                title="New Layout"
-                onClick={() => setEditLayout({})}
-              >
-                <AddIcon />
-              </IconButton>
+            <IconButton
+              color="primary"
+              title="New Layout"
+              onClick={() => setEditLayout({})}
+            >
+              <AddIcon />
+            </IconButton>
 
-              {editLayout && (
-                <LayoutConfigTabDialog
-                  layout={editLayout}
-                  open={Boolean(editLayout)}
-                  onClose={() => setEditLayout(null)}
-                />
-              )}
-            </div>
-          )}
+            {editLayout && (
+              <LayoutConfigTabDialog
+                layout={editLayout}
+                open={Boolean(editLayout)}
+                onClose={() => setEditLayout(null)}
+              />
+            )}
+          </div>
         </div>
       </TopBar>
 

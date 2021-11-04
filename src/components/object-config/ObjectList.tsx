@@ -16,6 +16,7 @@ interface ObjectListProps {
 const ObjectList = ({ filter }: ObjectListProps) => {
   const objects = useAppSelector(selectObjects);
   const filteredObjs = objects.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
+  const orderedObjs = filteredObjs.sort((a, b) => a.name.localeCompare(b.name));
   const [editObject, setEditObject] = useState<Partial<GameObject> | null>(null);
 
   return (
@@ -32,7 +33,7 @@ const ObjectList = ({ filter }: ObjectListProps) => {
       </div>
 
       <List>
-        {filteredObjs.map((obj) => (
+        {orderedObjs.map((obj) => (
           <ListItem
             key={obj.id}
             disablePadding

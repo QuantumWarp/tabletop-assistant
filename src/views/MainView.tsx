@@ -9,7 +9,7 @@ import HistoryView from './pages/HistoryPage';
 import LayoutPage from './pages/LayoutPage';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { selectConfig, loadConfig } from '../store/config-slice';
-import { selectConfigs } from '../store/main-slice';
+import { selectConfigs, upsertConfig } from '../store/main-slice';
 import NotesPage from './pages/NotesPage';
 import LayoutConfigPage from './pages/LayoutConfigPage';
 import ObjectConfigPage from './pages/ObjectConfigPage';
@@ -27,7 +27,7 @@ const MainView = () => {
     const newConfig = configs.find((x) => x.id.toString() === configId);
     if (newConfig) {
       if (currentConfig.id === newConfig.id) return;
-      // dispatch(upsertConfig(currentConfig));
+      dispatch(upsertConfig(currentConfig));
       dispatch(loadConfig(newConfig));
     } else {
       history.push('/');

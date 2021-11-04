@@ -10,7 +10,7 @@ const DisplayDotCounter = ({ obj }: DisplayDotCounterProps) => (
   <div className="display-dot-counter">
     <span className="name">{obj.name}</span>
 
-    {Array(obj.fields.maxValue).fill(0).map((_x, index) => (
+    {Array(obj.fields.secondaryValue).fill(0).map((_x, index) => (
       <div
         // eslint-disable-next-line react/no-array-index-key
         key={index}
