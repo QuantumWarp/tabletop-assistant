@@ -6,12 +6,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  Grid,
+  InputLabel,
   ListItem,
   ListItemButton,
   ListItemText,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from '@mui/material';
 import GameAction from '../../models/objects/game-action';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -22,6 +26,7 @@ import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import ActionTrigger from '../../models/objects/action-trigger';
 import ActionTriggerUpdateDialog from './ActionTriggerUpdateDialog';
+import './ActionUpdateDialog.css';
 
 interface ActionUpdateDialogProps {
   action?: Partial<GameAction>;
@@ -59,99 +64,121 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        {action.id ? 'Update ' : 'Create '}
-        Action
+        <b>
+          {action.id ? 'Update ' : 'Create '}
+          Action
+        </b>
       </DialogTitle>
 
       <DialogContent>
-        <TextField
-          fullWidth
-          label="Name"
-          variant="standard"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
 
-        <Select
-          fullWidth
-          variant="standard"
-          value={objectId}
-          label="Attach to Object"
-          onChange={(e) => setObjectId(e.target.value)}
-        >
-          {objects.map((x) => (
-            <MenuItem key={x.id} value={x.id}>{x.name}</MenuItem>
-          ))}
-        </Select>
+          <Grid item xs={12}>
+            <FormControl fullWidth required>
+              <InputLabel>Attached to Object</InputLabel>
+              <Select
+                fullWidth
+                value={objectId}
+                label="Attached to Object *"
+                onChange={(e) => setObjectId(e.target.value)}
+              >
+                {objects.map((x) => (
+                  <MenuItem key={x.id} value={x.id}>{x.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
-        <Select
-          fullWidth
-          label="Icon"
-          variant="standard"
-          value={icon}
-          onChange={(e) => setIcon(e.target.value)}
-        >
-          {Object.values(TabletopIconType).map((x) => (
-            <MenuItem
-              key={x}
-              value={x}
-            >
-              <TabletopIcon icon={x as TabletopIconType} />
-              {x}
-            </MenuItem>
-          ))}
-        </Select>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel>Icon</InputLabel>
+              <Select
+                fullWidth
+                label="Icon"
+                value={icon}
+                onChange={(e) => setIcon(e.target.value)}
+              >
+                {Object.values(TabletopIconType).map((x) => (
+                  <MenuItem
+                    key={x}
+                    value={x}
+                  >
+                    <div className="icon-menu-item">
+                      <TabletopIcon icon={x as TabletopIconType} />
+                      <span>{x}</span>
+                    </div>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Roll"
-          variant="standard"
-          value={roll}
-          onChange={(e) => setRoll(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Roll"
+              value={roll}
+              onChange={(e) => setRoll(e.target.value)}
+            />
+          </Grid>
 
-        Triggers
+          <Grid item>
+            <Typography variant="h6">
+              <span style={{ marginRight: '20px' }}>Triggers</span>
+              <Button onClick={() => setEditTrigger({})} variant="outlined">
+                Add
+              </Button>
+            </Typography>
+          </Grid>
 
-        <Button onClick={() => setEditTrigger({})}>
-          Add
-        </Button>
+          {editTrigger && (
+            <ActionTriggerUpdateDialog
+              open={Boolean(editTrigger)}
+              trigger={editTrigger}
+              onDelete={() => setTriggers(triggers.filter((x) => x !== editTrigger))}
+              onClose={(updated) => {
+                const index = triggers.indexOf(editTrigger);
+                setEditTrigger(undefined);
+                if (!updated) return;
+                const array = [...triggers];
+                if (index === -1) array.push(updated);
+                else array[index] = updated;
+                setTriggers(array);
+              }}
+            />
+          )}
 
-        {editTrigger && (
-          <ActionTriggerUpdateDialog
-            open={Boolean(editTrigger)}
-            trigger={editTrigger}
-            onDelete={() => setTriggers(triggers.filter((x) => x !== editTrigger))}
-            onClose={(updated) => {
-              const index = triggers.indexOf(editTrigger);
-              setEditTrigger(undefined);
-              if (!updated) return;
-              const array = [...triggers];
-              if (index === -1) array.push(updated);
-              else array[index] = updated;
-              setTriggers(array);
-            }}
-          />
-        )}
+          {triggers.map((trigger) => {
+            const triggerAction = actions.find((x) => x.id === trigger.actionId);
+            const triggerObject = objects.find((x) => x.id === triggerAction?.objectId);
+            const manualText = trigger.manual ? 'Manual' : '';
+            const siblingText = trigger.sibling ? 'Sibling - ' : '';
+            const actionText = triggerAction ? triggerAction.name : '';
+            const objectText = triggerObject ? ` (${triggerObject.name})` : '';
+            const text = manualText + siblingText + actionText + objectText;
 
-        {triggers.map((trigger) => {
-          const triggerAction = actions.find((x) => x.id === trigger.actionId);
-          const triggerObject = objects.find((x) => x.id === triggerAction?.objectId);
-          const text = `${triggerAction?.name} (${triggerObject?.name})
-${trigger.manual ? ' - Manual' : ''}
-${trigger.sibling ? ' - Sibling' : ''}`;
-
-          return (
-            <ListItem
-              dense
-              key={trigger.manual ? 'manual' : trigger.actionId}
-              className="trigger-row"
-            >
-              <ListItemButton onClick={() => setEditTrigger(trigger)}>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+            return (
+              <ListItem
+                dense
+                key={trigger.manual ? 'manual' : trigger.actionId}
+                className="trigger-row"
+              >
+                <ListItemButton onClick={() => setEditTrigger(trigger)}>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </Grid>
       </DialogContent>
 
       <DialogActions>

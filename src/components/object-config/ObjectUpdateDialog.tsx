@@ -73,7 +73,12 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
 
   return (
     <Dialog open={open} onClose={() => onClose()}>
-      <DialogTitle>Update Object</DialogTitle>
+      <DialogTitle>
+        <b>
+          {obj.id ? 'Update ' : 'Create '}
+          Object
+        </b>
+      </DialogTitle>
 
       <DialogContent>
         <Grid container spacing={2} marginTop={0}>

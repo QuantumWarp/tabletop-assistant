@@ -21,8 +21,10 @@ const DeleteConfirmDialog = ({
 }: DeleteConfirmDialogProps) => (
   <Dialog open={open} onClose={() => onClose(false)}>
     <DialogTitle>
-      {'Delete '}
-      {objType}
+      <b>
+        {'Delete '}
+        {objType}
+      </b>
     </DialogTitle>
 
     <DialogContent>

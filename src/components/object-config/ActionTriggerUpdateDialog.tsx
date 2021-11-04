@@ -6,7 +6,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   FormControlLabel,
+  Grid,
+  InputLabel,
   MenuItem,
   Select,
 } from '@mui/material';
@@ -43,33 +46,61 @@ const ActionUpdateDialog = ({
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        {(trigger.actionId || trigger.manual) ? 'Update ' : 'Create '}
-        Action
+        <b>
+          {(trigger.actionId || trigger.manual) ? 'Update ' : 'Create '}
+          Trigger
+        </b>
       </DialogTitle>
 
       <DialogContent>
-        <Select
-          fullWidth
-          label="Action"
-          variant="standard"
-          value={actionId}
-          onChange={(e) => setActionId(e.target.value)}
-        >
-          {actions.map((act) => {
-            const obj = objects.find((x) => x.id === act.objectId);
-            return (
-              <MenuItem key={act.id} value={act.id}>
-                {obj?.name}
-                {' - '}
-                {act.name}
-              </MenuItem>
-            );
-          })}
-        </Select>
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel>Action</InputLabel>
+              <Select
+                fullWidth
+                label="Action"
+                value={actionId}
+                onChange={(e) => setActionId(e.target.value)}
+              >
+                {actions.map((act) => {
+                  const obj = objects.find((x) => x.id === act.objectId);
+                  return (
+                    <MenuItem key={act.id} value={act.id}>
+                      {obj?.name}
+                      {' - '}
+                      {act.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </Grid>
 
-        <FormControlLabel control={<Checkbox value={manual} onChange={(e) => setManual(e.target.checked)} />} label="Manual" />
+          <Grid item xs={6}>
+            <FormControlLabel
+              label="Manual"
+              control={(
+                <Checkbox
+                  value={manual}
+                  onChange={(e) => setManual(e.target.checked)}
+                />
+                )}
+            />
+          </Grid>
 
-        <FormControlLabel control={<Checkbox value={sibling} onChange={(e) => setSibling(e.target.checked)} />} label="Sibling" />
+          <Grid item xs={6}>
+            <FormControlLabel
+              label="Sibling"
+              control={(
+                <Checkbox
+                  value={sibling}
+                  onChange={(e) => setSibling(e.target.checked)}
+                />
+                )}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>

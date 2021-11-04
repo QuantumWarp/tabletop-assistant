@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
 } from '@mui/material';
 import Note from '../../models/notes/note';
@@ -44,44 +45,53 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        {note.id ? 'Update ' : 'Create '}
-        Note
+        <b>
+          {note.id ? 'Update ' : 'Create '}
+          Note
+        </b>
       </DialogTitle>
 
       <DialogContent>
-        <TextField
-          fullWidth
-          label="Title"
-          variant="standard"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Subtitle"
-          variant="standard"
-          value={subtitle}
-          onChange={(e) => setSubtitle(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Subtitle"
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Image URL"
-          variant="standard"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Image URL"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Detail"
-          variant="standard"
-          multiline
-          rows={6}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Detail"
+              multiline
+              rows={12}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>

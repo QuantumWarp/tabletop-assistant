@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
 } from '@mui/material';
 import { useAppDispatch } from '../../store/store';
@@ -39,18 +40,23 @@ const LayoutConfigTabDialog = ({ layout = {}, open, onClose }: LayoutConfigTabDi
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        {layout.id ? 'Update ' : 'Create '}
-        Layout
+        <b>
+          {layout.id ? 'Update ' : 'Create '}
+          Layout
+        </b>
       </DialogTitle>
 
       <DialogContent>
-        <TextField
-          fullWidth
-          label="Name"
-          variant="standard"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>
