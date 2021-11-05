@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  Grid,
 } from '@mui/material';
 import { useAppSelector } from '../../store/store';
 import { selectConfig } from '../../store/config-slice';
@@ -56,16 +57,83 @@ const ConfigExportDialog = ({ open, onClose }: ConfigExportDialogProps) => {
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        Export
+        <b>Export</b>
       </DialogTitle>
 
       <DialogContent>
-        <FormControlLabel control={<Checkbox checked={exportInfo} onChange={(e) => setExportInfo(e.target.checked)} />} label="Info" />
-        <FormControlLabel control={<Checkbox checked={exportLayouts} onChange={(e) => setExportLayouts(e.target.checked)} />} label="Layouts" />
-        <FormControlLabel control={<Checkbox checked={exportObjects} onChange={(e) => setExportObjects(e.target.checked)} />} label="Objects" />
-        <FormControlLabel control={<Checkbox checked={exportActions} onChange={(e) => setExportActions(e.target.checked)} />} label="Actions" />
-        <FormControlLabel control={<Checkbox checked={exportNotes} onChange={(e) => setExportNotes(e.target.checked)} />} label="Notes" />
-        <FormControlLabel control={<Checkbox checked={exportHistory} onChange={(e) => setExportHistory(e.target.checked)} />} label="History" />
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <FormControlLabel
+              label="Info"
+              control={(
+                <Checkbox
+                  checked={exportInfo}
+                  onChange={(e) => setExportInfo(e.target.checked)}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControlLabel
+              label="Layouts"
+              control={(
+                <Checkbox
+                  checked={exportLayouts}
+                  onChange={(e) => setExportLayouts(e.target.checked)}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControlLabel
+              label="Objects"
+              control={(
+                <Checkbox
+                  checked={exportObjects}
+                  onChange={(e) => setExportObjects(e.target.checked)}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControlLabel
+              label="Actions"
+              control={(
+                <Checkbox
+                  checked={exportActions}
+                  onChange={(e) => setExportActions(e.target.checked)}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControlLabel
+              label="Notes"
+              control={(
+                <Checkbox
+                  checked={exportNotes}
+                  onChange={(e) => setExportNotes(e.target.checked)}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControlLabel
+              label="History"
+              control={(
+                <Checkbox
+                  checked={exportHistory}
+                  onChange={(e) => setExportHistory(e.target.checked)}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>

@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
 } from '@mui/material';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +14,7 @@ import { useAppDispatch } from '../../store/store';
 import { deleteConfig, upsertConfig } from '../../store/main-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import ConfigInfo from '../../models/config-info';
-import { setInfo } from '../../store/config-slice';
+import { loadConfig, setInfo } from '../../store/config-slice';
 import { defaultConfiguration } from '../../models/configuration';
 import ConfigExportDialog from '../export/ConfigExportDialog';
 
@@ -60,44 +61,52 @@ const ConfigUpdateDialog = ({
   return (
     <Dialog open={open} onClose={() => onClose()}>
       <DialogTitle>
-        {configId ? 'Update ' : 'Create '}
-        Config
+        <b>
+          {configId ? 'Update ' : 'Create '}
+          Config
+        </b>
       </DialogTitle>
 
       <DialogContent>
-        <TextField
-          fullWidth
-          label="Name"
-          variant="standard"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Short Name"
-          variant="standard"
-          value={shortName}
-          onChange={(e) => setShortName(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Short Name"
+              value={shortName}
+              onChange={(e) => setShortName(e.target.value)}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Image URL"
-          variant="standard"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Image URL"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          label="Description"
-          variant="standard"
-          multiline
-          rows={6}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Description"
+              multiline
+              rows={10}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>
@@ -120,7 +129,7 @@ const ConfigUpdateDialog = ({
               objType="Config"
               objName={info.shortName}
               open={deleteOpen}
-              onDelete={() => { dispatch(deleteConfig(configId)); onClose(); history.push('/'); }}
+              onDelete={() => { dispatch(deleteConfig(configId)); dispatch(loadConfig(defaultConfiguration())); onClose(); history.push('/'); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
