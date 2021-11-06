@@ -105,6 +105,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
                   <InputLabel>Icon</InputLabel>
                   <Select
                     label="Icon"
+                    MenuProps={{ style: { maxHeight: '400px' } }}
                     value={icon}
                     onChange={(e) => setIcon(e.target.value)}
                   >

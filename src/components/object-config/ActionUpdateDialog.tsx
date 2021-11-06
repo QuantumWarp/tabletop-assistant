@@ -104,6 +104,7 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
               <Select
                 fullWidth
                 label="Icon"
+                MenuProps={{ style: { maxHeight: '400px' } }}
                 value={icon}
                 onChange={(e) => setIcon(e.target.value)}
               >

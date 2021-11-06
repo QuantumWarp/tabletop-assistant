@@ -10,7 +10,7 @@ import {
   Casino as ActionIcon,
   History as HistoryIcon,
   Note as NotesIcon,
-  SettingsApplications as ConfigureIcon,
+  Settings as ConfigureIcon,
 } from '@mui/icons-material';
 import { NavLink, useHistory } from 'react-router-dom';
 import './SideNav.css';
