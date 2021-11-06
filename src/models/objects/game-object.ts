@@ -1,9 +1,11 @@
 import { TabletopIconType } from '../../components/common/TabletopIcon';
+import DisplayType from '../layout/display-type';
 
 export default interface GameObject {
   id: string;
   name: string;
   disabled: boolean;
+  defaultDisplay: DisplayType;
   icon?: TabletopIconType;
   description?: string;
   fields: {

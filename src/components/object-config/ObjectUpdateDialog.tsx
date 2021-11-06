@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -16,13 +17,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { ArrowRightAlt as ArrowRightIcon } from '@mui/icons-material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
 import { deleteObject, upsertObject } from '../../store/config-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import './ObjectUpdateDialog.css';
-import ObjectExampleLayout from './ObjectExampleLayout';
+import LayoutDisplay from '../layout/LayoutDisplay';
+import DisplayType from '../../models/layout/display-type';
 
 interface ObjectUpdateDialogProps {
   obj?: Partial<GameObject>;
@@ -39,6 +42,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
   const [disabled, setDisabled] = useState(obj.disabled || false);
   const [icon, setIcon] = useState(obj.icon || '');
   const [description, setDescription] = useState(obj.description || '');
+  const [defaultDisplay, setDefaultDisplay] = useState(obj.defaultDisplay || '');
 
   const [value, setValue] = useState(obj.fields?.value);
   const [secondaryValue, setSecondaryValue] = useState(obj.fields?.secondaryValue);
@@ -48,10 +52,12 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
   const [secondaryToggle, setSecondaryToggle] = useState(obj.fields?.secondaryToggle);
 
   const getUpdatedObject = () => ({
+    id: '',
     name,
     disabled,
     icon: icon as TabletopIconType,
     description,
+    defaultDisplay: defaultDisplay as DisplayType,
     fields: {
       value,
       secondaryValue,
@@ -64,15 +70,15 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
 
   const saveObject = () => {
     const updatedObject = {
-      id: obj?.id || guid(),
       ...getUpdatedObject(),
+      id: obj?.id || guid(),
     };
     dispatch(upsertObject(updatedObject));
     onClose(updatedObject);
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="lg">
       <DialogTitle>
         <b>
           {obj.id ? 'Update ' : 'Create '}
@@ -82,7 +88,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
 
       <DialogContent>
         <Grid container spacing={2} marginTop={0}>
-          <Grid item container spacing={2}>
+          <Grid item container xs={6} spacing={2}>
             <Grid item container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -212,10 +218,37 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
             </Grid>
           </Grid>
 
-          <Grid item>
-            <ObjectExampleLayout
-              obj={getUpdatedObject()}
-            />
+          <Divider orientation="vertical" flexItem sx={{ marginLeft: '18px' }}>
+            <ArrowRightIcon />
+          </Divider>
+
+          <Grid item container justifyContent="center" xs={5} spacing={2}>
+            <Grid item xs={8}>
+              <FormControl fullWidth>
+                <InputLabel>Default Display</InputLabel>
+                <Select
+                  label="Default Display"
+                  value={defaultDisplay}
+                  onChange={(e) => setDefaultDisplay(e.target.value)}
+                >
+                  {Object.values(DisplayType).map((x) => (
+                    <MenuItem
+                      key={x}
+                      value={x}
+                    >
+                      {x}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {defaultDisplay && (
+              <LayoutDisplay
+                display={defaultDisplay as DisplayType}
+                obj={getUpdatedObject()}
+              />
+            )}
           </Grid>
         </Grid>
       </DialogContent>
