@@ -20,8 +20,9 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
     <>
       <div
         className="layout-config-container"
-        onDoubleClick={() => setNewEntryDialogOpen(true)}
       >
+        <div className="click-area" onClick={() => setNewEntryDialogOpen(true)} />
+
         {layout.entries.map((entry) => (
           <LayoutConfigBox
             containerSize={containerSize}
@@ -48,10 +49,12 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
         ))}
       </div>
 
-      <LayoutConfigDialog
-        open={newEntryDialogOpen}
-        onClose={() => setNewEntryDialogOpen(false)}
-      />
+      {newEntryDialogOpen && (
+        <LayoutConfigDialog
+          open={newEntryDialogOpen}
+          onClose={() => setNewEntryDialogOpen(false)}
+        />
+      )}
     </>
   );
 };

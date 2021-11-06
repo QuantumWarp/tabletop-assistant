@@ -4,3 +4,9 @@
   width: 1000px;
   background-color: white;
 }
+
+.layout-config-container .click-area {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}

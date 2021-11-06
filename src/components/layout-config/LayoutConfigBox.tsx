@@ -19,39 +19,43 @@ const LayoutConfigBox = ({
   containerSize, entry, onPositionChange, onSizeChange,
 }: LayoutBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
   const objects = useAppSelector(selectObjects);
 
   const obj = objects.find((x) => x.id === entry.objectId);
 
   return (
-    <Rnd
-      className="layout-box"
-      position={LayoutPositionHelper.getPosition(entry.position, containerSize)}
-      size={LayoutPositionHelper.getSize(entry.position, containerSize)}
-      onDragStop={(_e, data) => onPositionChange(data)}
-      onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
-      bounds="parent"
-    >
-      <div
-        className="inner"
-        onDoubleClick={(e) => { e.stopPropagation(); setDialogOpen(true); }}
+    <>
+      <Rnd
+        className="layout-box"
+        position={LayoutPositionHelper.getPosition(entry.position, containerSize)}
+        size={LayoutPositionHelper.getSize(entry.position, containerSize)}
+        onDrag={() => setDragging(true)}
+        onDragStop={(_e, data) => onPositionChange(data)}
+        onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
+        bounds="parent"
       >
-        <div>
-          <b>{obj ? obj.name : 'Empty'}</b>
-        </div>
+        <div
+          className="inner"
+          onClick={() => { if (!dragging) setDialogOpen(true); setDragging(false); }}
+        >
+          <div>
+            <b>{obj ? obj.name : 'Empty'}</b>
+          </div>
 
-        <div>
-          {entry.display}
+          <div>
+            {entry.display}
+          </div>
         </div>
+      </Rnd>
 
-        <LayoutConfigDialog
-          open={dialogOpen}
-          entry={entry}
-          onClose={() => setDialogOpen(false)}
-        />
-      </div>
-    </Rnd>
+      <LayoutConfigDialog
+        open={dialogOpen}
+        entry={entry}
+        onClose={() => setDialogOpen(false)}
+      />
+    </>
   );
 };
 

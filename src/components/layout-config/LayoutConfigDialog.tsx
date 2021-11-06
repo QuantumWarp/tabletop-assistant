@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as guid } from 'uuid';
 import {
   Button,
@@ -6,6 +6,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  Grid,
+  InputLabel,
   MenuItem,
   Select,
 } from '@mui/material';
@@ -15,6 +18,7 @@ import { deleteEntry, selectObjects, upsertEntry } from '../../store/config-slic
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { LayoutPositionHelper } from '../../models/layout/layout-position';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
+import LayoutDisplay from '../layout/LayoutDisplay';
 
 interface LayoutConfigDialogProps {
   entry?: Partial<LayoutEntry>;
@@ -31,6 +35,8 @@ const LayoutConfigDialog = ({ entry = {}, open, onClose }: LayoutConfigDialogPro
   const [objectId, setObjectId] = useState(entry.objectId || '');
   const [display, setDisplay] = useState(entry.display || DisplayType.simpleCard);
 
+  const selectedObject = objects.find((x) => x.id === objectId);
+
   const saveLayoutConfig = () => {
     const updatedEntry = {
       id: entry?.id || guid(),
@@ -42,40 +48,74 @@ const LayoutConfigDialog = ({ entry = {}, open, onClose }: LayoutConfigDialogPro
     onClose(updatedEntry);
   };
 
+  useEffect(() => {
+    if (!selectedObject) return;
+    if (!selectedObject.defaultDisplay) return;
+    setDisplay(selectedObject.defaultDisplay);
+  }, [selectedObject]);
+
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
-        {entry.id ? 'Update ' : 'Create '}
-        Layout Entry
+        <b>
+          {entry.id ? 'Update ' : 'Add '}
+          Layout Entry
+        </b>
       </DialogTitle>
 
       <DialogContent>
-        <Select
-          fullWidth
-          variant="standard"
-          value={objectId}
-          label="Object"
-          onChange={(e) => setObjectId(e.target.value)}
-        >
-          {objects.map((obj) => (
-            <MenuItem
-              key={obj.id}
-              value={obj.id}
-            >
-              {obj.name}
-            </MenuItem>
-          ))}
-        </Select>
+        <Grid container spacing={2} marginTop={0}>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel>Object</InputLabel>
+              <Select
+                fullWidth
+                value={objectId}
+                label="Object"
+                onChange={(e) => setObjectId(e.target.value)}
+              >
+                {objects.map((obj) => (
+                  <MenuItem
+                    key={obj.id}
+                    value={obj.id}
+                  >
+                    {obj.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
 
-        <Select
-          value={display}
-          onChange={(e) => setDisplay(e.target.value as DisplayType)}
-        >
-          <MenuItem value={DisplayType.simpleCard}>{DisplayType.simpleCard}</MenuItem>
-          <MenuItem value={DisplayType.simpleToggle}>{DisplayType.simpleToggle}</MenuItem>
-          <MenuItem value={DisplayType.numberSquare}>{DisplayType.numberSquare}</MenuItem>
-          <MenuItem value={DisplayType.dotCounter}>{DisplayType.dotCounter}</MenuItem>
-        </Select>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Display</InputLabel>
+              <Select
+                label="Display"
+                value={display}
+                onChange={(e) => setDisplay(e.target.value as DisplayType)}
+              >
+                {Object.values(DisplayType).map((x) => (
+                  <MenuItem
+                    key={x}
+                    value={x}
+                  >
+                    {x}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            {selectedObject && (
+              <LayoutDisplay
+                obj={selectedObject}
+                display={display}
+                interactable={false}
+              />
+            )}
+          </Grid>
+        </Grid>
       </DialogContent>
 
       <DialogActions>
