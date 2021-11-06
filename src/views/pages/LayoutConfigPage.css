@@ -7,7 +7,12 @@
 }
 
 .layout-config-page .layout-config-content {
-  padding: 30px;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .layout-config-page .layout-config-controls {

@@ -1,7 +1,8 @@
 .layout-config-container {
   position: relative;
-  height: 1000px;
-  width: 1000px;
+  flex: 1;
+  max-width: 1200px;
+  height: 100%;
   background-color: white;
 }
 

@@ -1,5 +1,3 @@
-import { CSSProperties } from 'react';
-import ContainerSize from './container-size';
 import LayoutPositionUpdate from './layout-position-update';
 
 export default interface LayoutPosition {
@@ -24,26 +22,31 @@ export class LayoutPositionHelper {
     };
   }
 
-  static getStyles(pos: LayoutPosition): CSSProperties {
+  static getPositionStyle(pos: LayoutPosition, containerWidth: number) {
     return {
-      left: `${pos.left}%`,
-      top: `${pos.top}%`,
-      width: `${pos.width}%`,
-      height: `${pos.height}%`,
+      left: `${(containerWidth / 100) * pos.left}px`,
+      top: `${(containerWidth / 100) * pos.top}px`,
     };
   }
 
-  static getPosition(pos: LayoutPosition, con: ContainerSize) {
+  static getSizeStyle(pos: LayoutPosition, containerWidth: number) {
     return {
-      x: (con.width / 100) * pos.left,
-      y: (con.height / 100) * pos.top,
+      width: `${(containerWidth / 100) * pos.width}px`,
+      height: `${(containerWidth / 100) * pos.height}px`,
     };
   }
 
-  static getSize(pos: LayoutPosition, con: ContainerSize) {
+  static getPosition(pos: LayoutPosition, containerWidth: number) {
     return {
-      width: (con.width / 100) * pos.width,
-      height: (con.height / 100) * pos.height,
+      x: (containerWidth / 100) * pos.left,
+      y: (containerWidth / 100) * pos.top,
+    };
+  }
+
+  static getSize(pos: LayoutPosition, containerWidth: number) {
+    return {
+      width: (containerWidth / 100) * pos.width,
+      height: (containerWidth / 100) * pos.height,
     };
   }
 
@@ -52,20 +55,20 @@ export class LayoutPositionHelper {
     const newPos = { ...pos };
 
     if (update.position) {
-      newPos.left = Math.round((update.position.x / update.containerSize.width) * 100);
-      newPos.top = Math.round((update.position.y / update.containerSize.height) * 100);
+      newPos.left = Math.round((update.position.x / update.containerWidth) * 100);
+      newPos.top = Math.round((update.position.y / update.containerWidth) * 100);
     }
 
     if (update.resize) {
-      newPos.width += Math.round((update.resize.deltaWidth / update.containerSize.width) * 100);
-      newPos.height += Math.round((update.resize.deltaHeight / update.containerSize.height) * 100);
+      newPos.width += Math.round((update.resize.deltaWidth / update.containerWidth) * 100);
+      newPos.height += Math.round((update.resize.deltaHeight / update.containerWidth) * 100);
 
       if (update.resize.direction.toLowerCase().includes('left')) {
-        newPos.left -= Math.round((update.resize.deltaWidth / update.containerSize.width) * 100);
+        newPos.left -= Math.round((update.resize.deltaWidth / update.containerWidth) * 100);
       }
 
       if (update.resize.direction.toLowerCase().includes('top')) {
-        newPos.top -= Math.round((update.resize.deltaHeight / update.containerSize.height) * 100);
+        newPos.top -= Math.round((update.resize.deltaHeight / update.containerWidth) * 100);
       }
     }
 

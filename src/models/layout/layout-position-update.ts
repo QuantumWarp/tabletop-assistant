@@ -1,8 +1,6 @@
-import ContainerSize from './container-size';
-
 export default interface LayoutPositionUpdate {
   entryId: string;
-  containerSize: ContainerSize;
+  containerWidth: number;
   position?: {
     x: number;
     y: number;

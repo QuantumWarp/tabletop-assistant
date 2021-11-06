@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
-import ContainerSize from '../../models/layout/container-size';
 import LayoutEntry from '../../models/layout/layout-entry';
 import { selectObjects } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
@@ -9,14 +8,14 @@ import './LayoutConfigBox.css';
 import { LayoutPositionHelper } from '../../models/layout/layout-position';
 
 interface LayoutBoxProps {
-  containerSize: ContainerSize,
+  containerWidth: number,
   entry: LayoutEntry,
   onPositionChange: (data: DraggableData) => void,
   onSizeChange: (dir: string, delta: ResizableDelta) => void,
 }
 
 const LayoutConfigBox = ({
-  containerSize, entry, onPositionChange, onSizeChange,
+  containerWidth, entry, onPositionChange, onSizeChange,
 }: LayoutBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -29,8 +28,8 @@ const LayoutConfigBox = ({
     <>
       <Rnd
         className="layout-box"
-        position={LayoutPositionHelper.getPosition(entry.position, containerSize)}
-        size={LayoutPositionHelper.getSize(entry.position, containerSize)}
+        position={LayoutPositionHelper.getPosition(entry.position, containerWidth)}
+        size={LayoutPositionHelper.getSize(entry.position, containerWidth)}
         onDrag={() => setDragging(true)}
         onDragStop={(_e, data) => onPositionChange(data)}
         onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
