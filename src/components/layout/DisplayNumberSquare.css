@@ -6,14 +6,39 @@
 }
 
 .display-number-square .container {
-  border: 1px solid black;
+  border: thin solid rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.display-number-square .number {
+.display-number-square .header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.display-number-square .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border-right: thin solid rgba(0, 0, 0, 0.4);
+  border-bottom: thin solid rgba(0, 0, 0, 0.4);
+}
+
+.display-number-square .secondary-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border-left: thin solid rgba(0, 0, 0, 0.4);
+  border-bottom: thin solid rgba(0, 0, 0, 0.4);
+}
+
+.display-number-square .value {
   flex: 4;
   font-size: 60px;
   display: flex;

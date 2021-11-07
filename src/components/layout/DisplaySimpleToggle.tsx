@@ -1,6 +1,6 @@
 import React from 'react';
 import GameObject from '../../models/objects/game-object';
-import { selectActions, setAction } from '../../store/config-slice';
+import { selectActions, setAction, upsertObject } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import './DisplaySimpleToggle.css';
 
@@ -19,11 +19,26 @@ const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
     dispatch(setAction(firstAction));
   };
 
+  const toggle = () => {
+    dispatch(upsertObject({
+      ...obj,
+      fields: {
+        ...obj.fields,
+        toggle: !obj.fields.toggle,
+      },
+    }));
+  };
+
   return (
     <div
       className="display-simple-toggle"
       onClick={dispatchFirstAction}
     >
+      <div
+        className={`dot${obj.fields.toggle ? ' filled' : ''}`}
+        onClick={() => toggle()}
+      />
+
       <div className="title">
         {obj.fields.title || obj.name}
       </div>

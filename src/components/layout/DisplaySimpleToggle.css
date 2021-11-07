@@ -1,7 +1,20 @@
 .display-simple-toggle {
   width: 100%;
   display: flex;
+  align-items: center;
   padding: 2px;
+}
+
+.display-simple-toggle .dot {
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  margin-right: 8px;
+}
+
+.display-simple-toggle .dot.filled {
+  background-color: black;
 }
 
 .display-simple-toggle .title {

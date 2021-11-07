@@ -16,7 +16,7 @@ const LayoutPage = () => {
 
   return (
     <div className="layout-page">
-      <TopBar title="Layout">
+      <TopBar title={currentLayout ? currentLayout.name : 'Layout'}>
         <Tabs
           value={currentLayout?.id}
           onChange={(_e, val) => dispatch(setLayoutId(val))}
