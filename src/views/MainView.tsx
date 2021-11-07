@@ -26,8 +26,8 @@ const MainView = () => {
   useEffect(() => {
     const newConfig = configs.find((x) => x.id.toString() === configId);
     if (newConfig) {
-      if (currentConfig.id === newConfig.id || currentConfig.id === '') return;
-      dispatch(upsertConfig(currentConfig));
+      if (currentConfig.id === newConfig.id) return;
+      if (currentConfig.id !== '') dispatch(upsertConfig(currentConfig));
       dispatch(loadConfig(newConfig));
     } else {
       history.push('/');
