@@ -8,13 +8,13 @@ interface DisplayDotCounterProps {
 
 const DisplayDotCounter = ({ obj }: DisplayDotCounterProps) => (
   <div className="display-dot-counter">
-    <span className="name">{obj.name}</span>
+    <span className="name">{obj.fields.title || obj.name}</span>
 
     {Array(obj.fields.secondaryValue).fill(0).map((_x, index) => (
       <div
         // eslint-disable-next-line react/no-array-index-key
         key={index}
-        className={`dot${index < (obj.fields.value || 0) - 1 ? ' filled' : ''}`}
+        className={`dot${index < (obj.fields.value || 0) ? ' filled' : ''}`}
       />
     ))}
   </div>

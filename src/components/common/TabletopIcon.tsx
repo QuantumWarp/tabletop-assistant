@@ -86,6 +86,7 @@ enum TabletopIconType {
   eye = 'Eye',
   feet = 'Feet',
   fire = 'Fire',
+  fist = 'Fist',
   flower = 'Flower',
   frost = 'Frost',
   glasses = 'Glasses',
@@ -203,6 +204,7 @@ const TabletopIcon = ({ icon }: TabletopIconProps) => {
     case TabletopIconType.d20: return (<Icon icon="fa-solid:dice-d20" />);
     case TabletopIconType.doubleDice: return (<Icon icon="fa-solid:dice" />);
     case TabletopIconType.dragon: return (<Icon icon="fa-solid:dragon" />);
+    case TabletopIconType.fist: return (<Icon icon="fa-solid:fist-raised" />);
     case TabletopIconType.glasses: return (<Icon icon="fa-solid:glasses" />);
     case TabletopIconType.guitar: return (<Icon icon="fa-solid:guitar" />);
     case TabletopIconType.peoplePair: return (<Icon icon="fa-solid:people-arrows" />);

@@ -141,7 +141,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
                   fullWidth
                   label="Description"
                   multiline
-                  rows={4}
+                  rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -244,12 +244,14 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
               </FormControl>
             </Grid>
 
-            {defaultDisplay && (
-              <LayoutDisplay
-                display={defaultDisplay as DisplayType}
-                obj={getUpdatedObject()}
-              />
-            )}
+            <div className="object-display-section">
+              {defaultDisplay && (
+                <LayoutDisplay
+                  display={defaultDisplay as DisplayType}
+                  obj={getUpdatedObject()}
+                />
+              )}
+            </div>
           </Grid>
         </Grid>
       </DialogContent>

@@ -9,6 +9,7 @@
   padding: 30px;
   display: flex;
   justify-content: center;
+  overflow: overlay;
 }
 
 .object-config-page .object-config-content :first-child {

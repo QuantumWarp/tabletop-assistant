@@ -38,7 +38,7 @@ const LayoutConfigTabDialog = ({ layout = {}, open, onClose }: LayoutConfigTabDi
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
           {layout.id ? 'Update ' : 'Create '}

@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { LayoutPositionHelper } from '../../models/layout/layout-position';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import LayoutDisplay from '../layout/LayoutDisplay';
+import './LayoutConfigDialog.css';
 
 interface LayoutConfigDialogProps {
   entry?: Partial<LayoutEntry>;
@@ -106,7 +107,7 @@ const LayoutConfigDialog = ({ entry = {}, open, onClose }: LayoutConfigDialogPro
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} className="layout-display-dialog-section">
             {selectedObject && (
               <LayoutDisplay
                 obj={selectedObject}

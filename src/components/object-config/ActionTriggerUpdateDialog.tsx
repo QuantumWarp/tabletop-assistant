@@ -44,7 +44,7 @@ const ActionUpdateDialog = ({
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
           {(trigger.actionId || trigger.manual) ? 'Update ' : 'Create '}

@@ -7,3 +7,12 @@
   width: 30px;
   margin-right: 5px;
 }
+
+.object-display-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  padding-left: 16px;
+  margin-top: -280px;
+}
