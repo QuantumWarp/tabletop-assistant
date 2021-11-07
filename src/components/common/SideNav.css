@@ -41,6 +41,7 @@
   align-items: center;
   text-transform: uppercase;
   font-weight: bold;
+  box-sizing: border-box;
   font-size: 25px;
   padding: 5px;
 }
@@ -52,4 +53,26 @@
 }
 .side-nav .menu-item .name {
   font-size: 20px;
+}
+
+@media only screen and (max-height: 1000px) {
+  .side-nav {
+    min-width: 160px;
+    max-width: 160px;
+  }
+  .side-nav .menu-item {
+    height: 130px;
+  }
+  .side-nav .top-item-image {
+    display: none;
+  }
+  .side-nav .top-item-text {
+    min-height: 60px;
+  }
+  .side-nav .thin-button.MuiButtonBase-root {
+    padding-left: 10px;
+  }
+  .side-nav .MuiListItemIcon-root {
+    min-width: 30px;
+  }
 }

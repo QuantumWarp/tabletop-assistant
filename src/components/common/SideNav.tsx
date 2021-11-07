@@ -101,6 +101,7 @@ const SideNav = () => {
       <div className="bottom">
         <ListItem
           button
+          className="thin-button"
           activeClassName="Mui-selected"
           component={NavLink}
           to="./layout-config"
@@ -113,6 +114,7 @@ const SideNav = () => {
 
         <ListItem
           button
+          className="thin-button"
           activeClassName="Mui-selected"
           component={NavLink}
           to="./object-config"
@@ -125,11 +127,13 @@ const SideNav = () => {
 
         <ListItem
           button
-          className="menu-item"
+          className="thin-button"
           onClick={() => history.push('/')}
         >
-          <SwitchIcon className="icon" />
-          <span className="name">Switch</span>
+          <ListItemIcon>
+            <SwitchIcon />
+          </ListItemIcon>
+          <ListItemText primary="Switch" />
         </ListItem>
       </div>
     </div>
