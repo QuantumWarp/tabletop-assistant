@@ -15,10 +15,15 @@ const HistoryPage = () => {
   const nodes = useAppSelector(selectHistory);
   const [newHistoryDialogOpen, setNewHistoryDialogOpen] = useState(false);
   const [filters, setFilters] = useState(['custom']);
+  const [filter, setFilter] = useState('');
 
   const filteredNodes = nodes.filter((x) => (HistoryEntryHelper.isCustom(x) && filters.includes('custom'))
     || (HistoryEntryHelper.isAction(x) && filters.includes('action'))
     || (HistoryEntryHelper.isRollResult(x) && filters.includes('roll')));
+
+  const searchedNodes = filteredNodes.filter((x) => !filter
+    || (HistoryEntryHelper.isCustom(x)
+    && x.title.toLowerCase().includes(filter.toLowerCase())));
 
   return (
     <div className="history-page">
@@ -27,6 +32,8 @@ const HistoryPage = () => {
           <TextField
             label="Search"
             variant="standard"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
           />
 
           <ToggleButtonGroup
@@ -55,7 +62,7 @@ const HistoryPage = () => {
 
       <div className="history-content">
         <div className="inner">
-          {filteredNodes.map((x) => (
+          {searchedNodes.map((x) => (
             <HistoryRow
               key={x.id}
               entry={x}
