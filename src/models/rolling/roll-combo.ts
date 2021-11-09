@@ -46,7 +46,7 @@ export class RollComboHelper {
 
   static groupByFaces(combo: RollCombo): { [key: number]: RollCombo } {
     return combo.reduce((obj, x) => {
-      const key = x.faces;
+      const key = x.faces * (x.negative ? -1 : 1);
       const value = obj[key] || [];
       value.push(x);
       return { ...obj, [key]: value };

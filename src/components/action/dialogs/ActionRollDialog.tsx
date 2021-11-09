@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -6,44 +6,14 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
+import { v4 as guid } from 'uuid';
+import { Icon } from '@iconify/react';
+import ActionRoll from '../content/ActionRoll';
 import Note from '../../../models/notes/note';
 import { useAppSelector } from '../../../store/store';
 import { selectActions } from '../../../store/config-slice';
-import RollCombo, { RollComboHelper } from '../../../models/rolling/roll-combo';
-import GameAction from '../../../models/objects/game-action';
+import RollCombo from '../../../models/rolling/roll-combo';
 import './ActionRollDialog.css';
-
-const FaceCombo = (combo: RollCombo) => (
-  <div
-    key={combo.map((entry) => entry.id).join(',')}
-    className="face-combo"
-  >
-    {combo.length}
-    d
-    {combo[0].faces}
-  </div>
-);
-
-const ActionCombo = (combo: RollCombo, action?: GameAction) => {
-  const staticValue = combo.filter((x) => x.static).reduce((sum, x) => sum + x.faces, 0);
-  const faceComboDict = RollComboHelper.groupByFaces(combo.filter((x) => !x.static));
-
-  return (
-    <div
-      key={combo.map((entry) => entry.id).join(',')}
-      className="action-combo"
-    >
-      <span>{ action?.name || 'Custom' }</span>
-
-      <div className="face-combos">
-        <span>{staticValue}</span>
-        {Object.keys(faceComboDict).map((x) => (
-          FaceCombo(faceComboDict[Number(x)])
-        ))}
-      </div>
-    </div>
-  );
-};
 
 interface ActionRollDialogProps {
   combo: RollCombo;
@@ -53,21 +23,63 @@ interface ActionRollDialogProps {
 
 const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
   const gameActions = useAppSelector(selectActions);
+  const [updatedCombo, setUpdatedCombo] = useState(combo);
 
-  const actionComboDict = RollComboHelper.groupByActionId(combo);
+  const addToCombo = (faces: number) => {
+    const firstNegative = updatedCombo.find((x) => x.faces === faces && x.negative);
+    if (firstNegative) {
+      setUpdatedCombo(updatedCombo.filter((x) => x !== firstNegative));
+    } else {
+      setUpdatedCombo([
+        ...updatedCombo,
+        { id: guid(), faces },
+      ]);
+    }
+  };
+
+  const removeFromCombo = (faces: number) => {
+    const firstPositive = updatedCombo.find((x) => x.faces === faces && !x.negative);
+    if (firstPositive) {
+      setUpdatedCombo(updatedCombo.filter((x) => x !== firstPositive));
+    } else {
+      setUpdatedCombo([
+        ...updatedCombo,
+        { id: guid(), faces, negative: true },
+      ]);
+    }
+  };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
-        Setup Roll
+        <b>Setup Roll</b>
+        {gameActions.length}
       </DialogTitle>
 
       <DialogContent>
-        {Object.keys(actionComboDict).map((actionId) => {
-          const actionCombo = actionComboDict[actionId];
-          const action = gameActions.find((x) => x.id === actionId);
-          return ActionCombo(actionCombo, action);
-        })}
+        <ActionRoll combo={updatedCombo} />
+
+        <div className="common-dice">
+          <div className="row">
+            <span className="title">Add</span>
+            <Icon icon="mdi:dice-d4" onClick={() => addToCombo(4)} />
+            <Icon icon="mdi:dice-d6" onClick={() => addToCombo(6)} />
+            <Icon icon="mdi:dice-d8" onClick={() => addToCombo(8)} />
+            <Icon icon="mdi:dice-d10" onClick={() => addToCombo(10)} />
+            <Icon icon="mdi:dice-d12" onClick={() => addToCombo(12)} />
+            <Icon icon="mdi:dice-d20" onClick={() => addToCombo(20)} />
+          </div>
+
+          <div className="row">
+            <span className="title">Remove</span>
+            <Icon icon="mdi:dice-d4-outline" onClick={() => removeFromCombo(4)} />
+            <Icon icon="mdi:dice-d6-outline" onClick={() => removeFromCombo(6)} />
+            <Icon icon="mdi:dice-d8-outline" onClick={() => removeFromCombo(8)} />
+            <Icon icon="mdi:dice-d10-outline" onClick={() => removeFromCombo(10)} />
+            <Icon icon="mdi:dice-d12-outline" onClick={() => removeFromCombo(12)} />
+            <Icon icon="mdi:dice-d20-outline" onClick={() => removeFromCombo(20)} />
+          </div>
+        </div>
       </DialogContent>
 
       <DialogActions>

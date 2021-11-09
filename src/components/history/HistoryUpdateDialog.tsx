@@ -40,7 +40,7 @@ const HistoryUpdateDialog = ({ entry = {}, open, onClose }: HistoryUpdateDialogP
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
           {entry.id ? 'Update ' : 'Create '}

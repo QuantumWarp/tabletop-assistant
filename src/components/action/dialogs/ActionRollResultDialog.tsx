@@ -21,7 +21,7 @@ const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialog
   const nonStaticResults = combo.filter((x) => !x.static);
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
         Edit Roll
       </DialogTitle>
