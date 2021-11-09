@@ -1,12 +1,12 @@
-import {
-  Card, CardActionArea, CardContent, Typography,
-} from '@mui/material';
 import TimeAgo from 'react-timeago';
 import React, { useState } from 'react';
 import HistoryEntry, { HistoryEntryHelper } from '../../models/history/history-entry';
 import HistoryEntryCustom from '../../models/history/history-entry-custom';
 import HistoryUpdateDialog from './HistoryUpdateDialog';
 import './HistoryRow.css';
+import HistoryCardCustom from './HistoryCardCustom';
+import HistoryCardAction from './HistoryCardAction';
+import HistoryCardRollResult from './HistoryCardRollResult';
 
 interface HistoryRowProps {
   entry: HistoryEntry,
@@ -24,49 +24,19 @@ const HistoryRow = ({ entry }: HistoryRowProps) => {
         />
       </div>
 
-      <Card className="entry">
-        <CardActionArea onClick={() => HistoryEntryHelper.isCustom(entry) && setEditHistory(entry)}>
-          <CardContent>
-            {HistoryEntryHelper.isAction(entry) && (
-              <>
-                <Typography gutterBottom variant="h5" component="div">
-                  Action-
-                  {entry.actionId}
-                </Typography>
+      {HistoryEntryHelper.isAction(entry) && (
+        <HistoryCardAction entry={entry} />
+      )}
 
-                <Typography variant="body2" color="text.secondary">
-                  Object-
-                  {entry.objectId}
-                </Typography>
-              </>
-            )}
+      {HistoryEntryHelper.isCustom(entry) && (
+        <HistoryCardCustom entry={entry} />
+      )}
 
-            {HistoryEntryHelper.isCustom(entry) && (
-              <>
-                <Typography gutterBottom variant="h5" component="div">
-                  {entry.title}
-                </Typography>
+      {HistoryEntryHelper.isRollResult(entry) && (
+        <HistoryCardRollResult entry={entry} />
+      )}
 
-                <Typography variant="body2" color="text.secondary">
-                  {entry.text}
-                </Typography>
-              </>
-            )}
-
-            {HistoryEntryHelper.isRollResult(entry) && (
-              <>
-                <Typography gutterBottom variant="h5" component="div">
-                  Roll Result
-                </Typography>
-
-                <Typography variant="body2" color="text.secondary">
-                  TODO
-                </Typography>
-              </>
-            )}
-          </CardContent>
-        </CardActionArea>
-      </Card>
+      <div className="right-pad" />
 
       {editHistory && (
         <HistoryUpdateDialog

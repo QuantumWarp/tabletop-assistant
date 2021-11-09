@@ -146,6 +146,12 @@ export const configurationSlice = createSlice({
     // Action
     setAction(state, action: PayloadAction<GameAction>) {
       state.actionTree = ActionTreeHelper.createActionTree(action.payload, state.actions);
+      state.history = [{
+        id: guid(),
+        objectId: action.payload.objectId,
+        actionId: action.payload.id,
+        date: Date.now(),
+      } as HistoryEntry].concat(state.history);
     },
     rollAction(state, action: PayloadAction<string>) {
       const node = ActionTreeHelper.findNode(state.actionTree, action.payload);
@@ -153,11 +159,11 @@ export const configurationSlice = createSlice({
 
       const result = RollComboHelper.roll(node.combo);
       node.results.push(result);
-      state.history.push({
+      state.history = [{
         id: guid(),
         date: Date.now(),
         rollResult: result,
-      });
+      } as HistoryEntry].concat(state.history);
     },
     clearAction(state) {
       state.actionTree = [];

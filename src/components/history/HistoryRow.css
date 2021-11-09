@@ -8,8 +8,28 @@
 
 .history-row .date {
   flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
 }
 
-.history-row .entry {
+.history-row .right-pad {
+  margin-left: 20px;
+  flex: 1;
+}
+
+.history-card {
   flex: 3;
+}
+
+.history-card .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.history-card .icon > * {
+  width: 30px;
+  height: 30px;
 }

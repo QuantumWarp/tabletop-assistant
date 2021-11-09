@@ -6,8 +6,18 @@
 }
 
 .history-page .history-content {
-  padding: 30px;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   overflow: overlay;
+}
+
+.history-page .history-content .inner {
+  max-width: 1000px;
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
 }
 
 .history-page .history-controls {
@@ -17,6 +27,6 @@
   padding:  0 20px 0 0;
 }
 
-.history-page .history-controls :first-child {
+.history-page .history-controls > :first-child {
   width: 50%;
 }
