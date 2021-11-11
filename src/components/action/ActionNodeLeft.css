@@ -4,6 +4,7 @@
   border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 8px 0 0 8px;
   display: flex;
+  overflow: hidden;
 }
 
 .action-node-left .icon {
@@ -31,4 +32,5 @@
 
 .action-node .content .detail {
   flex: 1;
+  font-size: 15px;
 }

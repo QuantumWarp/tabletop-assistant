@@ -42,14 +42,15 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
         <div className="content">
           <div className="title">
             {obj?.name}
-            {' - '}
-            {node.action.name}
+            {node.action.name && ` - ${node.action.name}`}
           </div>
 
           <div className="detail">
             {node.combo && (
               <ActionRoll combo={node.combo} />
             )}
+
+            {!node.combo && (obj?.fields.text || obj?.description)}
           </div>
         </div>
       </div>
