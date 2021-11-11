@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import GameObject from '../../models/objects/game-object';
 import { selectActions, setAction, upsertObject } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -10,6 +11,7 @@ interface DisplaySimpleToggleProps {
 
 const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const actions = useAppSelector(selectActions);
   const objActions = actions.filter((x) => x.objectId === obj.id);
 
@@ -17,6 +19,7 @@ const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
     const firstAction = objActions?.find((action) => action.triggers.find((x) => x.manual));
     if (!firstAction) return;
     dispatch(setAction(firstAction));
+    history.push('./action');
   };
 
   const toggle = () => {

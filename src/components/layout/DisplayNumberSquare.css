@@ -6,14 +6,18 @@
 }
 
 .display-number-square .container {
-  border: thin solid rgba(0, 0, 0, 0.4);
+  border: thin solid rgba(0, 0, 0, 0.6);
   border-radius: 8px;
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  position: relative;
 }
 
 .display-number-square .header {
+  position: absolute;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 }
@@ -24,6 +28,7 @@
   align-items: center;
   height: 30px;
   width: 30px;
+  color: rgba(0, 0, 0, 0.4);
   border-right: thin solid rgba(0, 0, 0, 0.4);
   border-bottom: thin solid rgba(0, 0, 0, 0.4);
 }
@@ -34,12 +39,14 @@
   align-items: center;
   height: 30px;
   width: 30px;
+  color: rgba(0, 0, 0, 0.4);
   border-left: thin solid rgba(0, 0, 0, 0.4);
   border-bottom: thin solid rgba(0, 0, 0, 0.4);
 }
 
 .display-number-square .value {
-  flex: 4;
+  margin-top: -10px;
+  height: 100%;
   font-size: 60px;
   display: flex;
   justify-content: center;
@@ -47,7 +54,25 @@
 }
 
 .display-number-square .name {
-  flex: 1;
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  
   display: flex;
   justify-content: center;
+}
+
+.display-number-square .click-left {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.display-number-square .click-right {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  right: 0;
+  cursor: pointer;
 }

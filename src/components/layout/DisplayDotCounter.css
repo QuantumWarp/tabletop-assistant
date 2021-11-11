@@ -12,11 +12,12 @@
 }
 
 .display-dot-counter .dot {
-  border: 1px solid black;
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   height: 20px;
   width: 20px;
   margin-right: 2px;
+  cursor: pointer;
 }
 
 .display-dot-counter .dot.filled {
