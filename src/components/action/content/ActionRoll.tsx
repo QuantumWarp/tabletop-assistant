@@ -12,15 +12,21 @@ const ActionRoll = ({ combo }: ActionRollProps) => {
 
   return (
     <div className="action-roll">
-      <span className="static">{staticValue}</span>
+      {staticValue !== 0 && (
+        <span className="static">{staticValue}</span>
+      )}
+
       {Object.keys(faceComboDict)
         .sort((a, b) => Math.abs(Number(a)) - Math.abs(Number(b)))
-        .map((x) => (
+        .map((x, index) => (
           <span
             key={faceComboDict[Number(x)].map((entry) => entry.id).join(',')}
             className="face-combo"
           >
-            <span className="sign">{Number(x) < 0 ? '-' : '+'}</span>
+            {(index >= 1 || staticValue !== 0 || Number(x) < 0) && (
+              <span className="sign">{Number(x) > 0 ? '+' : '-'}</span>
+            )}
+
             <span className="amount">{faceComboDict[Number(x)].length}</span>
             <span className="d">d</span>
             <span className="faces">{Math.abs(Number(x))}</span>

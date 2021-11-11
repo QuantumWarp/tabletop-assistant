@@ -12,7 +12,7 @@ import ActionTree, { ActionTreeHelper } from '../models/objects/action-tree';
 import HistoryEntry from '../models/history/history-entry';
 import Note from '../models/notes/note';
 import LayoutTab from '../models/layout/layout-tab';
-import { RollComboHelper } from '../models/rolling/roll-combo';
+import RollCombo, { RollComboHelper } from '../models/rolling/roll-combo';
 import ConfigInfo, { defaultConfigInfo } from '../models/config-info';
 
 interface ConfigurationState {
@@ -153,6 +153,10 @@ export const configurationSlice = createSlice({
         date: Date.now(),
       } as HistoryEntry].concat(state.history);
     },
+    setupRollAction(state, action: PayloadAction<{ actionId: string, combo: RollCombo }>) {
+      const node = ActionTreeHelper.findNode(state.actionTree, action.payload.actionId);
+      node.combo = action.payload.combo;
+    },
     rollAction(state, action: PayloadAction<string>) {
       const node = ActionTreeHelper.findNode(state.actionTree, action.payload);
       if (!node.combo) return;
@@ -219,6 +223,7 @@ export const {
   deleteEntry,
 
   setAction,
+  setupRollAction,
   rollAction,
   clearAction,
 

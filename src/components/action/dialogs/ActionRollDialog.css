@@ -11,7 +11,8 @@
 .common-dice .row {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 60px;
+  user-select: none;
 }
 
 .common-dice .row > .title {
@@ -22,7 +23,7 @@
 
 .common-dice .row > :not(.title) {
   margin-left: 5px;
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   cursor: pointer;
 }
