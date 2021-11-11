@@ -169,6 +169,13 @@ export const configurationSlice = createSlice({
         rollResult: result,
       } as HistoryEntry].concat(state.history);
     },
+    updateRollResult(
+      state,
+      action: PayloadAction<{ actionId: string, resultIndex: number, combo: RollCombo }>,
+    ) {
+      const node = ActionTreeHelper.findNode(state.actionTree, action.payload.actionId);
+      node.results[action.payload.resultIndex] = action.payload.combo;
+    },
     clearAction(state) {
       state.actionTree = [];
     },
@@ -225,6 +232,7 @@ export const {
   setAction,
   setupRollAction,
   rollAction,
+  updateRollResult,
   clearAction,
 
   upsertNote,

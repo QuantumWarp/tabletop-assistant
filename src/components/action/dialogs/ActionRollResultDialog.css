@@ -1,17 +1,47 @@
-.action-roll-result {
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
-  font-size: 28px;
+.action-roll-result-dialog .total {
+  font-size: 36px;
   font-weight: bold;
-  padding: 0 8px;
-  height: 60%;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+  margin-bottom: 10px;
 }
 
-.action-roll-result .combo .lowest {
+.action-roll-result-dialog .results {
+  display: flex;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+
+.action-roll-result-dialog .result {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 30px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.action-roll-result-dialog .result .top {
+  font-size: 14px;
+  min-height: 20px;
+  max-height: 20px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.action-roll-result-dialog .sign {
+  display: flex;
+  align-items: center;
+}
+
+.action-roll-result-dialog .detail {
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.action-roll-result-dialog .result .min {
   color: red;
 }
-.action-roll-result .combo.highest {
+.action-roll-result-dialog .result .max {
   color: green;
 }

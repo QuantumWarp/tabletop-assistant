@@ -4,9 +4,9 @@ interface RollComboEntry {
   id: string;
   actionId?: string;
   static?: boolean;
-  staticObjectId?: string;
   faces: number;
   negative?: boolean;
+  previous?: number;
   result? : number;
 }
 
@@ -16,13 +16,19 @@ export default RollCombo;
 
 export class RollComboHelper {
   static roll(combo: RollCombo): RollCombo {
-    return combo.map((x) => ({
+    return combo.map((x) => this.rollSingle(x));
+  }
+
+  static rollSingle(entry: RollComboEntry): RollComboEntry {
+    return {
       id: guid(),
-      actionId: x.actionId,
-      static: x.static,
-      faces: x.faces,
-      result: x.static ? x.faces : Math.floor(Math.random() * x.faces) + 1,
-    }));
+      actionId: entry.actionId,
+      static: entry.static,
+      negative: entry.negative,
+      faces: entry.faces,
+      previous: entry.result,
+      result: entry.static ? entry.faces : Math.floor(Math.random() * entry.faces) + 1,
+    };
   }
 
   static clone(combo: RollCombo, includeResult = false): RollCombo {
@@ -30,7 +36,9 @@ export class RollComboHelper {
       id: guid(),
       actionId: x.actionId,
       static: x.static,
+      negative: x.negative,
       faces: x.faces,
+      previous: includeResult ? x.previous : undefined,
       result: includeResult ? x.result : undefined,
     }));
   }

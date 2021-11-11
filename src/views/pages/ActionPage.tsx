@@ -16,12 +16,6 @@ const ActionPage = () => {
     <div className="action-page">
       <TopBar title="Action">
         <div className="action-controls">
-          <Button
-            variant="outlined"
-          >
-            Custom Roll
-          </Button>
-
           {actionTree.length > 0 && (
             <Button
               variant="outlined"

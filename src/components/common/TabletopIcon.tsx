@@ -43,6 +43,8 @@ import {
   BackupTable,
   Autorenew,
   History,
+  PlayCircle,
+  TextSnippet,
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 
@@ -73,7 +75,13 @@ enum TabletopIconType {
   compass = 'Compass',
   cross = 'Cross',
   chest = 'Chest',
+  d4 = 'D4',
+  d6 = 'D6',
+  d8 = 'D8',
+  d10 = 'D10',
+  d12 = 'D12',
   d20 = 'D20',
+  d20Outline = 'D20 Outline',
   die = 'Die',
   doubleDice = 'Double Dice',
   doubleSword = 'Double Sword',
@@ -118,6 +126,7 @@ enum TabletopIconType {
   peoplePair = 'People Pair',
   person = 'Person',
   pickaxe = 'Pickaxe',
+  play = 'Play',
   potion = 'Potion',
   pray = 'Pray',
   rabbit = 'Rabbit',
@@ -138,6 +147,7 @@ enum TabletopIconType {
   switch = 'Switch',
   sword = 'Sword',
   tent = 'Tent',
+  text = 'Text',
   tick = 'Tick',
   time = 'Time',
   tree = 'Tree',
@@ -183,6 +193,7 @@ const TabletopIcon = ({ icon }: TabletopIconProps) => {
     case TabletopIconType.mountain: return (<Terrain />);
     case TabletopIconType.note: return (<Note />);
     case TabletopIconType.person: return (<Person />);
+    case TabletopIconType.play: return (<PlayCircle />);
     case TabletopIconType.potion: return (<Science />);
     case TabletopIconType.redo: return (<Replay />);
     case TabletopIconType.sailing: return (<Sailing />);
@@ -193,6 +204,7 @@ const TabletopIcon = ({ icon }: TabletopIconProps) => {
     case TabletopIconType.silent: return (<VolumeOff />);
     case TabletopIconType.star: return (<Grade />);
     case TabletopIconType.switch: return (<Autorenew />);
+    case TabletopIconType.text: return (<TextSnippet />);
     case TabletopIconType.tick: return (<Check />);
     case TabletopIconType.time: return (<AccessTime />);
     case TabletopIconType.water: return (<Water />);
@@ -201,7 +213,7 @@ const TabletopIcon = ({ icon }: TabletopIconProps) => {
     case TabletopIconType.beer: return (<Icon icon="fa:beer" />);
     case TabletopIconType.brain: return (<Icon icon="fa-solid:brain" />);
     case TabletopIconType.chain: return (<Icon icon="fa:chain" />);
-    case TabletopIconType.d20: return (<Icon icon="fa-solid:dice-d20" />);
+    case TabletopIconType.d20Outline: return (<Icon icon="fa-solid:dice-d20" />);
     case TabletopIconType.doubleDice: return (<Icon icon="fa-solid:dice" />);
     case TabletopIconType.dragon: return (<Icon icon="fa-solid:dragon" />);
     case TabletopIconType.fist: return (<Icon icon="fa-solid:fist-raised" />);
@@ -219,6 +231,12 @@ const TabletopIcon = ({ icon }: TabletopIconProps) => {
     case TabletopIconType.campfire: return (<Icon icon="mdi:campfire" />);
     case TabletopIconType.chest: return (<Icon icon="mdi:treasure-chest" />);
     case TabletopIconType.coinHand: return (<Icon icon="mdi:hand-coin" />);
+    case TabletopIconType.d4: return (<Icon icon="mdi:dice-d4" />);
+    case TabletopIconType.d6: return (<Icon icon="mdi:dice-d6" />);
+    case TabletopIconType.d8: return (<Icon icon="mdi:dice-d8" />);
+    case TabletopIconType.d10: return (<Icon icon="mdi:dice-d10" />);
+    case TabletopIconType.d12: return (<Icon icon="mdi:dice-d12" />);
+    case TabletopIconType.d20: return (<Icon icon="mdi:dice-d20" />);
     case TabletopIconType.egg: return (<Icon icon="mdi:egg-outline" />);
     case TabletopIconType.horse: return (<Icon icon="mdi:horse-variant" />);
     case TabletopIconType.knife: return (<Icon icon="mdi:knife" />);

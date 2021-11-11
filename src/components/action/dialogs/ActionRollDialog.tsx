@@ -11,7 +11,7 @@ import {
 import { v4 as guid } from 'uuid';
 import { Icon } from '@iconify/react';
 import ActionRoll from '../content/ActionRoll';
-import RollCombo from '../../../models/rolling/roll-combo';
+import RollCombo, { RollComboHelper } from '../../../models/rolling/roll-combo';
 import './ActionRollDialog.css';
 
 interface ActionRollDialogProps {
@@ -21,7 +21,7 @@ interface ActionRollDialogProps {
 }
 
 const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
-  const [updatedCombo, setUpdatedCombo] = useState(combo);
+  const [updatedCombo, setUpdatedCombo] = useState(RollComboHelper.clone(combo));
 
   const updateStaticValue = (value: number) => {
     setUpdatedCombo(updatedCombo.filter((x) => !x.static)

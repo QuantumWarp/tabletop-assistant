@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -6,43 +6,75 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import Note from '../../../models/notes/note';
+import { Redo } from '@mui/icons-material';
 import RollCombo, { RollComboHelper } from '../../../models/rolling/roll-combo';
-import './ActionRollDialog.css';
+import './ActionRollResultDialog.css';
 
 interface ActionRollResultDialogProps {
   combo: RollCombo;
   open: boolean;
-  onClose: (note?: Note) => void;
+  onClose: (updatedCombo?: RollCombo) => void;
 }
 
 const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialogProps) => {
-  const staticResults = combo.filter((x) => x.static);
-  const nonStaticResults = combo.filter((x) => !x.static);
+  const [updatedResult, setUpdatedResult] = useState(RollComboHelper.clone(combo, true));
+
+  const staticResults = updatedResult.filter((x) => x.static);
+  const nonStaticResults = updatedResult.filter((x) => !x.static);
+
+  const rerollEntry = (entryId: string) => {
+    const entryIndex = updatedResult.findIndex((x) => x.id === entryId);
+    if (entryIndex === -1) return;
+    const entry = updatedResult[entryIndex];
+    const newEntry = RollComboHelper.rollSingle(entry);
+    const newResult = [...updatedResult];
+    newResult[entryIndex] = newEntry;
+    setUpdatedResult(newResult);
+  };
 
   return (
     <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
-        Edit Roll
+        <b>Edit Roll</b>
       </DialogTitle>
 
-      <DialogContent>
-        <span className="total">{RollComboHelper.totalValue(combo)}</span>
-        <span className="static">{RollComboHelper.totalValue(staticResults)}</span>
-        {nonStaticResults.map((x) => (
-          <span
-            key={x.id}
-            className="combo"
-          >
-            <span className="sign">+</span>
-            <span
-              className={`result${x.result === 1 ? ' lowest' : ''}${x.result === x.faces ? ' highest' : ''}`}
-              title={`A ${x.result} was rolled on a d${x.faces}`}
-            >
-              {x.result}
-            </span>
-          </span>
-        ))}
+      <DialogContent className="action-roll-result-dialog">
+        <div className="total">
+          Total
+          {': '}
+          {RollComboHelper.totalValue(updatedResult)}
+        </div>
+
+        <div className="results">
+          <div className="result">
+            <span className="top" />
+            <span className="static">{RollComboHelper.totalValue(staticResults)}</span>
+            <span className="detail">Static</span>
+          </div>
+
+          {nonStaticResults.map((x) => (
+            <React.Fragment key={x.id}>
+              <span className="sign">{x.negative ? '-' : '+'}</span>
+
+              <div
+                key={x.id}
+                className="result"
+                onClick={() => rerollEntry(x.id)}
+              >
+                <span className="top">{x.previous && <Redo />}</span>
+
+                <span className={`${x.result === 1 ? ' min' : ''}${x.result === x.faces ? ' max' : ''}`}>
+                  {x.result}
+                </span>
+
+                <span className="detail">
+                  d
+                  {x.faces}
+                </span>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
       </DialogContent>
 
       <DialogActions>
@@ -50,7 +82,7 @@ const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialog
           Cancel
         </Button>
 
-        <Button onClick={() => onClose()} variant="outlined">
+        <Button onClick={() => onClose(updatedResult)} variant="outlined">
           Apply
         </Button>
       </DialogActions>
