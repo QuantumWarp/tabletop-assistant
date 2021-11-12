@@ -12,6 +12,11 @@
   display: flex;
   height: 100%;
   overflow: hidden;
+  user-select: none;
+}
+.display-simple-card .container.disabled {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .display-simple-card .icon {
@@ -20,6 +25,7 @@
   justify-content: center;
   width: 60px;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
+  cursor: pointer;
 }
 .display-simple-card .icon > * {
   width: 60%;
@@ -52,4 +58,21 @@
   justify-content: center;
   border-left: 1px solid rgba(0, 0, 0, 0.12);
   overflow: hidden;
+}
+
+.display-simple-card .dots {
+  display: flex;
+}
+
+.display-simple-card .dot {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  margin-right: 2px;
+  cursor: pointer;
+}
+
+.display-simple-card .dot.filled {
+  background-color: black;
 }

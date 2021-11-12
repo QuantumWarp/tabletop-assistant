@@ -43,8 +43,8 @@ const DisplayNumberSquare = ({ obj }: DisplayNumberSquareProps) => {
           {obj.fields.title || obj.name}
         </div>
 
-        <div className="click-left" onClick={() => changeValue(-1)} />
-        <div className="click-right" onClick={() => changeValue(1)} />
+        <div className="click-left" onClick={() => !obj.disabled && changeValue(-1)} />
+        <div className="click-right" onClick={() => !obj.disabled && changeValue(1)} />
       </div>
     </div>
   );

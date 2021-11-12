@@ -204,8 +204,12 @@ export const configurationSlice = createSlice({
         state.history = [action.payload].concat(state.history);
       }
     },
-    deleteHistory(state, action: PayloadAction<string>) {
-      state.history = state.history.filter((x) => x.id !== action.payload);
+    deleteHistory(state, action: PayloadAction<string | string[]>) {
+      if (Array.isArray(action.payload)) {
+        state.history = state.history.filter((x) => !action.payload.includes(x.id));
+      } else {
+        state.history = state.history.filter((x) => x.id !== action.payload);
+      }
     },
   },
 });

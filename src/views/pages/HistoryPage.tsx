@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import {
-  Button, TextField, ToggleButton, ToggleButtonGroup,
+  Button, IconButton, TextField, ToggleButton, ToggleButtonGroup,
 } from '@mui/material';
-import { Casino, PlayCircle, TextSnippet } from '@mui/icons-material';
-import { selectHistory } from '../../store/config-slice';
-import { useAppSelector } from '../../store/store';
+import {
+  Casino, Delete, PlayCircle, TextSnippet,
+} from '@mui/icons-material';
+import { deleteHistory, selectHistory } from '../../store/config-slice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import HistoryRow from '../../components/history/HistoryRow';
 import TopBar from '../../components/common/TopBar';
 import './HistoryPage.css';
 import HistoryUpdateDialog from '../../components/history/HistoryUpdateDialog';
 import { HistoryEntryHelper } from '../../models/history/history-entry';
+import DeleteConfirmDialog from '../../components/common/DeleteConfirmDialog';
 
 const HistoryPage = () => {
+  const dispatch = useAppDispatch();
   const nodes = useAppSelector(selectHistory);
   const [newHistoryDialogOpen, setNewHistoryDialogOpen] = useState(false);
+  const [deleteShownOpen, setDeleteShownOpen] = useState(false);
   const [filters, setFilters] = useState(['custom']);
   const [filter, setFilter] = useState('');
 
@@ -50,6 +55,27 @@ const HistoryPage = () => {
               <Casino />
             </ToggleButton>
           </ToggleButtonGroup>
+
+          <IconButton
+            title="Delete"
+            color="error"
+            onClick={() => setDeleteShownOpen(true)}
+          >
+            <Delete />
+          </IconButton>
+
+          {deleteShownOpen && (
+            <DeleteConfirmDialog
+              objType="History"
+              objName="ALL currently displayed history!"
+              open={deleteShownOpen}
+              onDelete={() => {
+                dispatch(deleteHistory(searchedNodes.map((x) => x.id)));
+                setDeleteShownOpen(false);
+              }}
+              onClose={() => setDeleteShownOpen(false)}
+            />
+          )}
 
           <Button
             variant="outlined"

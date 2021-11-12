@@ -249,6 +249,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
                 <LayoutDisplay
                   display={defaultDisplay as DisplayType}
                   obj={getUpdatedObject()}
+                  interactable={false}
                 />
               )}
             </div>
