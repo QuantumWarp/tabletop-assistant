@@ -1,6 +1,6 @@
 import {
   Button,
-  List, ListItem, ListItemButton, ListItemText, Paper,
+  List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper,
 } from '@mui/material';
 import React, { useState } from 'react';
 import GameObject from '../../models/objects/game-object';
@@ -8,12 +8,14 @@ import { selectObjects } from '../../store/config-slice';
 import { useAppSelector } from '../../store/store';
 import ObjectUpdateDialog from './ObjectUpdateDialog';
 import './ObjectList.css';
+import TabletopIcon from '../common/TabletopIcon';
 
 interface ObjectListProps {
   filter: string;
+  onSelected: (obj: GameObject) => void;
 }
 
-const ObjectList = ({ filter }: ObjectListProps) => {
+const ObjectList = ({ filter, onSelected }: ObjectListProps) => {
   const objects = useAppSelector(selectObjects);
   const filteredObjs = objects.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
   const orderedObjs = filteredObjs.sort((a, b) => a.name.localeCompare(b.name));
@@ -32,13 +34,17 @@ const ObjectList = ({ filter }: ObjectListProps) => {
         </Button>
       </div>
 
-      <List>
+      <List className="object-list">
         {orderedObjs.map((obj) => (
           <ListItem
             key={obj.id}
             disablePadding
           >
-            <ListItemButton onClick={() => setEditObject(obj)}>
+            <ListItemButton onClick={() => onSelected(obj)}>
+              <ListItemIcon>
+                {obj.icon && <TabletopIcon icon={obj.icon} />}
+              </ListItemIcon>
+
               <ListItemText primary={obj.name} />
             </ListItemButton>
           </ListItem>

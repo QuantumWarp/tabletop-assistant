@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Grid, TextField } from '@mui/material';
-import ActionList from '../../components/object-config/ActionList';
+import ObjectDetail from '../../components/object-config/ObjectDetail';
 import ObjectList from '../../components/object-config/ObjectList';
 import './ObjectConfigPage.css';
 import TopBar from '../../components/common/TopBar';
+import GameObject from '../../models/objects/game-object';
 
 const ObjectConfigPage = () => {
   const [filter, setFilter] = useState('');
+  const [selectedObject, setSelectedObject] = useState<GameObject | null>(null);
 
   return (
     <div className="object-config-page">
@@ -24,11 +26,14 @@ const ObjectConfigPage = () => {
       <div className="object-config-content">
         <Grid container spacing={6}>
           <Grid item xs={6}>
-            <ObjectList filter={filter} />
+            <ObjectList
+              filter={filter}
+              onSelected={setSelectedObject}
+            />
           </Grid>
 
           <Grid item xs={6}>
-            <ActionList filter={filter} />
+            {selectedObject && <ObjectDetail obj={selectedObject} />}
           </Grid>
         </Grid>
       </div>

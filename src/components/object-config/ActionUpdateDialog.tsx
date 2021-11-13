@@ -45,16 +45,16 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
   const [name, setName] = useState(action.name || '');
   const [icon, setIcon] = useState(action.icon || '');
   const [roll, setRoll] = useState(action.roll || '');
-  const [objectId, setObjectId] = useState(action.objectId || '');
   const [triggers, setTriggers] = useState(action.triggers || []);
 
   const saveAction = () => {
+    if (!action.objectId) return;
     const updatedAction = {
       id: action?.id || guid(),
       name,
       icon: icon as TabletopIconType,
       roll,
-      objectId,
+      objectId: action.objectId,
       triggers,
     };
     dispatch(upsertAction(updatedAction));
@@ -80,22 +80,6 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl fullWidth required>
-              <InputLabel>Attached to Object</InputLabel>
-              <Select
-                fullWidth
-                value={objectId}
-                label="Attached to Object *"
-                onChange={(e) => setObjectId(e.target.value)}
-              >
-                {objects.map((x) => (
-                  <MenuItem key={x.id} value={x.id}>{x.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
           </Grid>
 
           <Grid item xs={12}>
