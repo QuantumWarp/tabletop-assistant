@@ -33,7 +33,7 @@ const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialog
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>Edit Roll</b>
       </DialogTitle>

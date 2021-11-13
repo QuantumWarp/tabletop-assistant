@@ -62,7 +62,7 @@ const ActionUpdateDialog = ({ action = {}, open, onClose }: ActionUpdateDialogPr
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open}>
       <DialogTitle>
         <b>
           {action.id ? 'Update ' : 'Create '}

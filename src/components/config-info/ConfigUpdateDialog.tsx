@@ -59,7 +59,7 @@ const ConfigUpdateDialog = ({
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open}>
       <DialogTitle>
         <b>
           {configId ? 'Update ' : 'Create '}
@@ -78,7 +78,7 @@ const ConfigUpdateDialog = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               fullWidth
               label="Short Name"
@@ -87,7 +87,7 @@ const ConfigUpdateDialog = ({
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               fullWidth
               label="Image URL"
@@ -101,7 +101,7 @@ const ConfigUpdateDialog = ({
               fullWidth
               label="Description"
               multiline
-              rows={10}
+              rows={12}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />

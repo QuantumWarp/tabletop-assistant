@@ -53,7 +53,7 @@ const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>Setup Roll</b>
       </DialogTitle>

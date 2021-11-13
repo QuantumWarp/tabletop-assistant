@@ -78,7 +78,7 @@ const ObjectUpdateDialog = ({ obj = {}, open, onClose }: ObjectUpdateDialogProps
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()} maxWidth="lg">
+    <Dialog open={open} maxWidth="lg">
       <DialogTitle>
         <b>
           {obj.id ? 'Update ' : 'Create '}

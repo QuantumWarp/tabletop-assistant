@@ -97,10 +97,12 @@ const HistoryPage = () => {
         </div>
       </div>
 
-      <HistoryUpdateDialog
-        open={newHistoryDialogOpen}
-        onClose={() => setNewHistoryDialogOpen(false)}
-      />
+      {newHistoryDialogOpen && (
+        <HistoryUpdateDialog
+          open={newHistoryDialogOpen}
+          onClose={() => setNewHistoryDialogOpen(false)}
+        />
+      )}
     </div>
   );
 };

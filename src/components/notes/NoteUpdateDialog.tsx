@@ -43,7 +43,7 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
           {note.id ? 'Update ' : 'Create '}

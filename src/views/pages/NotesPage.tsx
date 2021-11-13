@@ -31,10 +31,12 @@ const NotesPage = () => {
           </Button>
         </div>
 
-        <NoteUpdateDialog
-          open={newNoteDialogOpen}
-          onClose={() => setNewNoteDialogOpen(false)}
-        />
+        {newNoteDialogOpen && (
+          <NoteUpdateDialog
+            open={newNoteDialogOpen}
+            onClose={() => setNewNoteDialogOpen(false)}
+          />
+        )}
       </TopBar>
 
       <div className="notes-content">
