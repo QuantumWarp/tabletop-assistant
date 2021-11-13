@@ -57,6 +57,7 @@ enum TabletopIconType {
   bed = 'Bed',
   beer = 'Beer',
   bin = 'Bin',
+  biohazard = 'Biohazard',
   bird = 'Bird',
   bone = 'Bone',
   book = 'Book',
@@ -67,6 +68,7 @@ enum TabletopIconType {
   campfire = 'Campfire',
   castle = 'Castle',
   chain = 'Chain',
+  church = 'Church',
   climb = 'Climb',
   cloud = 'Cloud',
   coinHand = 'Coin Hand',
@@ -83,6 +85,7 @@ enum TabletopIconType {
   d20 = 'D20',
   d20Outline = 'D20 Outline',
   die = 'Die',
+  doorOpen = 'Door Open',
   doubleDice = 'Double Dice',
   doubleSword = 'Double Sword',
   dragon = 'Dragon',
@@ -94,9 +97,11 @@ enum TabletopIconType {
   eye = 'Eye',
   feet = 'Feet',
   fire = 'Fire',
+  fish = 'Fish',
   fist = 'Fist',
   flower = 'Flower',
   frost = 'Frost',
+  gem = 'Gem',
   glasses = 'Glasses',
   guitar = 'Guitar',
   grass = 'Grass',
@@ -114,6 +119,7 @@ enum TabletopIconType {
   keyhole = 'Keyhole',
   knife = 'Knife',
   layout = 'Layout',
+  leaf = 'Leaf',
   light = 'Light',
   lightning = 'Lightning',
   loud = 'Loud',
@@ -129,11 +135,15 @@ enum TabletopIconType {
   play = 'Play',
   potion = 'Potion',
   pray = 'Pray',
+  question = 'Question',
   rabbit = 'Rabbit',
+  rain = 'Rain',
   redo = 'Redo',
+  religion = 'Religion',
   ring = 'Ring',
   run = 'Run',
   sailing = 'Sailing',
+  scales = 'Scales',
   setting = 'Setting',
   shieldCross = 'Shield Cross',
   shieldTick = 'Shield Tick',
@@ -151,6 +161,7 @@ enum TabletopIconType {
   tick = 'Tick',
   time = 'Time',
   tree = 'Tree',
+  tshirt = 'T-Shirt',
   water = 'Water',
   wand = 'Wand',
   wind = 'Wind',
@@ -211,17 +222,28 @@ const TabletopIcon = ({ icon }: TabletopIconProps) => {
     case TabletopIconType.wind: return (<Air />);
 
     case TabletopIconType.beer: return (<Icon icon="fa:beer" />);
+    case TabletopIconType.biohazard: return (<Icon icon="fa-solid:biohazard" />);
     case TabletopIconType.brain: return (<Icon icon="fa-solid:brain" />);
     case TabletopIconType.chain: return (<Icon icon="fa:chain" />);
+    case TabletopIconType.church: return (<Icon icon="fa-solid:church" />);
     case TabletopIconType.d20Outline: return (<Icon icon="fa-solid:dice-d20" />);
+    case TabletopIconType.doorOpen: return (<Icon icon="fa-solid:door-open" />);
     case TabletopIconType.doubleDice: return (<Icon icon="fa-solid:dice" />);
     case TabletopIconType.dragon: return (<Icon icon="fa-solid:dragon" />);
+    case TabletopIconType.fish: return (<Icon icon="fa-solid:fish" />);
     case TabletopIconType.fist: return (<Icon icon="fa-solid:fist-raised" />);
+    case TabletopIconType.gem: return (<Icon icon="fa-solid:gem" />);
     case TabletopIconType.glasses: return (<Icon icon="fa-solid:glasses" />);
     case TabletopIconType.guitar: return (<Icon icon="fa-solid:guitar" />);
+    case TabletopIconType.leaf: return (<Icon icon="fa-solid:leaf" />);
     case TabletopIconType.peoplePair: return (<Icon icon="fa-solid:people-arrows" />);
+    case TabletopIconType.question: return (<Icon icon="fa-solid:question" />);
+    case TabletopIconType.rain: return (<Icon icon="fa-solid:cloud-rain" />);
+    case TabletopIconType.religion: return (<Icon icon="fa-solid:bible" />);
+    case TabletopIconType.scales: return (<Icon icon="fa-solid:balance-scale" />);
     case TabletopIconType.skull: return (<Icon icon="fa-solid:skull-crossbones" />);
     case TabletopIconType.tree: return (<Icon icon="fa-solid:tree" />);
+    case TabletopIconType.tshirt: return (<Icon icon="fa-solid:tshirt" />);
     case TabletopIconType.wand: return (<Icon icon="fa:magic" />);
 
     case TabletopIconType.axe: return (<Icon icon="mdi:axe-battle" />);
