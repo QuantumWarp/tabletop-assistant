@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import {
   Route, Switch, useHistory, useParams, useRouteMatch,
 } from 'react-router-dom';
-import './MainView.css';
-import SideNav from '../components/common/SideNav';
+import { Box } from '@mui/material';
+import SideNav from '../components/singleton/SideNav';
 import ActionPage from './pages/ActionPage';
 import HistoryView from './pages/HistoryPage';
 import LayoutPage from './pages/LayoutPage';
@@ -35,10 +35,17 @@ const MainView = () => {
   }, [configId, configs, dispatch, history, currentConfig]);
 
   return (
-    <div className="main-view">
+    <Box sx={{ display: 'flex' }}>
       <SideNav />
 
-      <main className="content">
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+        }}
+      >
         <Switch>
           <Route path={`${path}/layout`}>
             <LayoutPage />
@@ -64,8 +71,8 @@ const MainView = () => {
             <ObjectConfigPage />
           </Route>
         </Switch>
-      </main>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -2,12 +2,12 @@ import React from 'react';
 import {
   Tabs,
   Tab,
+  Container,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { selectCurrentLayout, selectLayouts, setLayoutId } from '../../store/config-slice';
 import LayoutContainer from '../../components/layout/LayoutContainer';
 import TopBar from '../../components/common/TopBar';
-import './LayoutPage.css';
 
 const LayoutPage = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ const LayoutPage = () => {
   const currentLayout = useAppSelector(selectCurrentLayout);
 
   return (
-    <div className="layout-page">
+    <>
       <TopBar title={currentLayout ? currentLayout.name : 'Layout'}>
         <Tabs
           value={currentLayout?.id}
@@ -32,10 +32,10 @@ const LayoutPage = () => {
         </Tabs>
       </TopBar>
 
-      <div className="layout-content">
+      <Container sx={{ py: 2 }} maxWidth="lg">
         {currentLayout && <LayoutContainer layout={currentLayout} />}
-      </div>
-    </div>
+      </Container>
+    </>
   );
 };
 

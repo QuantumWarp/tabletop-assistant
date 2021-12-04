@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Drawer,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -26,7 +27,7 @@ const SideNav = () => {
   const [editInfo, setEditInfo] = useState<ConfigInfo | null>(null);
 
   return (
-    <div className="side-nav">
+    <Drawer variant="permanent" sx={{ height: '100vh' }} className="side-nav">
       <div className="top">
         <ListItem
           className="top-item"
@@ -136,7 +137,7 @@ const SideNav = () => {
           <ListItemText primary="Switch" />
         </ListItem>
       </div>
-    </div>
+    </Drawer>
   );
 };
 

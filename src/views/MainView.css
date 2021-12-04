@@ -1,9 +1,0 @@
-.main-view {
-  flex: 1; 
-  display: flex;
-}
-
-.main-view .content {
-  flex: 1;
-  display: flex;
-}
