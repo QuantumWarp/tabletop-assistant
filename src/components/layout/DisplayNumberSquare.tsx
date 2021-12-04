@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
 import { upsertObject } from '../../store/config-slice';
@@ -24,15 +25,38 @@ const DisplayNumberSquare = ({ obj }: DisplayNumberSquareProps) => {
 
   return (
     <div className="display-number-square">
-      <div className="container">
+      <Box
+        className="container"
+        sx={{
+          border: 1,
+          borderColor: 'custom.layout.border',
+          backgroundColor: 'custom.layout.background',
+        }}
+      >
         <div className="header">
-          <div className="icon">
+          <Box
+            className="icon"
+            sx={{
+              borderRight: 1,
+              borderBottom: 1,
+              borderColor: 'custom.layout.border',
+            }}
+          >
             {obj.icon && <TabletopIcon icon={obj.icon} />}
-          </div>
+          </Box>
 
-          <div className="secondary-value">
-            {obj.fields.secondaryValue}
-          </div>
+          {obj.fields.secondaryValue && (
+            <Box
+              className="secondary-value"
+              sx={{
+                borderLeft: 1,
+                borderBottom: 1,
+                borderColor: 'custom.layout.border',
+              }}
+            >
+              {obj.fields.secondaryValue}
+            </Box>
+          )}
         </div>
 
         <div className="value">
@@ -45,7 +69,7 @@ const DisplayNumberSquare = ({ obj }: DisplayNumberSquareProps) => {
 
         <div className="click-left" onClick={() => !obj.disabled && changeValue(-1)} />
         <div className="click-right" onClick={() => !obj.disabled && changeValue(1)} />
-      </div>
+      </Box>
     </div>
   );
 };

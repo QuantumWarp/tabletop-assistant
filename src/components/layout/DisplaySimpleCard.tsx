@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Box, Button, Divider } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import GameObject from '../../models/objects/game-object';
@@ -32,14 +32,25 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
 
   return (
     <div className="display-simple-card">
-      <div className={`container${obj.disabled ? ' disabled' : ''}`}>
+      <Box
+        className={`container${obj.disabled ? ' disabled' : ''}`}
+        sx={{
+          border: 1,
+          borderColor: 'custom.layout.border',
+          backgroundColor: 'custom.layout.background',
+        }}
+      >
         {obj.icon && (
-          <div
-            className="icon"
-            onClick={() => dispatch(upsertObject({ ...obj, disabled: !obj.disabled }))}
-          >
-            <TabletopIcon icon={obj.icon} />
-          </div>
+          <>
+            <div
+              className="icon"
+              onClick={() => dispatch(upsertObject({ ...obj, disabled: !obj.disabled }))}
+            >
+              <TabletopIcon icon={obj.icon} />
+            </div>
+
+            <Divider orientation="vertical" />
+          </>
         )}
 
         <div className="content">
@@ -49,10 +60,15 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
             {obj.fields.secondaryValue && (
               <div className="dots">
                 {Array(obj.fields.secondaryValue).fill(0).map((_x, index) => (
-                  <div
+                  <Box
                     // eslint-disable-next-line react/no-array-index-key
                     key={index}
-                    className={`dot${index < (obj.fields.value || 0) ? ' filled' : ''}`}
+                    className="dot"
+                    sx={{
+                      border: 1,
+                      borderColor: 'custom.dot.border',
+                      backgroundColor: index < (obj.fields.value || 0) ? 'custom.dot.background' : 'none',
+                    }}
                     onClick={() => adjustAmount(index)}
                   />
                 ))}
@@ -66,16 +82,20 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
         </div>
 
         {firstAction && (
-          <Button
-            key={firstAction.id}
-            className="action"
-            type="button"
-            onClick={() => { dispatch(setAction(firstAction)); history.push('./action'); }}
-          >
-            {firstAction.name}
-          </Button>
+          <>
+            <Divider orientation="vertical" />
+
+            <Button
+              key={firstAction.id}
+              className="action"
+              type="button"
+              onClick={() => { dispatch(setAction(firstAction)); history.push('./action'); }}
+            >
+              {firstAction.name}
+            </Button>
+          </>
         )}
-      </div>
+      </Box>
     </div>
   );
 };

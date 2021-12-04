@@ -6,16 +6,11 @@
 }
 
 .display-simple-toggle .dot {
-  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   height: 15px;
   width: 15px;
   margin-right: 8px;
   cursor: pointer;
-}
-
-.display-simple-toggle .dot.filled {
-  background-color: black;
 }
 
 .display-simple-toggle .title {

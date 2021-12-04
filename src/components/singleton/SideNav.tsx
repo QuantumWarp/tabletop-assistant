@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Divider,
   Drawer,
   ListItem,
   ListItemIcon,
@@ -27,7 +28,7 @@ const SideNav = () => {
   const [editInfo, setEditInfo] = useState<ConfigInfo | null>(null);
 
   return (
-    <Drawer variant="permanent" sx={{ height: '100vh' }} className="side-nav">
+    <Drawer variant="permanent" className="side-nav">
       <div className="top">
         <ListItem
           className="top-item"
@@ -44,6 +45,8 @@ const SideNav = () => {
             {info.shortName}
           </span>
         </ListItem>
+
+        <Divider />
 
         {editInfo && (
           <ConfigUpdateDialog
@@ -65,6 +68,8 @@ const SideNav = () => {
           <span className="name">Layouts</span>
         </ListItem>
 
+        <Divider />
+
         <ListItem
           button
           className="menu-item"
@@ -75,6 +80,8 @@ const SideNav = () => {
           <NotesIcon className="icon" />
           <span className="name">Notes</span>
         </ListItem>
+
+        <Divider />
 
         <ListItem
           button
@@ -87,6 +94,8 @@ const SideNav = () => {
           <span className="name">Action</span>
         </ListItem>
 
+        <Divider />
+
         <ListItem
           button
           className="menu-item"
@@ -97,9 +106,13 @@ const SideNav = () => {
           <HistoryIcon className="icon" />
           <span className="name">History</span>
         </ListItem>
+
+        <Divider />
       </div>
 
       <div className="bottom">
+        <Divider />
+
         <ListItem
           button
           className="thin-button"

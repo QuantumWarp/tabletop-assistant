@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Divider } from '@mui/material';
 import { ActionTreeNode } from '../../models/objects/action-tree';
 import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
 import { updateRollResult } from '../../store/config-slice';
@@ -26,18 +27,28 @@ const ActionNodeRight = ({ node }: ActionNodeRightProps) => {
   };
 
   return (
-    <div className="action-node-right">
+    <Box
+      className="action-node-right"
+      sx={{
+        borderColor: 'custom.action.border',
+        backgroundColor: 'custom.action.background',
+      }}
+    >
       {[...node.results].reverse().map((res) => {
         const { min, max } = RollComboHelper.hasMinMax(res);
 
         return (
-          <div
-            key={res.map((x) => x.id).join(',')}
-            className={`result${min ? ' min' : ''}${max ? ' max' : ''}`}
-            onClick={() => setEditComboResult(res)}
-          >
-            {RollComboHelper.totalValue(res)}
-          </div>
+          <>
+            <div
+              key={res.map((x) => x.id).join(',')}
+              className={`result${min ? ' min' : ''}${max ? ' max' : ''}`}
+              onClick={() => setEditComboResult(res)}
+            >
+              {RollComboHelper.totalValue(res)}
+            </div>
+
+            <Divider orientation="vertical" />
+          </>
         );
       })}
 
@@ -48,7 +59,7 @@ const ActionNodeRight = ({ node }: ActionNodeRightProps) => {
           onClose={handleResultUpdate}
         />
       )}
-    </div>
+    </Box>
   );
 };
 

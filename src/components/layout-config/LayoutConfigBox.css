@@ -4,7 +4,6 @@
 }
 .layout-box .inner {
   box-sizing: border-box;
-  border: 2px solid black;
   border-radius: 8px;
   height: 100%;
   width: 100%;
@@ -12,14 +11,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
   overflow: hidden;
 }
 .layout-box .inner > * {
   text-align: center;
 }
-.layout-box-hover:hover {
-  background-color:lightblue;
+.layout-box:hover {
+  background-color: lightblue;
 }
 .layout-box .left, .layout-box .right {
   position: absolute;

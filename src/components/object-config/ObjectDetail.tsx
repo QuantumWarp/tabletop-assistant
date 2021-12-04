@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Grid,
   List, ListItem, ListItemButton, ListItemText, Paper, Typography,
 } from '@mui/material';
@@ -36,6 +37,8 @@ const ObjectDetail = ({ obj }: ObjectDetailProps) => {
           Edit
         </Button>
       </div>
+
+      <Divider />
 
       <Grid container spacing={2} padding={2}>
         <Grid item xs={12}>

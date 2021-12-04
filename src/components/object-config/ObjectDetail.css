@@ -3,7 +3,6 @@
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  border-bottom: thin solid rgba(0, 0, 0, 0.12);
 }
 
 .action-list-header .title {

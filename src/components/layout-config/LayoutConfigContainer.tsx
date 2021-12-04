@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import LayoutTab from '../../models/layout/layout-tab';
 import { updateEntryPosition } from '../../store/config-slice';
@@ -31,7 +32,11 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
 
   return (
     <>
-      <div className="layout-config-container" ref={containerRef}>
+      <Box
+        className="layout-config-container"
+        sx={{ backgroundColor: 'custom.layout.background' }}
+        ref={containerRef}
+      >
         <div className="click-area" onClick={() => setNewEntryDialogOpen(true)} />
 
         {layout.entries.map((entry) => (
@@ -58,7 +63,7 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
             }))}
           />
         ))}
-      </div>
+      </Box>
 
       {newEntryDialogOpen && (
         <LayoutConfigDialog

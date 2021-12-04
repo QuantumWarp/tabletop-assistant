@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box, Divider } from '@mui/material';
 import { ActionTreeNode } from '../../models/objects/action-tree';
 import { rollAction, selectObjects, setupRollAction } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -28,15 +29,23 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
 
   return (
     <>
-      <div
+      <Box
         className="action-node-left"
-        style={{ marginLeft: `${level * 20}px` }}
+        sx={{
+          borderColor: 'custom.action.border',
+          backgroundColor: 'custom.action.background',
+          ml: `${level * 20}px`,
+        }}
         onClick={() => node.combo && setEditCombo(true)}
       >
         {icon && (
-          <div className="icon">
-            <TabletopIcon icon={icon} />
-          </div>
+          <>
+            <div className="icon">
+              <TabletopIcon icon={icon} />
+            </div>
+
+            <Divider orientation="vertical" />
+          </>
         )}
 
         <div className="content">
@@ -53,7 +62,7 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
             {!node.combo && (obj?.fields.text || obj?.description)}
           </div>
         </div>
-      </div>
+      </Box>
 
       {node.combo && editCombo && (
         <ActionRollDialog

@@ -1,5 +1,6 @@
 .action-node {
   display: flex;
+  margin-top: -1px;
 }
 .action-node.level0:not(:first-child) {
   margin-top: 20px;

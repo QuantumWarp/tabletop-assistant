@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import React from 'react';
 import GameObject from '../../models/objects/game-object';
 import { upsertObject } from '../../store/config-slice';
@@ -28,10 +29,15 @@ const DisplayDotCounter = ({ obj }: DisplayDotCounterProps) => {
       <span className="name">{obj.fields.title || obj.name}</span>
 
       {Array(obj.fields.secondaryValue).fill(0).map((_x, index) => (
-        <div
+        <Box
           // eslint-disable-next-line react/no-array-index-key
           key={index}
-          className={`dot${index < (obj.fields.value || 0) ? ' filled' : ''}`}
+          className="dot"
+          sx={{
+            border: 1,
+            borderColor: 'custom.dot.border',
+            backgroundColor: index < (obj.fields.value || 0) ? 'custom.dot.background' : 'none',
+          }}
           onClick={() => adjustAmount(index)}
         />
       ))}

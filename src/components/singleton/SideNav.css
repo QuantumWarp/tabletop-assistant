@@ -3,12 +3,10 @@
   max-width: 180px;
 }
 
-.side-nav .top {
-  border-bottom: thin solid rgba(0, 0, 0, 0.12);
-}
-
-.side-nav .bottom {
-  border-top: thin solid rgba(0, 0, 0, 0.12);
+.side-nav > * {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .side-nav .menu-item {
@@ -18,7 +16,6 @@
   justify-content: center;
   height: 150px;
   padding: 20px;
-  border-top: thin solid rgba(0, 0, 0, 0.12);
 }
 
 .side-nav .top-item {
@@ -42,7 +39,6 @@
 }
 
 .side-nav .menu-item svg {
-  color: rgba(0, 0, 0, 0.85);
   height: 60px;
   width: 60px;
 }

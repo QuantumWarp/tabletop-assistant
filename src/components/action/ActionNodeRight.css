@@ -1,6 +1,6 @@
 .action-node-right {
   height: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid;
   border-radius: 0 8px 8px 0;
   display: flex;
   align-items: center;
@@ -8,7 +8,6 @@
 }
 
 .action-node-right .result {
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
   font-size: 20px;
   padding: 0 8px;
   height: 100%;
@@ -16,11 +15,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  min-width: 22px;
+  min-width: 40px;
 }
 
 .action-node-right .result:first-child {
-  min-width: 35px;
+  min-width: 60px;
   font-size: 30px;
   font-weight: bold;
   padding: 0 12px;

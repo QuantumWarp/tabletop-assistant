@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Box } from '@mui/material';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
 import LayoutEntry from '../../models/layout/layout-entry';
 import { selectObjects } from '../../store/config-slice';
@@ -35,8 +36,10 @@ const LayoutConfigBox = ({
         onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
         bounds="parent"
       >
-        <div
+        <Box
           className="inner"
+          border={2}
+          sx={{ borderColor: 'custom.layout.border' }}
           onClick={() => { if (!dragging) setDialogOpen(true); setDragging(false); }}
         >
           <div>
@@ -46,7 +49,7 @@ const LayoutConfigBox = ({
           <div>
             {entry.display}
           </div>
-        </div>
+        </Box>
       </Rnd>
 
       <LayoutConfigDialog

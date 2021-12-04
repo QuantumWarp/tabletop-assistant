@@ -1,7 +1,6 @@
 .action-node-left {
   height: 80px;
-  margin-top: -1px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid;
   border-radius: 8px 0 0 8px;
   display: flex;
   overflow: hidden;
@@ -12,7 +11,6 @@
   align-items: center;
   justify-content: center;
   width: 60px;
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 .action-node-left .icon > * {
   width: 60%;

@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper,
 } from '@mui/material';
 import React, { useState } from 'react';
@@ -33,6 +34,8 @@ const ObjectList = ({ filter, onSelected }: ObjectListProps) => {
           New
         </Button>
       </div>
+
+      <Divider />
 
       <List className="object-list">
         {orderedObjs.map((obj) => (

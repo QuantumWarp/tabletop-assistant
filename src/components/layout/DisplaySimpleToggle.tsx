@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Box } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { selectActions, setAction, upsertObject } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -37,8 +38,13 @@ const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
       className="display-simple-toggle"
       onClick={dispatchFirstAction}
     >
-      <div
-        className={`dot${obj.fields.toggle ? ' filled' : ''}`}
+      <Box
+        className="dot"
+        sx={{
+          border: 1,
+          borderColor: 'custom.dot.border',
+          backgroundColor: obj.fields.toggle ? 'custom.dot.background' : 'none',
+        }}
         onClick={() => toggle()}
       />
 

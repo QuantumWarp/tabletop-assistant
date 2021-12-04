@@ -6,7 +6,6 @@
 }
 
 .display-number-square .container {
-  border: thin solid rgba(0, 0, 0, 0.6);
   border-radius: 8px;
   height: 100%;
   display: flex;
@@ -22,26 +21,14 @@
   justify-content: space-between;
 }
 
-.display-number-square .icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  width: 30px;
-  color: rgba(0, 0, 0, 0.4);
-  border-right: thin solid rgba(0, 0, 0, 0.4);
-  border-bottom: thin solid rgba(0, 0, 0, 0.4);
-}
-
+.display-number-square .icon,
 .display-number-square .secondary-value {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 30px;
   width: 30px;
-  color: rgba(0, 0, 0, 0.4);
-  border-left: thin solid rgba(0, 0, 0, 0.4);
-  border-bottom: thin solid rgba(0, 0, 0, 0.4);
+  opacity: 0.5;
 }
 
 .display-number-square .value {
