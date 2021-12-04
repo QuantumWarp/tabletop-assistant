@@ -10,12 +10,19 @@ interface NotesListProps {
 }
 
 const NoteList = ({ notes, filter }: NotesListProps) => {
-  const filteredNotes = notes.filter((x) => x.title.toLowerCase().includes(filter.toLowerCase()));
   const [editNote, setEditNote] = useState<Note | null>(null);
+
+  const filteredNotes = notes.filter((x) => x.title.toLowerCase().includes(filter.toLowerCase()));
+  const sortedNotes = filteredNotes.sort((a, b) => {
+    const aImageSign = a.image ? -1 : 1;
+    const imageSort = Boolean(a.image) === Boolean(b.image) ? 0 : aImageSign;
+    if (imageSort !== 0) return imageSort;
+    return a.title.localeCompare(b.title);
+  });
 
   return (
     <Grid container spacing={6}>
-      {filteredNotes.map((note) => (
+      {sortedNotes.map((note) => (
         <Grid key={note.id} item xs={4}>
           <NoteCard
             note={note}
