@@ -5,6 +5,7 @@ import {
   IconButton,
   Container,
   Stack,
+  Box,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/AddCircle';
@@ -99,9 +100,11 @@ const LayoutConfigPage = () => {
         </Stack>
       </TopBar>
 
-      <Container sx={{ py: 2, height: '100vh' }} maxWidth="lg">
-        {currentLayout && <LayoutConfigContainer layout={currentLayout} />}
-      </Container>
+      <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <Container sx={{ py: 2, height: '100vh' }} maxWidth="lg">
+          {currentLayout && <LayoutConfigContainer layout={currentLayout} />}
+        </Container>
+      </Box>
     </>
   );
 };

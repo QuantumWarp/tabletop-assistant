@@ -37,14 +37,14 @@ const ObjectList = ({ filter, onSelected }: ObjectListProps) => {
 
       <Divider />
 
-      <List className="object-list">
+      <List className="object-list" sx={{ maxHeight: 'calc(100vh - 180px)', overflow: 'auto' }}>
         {orderedObjs.map((obj) => (
           <ListItem
             key={obj.id}
             disablePadding
           >
             <ListItemButton onClick={() => onSelected(obj)}>
-              <ListItemIcon>
+              <ListItemIcon sx={{ display: 'flex', justifyContent: 'center', pr: 2 }}>
                 {obj.icon && <TabletopIcon icon={obj.icon} />}
               </ListItemIcon>
 

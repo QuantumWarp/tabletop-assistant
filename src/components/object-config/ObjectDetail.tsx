@@ -1,8 +1,8 @@
 import {
+  Box,
   Button,
   Divider,
-  Grid,
-  List, ListItem, ListItemButton, ListItemText, Paper, Typography,
+  List, ListItem, ListItemButton, ListItemText, Paper, Stack, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
 import GameAction from '../../models/objects/game-action';
@@ -40,71 +40,71 @@ const ObjectDetail = ({ obj }: ObjectDetailProps) => {
 
       <Divider />
 
-      <Grid container spacing={2} padding={2}>
-        <Grid item xs={12}>
-          <Typography variant="h5" component="div">
-            {obj.name}
-          </Typography>
-        </Grid>
+      <Stack spacing={2} padding={2}>
+        <Typography variant="h5" component="div">
+          {obj.name}
+        </Typography>
 
-        <Grid item xs={12}>
-          <Typography component="div">
-            {obj.description}
-          </Typography>
-        </Grid>
+        <Typography component="div">
+          {obj.description}
+        </Typography>
 
-        <Grid item xs={12} padding={3}>
+        <Box pb={2} display="flex" justifyContent="center">
           <LayoutDisplay
             display={obj.defaultDisplay}
             obj={obj}
             interactable={false}
           />
-        </Grid>
+        </Box>
 
-        <Grid item xs={12}>
-          <Typography variant="h6" component="div">
-            Actions (
-            {objectActions.length}
-            )
+        <Divider />
 
-            <Button
-              variant="outlined"
-              onClick={() => setEditAction({ objectId: obj.id })}
-            >
-              New
-            </Button>
+        <Typography variant="h6" component="div" display="flex" justifyContent="space-between">
+          Action List
+
+          <Button
+            variant="outlined"
+            onClick={() => setEditAction({ objectId: obj.id })}
+          >
+            New
+          </Button>
+        </Typography>
+
+        {objectActions.length === 0 && (
+          <Typography display="flex" justifyContent="center">
+            No Actions
           </Typography>
+        )}
 
-          <List>
-            {objectActions.map((action) => (
-              <ListItem
-                key={action.id}
-                disablePadding
-              >
-                <ListItemButton onClick={() => setEditAction(action)}>
-                  <ListItemText primary={action.name || 'Action'} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+        <List>
+          {objectActions.map((action) => (
+            <ListItem
+              key={action.id}
+              disablePadding
+            >
+              <ListItemButton onClick={() => setEditAction(action)}>
+                <ListItemText primary={action.name || 'Unnamed Action'} />
+              </ListItemButton>
+            </ListItem>
+          ))}
 
-            {editObject && (
-              <ObjectUpdateDialog
-                obj={editObject}
-                open={Boolean(editObject)}
-                onClose={() => setEditObject(null)}
-              />
-            )}
+          {editObject && (
+            <ObjectUpdateDialog
+              obj={editObject}
+              open={Boolean(editObject)}
+              onClose={() => setEditObject(null)}
+            />
+          )}
 
-            {editAction && (
-              <ActionUpdateDialog
-                action={editAction}
-                open={Boolean(editAction)}
-                onClose={() => setEditAction(null)}
-              />
-            )}
-          </List>
-        </Grid>
-      </Grid>
+          {editAction && (
+            <ActionUpdateDialog
+              action={editAction}
+              open={Boolean(editAction)}
+              onClose={() => setEditAction(null)}
+            />
+          )}
+        </List>
+      </Stack>
     </Paper>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, Container } from '@mui/material';
+import { Box, Button, Container } from '@mui/material';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import ActionNode from '../../components/action/ActionNode';
@@ -14,9 +14,12 @@ const ActionPage = () => {
   return (
     <>
       <TopBar title="Action">
+        <Box />
+
         {actionTree.length > 0 && (
           <Button
             variant="outlined"
+            sx={{ float: 'right' }}
             onClick={() => { dispatch(clearAction()); history.push('./layout'); }}
           >
             Finish
@@ -24,23 +27,25 @@ const ActionPage = () => {
         )}
       </TopBar>
 
-      <Container
-        sx={{
-          py: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-        maxWidth="lg"
-      >
-        {actionTree.map((x) => (
-          <ActionNode
-            key={x.action.id}
-            level={0}
-            node={x}
-          />
-        ))}
-      </Container>
+      <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <Container
+          sx={{
+            py: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+          maxWidth="lg"
+        >
+          {actionTree.map((x) => (
+            <ActionNode
+              key={x.action.id}
+              level={0}
+              node={x}
+            />
+          ))}
+        </Container>
+      </Box>
     </>
   );
 };

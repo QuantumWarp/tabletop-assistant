@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
 } from '@mui/material';
 import Configuration, { defaultConfiguration } from '../../models/configuration';
 import { useAppDispatch } from '../../store/store';
@@ -44,9 +45,9 @@ const ConfigImportDialog = ({ open, onClose }: ConfigImportDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={() => onClose()}>
+    <Dialog open={open} onClose={() => onClose()} maxWidth="sm" fullWidth>
       <DialogTitle>
-        Import
+        <b>Import</b>
       </DialogTitle>
 
       <DialogContent>
@@ -57,11 +58,13 @@ const ConfigImportDialog = ({ open, onClose }: ConfigImportDialogProps) => {
           onChange={(event) => setSelectedFile(event.target.files && event.target.files[0])}
         />
 
-        <Button variant="outlined" onClick={() => inputRef.current?.click()}>
+        <Button sx={{ my: 2 }} variant="outlined" onClick={() => inputRef.current?.click()}>
           Choose File
         </Button>
 
-        {selectedFile && selectedFile.name}
+        <Typography>
+          {selectedFile ? selectedFile.name : 'No file selected'}
+        </Typography>
       </DialogContent>
 
       <DialogActions>

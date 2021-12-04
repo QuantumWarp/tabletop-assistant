@@ -43,7 +43,8 @@ const MainView = () => {
         sx={{
           flexGrow: 1,
           height: '100vh',
-          overflow: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Switch>

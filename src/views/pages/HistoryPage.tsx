@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Box,
   Button, Container, IconButton, TextField, ToggleButton, ToggleButtonGroup,
 } from '@mui/material';
 import {
@@ -33,6 +34,7 @@ const HistoryPage = () => {
     <>
       <TopBar title="History">
         <TextField
+          sx={{ minWidth: 400 }}
           label="Search"
           variant="standard"
           value={filter}
@@ -70,14 +72,16 @@ const HistoryPage = () => {
         </Button>
       </TopBar>
 
-      <Container sx={{ py: 2 }} maxWidth="lg">
-        {searchedNodes.map((x) => (
-          <HistoryRow
-            key={x.id}
-            entry={x}
-          />
-        ))}
-      </Container>
+      <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <Container sx={{ py: 2 }} maxWidth="lg">
+          {searchedNodes.map((x) => (
+            <HistoryRow
+              key={x.id}
+              entry={x}
+            />
+          ))}
+        </Container>
+      </Box>
 
       {newHistoryDialogOpen && (
         <HistoryUpdateDialog

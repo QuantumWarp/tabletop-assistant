@@ -16,9 +16,6 @@
 .layout-box .inner > * {
   text-align: center;
 }
-.layout-box:hover {
-  background-color: lightblue;
-}
 .layout-box .left, .layout-box .right {
   position: absolute;
   width: 10px;

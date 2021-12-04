@@ -1,4 +1,6 @@
-import { Button, Container, TextField } from '@mui/material';
+import {
+  Box, Button, Container, TextField,
+} from '@mui/material';
 import React, { useState } from 'react';
 import TopBar from '../../components/common/TopBar';
 import NoteList from '../../components/notes/NoteList';
@@ -15,6 +17,7 @@ const NotesPage = () => {
     <>
       <TopBar title="Notes">
         <TextField
+          sx={{ minWidth: 400 }}
           label="Search"
           variant="standard"
           value={filter}
@@ -36,12 +39,14 @@ const NotesPage = () => {
         )}
       </TopBar>
 
-      <Container sx={{ py: 2 }} maxWidth="lg">
-        <NoteList
-          notes={notes}
-          filter={filter}
-        />
-      </Container>
+      <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <Container sx={{ py: 2 }} maxWidth="lg">
+          <NoteList
+            notes={notes}
+            filter={filter}
+          />
+        </Container>
+      </Box>
     </>
   );
 };

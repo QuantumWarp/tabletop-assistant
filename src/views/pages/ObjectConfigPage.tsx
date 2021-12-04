@@ -13,6 +13,7 @@ const ObjectConfigPage = () => {
     <>
       <TopBar title="Object Config">
         <TextField
+          sx={{ minWidth: 400 }}
           label="Search"
           variant="standard"
           value={filter}
