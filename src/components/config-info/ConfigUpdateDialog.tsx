@@ -6,9 +6,15 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   TextField,
 } from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../store/store';
 import { deleteConfig, upsertConfig } from '../../store/main-slice';
@@ -88,12 +94,26 @@ const ConfigUpdateDialog = ({
           </Grid>
 
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Image URL"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-            />
+            <FormControl fullWidth>
+              <InputLabel>Image URL</InputLabel>
+              <OutlinedInput
+                fullWidth
+                label="Image URL"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton
+                      title="Open in new tab"
+                      onClick={() => window.open(image, '_blank')}
+                      edge="end"
+                    >
+                      <OpenInNew />
+                    </IconButton>
+                  </InputAdornment>
+                )}
+              />
+            </FormControl>
           </Grid>
 
           <Grid item xs={12}>

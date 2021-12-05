@@ -6,9 +6,15 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   TextField,
 } from '@mui/material';
+import { OpenInNew } from '@mui/icons-material';
 import Note from '../../models/notes/note';
 import { useAppDispatch } from '../../store/store';
 import { deleteNote, upsertNote } from '../../store/config-slice';
@@ -73,12 +79,26 @@ const NoteUpdateDialog = ({ note = {}, open, onClose }: NoteUpdateDialogProps) =
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Image URL"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-            />
+            <FormControl fullWidth>
+              <InputLabel>Image URL</InputLabel>
+              <OutlinedInput
+                fullWidth
+                label="Image URL"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                endAdornment={(
+                  <InputAdornment position="end">
+                    <IconButton
+                      title="Open in new tab"
+                      onClick={() => window.open(image, '_blank')}
+                      edge="end"
+                    >
+                      <OpenInNew />
+                    </IconButton>
+                  </InputAdornment>
+                )}
+              />
+            </FormControl>
           </Grid>
 
           <Grid item xs={12}>

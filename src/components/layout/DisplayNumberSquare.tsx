@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { useAppDispatch } from '../../store/store';
 import { upsertObject } from '../../store/config-slice';
@@ -26,7 +26,7 @@ const DisplayNumberSquare = ({ obj }: DisplayNumberSquareProps) => {
   return (
     <div className="display-number-square">
       <Box
-        className="container"
+        className={`container${obj.disabled ? ' disabled' : ''}`}
         sx={{
           border: 1,
           borderColor: 'custom.layout.border',
@@ -67,8 +67,12 @@ const DisplayNumberSquare = ({ obj }: DisplayNumberSquareProps) => {
           {obj.fields.title || obj.name}
         </div>
 
-        <div className="click-left" onClick={() => !obj.disabled && changeValue(-1)} />
-        <div className="click-right" onClick={() => !obj.disabled && changeValue(1)} />
+        {!obj.disabled && (
+          <>
+            <Button type="button" className="click-left" onClick={() => !obj.disabled && changeValue(-1)} />
+            <Button type="button" className="click-right" onClick={() => !obj.disabled && changeValue(1)} />
+          </>
+        )}
       </Box>
     </div>
   );

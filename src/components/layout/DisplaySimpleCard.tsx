@@ -1,11 +1,12 @@
 import { Box, Button, Divider } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import GameObject from '../../models/objects/game-object';
 import { selectActions, setAction, upsertObject } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import TabletopIcon from '../common/TabletopIcon';
 import './DisplaySimpleCard.css';
+import ObjectInfoDialog from './ObjectInfoDialog';
 
 interface DisplaySimpleCardProps {
   obj: GameObject,
@@ -13,6 +14,7 @@ interface DisplaySimpleCardProps {
 
 const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
   const dispatch = useAppDispatch();
+  const [objectInfoOpen, setObjectInfoOpen] = useState<boolean>(false);
   const history = useHistory();
   const actions = useAppSelector(selectActions);
   const objActions = actions.filter((x) => x.objectId === obj.id);
@@ -42,18 +44,23 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
       >
         {obj.icon && (
           <>
-            <div
+            <Button
               className="icon"
+              type="button"
               onClick={() => dispatch(upsertObject({ ...obj, disabled: !obj.disabled }))}
             >
               <TabletopIcon icon={obj.icon} />
-            </div>
+            </Button>
 
             <Divider orientation="vertical" />
           </>
         )}
 
-        <div className="content">
+        <Button
+          className="content"
+          type="button"
+          onClick={() => setObjectInfoOpen(true)}
+        >
           <div className="header">
             <span>{obj.fields.title || obj.name}</span>
 
@@ -79,7 +86,7 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
           </div>
 
           <div>{obj.fields.text || obj.description}</div>
-        </div>
+        </Button>
 
         {firstAction && (
           <>
@@ -87,6 +94,7 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
 
             <Button
               key={firstAction.id}
+              disabled={obj.disabled}
               className="action"
               type="button"
               onClick={() => { dispatch(setAction(firstAction)); history.push('./action'); }}
@@ -96,6 +104,14 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
           </>
         )}
       </Box>
+
+      {objectInfoOpen && (
+        <ObjectInfoDialog
+          obj={obj}
+          open={objectInfoOpen}
+          onClose={() => setObjectInfoOpen(false)}
+        />
+      )}
     </div>
   );
 };

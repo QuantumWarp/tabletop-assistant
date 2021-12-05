@@ -18,6 +18,8 @@
 }
 
 .display-simple-card .icon {
+  all: unset;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,6 +32,8 @@
 }
 
 .display-simple-card .content {
+  all: unset;
+  cursor: pointer;
   padding: 4px 8px ;
   flex: 1;
   display: flex;

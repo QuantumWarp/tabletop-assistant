@@ -13,7 +13,7 @@ import TabletopIcon from '../common/TabletopIcon';
 
 interface ObjectListProps {
   filter: string;
-  onSelected: (obj: GameObject) => void;
+  onSelected: (objectId: string) => void;
 }
 
 const ObjectList = ({ filter, onSelected }: ObjectListProps) => {
@@ -43,7 +43,7 @@ const ObjectList = ({ filter, onSelected }: ObjectListProps) => {
             key={obj.id}
             disablePadding
           >
-            <ListItemButton onClick={() => onSelected(obj)}>
+            <ListItemButton onClick={() => onSelected(obj.id)}>
               <ListItemIcon sx={{ display: 'flex', justifyContent: 'center', pr: 2 }}>
                 {obj.icon && <TabletopIcon icon={obj.icon} />}
               </ListItemIcon>

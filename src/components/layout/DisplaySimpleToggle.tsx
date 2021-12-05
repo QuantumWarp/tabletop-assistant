@@ -36,7 +36,6 @@ const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
   return (
     <div
       className="display-simple-toggle"
-      onClick={dispatchFirstAction}
     >
       <Box
         className="dot"
@@ -48,7 +47,10 @@ const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
         onClick={() => toggle()}
       />
 
-      <div className="title">
+      <div
+        className="title"
+        onClick={dispatchFirstAction}
+      >
         {obj.fields.title || obj.name}
       </div>
     </div>

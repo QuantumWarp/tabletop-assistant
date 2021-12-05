@@ -74,6 +74,7 @@ export const configurationSlice = createSlice({
     },
     deleteObject(state, action: PayloadAction<string>) {
       state.objects = state.objects.filter((x) => x.id !== action.payload);
+      state.actions = state.actions.filter((x) => x.objectId !== action.payload);
     },
     upsertAction(state, action: PayloadAction<GameAction>) {
       const index = state.actions.findIndex((x) => x.id === action.payload.id);
