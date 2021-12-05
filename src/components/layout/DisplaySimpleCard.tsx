@@ -76,7 +76,7 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
                       borderColor: 'custom.dot.border',
                       backgroundColor: index < (obj.fields.value || 0) ? 'custom.dot.background' : 'none',
                     }}
-                    onClick={() => adjustAmount(index)}
+                    onClick={(e) => { adjustAmount(index); e.stopPropagation(); }}
                   />
                 ))}
               </div>
