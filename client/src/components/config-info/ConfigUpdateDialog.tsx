@@ -16,11 +16,11 @@ import {
 } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch } from '../../store/store';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import { deleteConfig, upsertConfig } from '../../store/main-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import ConfigInfo from '../../models/config-info';
-import { loadConfig, setInfo } from '../../store/config-slice';
+import { loadConfig, selectConfig, setInfo } from '../../store/config-slice';
 import { defaultConfiguration } from '../../models/configuration';
 import ConfigExportDialog from '../export/ConfigExportDialog';
 
@@ -35,6 +35,7 @@ const ConfigUpdateDialog = ({
   info = {}, configId, open, onClose,
 }: ConfigUpdateDialogProps) => {
   const dispatch = useAppDispatch();
+  const currentConfig = useAppSelector(selectConfig);
   const history = useHistory();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -54,6 +55,10 @@ const ConfigUpdateDialog = ({
     };
     if (configId) {
       dispatch(setInfo(updatedConfig));
+      dispatch(upsertConfig({
+        ...currentConfig,
+        info: updatedConfig,
+      }));
     } else {
       dispatch(upsertConfig({
         ...defaultConfiguration(),

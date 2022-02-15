@@ -1,9 +1,10 @@
 .side-nav {
-  min-width: 180px;
-  max-width: 180px;
+  min-width: 190px;
 }
 
 .side-nav > * {
+  min-width: 190px;
+  max-width: 190px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -24,6 +25,7 @@
   flex-direction: column;
 }
 .side-nav .top-item-image {
+  max-width: 190px;
   height: 200px;
   width: 100%;
   object-fit: cover;
@@ -48,6 +50,9 @@
 
 @media only screen and (max-height: 1000px) {
   .side-nav {
+    min-width: 160px;
+  }
+  .side-nav > * {
     min-width: 160px;
     max-width: 160px;
   }
