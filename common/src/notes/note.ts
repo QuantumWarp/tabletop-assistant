@@ -1,11 +1,16 @@
-export default interface Note {
-  id: string;
-  title: string;
+export interface Note {
+  readonly _id: string;
+  readonly userId: string;
 
+  name: string;
   subtitle: string;
-  text: string;
-  imageUrl: string;
+  description: string;
+  imageUrl?: string;
 
-  dateCreated: Date;
-  dateModified: Date;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly __v: number;
 }
+
+export type NoteUpdate = Omit<Note, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type NoteCreate = Omit<NoteUpdate, '_id'>;
