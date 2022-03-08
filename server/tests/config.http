@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3001
 @id = {{getAllConfigs.response.body.$[0]._id}}
 
 ###

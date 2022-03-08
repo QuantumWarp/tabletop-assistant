@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import {
-  Card,
-  CardMedia,
-  CardContent,
-  Grid,
   Typography,
-  CardActionArea,
   Button,
-  Stack,
   Container,
   Box,
 } from '@mui/material';
-import { useAppSelector } from '../store/store';
-import { selectConfigs } from '../store/main-slice';
-import ConfigUpdateDialog from '../components/config-info/ConfigUpdateDialog';
-import ConfigImportDialog from '../components/export/ConfigImportDialog';
+import WindowIcon from '@mui/icons-material/GridViewSharp';
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import DarkModeToggle from '../components/singleton/DarkModeToggle';
+import ConfigList from '../components/config-info/ConfigList';
 
 const HomePage = () => {
-  const history = useHistory();
-  const configs = useAppSelector(selectConfigs);
-
-  const [newConfigDialogOpen, setNewConfigDialogOpen] = useState(false);
-  const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const { instance } = useMsal();
 
   return (
     <Box
@@ -36,6 +24,18 @@ const HomePage = () => {
       }}
     >
       <Container maxWidth="sm">
+        <UnauthenticatedTemplate>
+          <Button
+            variant="outlined"
+            startIcon={<WindowIcon />}
+            onClick={() => instance.loginPopup({
+              scopes: ['User.Read'],
+            })}
+          >
+            Login
+          </Button>
+        </UnauthenticatedTemplate>
+
         <Typography variant="h2" align="center" gutterBottom>
           Tabletop Assistant
         </Typography>
@@ -45,46 +45,11 @@ const HomePage = () => {
           and record the events in your tabletop sessions, allowing you
           to focus on the game.
         </Typography>
-
-        <Stack
-          sx={{ pt: 4 }}
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-        >
-          <Button variant="contained" onClick={() => setNewConfigDialogOpen(true)}>Create new</Button>
-          <Button variant="outlined" onClick={() => setImportDialogOpen(true)}>Import from file</Button>
-        </Stack>
       </Container>
 
-      <Container sx={{ py: 8, flex: 1 }} maxWidth="lg">
-        <Grid container spacing={4}>
-          {configs.map((con) => (
-            <Grid item xs={4} key={con.id}>
-              <Card>
-                <CardActionArea onClick={() => history.push(`/configuration/${con.id}/layout`)}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={con.info.image}
-                    alt={con.info.name}
-                  />
-
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {con.info.name}
-                    </Typography>
-
-                    <Typography variant="body2" color="text.secondary">
-                      {con.info.description}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      <AuthenticatedTemplate>
+        <ConfigList />
+      </AuthenticatedTemplate>
 
       <Container maxWidth="sm" component="footer">
         <DarkModeToggle />
@@ -103,20 +68,6 @@ const HomePage = () => {
           .
         </Typography>
       </Container>
-
-      {newConfigDialogOpen && (
-        <ConfigUpdateDialog
-          open={newConfigDialogOpen}
-          onClose={() => setNewConfigDialogOpen(false)}
-        />
-      )}
-
-      {importDialogOpen && (
-        <ConfigImportDialog
-          open={importDialogOpen}
-          onClose={() => setImportDialogOpen(false)}
-        />
-      )}
     </Box>
   );
 };

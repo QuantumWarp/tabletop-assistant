@@ -4,12 +4,14 @@ import {
   FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { api } from './api';
 import configurationReducer from './config-slice';
 import mainReducer from './main-slice';
 
 const reducers = combineReducers({
   main: mainReducer,
   config: configurationReducer,
+  [api.reducerPath]: api.reducer,
 });
 
 const persistConfig = {
@@ -25,7 +27,7 @@ const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }),
+  }).concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

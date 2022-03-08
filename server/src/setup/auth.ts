@@ -1,11 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { OAuth2Client } from 'google-auth-library';
+import jwksClient from 'jwks-rsa';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-import config from './config';
 import UserRepository from '../user/user.repository';
-
-// https://developers.google.com/identity/protocols/oauth2/openid-connect
-// https://developers.google.com/identity/sign-in/web/backend-auth
+import config from './config';
 
 declare module 'express-session' {
   interface SessionData {
@@ -13,7 +11,28 @@ declare module 'express-session' {
   }
 }
 
-const client = new OAuth2Client(config.googleClientId);
+const client = jwksClient({ jwksUri: config.microsoftJwksUri });
+
+const verifyToken = (token: string) => new Promise<JwtPayload | void>(
+  (resolve) => {
+    jwt.verify(
+      token,
+      async (header, callback) => {
+        try {
+          const signingKey = await client.getSigningKey(header.kid);
+          const publicKey = signingKey.getPublicKey();
+          callback(undefined, publicKey);
+        } catch (err) {
+          callback(err, undefined);
+        }
+      },
+      (err, decoded) => {
+        if (err || !decoded || typeof decoded === 'string') resolve();
+        else resolve(decoded);
+      },
+    );
+  },
+);
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   if (req.session.userId) {
@@ -27,23 +46,24 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: config.googleClientId,
-  });
+  const decoded = await verifyToken(token);
 
-  const payload = ticket.getPayload();
-  if (!payload) {
+  if (!decoded) {
+    res.sendStatus(401);
+    return;
+  }
+
+  if (!decoded.sub || !decoded.iss) {
     res.sendStatus(401);
     return;
   }
 
   const repository = new UserRepository();
   const user = await repository.getAndUpsert({
-    sub: payload.sub,
-    iss: payload.iss,
-    email: payload.email,
-    name: payload.name,
+    sub: decoded.sub,
+    iss: decoded.iss,
+    email: decoded.email,
+    name: decoded.name,
   });
   req.session.userId = user._id;
 
