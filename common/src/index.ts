@@ -5,12 +5,6 @@ export type {
 } from './config/config';
 
 export type {
-  EntityLayout,
-  EntityLayoutCreate,
-  EntityLayoutUpdate,
-} from './entity/entity-layout';
-
-export type {
   EntityValues,
   EntityValuesCreate,
   EntityValuesUpdate,
@@ -20,9 +14,10 @@ export type {
   Entity,
   EntityCreate,
   EntityUpdate,
+  EntityField,
   EntityAction,
   EntityActionTrigger,
-  EntityField,
+  EntityLayout,
 } from './entity/entity';
 
 export type {

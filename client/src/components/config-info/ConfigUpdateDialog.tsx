@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { v4 as guid } from 'uuid';
 import {
   Button,
   Dialog,
@@ -16,64 +15,59 @@ import {
 } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { deleteConfig, upsertConfig } from '../../store/main-slice';
+import { Config } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
-import ConfigInfo from '../../models/config-info';
-import { loadConfig, selectConfig, setInfo } from '../../store/config-slice';
-import { defaultConfiguration } from '../../models/configuration';
 import ConfigExportDialog from '../export/ConfigExportDialog';
+import {
+  useCreateConfigMutation,
+  useDeleteConfigMutation,
+  useUpdateConfigMutation,
+} from '../../store/api';
 
 interface ConfigUpdateDialogProps {
-  info?: Partial<ConfigInfo>;
-  configId?: string;
+  initial?: Config;
   open: boolean;
   onClose: () => void;
 }
 
 const ConfigUpdateDialog = ({
-  info = {}, configId, open, onClose,
+  initial, open, onClose,
 }: ConfigUpdateDialogProps) => {
-  const dispatch = useAppDispatch();
-  const currentConfig = useAppSelector(selectConfig);
   const history = useHistory();
+
+  const [createConfig] = useCreateConfigMutation();
+  const [updateConfig] = useUpdateConfigMutation();
+  const [deleteConfig] = useDeleteConfigMutation();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
 
-  const [name, setName] = useState(info.name || '');
-  const [shortName, setShortName] = useState(info.shortName || '');
-  const [image, setImage] = useState(info.image || '');
-  const [description, setDescription] = useState(info.description || '');
+  const [name, setName] = useState(initial?.name || '');
+  const [shortName, setShortName] = useState(initial?.shortName || '');
+  const [imageUrl, setImageUrl] = useState(initial?.imageUrl || undefined);
+  const [description, setDescription] = useState(initial?.description || undefined);
 
   const saveConfig = () => {
-    const updatedConfig: ConfigInfo = {
+    const config = {
+      ...initial,
       name,
       shortName,
-      image,
+      imageUrl,
       description,
     };
-    if (configId) {
-      dispatch(setInfo(updatedConfig));
-      dispatch(upsertConfig({
-        ...currentConfig,
-        info: updatedConfig,
-      }));
+
+    if (config._id) {
+      updateConfig(config);
     } else {
-      dispatch(upsertConfig({
-        ...defaultConfiguration(),
-        id: guid(),
-        info: updatedConfig,
-      }));
+      createConfig(config);
     }
-    onClose();
   };
 
   return (
     <Dialog open={open}>
       <DialogTitle>
         <b>
-          {configId ? 'Update ' : 'Create '}
+          {initial?._id ? 'Update ' : 'Create '}
           Config
         </b>
       </DialogTitle>
@@ -104,13 +98,13 @@ const ConfigUpdateDialog = ({
               <OutlinedInput
                 fullWidth
                 label="Image URL"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
                 endAdornment={(
                   <InputAdornment position="end">
                     <IconButton
                       title="Open in new tab"
-                      onClick={() => window.open(image, '_blank')}
+                      onClick={() => window.open(imageUrl, '_blank')}
                       edge="end"
                     >
                       <OpenInNew />
@@ -135,7 +129,7 @@ const ConfigUpdateDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {configId && (
+        {initial?._id && (
           <>
             <Button onClick={() => setExportOpen(true)} variant="outlined">
               Export
@@ -152,9 +146,9 @@ const ConfigUpdateDialog = ({
 
             <DeleteConfirmDialog
               objType="Config"
-              objName={info.shortName}
+              objName={initial.shortName}
               open={deleteOpen}
-              onDelete={() => { dispatch(deleteConfig(configId)); dispatch(loadConfig(defaultConfiguration())); onClose(); history.push('/'); }}
+              onDelete={() => { deleteConfig(initial._id); onClose(); history.push('/'); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
@@ -173,8 +167,7 @@ const ConfigUpdateDialog = ({
 };
 
 ConfigUpdateDialog.defaultProps = {
-  info: {},
-  configId: undefined,
+  initial: undefined,
 };
 
 export default ConfigUpdateDialog;

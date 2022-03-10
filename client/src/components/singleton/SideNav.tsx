@@ -17,15 +17,13 @@ import {
 import { NavLink, useHistory } from 'react-router-dom';
 import './SideNav.css';
 import { useAppSelector } from '../../store/store';
-import { selectConfigId, selectInfo } from '../../store/config-slice';
-import ConfigUpdateDialog from '../config-info/ConfigUpdateDialog';
+import { selectInfo } from '../../store/config-slice';
 import ConfigInfo from '../../models/config-info';
 
 const SideNav = () => {
   const history = useHistory();
-  const configId = useAppSelector(selectConfigId);
   const info = useAppSelector(selectInfo);
-  const [editInfo, setEditInfo] = useState<ConfigInfo | null>(null);
+  const [, setEditInfo] = useState<ConfigInfo | null>(null);
 
   return (
     <Drawer variant="permanent" className="side-nav">
@@ -48,14 +46,13 @@ const SideNav = () => {
 
         <Divider />
 
-        {editInfo && (
+        {/* {editInfo && (
           <ConfigUpdateDialog
-            info={editInfo}
-            configId={configId}
+            initial={editInfo}
             open={Boolean(editInfo)}
             onClose={() => setEditInfo(null)}
           />
-        )}
+        )} */}
 
         <ListItem
           button

@@ -11,6 +11,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
+  tagTypes: ['Config'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -26,17 +27,26 @@ export const api = createApi({
   endpoints: (build) => ({
     getConfigs: build.query<Config[], void>({
       query: () => '/config',
+      providesTags: ['Config'],
     }),
     createConfig: build.mutation<string, ConfigCreate>({
       query: (body) => ({ url: '/config', method: 'POST', body }),
+      invalidatesTags: ['Config'],
     }),
     updateConfig: build.mutation<void, ConfigCreate>({
       query: (body) => ({ url: '/config', method: 'PUT', body }),
+      invalidatesTags: ['Config'],
     }),
     deleteConfig: build.mutation<void, string>({
       query: (id) => ({ url: `/config/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Config'],
     }),
   }),
 });
 
-export const { useGetConfigsQuery } = api;
+export const {
+  useGetConfigsQuery,
+  useCreateConfigMutation,
+  useUpdateConfigMutation,
+  useDeleteConfigMutation,
+} = api;
