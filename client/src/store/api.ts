@@ -29,6 +29,10 @@ export const api = createApi({
       query: () => '/tabletops',
       providesTags: ['Tabletop'],
     }),
+    getTabletop: build.query<Tabletop, string>({
+      query: (id) => ({ url: `/tabletops/${id}` }),
+      providesTags: ['Tabletop'],
+    }),
     createTabletop: build.mutation<Tabletop, CreateTabletop>({
       query: (body) => ({ url: '/tabletops', method: 'POST', body }),
       invalidatesTags: ['Tabletop'],
@@ -46,6 +50,7 @@ export const api = createApi({
 
 export const {
   useGetTabletopsQuery,
+  useGetTabletopQuery,
   useCreateTabletopMutation,
   useUpdateTabletopMutation,
   useDeleteTabletopMutation,

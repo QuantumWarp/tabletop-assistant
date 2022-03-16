@@ -38,7 +38,7 @@ const HomePage = () => {
           {tabletops && tabletops.map((tabletop) => (
             <Grid item xs={4} key={tabletop._id}>
               <Card>
-                <CardActionArea onClick={() => history.push(`/configuration/${tabletop._id}/layout`)}>
+                <CardActionArea onClick={() => history.push(`/tabletop/${tabletop._id}/layout`)}>
                   <CardMedia
                     component="img"
                     height="200"

@@ -14,45 +14,50 @@ import {
   Note as NotesIcon,
   Settings as ConfigureIcon,
 } from '@mui/icons-material';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useParams } from 'react-router-dom';
+import { Tabletop } from 'tabletop-assistant-common';
 import './SideNav.css';
-import { useAppSelector } from '../../store/store';
-import { selectInfo } from '../../store/config-slice';
-import ConfigInfo from '../../models/config-info';
+import TabletopUpsertDialog from '../tabletop/TabletopUpsertDialog';
+import { useGetTabletopQuery } from '../../store/api';
 
 const SideNav = () => {
   const history = useHistory();
-  const info = useAppSelector(selectInfo);
-  const [, setEditInfo] = useState<ConfigInfo | null>(null);
+
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: tabletop } = useGetTabletopQuery(tabletopId);
+
+  const [editTabletop, setEditTabletop] = useState<Tabletop | undefined>();
 
   return (
     <Drawer variant="permanent" className="side-nav">
       <div className="top">
-        <ListItem
-          className="top-item"
-          button
-          onClick={() => setEditInfo(info)}
-        >
-          <img
-            className="top-item-image"
-            src={info.image}
-            alt={info.name}
-          />
+        {tabletop && (
+          <ListItem
+            className="top-item"
+            button
+            onClick={() => setEditTabletop(tabletop)}
+          >
+            <img
+              className="top-item-image"
+              src={tabletop.imageUrl}
+              alt={tabletop.name}
+            />
 
-          <span className="top-item-text">
-            {info.shortName}
-          </span>
-        </ListItem>
+            <span className="top-item-text">
+              {tabletop.shortName}
+            </span>
+          </ListItem>
+        )}
 
         <Divider />
 
-        {/* {editInfo && (
-          <ConfigUpdateDialog
-            initial={editInfo}
-            open={Boolean(editInfo)}
-            onClose={() => setEditInfo(null)}
+        {editTabletop && (
+          <TabletopUpsertDialog
+            initial={editTabletop}
+            open={Boolean(editTabletop)}
+            onClose={(deleted) => (deleted ? history.push('/') : setEditTabletop(undefined))}
           />
-        )} */}
+        )}
 
         <ListItem
           button

@@ -31,7 +31,7 @@ import {
 interface TabletopUpdateDialogProps {
   initial?: Tabletop;
   open: boolean;
-  onClose: () => void;
+  onClose: (deleted?: boolean) => void;
 }
 
 const ConfigUpdateDialog = ({
@@ -67,15 +67,15 @@ const ConfigUpdateDialog = ({
   const [description, setDescription] = useState(initial?.description || '');
 
   useEffect(() => {
-    if (success) onClose();
-  }, [success, onClose]);
+    if (success) onClose(deleteSuccess);
+  }, [success, deleteSuccess, onClose]);
 
   const saveTabletop = () => {
     const updatedProps = {
       name,
       shortName,
-      imageUrl: imageUrl || undefined,
-      description: description || undefined,
+      imageUrl,
+      description,
     };
 
     if (initial?._id !== undefined) {
@@ -95,7 +95,7 @@ const ConfigUpdateDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} marginTop={0}>
           <Grid item xs={12}>
             <TextField
               fullWidth

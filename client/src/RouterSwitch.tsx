@@ -9,7 +9,7 @@ const RouterSwitch = () => (
       <HomePage />
     </Route>
 
-    <Route path="/configuration/:configId">
+    <Route path="/tabletop/:tabletopId">
       <MainView />
     </Route>
   </Switch>

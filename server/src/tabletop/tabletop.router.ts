@@ -20,22 +20,22 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const userId = req.session.userId || '';
   const repository = new TabletopRepository(userId);
-  const id = await repository.create(req.body);
-  res.send(id);
+  const obj = await repository.create(req.body);
+  res.send(obj);
 });
 
 router.put('/', async (req, res) => {
   const userId = req.session.userId || '';
   const repository = new TabletopRepository(userId);
-  await repository.update(req.body);
-  res.sendStatus(200);
+  const obj = await repository.update(req.body);
+  res.send(obj);
 });
 
 router.delete('/:id', async (req, res) => {
   const userId = req.session.userId || '';
   const repository = new TabletopRepository(userId);
   await repository.delete(req.params.id);
-  res.sendStatus(200);
+  res.sendStatus(204);
 });
 
 export default router;
