@@ -2,7 +2,7 @@ import {
   Box, Button, Container, TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import TopBar from '../components/common/TopBar';
+import TopBar from '../common/TopBar';
 import NoteList from './NoteList';
 import NoteUpdateDialog from './NoteUpdateDialog';
 

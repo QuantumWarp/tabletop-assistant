@@ -1,4 +1,4 @@
-import { TabletopIconType } from '../../components/common/TabletopIcon';
+import { TabletopIconType } from '../../common/TabletopIcon';
 import DisplayType from '../layout/display-type';
 
 export default interface GameObject {

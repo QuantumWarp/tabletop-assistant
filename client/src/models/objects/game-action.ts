@@ -1,4 +1,4 @@
-import { TabletopIconType } from '../../components/common/TabletopIcon';
+import { TabletopIconType } from '../../common/TabletopIcon';
 import ActionTrigger from './action-trigger';
 
 export default interface GameAction {
