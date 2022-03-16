@@ -10,5 +10,5 @@ export interface HistoryEntry {
   readonly __v: number;
 }
 
-export type HistoryEntryUpdate = Omit<HistoryEntry, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type HistoryEntryCreate = Omit<HistoryEntryUpdate, '_id'>;
+export type UpdateHistoryEntry = Omit<HistoryEntry, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateHistoryEntry = Omit<UpdateHistoryEntry, '_id'>;

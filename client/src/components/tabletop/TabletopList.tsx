@@ -10,53 +10,51 @@ import {
   Button,
   Stack,
   Container,
-  Box,
 } from '@mui/material';
-import ConfigUpdateDialog from './ConfigUpdateDialog';
+import TabletopUpsertDialog from './TabletopUpsertDialog';
 import ConfigImportDialog from '../export/ConfigImportDialog';
-import { useGetConfigsQuery } from '../../store/api';
+import { useGetTabletopsQuery } from '../../store/api';
 
 const HomePage = () => {
   const history = useHistory();
-  const { data: configs } = useGetConfigsQuery();
+  const { data: tabletops } = useGetTabletopsQuery();
 
-  const [newConfigDialogOpen, setNewConfigDialogOpen] = useState(false);
+  const [newTabletopDialogOpen, setNewTabletopDialogOpen] = useState(false);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   return (
-    <Box>
+    <>
       <Container maxWidth="sm">
         <Stack
-          sx={{ pt: 4 }}
+          sx={{ pt: 3 }}
           direction="row"
           spacing={2}
           justifyContent="center"
         >
-          <Button variant="contained" onClick={() => setNewConfigDialogOpen(true)}>Create new</Button>
-          <Button variant="outlined" onClick={() => setImportDialogOpen(true)}>Import from file</Button>
+          <Button variant="contained" onClick={() => setNewTabletopDialogOpen(true)}>New Tabletop</Button>
         </Stack>
       </Container>
 
-      <Container sx={{ py: 8, flex: 1 }} maxWidth="lg">
+      <Container sx={{ py: 8 }} maxWidth="lg">
         <Grid container spacing={4}>
-          {configs && configs.map((con) => (
-            <Grid item xs={4} key={con._id}>
+          {tabletops && tabletops.map((tabletop) => (
+            <Grid item xs={4} key={tabletop._id}>
               <Card>
-                <CardActionArea onClick={() => history.push(`/configuration/${con._id}/layout`)}>
+                <CardActionArea onClick={() => history.push(`/configuration/${tabletop._id}/layout`)}>
                   <CardMedia
                     component="img"
                     height="200"
-                    image={con.imageUrl}
-                    alt={con.imageUrl}
+                    image={tabletop.imageUrl}
+                    alt={tabletop.name}
                   />
 
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {con.imageUrl}
+                      {tabletop.name}
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                      {con.description}
+                      {tabletop.description}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -66,10 +64,10 @@ const HomePage = () => {
         </Grid>
       </Container>
 
-      {newConfigDialogOpen && (
-        <ConfigUpdateDialog
-          open={newConfigDialogOpen}
-          onClose={() => setNewConfigDialogOpen(false)}
+      {newTabletopDialogOpen && (
+        <TabletopUpsertDialog
+          open={newTabletopDialogOpen}
+          onClose={() => setNewTabletopDialogOpen(false)}
         />
       )}
 
@@ -79,7 +77,7 @@ const HomePage = () => {
           onClose={() => setImportDialogOpen(false)}
         />
       )}
-    </Box>
+    </>
   );
 };
 

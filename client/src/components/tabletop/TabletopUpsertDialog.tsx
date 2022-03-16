@@ -15,29 +15,29 @@ import {
 } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
-import { Config } from 'tabletop-assistant-common';
+import { Tabletop } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
 import ConfigExportDialog from '../export/ConfigExportDialog';
 import {
-  useCreateConfigMutation,
-  useDeleteConfigMutation,
-  useUpdateConfigMutation,
+  useCreateTabletopMutation,
+  useDeleteTabletopMutation,
+  useUpdateTabletopMutation,
 } from '../../store/api';
 
-interface ConfigUpdateDialogProps {
-  initial?: Config;
+interface TabletopUpdateDialogProps {
+  initial?: Tabletop;
   open: boolean;
   onClose: () => void;
 }
 
 const ConfigUpdateDialog = ({
   initial, open, onClose,
-}: ConfigUpdateDialogProps) => {
+}: TabletopUpdateDialogProps) => {
   const history = useHistory();
 
-  const [createConfig] = useCreateConfigMutation();
-  const [updateConfig] = useUpdateConfigMutation();
-  const [deleteConfig] = useDeleteConfigMutation();
+  const [createTabletop] = useCreateTabletopMutation();
+  const [updateTabletop] = useUpdateTabletopMutation();
+  const [deleteTabletop] = useDeleteTabletopMutation();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
@@ -47,19 +47,18 @@ const ConfigUpdateDialog = ({
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl || undefined);
   const [description, setDescription] = useState(initial?.description || undefined);
 
-  const saveConfig = () => {
-    const config = {
-      ...initial,
+  const saveTabletop = () => {
+    const updatedProps = {
       name,
       shortName,
       imageUrl,
       description,
     };
 
-    if (config._id) {
-      updateConfig(config);
+    if (initial?._id !== undefined) {
+      updateTabletop({ ...initial, ...updatedProps });
     } else {
-      createConfig(config);
+      createTabletop(updatedProps);
     }
   };
 
@@ -68,7 +67,7 @@ const ConfigUpdateDialog = ({
       <DialogTitle>
         <b>
           {initial?._id ? 'Update ' : 'Create '}
-          Config
+          Tabletop
         </b>
       </DialogTitle>
 
@@ -148,7 +147,7 @@ const ConfigUpdateDialog = ({
               objType="Config"
               objName={initial.shortName}
               open={deleteOpen}
-              onDelete={() => { deleteConfig(initial._id); onClose(); history.push('/'); }}
+              onDelete={() => { deleteTabletop(initial._id); onClose(); history.push('/'); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
@@ -158,7 +157,7 @@ const ConfigUpdateDialog = ({
           Cancel
         </Button>
 
-        <Button onClick={saveConfig} variant="outlined">
+        <Button onClick={saveTabletop} variant="outlined">
           Save
         </Button>
       </DialogActions>

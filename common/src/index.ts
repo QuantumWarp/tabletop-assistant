@@ -1,19 +1,19 @@
 export type {
-  Config,
-  ConfigCreate,
-  ConfigUpdate,
-} from './config/config';
+  Tabletop,
+  CreateTabletop,
+  UpdateTabletop,
+} from './tabletop/tabletop';
 
 export type {
   EntityValues,
-  EntityValuesCreate,
-  EntityValuesUpdate,
+  CreateEntityValues,
+  UpdateEntityValues,
 } from './entity/entity-values';
 
 export type {
   Entity,
-  EntityCreate,
-  EntityUpdate,
+  CreateEntity,
+  UpdateEntity,
   EntityField,
   EntityAction,
   EntityActionTrigger,
@@ -22,8 +22,8 @@ export type {
 
 export type {
   LayoutTab,
-  LayoutTabCreate,
-  LayoutTabUpdate,
+  CreateLayoutTab,
+  UpdateLayoutTab,
   LayoutEntry,
   LayoutPosition,
   LayoutSize,
@@ -35,6 +35,6 @@ export type {
 
 export type {
   Note,
-  NoteCreate,
-  NoteUpdate,
+  CreateNote,
+  UpdateNote,
 } from './notes/note';

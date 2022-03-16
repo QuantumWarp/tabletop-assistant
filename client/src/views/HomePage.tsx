@@ -4,11 +4,12 @@ import {
   Button,
   Container,
   Box,
+  Stack,
 } from '@mui/material';
 import WindowIcon from '@mui/icons-material/GridViewSharp';
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import DarkModeToggle from '../components/singleton/DarkModeToggle';
-import ConfigList from '../components/config-info/ConfigList';
+import TabletopList from '../components/tabletop/TabletopList';
 
 const HomePage = () => {
   const { instance } = useMsal();
@@ -24,18 +25,6 @@ const HomePage = () => {
       }}
     >
       <Container maxWidth="sm">
-        <UnauthenticatedTemplate>
-          <Button
-            variant="outlined"
-            startIcon={<WindowIcon />}
-            onClick={() => instance.loginPopup({
-              scopes: ['User.Read'],
-            })}
-          >
-            Login
-          </Button>
-        </UnauthenticatedTemplate>
-
         <Typography variant="h2" align="center" gutterBottom>
           Tabletop Assistant
         </Typography>
@@ -47,9 +36,29 @@ const HomePage = () => {
         </Typography>
       </Container>
 
-      <AuthenticatedTemplate>
-        <ConfigList />
-      </AuthenticatedTemplate>
+      <Box sx={{ flex: 1 }}>
+        <UnauthenticatedTemplate>
+          <Stack
+            sx={{ pt: 3 }}
+            direction="row"
+            justifyContent="center"
+          >
+            <Button
+              variant="outlined"
+              startIcon={<WindowIcon />}
+              onClick={() => instance.loginPopup({
+                scopes: ['User.Read'],
+              })}
+            >
+              Login to begin
+            </Button>
+          </Stack>
+        </UnauthenticatedTemplate>
+
+        <AuthenticatedTemplate>
+          <TabletopList />
+        </AuthenticatedTemplate>
+      </Box>
 
       <Container maxWidth="sm" component="footer">
         <DarkModeToggle />

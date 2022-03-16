@@ -1,4 +1,4 @@
-export interface Config {
+export interface Tabletop {
   readonly _id: string;
   readonly userId: string;
 
@@ -12,5 +12,5 @@ export interface Config {
   readonly __v: number;
 }
 
-export type ConfigUpdate = Omit<Config, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type ConfigCreate = Omit<ConfigUpdate, '_id'>;
+export type UpdateTabletop = Omit<Tabletop, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateTabletop = Omit<UpdateTabletop, '_id'>;

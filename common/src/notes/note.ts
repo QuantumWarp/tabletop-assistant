@@ -12,5 +12,5 @@ export interface Note {
   readonly __v: number;
 }
 
-export type NoteUpdate = Omit<Note, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type NoteCreate = Omit<NoteUpdate, '_id'>;
+export type UpdateNote = Omit<Note, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateNote = Omit<UpdateNote, '_id'>;

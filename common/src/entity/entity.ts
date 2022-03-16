@@ -16,8 +16,8 @@ export interface Entity {
   readonly __v: number;
 }
 
-export type EntityUpdate = Omit<Entity, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type EntityCreate = Omit<EntityUpdate, '_id'>;
+export type UpdateEntity = Omit<Entity, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateEntity = Omit<UpdateEntity, '_id'>;
 
 export interface EntityField {
   key: string;

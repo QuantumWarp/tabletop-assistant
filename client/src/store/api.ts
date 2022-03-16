@@ -1,6 +1,6 @@
 import { PublicClientApplication } from '@azure/msal-browser';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Config, ConfigCreate } from 'tabletop-assistant-common';
+import { Tabletop, CreateTabletop, UpdateTabletop } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
   auth: {
@@ -11,7 +11,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Config'],
+  tagTypes: ['Tabletop'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -25,28 +25,28 @@ export const api = createApi({
     },
   }),
   endpoints: (build) => ({
-    getConfigs: build.query<Config[], void>({
-      query: () => '/config',
-      providesTags: ['Config'],
+    getTabletops: build.query<Tabletop[], void>({
+      query: () => '/tabletops',
+      providesTags: ['Tabletop'],
     }),
-    createConfig: build.mutation<string, ConfigCreate>({
-      query: (body) => ({ url: '/config', method: 'POST', body }),
-      invalidatesTags: ['Config'],
+    createTabletop: build.mutation<string, CreateTabletop>({
+      query: (body) => ({ url: '/tabletops', method: 'POST', body }),
+      invalidatesTags: ['Tabletop'],
     }),
-    updateConfig: build.mutation<void, ConfigCreate>({
-      query: (body) => ({ url: '/config', method: 'PUT', body }),
-      invalidatesTags: ['Config'],
+    updateTabletop: build.mutation<void, UpdateTabletop>({
+      query: (body) => ({ url: '/tabletops', method: 'PUT', body }),
+      invalidatesTags: ['Tabletop'],
     }),
-    deleteConfig: build.mutation<void, string>({
-      query: (id) => ({ url: `/config/${id}`, method: 'DELETE' }),
-      invalidatesTags: ['Config'],
+    deleteTabletop: build.mutation<void, string>({
+      query: (id) => ({ url: `/tabletops/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Tabletop'],
     }),
   }),
 });
 
 export const {
-  useGetConfigsQuery,
-  useCreateConfigMutation,
-  useUpdateConfigMutation,
-  useDeleteConfigMutation,
+  useGetTabletopsQuery,
+  useCreateTabletopMutation,
+  useUpdateTabletopMutation,
+  useDeleteTabletopMutation,
 } = api;

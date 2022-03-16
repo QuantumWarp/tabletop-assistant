@@ -12,7 +12,7 @@ export interface User {
   readonly updatedAt: Date;
   readonly __v: number;
 }
-export type UserUpsert = Omit<User, '_id' | 'createdAt' | 'updatedAt' | '__v'>;
+export type UpsertUser = Omit<User, '_id' | 'createdAt' | 'updatedAt' | '__v'>;
 
 const schema = new Schema<User>({
   sub: { type: String, required: true },

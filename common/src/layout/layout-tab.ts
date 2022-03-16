@@ -12,8 +12,8 @@ export interface LayoutTab {
   readonly __v: number;
 }
 
-export type LayoutTabUpdate = Omit<LayoutTab, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type LayoutTabCreate = Omit<LayoutTabUpdate, '_id'>;
+export type UpdateLayoutTab = Omit<LayoutTab, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateLayoutTab = Omit<UpdateLayoutTab, '_id'>;
 
 export interface LayoutEntry {
   entityId: string;

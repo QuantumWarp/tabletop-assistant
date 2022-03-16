@@ -8,7 +8,7 @@ import { connect } from 'mongoose';
 import auth from './setup/auth';
 import error from './setup/error';
 import config from './setup/config';
-import configRouter from './config/config.router';
+import tabletopRouter from './tabletop/tabletop.router';
 
 connect(config.dbConnection);
 
@@ -23,7 +23,7 @@ app.use(session({
 app.use(auth);
 app.use(bodyParser.json());
 
-app.use('/config', configRouter);
+app.use('/tabletops', tabletopRouter);
 
 app.use(error);
 

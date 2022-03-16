@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { Config } from 'tabletop-assistant-common';
+import { Tabletop } from 'tabletop-assistant-common';
 
-const schema = new Schema<Config>({
+const schema = new Schema<Tabletop>({
   userId: { type: String, required: true },
   name: { type: String, required: true },
   shortName: { type: String, required: true },
@@ -11,4 +11,4 @@ const schema = new Schema<Config>({
   timestamps: true,
 });
 
-export default model<Config>('Config', schema);
+export default model<Tabletop>('Tabletop', schema);
