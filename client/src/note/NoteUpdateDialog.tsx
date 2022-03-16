@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -14,46 +13,47 @@ import {
   OutlinedInput,
   TextField,
   CircularProgress,
+  Alert,
 } from '@mui/material';
 import {
   OpenInNew as OpenInNewIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Tabletop } from 'tabletop-assistant-common';
-import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
+import { Note } from 'tabletop-assistant-common';
+import DeleteConfirmDialog from '../components/common/DeleteConfirmDialog';
 import {
-  useCreateTabletopMutation,
-  useDeleteTabletopMutation,
-  useUpdateTabletopMutation,
-} from '../../store/api';
+  useCreateNoteMutation,
+  useDeleteNoteMutation,
+  useUpdateNoteMutation,
+} from '../store/api';
 
-interface TabletopUpdateDialogProps {
-  initial?: Tabletop;
+interface NoteUpdateDialogProps {
+  initial?: Note;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
-const TabletopUpdateDialog = ({
+const NoteUpdateDialog = ({
   initial, open, onClose,
-}: TabletopUpdateDialogProps) => {
-  const [createTabletop, {
+}: NoteUpdateDialogProps) => {
+  const [createNote, {
     isLoading: creating,
     isSuccess: createSuccess,
     isError: createError,
-  }] = useCreateTabletopMutation();
+  }] = useCreateNoteMutation();
 
-  const [updateTabletop, {
+  const [updateNote, {
     isLoading: updating,
     isSuccess: updateSuccess,
     isError: updateError,
-  }] = useUpdateTabletopMutation();
+  }] = useUpdateNoteMutation();
 
-  const [deleteTabletop, {
+  const [deleteNote, {
     isLoading: deleting,
     isSuccess: deleteSuccess,
     isError: deleteError,
-  }] = useDeleteTabletopMutation();
+  }] = useDeleteNoteMutation();
 
   const loading = creating || updating || deleting;
   const success = createSuccess || updateSuccess || deleteSuccess;
@@ -62,7 +62,7 @@ const TabletopUpdateDialog = ({
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(initial?.name || '');
-  const [shortName, setShortName] = useState(initial?.shortName || '');
+  const [subtitle, setSubtitle] = useState(initial?.subtitle || '');
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl || '');
   const [description, setDescription] = useState(initial?.description || '');
 
@@ -70,27 +70,27 @@ const TabletopUpdateDialog = ({
     if (success) onClose(deleteSuccess);
   }, [success, deleteSuccess, onClose]);
 
-  const saveTabletop = () => {
+  const saveNote = () => {
     const updatedProps = {
       name,
-      shortName,
+      subtitle,
       imageUrl,
       description,
     };
 
     if (initial?._id !== undefined) {
-      updateTabletop({ ...initial, ...updatedProps });
+      updateNote({ ...initial, ...updatedProps });
     } else {
-      createTabletop(updatedProps);
+      createNote(updatedProps);
     }
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
           {initial?._id ? 'Update ' : 'Create '}
-          Tabletop
+          Note
         </b>
       </DialogTitle>
 
@@ -107,18 +107,17 @@ const TabletopUpdateDialog = ({
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
-              required
-              label="Short Name"
+              label="Subtitle"
               disabled={loading}
-              value={shortName}
-              onChange={(e) => setShortName(e.target.value)}
+              value={subtitle}
+              onChange={(e) => setSubtitle(e.target.value)}
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel>Image URL</InputLabel>
               <OutlinedInput
@@ -177,10 +176,10 @@ const TabletopUpdateDialog = ({
             </Button>
 
             <DeleteConfirmDialog
-              objType="Config"
-              objName={initial.shortName}
+              objType="Note"
+              objName={initial.name}
               open={deleteOpen}
-              onDelete={() => { deleteTabletop(initial._id); }}
+              onDelete={() => { deleteNote(initial._id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
@@ -198,7 +197,7 @@ const TabletopUpdateDialog = ({
           variant="outlined"
           disabled={loading}
           endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
-          onClick={saveTabletop}
+          onClick={saveNote}
         >
           Save
         </Button>
@@ -207,8 +206,8 @@ const TabletopUpdateDialog = ({
   );
 };
 
-TabletopUpdateDialog.defaultProps = {
+NoteUpdateDialog.defaultProps = {
   initial: undefined,
 };
 
-export default TabletopUpdateDialog;
+export default NoteUpdateDialog;

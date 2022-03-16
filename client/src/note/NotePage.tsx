@@ -2,14 +2,11 @@ import {
   Box, Button, Container, TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import TopBar from '../../components/common/TopBar';
-import NoteList from '../../components/notes/NoteList';
-import NoteUpdateDialog from '../../components/notes/NoteUpdateDialog';
-import { selectNotes } from '../../store/config-slice';
-import { useAppSelector } from '../../store/store';
+import TopBar from '../components/common/TopBar';
+import NoteList from './NoteList';
+import NoteUpdateDialog from './NoteUpdateDialog';
 
-const NotesPage = () => {
-  const notes = useAppSelector(selectNotes);
+const NotePage = () => {
   const [filter, setFilter] = useState('');
   const [newNoteDialogOpen, setNewNoteDialogOpen] = useState(false);
 
@@ -42,7 +39,6 @@ const NotesPage = () => {
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
           <NoteList
-            notes={notes}
             filter={filter}
           />
         </Container>
@@ -51,4 +47,4 @@ const NotesPage = () => {
   );
 };
 
-export default NotesPage;
+export default NotePage;

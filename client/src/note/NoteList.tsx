@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
-import Note from '../../models/notes/note';
+import { Note } from 'tabletop-assistant-common';
 import NoteCard from './NoteCard';
 import NoteUpdateDialog from './NoteUpdateDialog';
+import { useGetNotesQuery } from '../store/api';
 
 interface NotesListProps {
-  notes: Note[];
   filter: string;
 }
 
-const NoteList = ({ notes, filter }: NotesListProps) => {
-  const [editNote, setEditNote] = useState<Note | null>(null);
+const NoteList = ({ filter }: NotesListProps) => {
+  const [editNote, setEditNote] = useState<Note | undefined>();
+  const { data: notes } = useGetNotesQuery();
 
-  const filteredNotes = notes.filter((x) => x.title.toLowerCase().includes(filter.toLowerCase()));
+  const filteredNotes = notes
+    ? notes.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())) : [];
   const sortedNotes = filteredNotes.sort((a, b) => {
-    const aImageSign = a.image ? -1 : 1;
-    const imageSort = Boolean(a.image) === Boolean(b.image) ? 0 : aImageSign;
+    const aImageSign = a.imageUrl ? -1 : 1;
+    const imageSort = Boolean(a.imageUrl) === Boolean(b.imageUrl) ? 0 : aImageSign;
     if (imageSort !== 0) return imageSort;
-    return a.title.localeCompare(b.title);
+    return a.name.localeCompare(b.name);
   });
 
   return (
     <Grid container spacing={6}>
       {sortedNotes.map((note) => (
-        <Grid key={note.id} item xs={4}>
+        <Grid key={note._id} item xs={4}>
           <NoteCard
             note={note}
             onClick={() => setEditNote(note)}
@@ -33,9 +35,9 @@ const NoteList = ({ notes, filter }: NotesListProps) => {
 
       {editNote && (
         <NoteUpdateDialog
-          note={editNote}
+          initial={editNote}
           open={Boolean(editNote)}
-          onClose={() => setEditNote(null)}
+          onClose={() => setEditNote(undefined)}
         />
       )}
     </Grid>

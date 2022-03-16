@@ -7,7 +7,7 @@ import SideNav from '../components/singleton/SideNav';
 import ActionPage from './pages/ActionPage';
 import HistoryView from './pages/HistoryPage';
 import LayoutPage from './pages/LayoutPage';
-import NotesPage from './pages/NotesPage';
+import NotesPage from '../note/NotePage';
 import LayoutConfigPage from './pages/LayoutConfigPage';
 import ObjectConfigPage from './pages/ObjectConfigPage';
 

@@ -1,6 +1,13 @@
 import { PublicClientApplication } from '@azure/msal-browser';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Tabletop, CreateTabletop, UpdateTabletop } from 'tabletop-assistant-common';
+import {
+  Tabletop,
+  CreateTabletop,
+  UpdateTabletop,
+  Note,
+  CreateNote,
+  UpdateNote,
+} from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
   auth: {
@@ -11,7 +18,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop'],
+  tagTypes: ['Tabletop', 'Note'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -25,6 +32,7 @@ export const api = createApi({
     },
   }),
   endpoints: (build) => ({
+    // Tabletops
     getTabletops: build.query<Tabletop[], void>({
       query: () => '/tabletops',
       providesTags: ['Tabletop'],
@@ -45,6 +53,28 @@ export const api = createApi({
       query: (id) => ({ url: `/tabletops/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Tabletop'],
     }),
+
+    // Notes
+    getNotes: build.query<Note[], void>({
+      query: () => '/notes',
+      providesTags: ['Note'],
+    }),
+    getNote: build.query<Note, string>({
+      query: (id) => ({ url: `/notes/${id}` }),
+      providesTags: ['Note'],
+    }),
+    createNote: build.mutation<Tabletop, CreateNote>({
+      query: (body) => ({ url: '/notes', method: 'POST', body }),
+      invalidatesTags: ['Note'],
+    }),
+    updateNote: build.mutation<Tabletop, UpdateNote>({
+      query: (body) => ({ url: '/notes', method: 'PUT', body }),
+      invalidatesTags: ['Note'],
+    }),
+    deleteNote: build.mutation<void, string>({
+      query: (id) => ({ url: `/notes/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Note'],
+    }),
   }),
 });
 
@@ -54,4 +84,10 @@ export const {
   useCreateTabletopMutation,
   useUpdateTabletopMutation,
   useDeleteTabletopMutation,
+
+  useGetNotesQuery,
+  useGetNoteQuery,
+  useCreateNoteMutation,
+  useUpdateNoteMutation,
+  useDeleteNoteMutation,
 } = api;

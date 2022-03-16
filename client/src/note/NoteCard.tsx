@@ -6,7 +6,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import Note from '../../models/notes/note';
+import { Note } from 'tabletop-assistant-common';
 
 interface NoteCardProps {
   note: Note;
@@ -16,18 +16,18 @@ interface NoteCardProps {
 const NoteCard = ({ note, onClick }: NoteCardProps) => (
   <Card>
     <CardActionArea onClick={onClick}>
-      {note.image && (
+      {note.imageUrl && (
         <CardMedia
           component="img"
           height="180"
-          image={note.image}
+          image={note.imageUrl}
           alt="Image not available"
         />
       )}
 
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {note.title}
+          {note.name}
         </Typography>
 
         <Typography variant="body2" color="text.secondary">

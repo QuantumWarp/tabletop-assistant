@@ -4,7 +4,7 @@ export interface Note {
 
   name: string;
   subtitle: string;
-  description: string;
+  description?: string;
   imageUrl?: string;
 
   readonly createdAt: Date;
