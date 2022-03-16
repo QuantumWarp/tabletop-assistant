@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -12,12 +13,15 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
+  CircularProgress,
 } from '@mui/material';
-import { OpenInNew } from '@mui/icons-material';
-import { useHistory } from 'react-router-dom';
+import {
+  OpenInNew as OpenInNewIcon,
+  Delete as DeleteIcon,
+  Save as SaveIcon,
+} from '@mui/icons-material';
 import { Tabletop } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
-import ConfigExportDialog from '../export/ConfigExportDialog';
 import {
   useCreateTabletopMutation,
   useDeleteTabletopMutation,
@@ -33,26 +37,45 @@ interface TabletopUpdateDialogProps {
 const ConfigUpdateDialog = ({
   initial, open, onClose,
 }: TabletopUpdateDialogProps) => {
-  const history = useHistory();
+  const [createTabletop, {
+    isLoading: creating,
+    isSuccess: createSuccess,
+    isError: createError,
+  }] = useCreateTabletopMutation();
 
-  const [createTabletop] = useCreateTabletopMutation();
-  const [updateTabletop] = useUpdateTabletopMutation();
-  const [deleteTabletop] = useDeleteTabletopMutation();
+  const [updateTabletop, {
+    isLoading: updating,
+    isSuccess: updateSuccess,
+    isError: updateError,
+  }] = useUpdateTabletopMutation();
+
+  const [deleteTabletop, {
+    isLoading: deleting,
+    isSuccess: deleteSuccess,
+    isError: deleteError,
+  }] = useDeleteTabletopMutation();
+
+  const loading = creating || updating || deleting;
+  const success = createSuccess || updateSuccess || deleteSuccess;
+  const error = createError || updateError || deleteError;
 
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [exportOpen, setExportOpen] = useState(false);
 
   const [name, setName] = useState(initial?.name || '');
   const [shortName, setShortName] = useState(initial?.shortName || '');
-  const [imageUrl, setImageUrl] = useState(initial?.imageUrl || undefined);
-  const [description, setDescription] = useState(initial?.description || undefined);
+  const [imageUrl, setImageUrl] = useState(initial?.imageUrl || '');
+  const [description, setDescription] = useState(initial?.description || '');
+
+  useEffect(() => {
+    if (success) onClose();
+  }, [success, onClose]);
 
   const saveTabletop = () => {
     const updatedProps = {
       name,
       shortName,
-      imageUrl,
-      description,
+      imageUrl: imageUrl || undefined,
+      description: description || undefined,
     };
 
     if (initial?._id !== undefined) {
@@ -72,11 +95,12 @@ const ConfigUpdateDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
               fullWidth
               label="Name"
+              disabled={loading}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -86,6 +110,7 @@ const ConfigUpdateDialog = ({
             <TextField
               fullWidth
               label="Short Name"
+              disabled={loading}
               value={shortName}
               onChange={(e) => setShortName(e.target.value)}
             />
@@ -97,6 +122,7 @@ const ConfigUpdateDialog = ({
               <OutlinedInput
                 fullWidth
                 label="Image URL"
+                disabled={loading}
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
                 endAdornment={(
@@ -106,7 +132,7 @@ const ConfigUpdateDialog = ({
                       onClick={() => window.open(imageUrl, '_blank')}
                       edge="end"
                     >
-                      <OpenInNew />
+                      <OpenInNewIcon />
                     </IconButton>
                   </InputAdornment>
                 )}
@@ -119,27 +145,30 @@ const ConfigUpdateDialog = ({
               fullWidth
               label="Description"
               multiline
+              disabled={loading}
               rows={12}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </Grid>
+
+          {error && (
+            <Grid item xs={12}>
+              <Alert severity="error">An error occured</Alert>
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
 
       <DialogActions>
         {initial?._id && (
           <>
-            <Button onClick={() => setExportOpen(true)} variant="outlined">
-              Export
-            </Button>
-
-            <ConfigExportDialog
-              open={exportOpen}
-              onClose={() => setExportOpen(false)}
-            />
-
-            <Button onClick={() => setDeleteOpen(true)} color="error" variant="outlined">
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={() => setDeleteOpen(true)}
+            >
               Delete
             </Button>
 
@@ -147,17 +176,26 @@ const ConfigUpdateDialog = ({
               objType="Config"
               objName={initial.shortName}
               open={deleteOpen}
-              onDelete={() => { deleteTabletop(initial._id); onClose(); history.push('/'); }}
+              onDelete={() => { deleteTabletop(initial._id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
         )}
 
-        <Button onClick={() => onClose()} variant="outlined">
+        <Button
+          variant="outlined"
+          disabled={loading}
+          onClick={() => onClose()}
+        >
           Cancel
         </Button>
 
-        <Button onClick={saveTabletop} variant="outlined">
+        <Button
+          variant="outlined"
+          disabled={loading}
+          endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
+          onClick={saveTabletop}
+        >
           Save
         </Button>
       </DialogActions>

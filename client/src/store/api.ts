@@ -29,11 +29,11 @@ export const api = createApi({
       query: () => '/tabletops',
       providesTags: ['Tabletop'],
     }),
-    createTabletop: build.mutation<string, CreateTabletop>({
+    createTabletop: build.mutation<Tabletop, CreateTabletop>({
       query: (body) => ({ url: '/tabletops', method: 'POST', body }),
       invalidatesTags: ['Tabletop'],
     }),
-    updateTabletop: build.mutation<void, UpdateTabletop>({
+    updateTabletop: build.mutation<Tabletop, UpdateTabletop>({
       query: (body) => ({ url: '/tabletops', method: 'PUT', body }),
       invalidatesTags: ['Tabletop'],
     }),

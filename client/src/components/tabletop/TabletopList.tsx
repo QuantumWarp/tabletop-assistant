@@ -12,7 +12,6 @@ import {
   Container,
 } from '@mui/material';
 import TabletopUpsertDialog from './TabletopUpsertDialog';
-import ConfigImportDialog from '../export/ConfigImportDialog';
 import { useGetTabletopsQuery } from '../../store/api';
 
 const HomePage = () => {
@@ -20,7 +19,6 @@ const HomePage = () => {
   const { data: tabletops } = useGetTabletopsQuery();
 
   const [newTabletopDialogOpen, setNewTabletopDialogOpen] = useState(false);
-  const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   return (
     <>
@@ -68,13 +66,6 @@ const HomePage = () => {
         <TabletopUpsertDialog
           open={newTabletopDialogOpen}
           onClose={() => setNewTabletopDialogOpen(false)}
-        />
-      )}
-
-      {importDialogOpen && (
-        <ConfigImportDialog
-          open={importDialogOpen}
-          onClose={() => setImportDialogOpen(false)}
         />
       )}
     </>

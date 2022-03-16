@@ -17,17 +17,18 @@ export default class TabletopRepository {
     return model;
   }
 
-  async create(tabletop: CreateTabletop): Promise<string> {
+  async create(tabletop: CreateTabletop): Promise<Tabletop> {
     const model = new TabletopModel({ ...tabletop, userId: this.userId });
     await model.save();
-    return model.id;
+    return model;
   }
 
-  async update(tabletop: UpdateTabletop): Promise<void> {
+  async update(tabletop: UpdateTabletop): Promise<Tabletop> {
     const model = await TabletopModel.findOne({ _id: tabletop._id, userId: this.userId });
     if (!model) throw new ResourceNotFound();
     model.set(tabletop);
     await model.save();
+    return model;
   }
 
   async delete(_id: string): Promise<void> {
