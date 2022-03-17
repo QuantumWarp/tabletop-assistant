@@ -125,7 +125,7 @@ const SideNav = () => {
           <ListItemIcon>
             <ConfigureIcon />
           </ListItemIcon>
-          <ListItemText primary="Layout Config" />
+          <ListItemText primary="Configure" />
         </ListItem>
 
         <ListItem
@@ -138,7 +138,7 @@ const SideNav = () => {
           <ListItemIcon>
             <ConfigureIcon />
           </ListItemIcon>
-          <ListItemText primary="Object Config" />
+          <ListItemText primary="Objects" />
         </ListItem>
 
         <ListItem
