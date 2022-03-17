@@ -1,48 +1,35 @@
 import TimeAgo from 'react-timeago';
 import React, { useState } from 'react';
-import HistoryEntry, { HistoryEntryHelper } from '../models/history/history-entry';
-import HistoryEntryCustom from '../models/history/history-entry-custom';
-import HistoryUpdateDialog from './HistoryUpdateDialog';
+import { HistoryEntry } from 'tabletop-assistant-common';
+import HistoryUpsertDialog from './HistoryUpsertDialog';
 import './HistoryRow.css';
-import HistoryCardCustom from './HistoryCardCustom';
-import HistoryCardAction from './HistoryCardAction';
-import HistoryCardRollResult from './HistoryCardRollResult';
+import HistoryCard from './HistoryCard';
 
 interface HistoryRowProps {
   entry: HistoryEntry,
 }
 
 const HistoryRow = ({ entry }: HistoryRowProps) => {
-  const [editHistory, setEditHistory] = useState<HistoryEntryCustom | null>(null);
+  const [editHistory, setEditHistory] = useState<HistoryEntry | undefined>();
 
   return (
     <div className="history-row">
       <div className="date">
         <TimeAgo
-          date={entry.date}
+          date={entry.createdAt}
           minPeriod={60}
         />
       </div>
 
-      {HistoryEntryHelper.isAction(entry) && (
-        <HistoryCardAction entry={entry} />
-      )}
-
-      {HistoryEntryHelper.isCustom(entry) && (
-        <HistoryCardCustom entry={entry} />
-      )}
-
-      {HistoryEntryHelper.isRollResult(entry) && (
-        <HistoryCardRollResult entry={entry} />
-      )}
+      <HistoryCard entry={entry} />
 
       <div className="right-pad" />
 
       {editHistory && (
-        <HistoryUpdateDialog
-          entry={editHistory}
+        <HistoryUpsertDialog
+          initial={editHistory}
           open={Boolean(editHistory)}
-          onClose={() => setEditHistory(null)}
+          onClose={() => setEditHistory(undefined)}
         />
       )}
     </div>

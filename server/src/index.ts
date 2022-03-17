@@ -8,6 +8,7 @@ import { connect } from 'mongoose';
 import auth from './setup/auth';
 import error from './setup/error';
 import config from './setup/config';
+import historyRouter from './history/history.router';
 import noteRouter from './note/note.router';
 import tabletopRouter from './tabletop/tabletop.router';
 
@@ -24,6 +25,7 @@ app.use(session({
 app.use(auth);
 app.use(bodyParser.json());
 
+app.use('/history', historyRouter);
 app.use('/notes', noteRouter);
 app.use('/tabletops', tabletopRouter);
 

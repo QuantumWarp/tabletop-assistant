@@ -21,6 +21,12 @@ export type {
 } from './entity/entity';
 
 export type {
+  HistoryEntry,
+  CreateHistoryEntry,
+  UpdateHistoryEntry,
+} from './history/history-entry';
+
+export type {
   LayoutTab,
   CreateLayoutTab,
   UpdateLayoutTab,

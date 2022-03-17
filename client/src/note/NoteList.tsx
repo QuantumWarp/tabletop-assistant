@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import { Note } from 'tabletop-assistant-common';
 import NoteCard from './NoteCard';
-import NoteUpdateDialog from './NoteUpdateDialog';
+import NoteUpdateDialog from './NoteUpsertDialog';
 import { useGetNotesQuery } from '../store/api';
 
 interface NotesListProps {

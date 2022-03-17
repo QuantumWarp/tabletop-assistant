@@ -2,17 +2,16 @@ import {
   Card, CardActionArea, CardContent, Grid, Typography,
 } from '@mui/material';
 import { TextSnippet } from '@mui/icons-material';
+import { HistoryEntry } from 'tabletop-assistant-common';
 import React, { useState } from 'react';
-import HistoryEntryCustom from '../models/history/history-entry-custom';
-import HistoryUpdateDialog from './HistoryUpdateDialog';
-import './HistoryRow.css';
+import HistoryUpdateDialog from './HistoryUpsertDialog';
 
-interface HistoryCardCustomProps {
-  entry: HistoryEntryCustom,
+interface HistoryCardProps {
+  entry: HistoryEntry,
 }
 
-const HistoryCardCustom = ({ entry }: HistoryCardCustomProps) => {
-  const [editHistory, setEditHistory] = useState<HistoryEntryCustom | null>(null);
+const HistoryCard = ({ entry }: HistoryCardProps) => {
+  const [editHistory, setEditHistory] = useState<HistoryEntry | undefined>();
 
   return (
     <>
@@ -26,11 +25,11 @@ const HistoryCardCustom = ({ entry }: HistoryCardCustomProps) => {
 
               <Grid item xs={11}>
                 <Typography gutterBottom variant="h5" component="div">
-                  {entry.title}
+                  {entry.name}
                 </Typography>
 
                 <Typography variant="body2" color="text.secondary">
-                  {entry.text}
+                  {entry.description}
                 </Typography>
               </Grid>
             </Grid>
@@ -40,13 +39,13 @@ const HistoryCardCustom = ({ entry }: HistoryCardCustomProps) => {
 
       {editHistory && (
         <HistoryUpdateDialog
-          entry={editHistory}
+          initial={editHistory}
           open={Boolean(editHistory)}
-          onClose={() => setEditHistory(null)}
+          onClose={() => setEditHistory(undefined)}
         />
       )}
     </>
   );
 };
 
-export default HistoryCardCustom;
+export default HistoryCard;

@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import TopBar from '../common/TopBar';
 import NoteList from './NoteList';
-import NoteUpdateDialog from './NoteUpdateDialog';
+import NoteUpsertDialog from './NoteUpsertDialog';
 
 const NotePage = () => {
   const [filter, setFilter] = useState('');
@@ -29,7 +29,7 @@ const NotePage = () => {
         </Button>
 
         {newNoteDialogOpen && (
-          <NoteUpdateDialog
+          <NoteUpsertDialog
             open={newNoteDialogOpen}
             onClose={() => setNewNoteDialogOpen(false)}
           />

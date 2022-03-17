@@ -5,55 +5,45 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
   TextField,
   CircularProgress,
   Alert,
 } from '@mui/material';
 import {
-  OpenInNew as OpenInNewIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Note } from 'tabletop-assistant-common';
+import { HistoryEntry } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
-import {
-  useCreateNoteMutation,
-  useDeleteNoteMutation,
-  useUpdateNoteMutation,
-} from '../store/api';
+import { useCreateHistoryEntryMutation, useDeleteHistoryEntryMutation, useUpdateHistoryEntryMutation } from '../store/api';
 
-interface NoteUpdateDialogProps {
-  initial?: Note;
+interface HistoryUpsertDialogProps {
+  initial?: HistoryEntry;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
-const NoteUpdateDialog = ({
+const HistoryUpsertDialog = ({
   initial, open, onClose,
-}: NoteUpdateDialogProps) => {
-  const [createNote, {
+}: HistoryUpsertDialogProps) => {
+  const [createHistoryEntry, {
     isLoading: creating,
     isSuccess: createSuccess,
     isError: createError,
-  }] = useCreateNoteMutation();
+  }] = useCreateHistoryEntryMutation();
 
-  const [updateNote, {
+  const [updateHistoryEntry, {
     isLoading: updating,
     isSuccess: updateSuccess,
     isError: updateError,
-  }] = useUpdateNoteMutation();
+  }] = useUpdateHistoryEntryMutation();
 
-  const [deleteNote, {
+  const [deleteHistoryEntry, {
     isLoading: deleting,
     isSuccess: deleteSuccess,
     isError: deleteError,
-  }] = useDeleteNoteMutation();
+  }] = useDeleteHistoryEntryMutation();
 
   const loading = creating || updating || deleting;
   const success = createSuccess || updateSuccess || deleteSuccess;
@@ -62,26 +52,22 @@ const NoteUpdateDialog = ({
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [name, setName] = useState(initial?.name || '');
-  const [subtitle, setSubtitle] = useState(initial?.subtitle || '');
-  const [imageUrl, setImageUrl] = useState(initial?.imageUrl || '');
   const [description, setDescription] = useState(initial?.description || '');
 
   useEffect(() => {
     if (success) onClose(deleteSuccess);
   }, [success, deleteSuccess, onClose]);
 
-  const saveNote = () => {
+  const saveHistoryEntry = () => {
     const updatedProps = {
       name,
-      subtitle,
-      imageUrl,
       description,
     };
 
     if (initial?._id !== undefined) {
-      updateNote({ ...initial, ...updatedProps });
+      updateHistoryEntry({ ...initial, ...updatedProps });
     } else {
-      createNote(updatedProps);
+      createHistoryEntry(updatedProps);
     }
   };
 
@@ -90,7 +76,7 @@ const NoteUpdateDialog = ({
       <DialogTitle>
         <b>
           {initial?._id ? 'Update ' : 'Create '}
-          Note
+          History
         </b>
       </DialogTitle>
 
@@ -110,45 +96,10 @@ const NoteUpdateDialog = ({
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Subtitle"
-              disabled={loading}
-              value={subtitle}
-              onChange={(e) => setSubtitle(e.target.value)}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Image URL</InputLabel>
-              <OutlinedInput
-                fullWidth
-                label="Image URL"
-                disabled={loading}
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                endAdornment={(
-                  <InputAdornment position="end">
-                    <IconButton
-                      title="Open in new tab"
-                      edge="end"
-                      disabled={loading}
-                      onClick={() => window.open(imageUrl, '_blank')}
-                    >
-                      <OpenInNewIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )}
-              />
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
               label="Description"
               multiline
               disabled={loading}
-              rows={12}
+              rows={10}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -176,10 +127,10 @@ const NoteUpdateDialog = ({
             </Button>
 
             <DeleteConfirmDialog
-              objType="Note"
+              objType="History Entry"
               objName={initial.name}
               open={deleteOpen}
-              onDelete={() => { deleteNote(initial._id); }}
+              onDelete={() => { deleteHistoryEntry(initial._id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>
@@ -197,7 +148,7 @@ const NoteUpdateDialog = ({
           variant="outlined"
           disabled={loading}
           endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
-          onClick={saveNote}
+          onClick={saveHistoryEntry}
         >
           Save
         </Button>
@@ -206,8 +157,8 @@ const NoteUpdateDialog = ({
   );
 };
 
-NoteUpdateDialog.defaultProps = {
+HistoryUpsertDialog.defaultProps = {
   initial: undefined,
 };
 
-export default NoteUpdateDialog;
+export default HistoryUpsertDialog;

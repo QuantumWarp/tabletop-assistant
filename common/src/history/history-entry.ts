@@ -3,7 +3,7 @@ export interface HistoryEntry {
   readonly userId: string;
 
   name: string;
-  description: string;
+  description?: string;
 
   readonly createdAt: Date;
   readonly updatedAt: Date;

@@ -7,6 +7,9 @@ import {
   Note,
   CreateNote,
   UpdateNote,
+  UpdateHistoryEntry,
+  CreateHistoryEntry,
+  HistoryEntry,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -18,7 +21,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'Note'],
+  tagTypes: ['Tabletop', 'History', 'Note'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -54,6 +57,28 @@ export const api = createApi({
       invalidatesTags: ['Tabletop'],
     }),
 
+    // History
+    getHistory: build.query<HistoryEntry[], void>({
+      query: () => '/history',
+      providesTags: ['History'],
+    }),
+    getHistoryEntry: build.query<HistoryEntry, string>({
+      query: (id) => ({ url: `/history/${id}` }),
+      providesTags: ['History'],
+    }),
+    createHistoryEntry: build.mutation<HistoryEntry, CreateHistoryEntry>({
+      query: (body) => ({ url: '/history', method: 'POST', body }),
+      invalidatesTags: ['History'],
+    }),
+    updateHistoryEntry: build.mutation<HistoryEntry, UpdateHistoryEntry>({
+      query: (body) => ({ url: '/history', method: 'PUT', body }),
+      invalidatesTags: ['History'],
+    }),
+    deleteHistoryEntry: build.mutation<void, string>({
+      query: (id) => ({ url: `/history/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['History'],
+    }),
+
     // Notes
     getNotes: build.query<Note[], void>({
       query: () => '/notes',
@@ -84,6 +109,12 @@ export const {
   useCreateTabletopMutation,
   useUpdateTabletopMutation,
   useDeleteTabletopMutation,
+
+  useGetHistoryQuery,
+  useGetHistoryEntryQuery,
+  useCreateHistoryEntryMutation,
+  useUpdateHistoryEntryMutation,
+  useDeleteHistoryEntryMutation,
 
   useGetNotesQuery,
   useGetNoteQuery,
