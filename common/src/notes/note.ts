@@ -2,6 +2,7 @@ export interface Note {
   readonly _id: string;
   readonly userId: string;
 
+  tabletopId: string;
   name: string;
   subtitle: string;
   description?: string;

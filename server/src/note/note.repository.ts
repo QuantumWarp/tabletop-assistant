@@ -7,8 +7,8 @@ export default class NoteRepository {
     private userId: string,
   ) {}
 
-  async getAll(): Promise<Note[]> {
-    return NoteModel.find({ userId: this.userId });
+  async getAll(tabletopId: string): Promise<Note[]> {
+    return NoteModel.find({ userId: this.userId, tabletopId });
   }
 
   async get(_id: string): Promise<Note> {

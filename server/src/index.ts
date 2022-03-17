@@ -25,9 +25,10 @@ app.use(session({
 app.use(auth);
 app.use(bodyParser.json());
 
+app.use('/tabletops', tabletopRouter);
+
 app.use('/history', historyRouter);
 app.use('/notes', noteRouter);
-app.use('/tabletops', tabletopRouter);
 
 app.use(error);
 

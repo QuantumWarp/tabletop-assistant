@@ -15,8 +15,8 @@ export interface User {
 export type UpsertUser = Omit<User, '_id' | 'createdAt' | 'updatedAt' | '__v'>;
 
 const schema = new Schema<User>({
-  sub: { type: String, required: true },
-  iss: { type: String, required: true },
+  sub: { type: String, required: true, immutable: true },
+  iss: { type: String, required: true, immutable: true },
   email: { type: String },
   name: { type: String },
 }, {

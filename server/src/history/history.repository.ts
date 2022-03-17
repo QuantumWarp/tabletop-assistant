@@ -7,8 +7,8 @@ export default class HistoryRepository {
     private userId: string,
   ) {}
 
-  async getAll(): Promise<HistoryEntry[]> {
-    return HistoryModel.find({ userId: this.userId });
+  async getAll(tabletopId: string): Promise<HistoryEntry[]> {
+    return HistoryModel.find({ userId: this.userId, tabletopId });
   }
 
   async get(_id: string): Promise<HistoryEntry> {

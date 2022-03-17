@@ -30,12 +30,13 @@ import {
 
 interface NoteUpsertDialogProps {
   initial?: Note;
+  tabletopId: string;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
 const NoteUpsertDialog = ({
-  initial, open, onClose,
+  initial, tabletopId, open, onClose,
 }: NoteUpsertDialogProps) => {
   const [createNote, {
     isLoading: creating,
@@ -81,7 +82,7 @@ const NoteUpsertDialog = ({
     if (initial?._id !== undefined) {
       updateNote({ ...initial, ...updatedProps });
     } else {
-      createNote(updatedProps);
+      createNote({ tabletopId, ...updatedProps });
     }
   };
 

@@ -2,11 +2,13 @@ import {
   Box, Button, Container, TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import TopBar from '../common/TopBar';
 import NoteList from './NoteList';
 import NoteUpsertDialog from './NoteUpsertDialog';
 
 const NotePage = () => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
   const [filter, setFilter] = useState('');
   const [newNoteDialogOpen, setNewNoteDialogOpen] = useState(false);
 
@@ -30,6 +32,7 @@ const NotePage = () => {
 
         {newNoteDialogOpen && (
           <NoteUpsertDialog
+            tabletopId={tabletopId}
             open={newNoteDialogOpen}
             onClose={() => setNewNoteDialogOpen(false)}
           />

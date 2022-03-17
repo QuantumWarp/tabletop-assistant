@@ -5,12 +5,14 @@ import {
   Container,
   TextField,
 } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import HistoryRow from './HistoryRow';
 import TopBar from '../common/TopBar';
 import HistoryUpdateDialog from './HistoryUpsertDialog';
 import { useGetHistoryQuery } from '../store/api';
 
 const HistoryPage = () => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
   const [filter, setFilter] = useState('');
   const [newHistoryDialogOpen, setNewHistoryDialogOpen] = useState(false);
   const { data: entries } = useGetHistoryQuery();
@@ -50,6 +52,7 @@ const HistoryPage = () => {
 
       {newHistoryDialogOpen && (
         <HistoryUpdateDialog
+          tabletopId={tabletopId}
           open={newHistoryDialogOpen}
           onClose={() => setNewHistoryDialogOpen(false)}
         />

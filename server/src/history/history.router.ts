@@ -5,8 +5,9 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const userId = req.session.userId || '';
+  const tabletopId = req.query.tabletopId?.toString() || '';
   const repository = new HistoryRepository(userId);
-  const objs = await repository.getAll();
+  const objs = await repository.getAll(tabletopId);
   res.send(objs);
 });
 

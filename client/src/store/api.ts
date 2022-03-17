@@ -59,7 +59,7 @@ export const api = createApi({
 
     // History
     getHistory: build.query<HistoryEntry[], void>({
-      query: () => '/history',
+      query: (tabletopId) => `/history?tabletopId=${tabletopId}`,
       providesTags: ['History'],
     }),
     getHistoryEntry: build.query<HistoryEntry, string>({
@@ -80,8 +80,8 @@ export const api = createApi({
     }),
 
     // Notes
-    getNotes: build.query<Note[], void>({
-      query: () => '/notes',
+    getNotes: build.query<Note[], string>({
+      query: (tabletopId) => `/notes?tabletopId=${tabletopId}`,
       providesTags: ['Note'],
     }),
     getNote: build.query<Note, string>({

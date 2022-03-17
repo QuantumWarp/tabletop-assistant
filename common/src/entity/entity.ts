@@ -2,6 +2,7 @@ export interface Entity {
   readonly _id: string;
   readonly userId: string;
 
+  tabletopId: string;
   name: string;
   group?: string;
   description?: string;

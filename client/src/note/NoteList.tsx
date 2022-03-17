@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import { Note } from 'tabletop-assistant-common';
+import { useParams } from 'react-router-dom';
 import NoteCard from './NoteCard';
 import NoteUpdateDialog from './NoteUpsertDialog';
 import { useGetNotesQuery } from '../store/api';
@@ -10,8 +11,9 @@ interface NotesListProps {
 }
 
 const NoteList = ({ filter }: NotesListProps) => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
   const [editNote, setEditNote] = useState<Note | undefined>();
-  const { data: notes } = useGetNotesQuery();
+  const { data: notes } = useGetNotesQuery(tabletopId);
 
   const filteredNotes = notes
     ? notes.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())) : [];
@@ -36,6 +38,7 @@ const NoteList = ({ filter }: NotesListProps) => {
       {editNote && (
         <NoteUpdateDialog
           initial={editNote}
+          tabletopId={tabletopId}
           open={Boolean(editNote)}
           onClose={() => setEditNote(undefined)}
         />

@@ -20,12 +20,13 @@ import { useCreateHistoryEntryMutation, useDeleteHistoryEntryMutation, useUpdate
 
 interface HistoryUpsertDialogProps {
   initial?: HistoryEntry;
+  tabletopId: string;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
 const HistoryUpsertDialog = ({
-  initial, open, onClose,
+  initial, tabletopId, open, onClose,
 }: HistoryUpsertDialogProps) => {
   const [createHistoryEntry, {
     isLoading: creating,
@@ -67,7 +68,7 @@ const HistoryUpsertDialog = ({
     if (initial?._id !== undefined) {
       updateHistoryEntry({ ...initial, ...updatedProps });
     } else {
-      createHistoryEntry(updatedProps);
+      createHistoryEntry({ tabletopId, ...updatedProps });
     }
   };
 

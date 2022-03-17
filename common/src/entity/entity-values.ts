@@ -1,8 +1,7 @@
 export interface EntityValues {
   readonly _id: string;
   readonly userId: string;
-
-  entityId: string;
+  readonly entityId: string;
 
   fieldMap: {
     [field: string]: any

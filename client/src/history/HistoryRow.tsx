@@ -1,15 +1,20 @@
 import TimeAgo from 'react-timeago';
 import React, { useState } from 'react';
+import {
+  Card, CardActionArea, CardContent, Grid, Typography,
+} from '@mui/material';
+import { TextSnippet } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
 import { HistoryEntry } from 'tabletop-assistant-common';
 import HistoryUpsertDialog from './HistoryUpsertDialog';
 import './HistoryRow.css';
-import HistoryCard from './HistoryCard';
 
 interface HistoryRowProps {
   entry: HistoryEntry,
 }
 
 const HistoryRow = ({ entry }: HistoryRowProps) => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
   const [editHistory, setEditHistory] = useState<HistoryEntry | undefined>();
 
   return (
@@ -21,13 +26,34 @@ const HistoryRow = ({ entry }: HistoryRowProps) => {
         />
       </div>
 
-      <HistoryCard entry={entry} />
+      <Card className="history-card">
+        <CardActionArea onClick={() => setEditHistory(entry)}>
+          <CardContent>
+            <Grid container spacing={2}>
+              <Grid className="icon" item xs={1}>
+                <TextSnippet />
+              </Grid>
+
+              <Grid item xs={11}>
+                <Typography gutterBottom variant="h5" component="div">
+                  {entry.name}
+                </Typography>
+
+                <Typography variant="body2" color="text.secondary">
+                  {entry.description}
+                </Typography>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </CardActionArea>
+      </Card>
 
       <div className="right-pad" />
 
       {editHistory && (
         <HistoryUpsertDialog
           initial={editHistory}
+          tabletopId={tabletopId}
           open={Boolean(editHistory)}
           onClose={() => setEditHistory(undefined)}
         />
