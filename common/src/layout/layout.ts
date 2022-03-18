@@ -1,6 +1,6 @@
 import { LayoutType } from './layout-type';
 
-export interface LayoutTab {
+export interface Layout {
   readonly _id: string;
   readonly userId: string;
 
@@ -12,8 +12,8 @@ export interface LayoutTab {
   readonly __v: number;
 }
 
-export type UpdateLayoutTab = Omit<LayoutTab, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateLayoutTab = Omit<UpdateLayoutTab, '_id'>;
+export type UpdateLayout = Omit<Layout, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateLayout = Omit<UpdateLayout, '_id'>;
 
 export interface LayoutEntry {
   entityId: string;

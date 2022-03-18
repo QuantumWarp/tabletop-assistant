@@ -10,6 +10,9 @@ import {
   UpdateHistoryEntry,
   CreateHistoryEntry,
   HistoryEntry,
+  Entity,
+  CreateEntity,
+  UpdateEntity,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -21,7 +24,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'History', 'Note'],
+  tagTypes: ['Tabletop', 'Entity', 'History', 'Note'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -57,6 +60,28 @@ export const api = createApi({
       invalidatesTags: ['Tabletop'],
     }),
 
+    // Entities
+    getEntities: build.query<Entity[], string>({
+      query: (tabletopId) => `/entities?tabletopId=${tabletopId}`,
+      providesTags: ['Entity'],
+    }),
+    getEntity: build.query<Entity, string>({
+      query: (id) => ({ url: `/entities/${id}` }),
+      providesTags: ['Entity'],
+    }),
+    createEntity: build.mutation<Entity, CreateEntity>({
+      query: (body) => ({ url: '/entities', method: 'POST', body }),
+      invalidatesTags: ['Entity'],
+    }),
+    updateEntity: build.mutation<Entity, UpdateEntity>({
+      query: (body) => ({ url: '/entities', method: 'PUT', body }),
+      invalidatesTags: ['Entity'],
+    }),
+    deleteEntity: build.mutation<void, string>({
+      query: (id) => ({ url: `/entities/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Entity'],
+    }),
+
     // History
     getHistory: build.query<HistoryEntry[], void>({
       query: (tabletopId) => `/history?tabletopId=${tabletopId}`,
@@ -88,11 +113,11 @@ export const api = createApi({
       query: (id) => ({ url: `/notes/${id}` }),
       providesTags: ['Note'],
     }),
-    createNote: build.mutation<Tabletop, CreateNote>({
+    createNote: build.mutation<Note, CreateNote>({
       query: (body) => ({ url: '/notes', method: 'POST', body }),
       invalidatesTags: ['Note'],
     }),
-    updateNote: build.mutation<Tabletop, UpdateNote>({
+    updateNote: build.mutation<Note, UpdateNote>({
       query: (body) => ({ url: '/notes', method: 'PUT', body }),
       invalidatesTags: ['Note'],
     }),
@@ -109,6 +134,12 @@ export const {
   useCreateTabletopMutation,
   useUpdateTabletopMutation,
   useDeleteTabletopMutation,
+
+  useGetEntitiesQuery,
+  useGetEntityQuery,
+  useCreateEntityMutation,
+  useUpdateEntityMutation,
+  useDeleteEntityMutation,
 
   useGetHistoryQuery,
   useGetHistoryEntryQuery,

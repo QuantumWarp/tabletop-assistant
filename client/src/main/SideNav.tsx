@@ -77,10 +77,10 @@ const SideNav = () => {
           className="menu-item"
           activeClassName="Mui-selected"
           component={NavLink}
-          to="./notes"
+          to="./action"
         >
-          <NotesIcon className="icon" />
-          <span className="name">Notes</span>
+          <ActionIcon className="icon" />
+          <span className="name">Action</span>
         </ListItem>
 
         <Divider />
@@ -90,10 +90,10 @@ const SideNav = () => {
           className="menu-item"
           activeClassName="Mui-selected"
           component={NavLink}
-          to="./action"
+          to="./notes"
         >
-          <ActionIcon className="icon" />
-          <span className="name">Action</span>
+          <NotesIcon className="icon" />
+          <span className="name">Notes</span>
         </ListItem>
 
         <Divider />

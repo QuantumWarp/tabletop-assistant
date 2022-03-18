@@ -17,7 +17,7 @@ export type {
   EntityField,
   EntityAction,
   EntityActionTrigger,
-  EntityLayout,
+  EntityDisplay,
 } from './entity/entity';
 
 export type {
@@ -27,13 +27,13 @@ export type {
 } from './history/history-entry';
 
 export type {
-  LayoutTab,
-  CreateLayoutTab,
-  UpdateLayoutTab,
+  Layout,
+  CreateLayout,
+  UpdateLayout,
   LayoutEntry,
   LayoutPosition,
   LayoutSize,
-} from './layout/layout-tab';
+} from './layout/layout';
 
 export type {
   LayoutType,

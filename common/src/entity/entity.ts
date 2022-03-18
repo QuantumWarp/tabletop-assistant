@@ -10,7 +10,7 @@ export interface Entity {
 
   fields: EntityField[];
   actions: EntityAction[];
-  layouts: EntityLayout[];
+  displays: EntityDisplay[];
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
@@ -23,7 +23,7 @@ export type CreateEntity = Omit<UpdateEntity, '_id'>;
 export interface EntityField {
   key: string;
   name: string;
-  type: 'number' | 'string' | 'boolean';
+  type: string;
   postfix?: string;
 }
 
@@ -31,7 +31,7 @@ export interface EntityAction {
   key: string;
   name: string;
   roll?: string;
-  triggers: [];
+  triggers: EntityActionTrigger[];
 }
 
 export interface EntityActionTrigger {
@@ -43,11 +43,10 @@ export interface EntityActionTrigger {
   };
 }
 
-export interface EntityLayout {
-  layoutType: string;
+export interface EntityDisplay {
+  type: string;
   default: boolean;
-
-  slotMap: {
+  mappings: {
     [slot: string]: string
   };
 }

@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import { Note } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import NoteCard from './NoteCard';
-import NoteUpdateDialog from './NoteUpsertDialog';
+import NoteUpsertDialog from './NoteUpsertDialog';
 import { useGetNotesQuery } from '../store/api';
 
 interface NotesListProps {
@@ -36,7 +36,7 @@ const NoteList = ({ filter }: NotesListProps) => {
       ))}
 
       {editNote && (
-        <NoteUpdateDialog
+        <NoteUpsertDialog
           initial={editNote}
           tabletopId={tabletopId}
           open={Boolean(editNote)}
