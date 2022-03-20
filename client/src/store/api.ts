@@ -13,6 +13,12 @@ import {
   Entity,
   CreateEntity,
   UpdateEntity,
+  Values,
+  Layout,
+  CreateLayout,
+  CreateValues,
+  UpdateLayout,
+  UpdateValues,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -24,7 +30,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'Entity', 'History', 'Note'],
+  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -80,6 +86,50 @@ export const api = createApi({
     deleteEntity: build.mutation<void, string>({
       query: (id) => ({ url: `/entities/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Entity'],
+    }),
+
+    // Values
+    getAllValues: build.query<Values[], string>({
+      query: (tabletopId) => `/values?tabletopId=${tabletopId}`,
+      providesTags: ['Values'],
+    }),
+    getValues: build.query<Values, string>({
+      query: (entityId) => ({ url: `/values/${entityId}` }),
+      providesTags: ['Values'],
+    }),
+    createValues: build.mutation<Values, CreateValues>({
+      query: (body) => ({ url: '/values', method: 'POST', body }),
+      invalidatesTags: ['Values'],
+    }),
+    updateValues: build.mutation<Values, UpdateValues>({
+      query: (body) => ({ url: '/values', method: 'PUT', body }),
+      invalidatesTags: ['Values'],
+    }),
+    deleteValues: build.mutation<void, string>({
+      query: (entityId) => ({ url: `/values/${entityId}`, method: 'DELETE' }),
+      invalidatesTags: ['Values'],
+    }),
+
+    // Layouts
+    getLayouts: build.query<Layout[], string>({
+      query: (tabletopId) => `/layouts?tabletopId=${tabletopId}`,
+      providesTags: ['Layout'],
+    }),
+    getLayout: build.query<Layout, string>({
+      query: (id) => ({ url: `/layouts/${id}` }),
+      providesTags: ['Layout'],
+    }),
+    createLayout: build.mutation<Layout, CreateLayout>({
+      query: (body) => ({ url: '/layouts', method: 'POST', body }),
+      invalidatesTags: ['Layout'],
+    }),
+    updateLayout: build.mutation<Layout, UpdateLayout>({
+      query: (body) => ({ url: '/layouts', method: 'PUT', body }),
+      invalidatesTags: ['Layout'],
+    }),
+    deleteLayout: build.mutation<void, string>({
+      query: (id) => ({ url: `/layouts/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Layout'],
     }),
 
     // History
@@ -140,6 +190,18 @@ export const {
   useCreateEntityMutation,
   useUpdateEntityMutation,
   useDeleteEntityMutation,
+
+  useGetAllValuesQuery,
+  useGetValuesQuery,
+  useCreateValuesMutation,
+  useUpdateValuesMutation,
+  useDeleteValuesMutation,
+
+  useGetLayoutsQuery,
+  useGetLayoutQuery,
+  useCreateLayoutMutation,
+  useUpdateLayoutMutation,
+  useDeleteLayoutMutation,
 
   useGetHistoryQuery,
   useGetHistoryEntryQuery,

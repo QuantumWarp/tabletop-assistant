@@ -1,8 +1,8 @@
 export interface HistoryEntry {
   readonly _id: string;
   readonly userId: string;
+  readonly tabletopId: string;
 
-  tabletopId: string;
   name: string;
   description?: string;
 

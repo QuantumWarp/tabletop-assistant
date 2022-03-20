@@ -3,7 +3,7 @@ import { Entity } from 'tabletop-assistant-common';
 
 const schema = new Schema<Entity>({
   userId: { type: String, required: true, immutable: true },
-  tabletopId: { type: String, required: true },
+  tabletopId: { type: String, required: true, immutable: true },
   name: { type: String, required: true },
   group: { type: String },
   description: { type: String },

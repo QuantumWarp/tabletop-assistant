@@ -5,12 +5,6 @@ export type {
 } from './tabletop/tabletop';
 
 export type {
-  EntityValues,
-  CreateEntityValues,
-  UpdateEntityValues,
-} from './entity/entity-values';
-
-export type {
   Entity,
   CreateEntity,
   UpdateEntity,
@@ -19,6 +13,12 @@ export type {
   EntityActionTrigger,
   EntityDisplay,
 } from './entity/entity';
+
+export type {
+  Values,
+  CreateValues,
+  UpdateValues,
+} from './entity/values';
 
 export type {
   HistoryEntry,
@@ -36,8 +36,8 @@ export type {
 } from './layout/layout';
 
 export type {
-  LayoutType,
-} from './layout/layout-type';
+  DisplayType,
+} from './layout/display-type';
 
 export type {
   Note,

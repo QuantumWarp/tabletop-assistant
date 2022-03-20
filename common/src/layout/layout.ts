@@ -1,8 +1,9 @@
-import { LayoutType } from './layout-type';
+import { DisplayType } from './display-type';
 
 export interface Layout {
   readonly _id: string;
   readonly userId: string;
+  readonly tabletopId: string;
 
   name: string;
   entries: LayoutEntry[];
@@ -17,7 +18,7 @@ export type CreateLayout = Omit<UpdateLayout, '_id'>;
 
 export interface LayoutEntry {
   entityId: string;
-  layoutType: LayoutType;
+  layoutType: DisplayType;
 
   position: LayoutPosition;
   size: LayoutSize;
