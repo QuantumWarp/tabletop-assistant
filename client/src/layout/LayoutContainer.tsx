@@ -3,10 +3,10 @@ import { useAppSelector } from '../store/store';
 import { selectObjects } from '../store/config-slice';
 import LayoutTab from '../models/layout/layout-tab';
 import DisplayType from '../models/layout/display-type';
-import DisplaySimpleCard from './DisplaySimpleCard';
-import DisplaySimpleToggle from './DisplaySimpleToggle';
-import DisplayNumberSquare from './DisplayNumberSquare';
-import DisplayDotCounter from './DisplayDotCounter';
+import DisplaySimpleCard from '../display/DisplaySimpleCard';
+import DisplaySimpleToggle from '../display/DisplaySimpleToggle';
+import DisplayNumberSquare from '../display/DisplayNumberSquare';
+import DisplayDotCounter from '../display/DisplayDotCounter';
 import { LayoutPositionHelper } from '../models/layout/layout-position';
 import './LayoutContainer.css';
 

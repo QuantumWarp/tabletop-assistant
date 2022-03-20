@@ -6,7 +6,7 @@ import { selectActions, setAction, upsertObject } from '../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import TabletopIcon from '../common/TabletopIcon';
 import './DisplaySimpleCard.css';
-import ObjectInfoDialog from './ObjectInfoDialog';
+import EntitySummaryDialog from '../layout/EntitySummaryDialog';
 
 interface DisplaySimpleCardProps {
   obj: GameObject,
@@ -106,7 +106,7 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
       </Box>
 
       {objectInfoOpen && (
-        <ObjectInfoDialog
+        <EntitySummaryDialog
           obj={obj}
           open={objectInfoOpen}
           onClose={() => setObjectInfoOpen(false)}

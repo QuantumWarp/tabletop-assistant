@@ -30,10 +30,10 @@ const schema = new Schema<Entity>({
     }],
   }],
 
-  layouts: [{
+  displays: [{
     type: { type: String, required: true },
     default: { type: Boolean, required: true },
-    slotMap: { type: Map },
+    mappings: { type: Map },
   }],
 }, {
   timestamps: true,

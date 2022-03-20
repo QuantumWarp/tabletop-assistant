@@ -18,7 +18,7 @@ import { deleteEntry, selectObjects, upsertEntry } from '../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { LayoutPositionHelper } from '../models/layout/layout-position';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
-import LayoutDisplay from '../layout/LayoutDisplay';
+import LayoutDisplay from '../display/LayoutDisplay';
 import './LayoutConfigDialog.css';
 
 interface LayoutConfigDialogProps {

@@ -8,7 +8,7 @@ import ActionPage from '../action/ActionPage';
 import HistoryView from '../history/HistoryPage';
 import LayoutPage from '../layout/LayoutPage';
 import NotesPage from '../note/NotePage';
-import LayoutConfigPage from '../configure/LayoutConfigPage';
+import LayoutConfigPage from '../layout-config/LayoutConfigPage';
 import ObjectConfigPage from '../entity/EntityPage';
 
 const MainView = () => {
