@@ -27,7 +27,7 @@ const EntityPage = () => {
           variant="outlined"
           onClick={() => setNewEntityDialogOpen(true)}
         >
-          New Note
+          New Object
         </Button>
 
         {newEntityDialogOpen && (

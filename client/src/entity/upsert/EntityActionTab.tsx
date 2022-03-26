@@ -36,7 +36,7 @@ const ObjectActionTab = ({ actions, onChange }: ObjectActionTabProps) => {
         variant="outlined"
         onClick={() => setEditAction({})}
       >
-        Add Field
+        Add Action
       </Button>
 
       {editAction && (

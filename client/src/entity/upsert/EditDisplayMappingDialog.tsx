@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
-  FormControlLabel,
   Grid,
   InputLabel,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   Select,
 } from '@mui/material';
@@ -20,32 +15,27 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityDisplay } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
-import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 
 interface EditDisplayDialogProps {
-  initial?: Partial<EntityDisplay>;
+  initial?: Partial<{ key: string, value: string }>;
   open: boolean;
   onClose: (deleted?: boolean) => void;
-  onSave: (display: EntityDisplay) => void;
+  onSave: (display: { key: string, value: string }) => void;
 }
 
 const EditDisplayDialog = ({
   initial, open, onClose, onSave,
 }: EditDisplayDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
 
-  const [type, setType] = useState(initial?.type || '');
-  const [defaultVal, setDefault] = useState(initial?.default || false);
-  const [mappings, setMappings] = useState(initial?.mappings || {});
+  const [key, setKey] = useState(initial?.key || '');
+  const [value, setValue] = useState(initial?.value || '');
 
   const saveField = () => {
     const updatedProps = {
-      type,
-      default: defaultVal,
-      mappings,
+      key,
+      value,
     };
 
     onSave({ ...initial, ...updatedProps });
@@ -56,7 +46,7 @@ const EditDisplayDialog = ({
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
-          {initial?.type ? 'Update ' : 'Create '}
+          {initial?.key ? 'Update ' : 'Create '}
           Display
         </b>
       </DialogTitle>
@@ -65,11 +55,11 @@ const EditDisplayDialog = ({
         <Grid container spacing={2} marginTop={0}>
           <Grid item xs={12}>
             <FormControl fullWidth required>
-              <InputLabel>Type</InputLabel>
+              <InputLabel>Slot</InputLabel>
               <Select
-                label="Type"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
+                label="Slot"
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
               >
                 <MenuItem value="Example">Example</MenuItem>
                 <MenuItem value="Another">Another</MenuItem>
@@ -77,52 +67,24 @@ const EditDisplayDialog = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={6}>
-            <FormControlLabel
-              label="Default"
-              control={(
-                <Checkbox
-                  checked={defaultVal}
-                  onChange={(e) => setDefault(e.target.checked)}
-                />
-              )}
-            />
-          </Grid>
-
-          {Object.entries(mappings).map((mapping) => (
-            <ListItem
-              dense
-              // eslint-disable-next-line react/no-array-index-key
-              key={mapping[0]}
-            >
-              <ListItemButton
-                onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
+          <Grid item xs={12}>
+            <FormControl fullWidth required>
+              <InputLabel>Field</InputLabel>
+              <Select
+                label="Field"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
               >
-                <ListItemText primary={`${mapping[0]} - ${mapping[1]}`} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-
-          <Button
-            variant="outlined"
-            onClick={() => setEditMapping({})}
-          >
-            Add Mapping
-          </Button>
-
-          {editMapping && (
-            <EditDisplayMappingDialog
-              initial={editMapping}
-              open={Boolean(editMapping)}
-              onClose={() => setEditMapping(undefined)}
-              onSave={(mapping) => setMappings({ ...mappings, [mapping.key]: mapping.value })}
-            />
-          )}
+                <MenuItem value="Example">Example</MenuItem>
+                <MenuItem value="Another">Another</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
       </DialogContent>
 
       <DialogActions>
-        {initial?.type && (
+        {initial?.key && (
           <>
             <Button
               variant="outlined"
@@ -135,7 +97,7 @@ const EditDisplayDialog = ({
 
             <DeleteConfirmDialog
               objType="Note"
-              objName={initial.type}
+              objName={initial.key}
               open={deleteOpen}
               onDelete={() => onClose(true)}
               onClose={() => setDeleteOpen(false)}

@@ -37,10 +37,8 @@ export interface EntityAction {
 export interface EntityActionTrigger {
   manual: boolean;
   sibling: boolean;
-  action?: {
-    entityId: string;
-    actionKey: string;
-  };
+  entityId?: string;
+  actionKey?: string;
 }
 
 export interface EntityDisplay {

@@ -6,14 +6,18 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   TextField,
 } from '@mui/material';
 import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityAction } from 'tabletop-assistant-common';
+import { EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
+import EditActionTriggerDialog from './EditActionTriggerDialog';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -26,11 +30,12 @@ const EditActionDialog = ({
   initial, open, onClose, onSave,
 }: EditActionDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
   const [name, setName] = useState(initial?.name || '');
   const key = name.replace(' ', ''); // TODO
   const [roll, setRoll] = useState(initial?.roll || '');
-  const [triggers] = useState(initial?.triggers || []);
+  const [triggers, setTriggers] = useState(initial?.triggers || []);
 
   const saveField = () => {
     const updatedProps = {
@@ -72,6 +77,34 @@ const EditActionDialog = ({
               onChange={(e) => setRoll(e.target.value)}
             />
           </Grid>
+
+          {triggers.map((trigger, index) => (
+            <ListItem
+              dense
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
+            >
+              <ListItemButton onClick={() => setEditTrigger(trigger)}>
+                <ListItemText primary={trigger.manual} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+
+          <Button
+            variant="outlined"
+            onClick={() => setEditTrigger({})}
+          >
+            Add Trigger
+          </Button>
+
+          {editTrigger && (
+            <EditActionTriggerDialog
+              initial={editTrigger}
+              open={Boolean(editTrigger)}
+              onClose={() => setEditTrigger(undefined)}
+              onSave={(trigger) => setTriggers(triggers.concat([trigger]))}
+            />
+          )}
         </Grid>
       </DialogContent>
 

@@ -23,10 +23,8 @@ const schema = new Schema<Entity>({
     triggers: [{
       manual: { type: Boolean, required: true },
       sibling: { type: Boolean, required: true },
-      action: {
-        entityId: { type: String },
-        actionKey: { type: String },
-      },
+      entityId: { type: String },
+      actionKey: { type: String },
     }],
   }],
 

@@ -36,7 +36,7 @@ const ObjectDisplayTab = ({ displays, onChange }: EntityDisplayTabProps) => {
         variant="outlined"
         onClick={() => setEditDisplay({})}
       >
-        Add Field
+        Add Display
       </Button>
 
       {editDisplay && (

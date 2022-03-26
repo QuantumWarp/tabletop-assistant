@@ -64,6 +64,7 @@ const ObjectUpsertDialog = ({
     fields: [],
     actions: [],
     displays: [],
+    ...initial,
   });
 
   useEffect(() => {
