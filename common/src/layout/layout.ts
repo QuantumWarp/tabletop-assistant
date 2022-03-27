@@ -1,5 +1,3 @@
-import { DisplayType } from './display-type';
-
 export interface Layout {
   readonly _id: string;
   readonly userId: string;
@@ -18,7 +16,7 @@ export type CreateLayout = Omit<UpdateLayout, '_id'>;
 
 export interface LayoutEntry {
   entityId: string;
-  displayType: DisplayType;
+  displayType: string;
 
   position: LayoutPosition;
   size: LayoutSize;

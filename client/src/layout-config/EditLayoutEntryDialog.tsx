@@ -40,7 +40,7 @@ const EditLayoutEntryDialog = ({
 
   const [entityId, setEntityId] = useState(initial?.entityId || '');
   const [displayType, setDisplayType] = useState<DisplayType>(
-    initial?.displayType || display,
+    initial?.displayType as DisplayType || display,
   );
 
   const saveEntry = () => {

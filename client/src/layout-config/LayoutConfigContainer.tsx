@@ -4,6 +4,7 @@ import { Layout } from 'tabletop-assistant-common';
 import LayoutConfigBox from './LayoutConfigBox';
 import './LayoutConfigContainer.css';
 import EditLayoutEntryDialog from './EditLayoutEntryDialog';
+import { useUpdateLayoutMutation } from '../store/api';
 
 interface LayoutConfigContainerProps {
   layout: Layout,
@@ -12,8 +13,12 @@ interface LayoutConfigContainerProps {
 const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
   const [newEntryDialogOpen, setNewEntryDialogOpen] = useState(false);
 
+  const [updateLayout] = useUpdateLayoutMutation();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
+
+  const [entries, setEntries] = useState(layout.entries);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,14 +40,17 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
       >
         <div className="click-area" onClick={() => setNewEntryDialogOpen(true)} />
 
-        {layout.entries.map((entry, index) => (
+        {entries.map((entry, index) => (
           <LayoutConfigBox
             containerWidth={containerWidth}
             // eslint-disable-next-line react/no-array-index-key
             key={index}
             entry={entry}
-            onPositionChange={() => ({})}
-            onSizeChange={() => ({})}
+            // TODO: Don't save so often
+            onChange={(updated) => {
+              setEntries(entries.filter((x) => x !== entry).concat([updated]));
+              updateLayout({ ...layout, entries });
+            }}
           />
         ))}
       </Box>
@@ -51,7 +59,7 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
         <EditLayoutEntryDialog
           open={newEntryDialogOpen}
           onClose={() => setNewEntryDialogOpen(false)}
-          onSave={() => ({})}
+          onSave={(entry) => setEntries(entries.concat([entry]))}
         />
       )}
     </>

@@ -1,5 +1,4 @@
 export default interface LayoutPositionUpdate {
-  entryId: string;
   containerWidth: number;
   position?: {
     x: number;
