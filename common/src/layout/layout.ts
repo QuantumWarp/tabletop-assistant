@@ -18,7 +18,7 @@ export type CreateLayout = Omit<UpdateLayout, '_id'>;
 
 export interface LayoutEntry {
   entityId: string;
-  layoutType: DisplayType;
+  displayType: DisplayType;
 
   position: LayoutPosition;
   size: LayoutSize;

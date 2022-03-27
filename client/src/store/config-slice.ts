@@ -5,7 +5,6 @@ import Configuration from '../models/configuration';
 import LayoutEntry from '../models/layout/layout-entry';
 import GameObject from '../models/objects/game-object';
 import type { RootState } from './store';
-import { LayoutPositionHelper } from '../models/layout/layout-position';
 import LayoutPositionUpdate from '../models/layout/layout-position-update';
 import GameAction from '../models/objects/game-action';
 import ActionTree, { ActionTreeHelper } from '../models/objects/action-tree';
@@ -129,14 +128,15 @@ export const configurationSlice = createSlice({
         tab.entries.push(action.payload);
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateEntryPosition(state, action: PayloadAction<LayoutPositionUpdate>) {
-      const tab = state.layouts.find((x) => x.id === state.layoutId);
-      if (!tab) return;
+      // const tab = state.layouts.find((x) => x.id === state.layoutId);
+      // if (!tab) return;
 
-      const entry = tab.entries.find((x) => x.id === action.payload.entryId);
-      if (!entry) return;
+      // const entry = tab.entries.find((x) => x.id === action.payload.entryId);
+      // if (!entry) return;
 
-      entry.position = LayoutPositionHelper.updatePositionAndSize(entry.position, action.payload);
+      // entry.position = LayoutPositionHelper.updatePositionAndSize(entry.position, action.payload)
     },
     deleteEntry(state, action: PayloadAction<string>) {
       const tab = state.layouts.find((x) => x.id === state.layoutId);

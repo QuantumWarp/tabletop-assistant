@@ -36,10 +36,6 @@ export type {
 } from './layout/layout';
 
 export type {
-  DisplayType,
-} from './layout/display-type';
-
-export type {
   Note,
   CreateNote,
   UpdateNote,

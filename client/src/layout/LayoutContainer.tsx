@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Layout } from 'tabletop-assistant-common';
 import { useAppSelector } from '../store/store';
 import { selectObjects } from '../store/config-slice';
-import LayoutTab from '../models/layout/layout-tab';
 import DisplayType from '../models/layout/display-type';
 import DisplaySimpleCard from '../display/DisplaySimpleCard';
 import DisplaySimpleToggle from '../display/DisplaySimpleToggle';
 import DisplayNumberSquare from '../display/DisplayNumberSquare';
 import DisplayDotCounter from '../display/DisplayDotCounter';
-import { LayoutPositionHelper } from '../models/layout/layout-position';
+import LayoutPositionHelper from '../models/layout/layout-position';
 import './LayoutContainer.css';
 
 interface LayoutContainerProps {
-  layout: LayoutTab,
+  layout: Layout,
 }
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
@@ -34,39 +34,40 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   return (
     <div className="layout-container" ref={containerRef}>
       <div>
-        {layout.entries.map((entry) => {
-          const obj = objects.find((x) => entry.objectId === x.id);
+        {layout.entries.map((entry, index) => {
+          const obj = objects.find((x) => entry.entityId === x.id);
 
           return (
             <div
-              key={entry.id}
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
               className="entry"
               style={{
                 ...LayoutPositionHelper.getPositionStyle(entry.position, containerWidth),
-                ...LayoutPositionHelper.getSizeStyle(entry.position, containerWidth),
+                ...LayoutPositionHelper.getSizeStyle(entry.size, containerWidth),
               }}
             >
-              {obj && entry.display === DisplayType.simpleCard && (
+              {obj && entry.displayType === DisplayType.simpleCard && (
                 <DisplaySimpleCard
-                  key={entry.objectId}
+                  key={entry.entityId}
                   obj={obj}
                 />
               )}
-              {obj && entry.display === DisplayType.simpleToggle && (
+              {obj && entry.displayType === DisplayType.simpleToggle && (
                 <DisplaySimpleToggle
-                  key={entry.objectId}
+                  key={entry.entityId}
                   obj={obj}
                 />
               )}
-              {obj && entry.display === DisplayType.numberSquare && (
+              {obj && entry.displayType === DisplayType.numberSquare && (
                 <DisplayNumberSquare
-                  key={entry.objectId}
+                  key={entry.entityId}
                   obj={obj}
                 />
               )}
-              {obj && entry.display === DisplayType.dotCounter && (
+              {obj && entry.displayType === DisplayType.dotCounter && (
                 <DisplayDotCounter
-                  key={entry.objectId}
+                  key={entry.entityId}
                   obj={obj}
                 />
               )}

@@ -7,40 +7,38 @@ import {
   Stack,
   Box,
 } from '@mui/material';
+import { Layout } from 'tabletop-assistant-common';
+import { useParams } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/AddCircle';
-import LeftIcon from '@mui/icons-material/ArrowLeft';
-import RightIcon from '@mui/icons-material/ArrowRight';
 import LayoutConfigContainer from './LayoutConfigContainer';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import {
-  moveLayout, selectCurrentLayout, selectLayouts, setLayoutId,
-} from '../store/config-slice';
 import TopBar from '../common/TopBar';
-import LayoutConfigTabDialog from './LayoutConfigTabDialog';
-import LayoutTab from '../models/layout/layout-tab';
+import LayoutUpsertDialog from './LayoutUpsertDialog';
+import { useGetLayoutsQuery } from '../store/api';
 
 const LayoutConfigPage = () => {
-  const dispatch = useAppDispatch();
-  const [editLayout, setEditLayout] = useState<Partial<LayoutTab> | null>(null);
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
-  const layouts = useAppSelector(selectLayouts);
-  const currentLayout = useAppSelector(selectCurrentLayout);
-  const currentIndex = currentLayout && layouts?.indexOf(currentLayout);
+  const [editLayout, setEditLayout] = useState<Layout | undefined>(undefined);
+  const [newLayout, setNewLayout] = useState(false);
+
+  const [layoutId, setLayoutId] = useState('');
+  const currentLayout = layouts?.find((x) => x._id === layoutId);
 
   return (
     <>
       <TopBar title="Layout Config">
         <Tabs
-          value={currentLayout?.id}
-          onChange={(_e, val) => dispatch(setLayoutId(val))}
+          value={currentLayout?._id}
+          onChange={(_e, val) => setLayoutId(val)}
           centered
         >
           {layouts?.map((layout) => (
             <Tab
-              key={layout.id}
+              key={layout._id}
               label={layout.name}
-              value={layout.id}
+              value={layout._id}
             />
           ))}
         </Tabs>
@@ -49,9 +47,9 @@ const LayoutConfigPage = () => {
           direction="row"
           justifyContent="center"
         >
-          {currentLayout !== undefined && currentIndex !== undefined && (
+          {currentLayout !== undefined && (
             <>
-              <IconButton
+              {/* <IconButton
                 color="primary"
                 title="Move Layout Left"
                 disabled={currentIndex === 0}
@@ -71,7 +69,7 @@ const LayoutConfigPage = () => {
                 ))}
               >
                 <RightIcon />
-              </IconButton>
+              </IconButton> */}
 
               <IconButton
                 title="Edit Layout"
@@ -85,16 +83,25 @@ const LayoutConfigPage = () => {
           <IconButton
             color="primary"
             title="New Layout"
-            onClick={() => setEditLayout({})}
+            onClick={() => setNewLayout(true)}
           >
             <AddIcon />
           </IconButton>
 
           {editLayout && (
-            <LayoutConfigTabDialog
-              layout={editLayout}
+            <LayoutUpsertDialog
+              initial={editLayout}
+              tabletopId={tabletopId}
               open={Boolean(editLayout)}
-              onClose={() => setEditLayout(null)}
+              onClose={() => setEditLayout(undefined)}
+            />
+          )}
+
+          {newLayout && (
+            <LayoutUpsertDialog
+              tabletopId={tabletopId}
+              open={newLayout}
+              onClose={() => setNewLayout(false)}
             />
           )}
         </Stack>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
-import LayoutEntry from '../models/layout/layout-entry';
+import { LayoutEntry } from 'tabletop-assistant-common';
 import { selectObjects } from '../store/config-slice';
 import { useAppSelector } from '../store/store';
-import LayoutConfigDialog from './LayoutConfigDialog';
+import LayoutConfigDialog from './EditLayoutEntryDialog';
 import './LayoutConfigBox.css';
-import { LayoutPositionHelper } from '../models/layout/layout-position';
+import LayoutPositionHelper from '../models/layout/layout-position';
 
-interface LayoutBoxProps {
+interface LayoutConfigBoxProps {
   containerWidth: number,
   entry: LayoutEntry,
   onPositionChange: (data: DraggableData) => void,
@@ -17,20 +17,20 @@ interface LayoutBoxProps {
 
 const LayoutConfigBox = ({
   containerWidth, entry, onPositionChange, onSizeChange,
-}: LayoutBoxProps) => {
+}: LayoutConfigBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
 
   const objects = useAppSelector(selectObjects);
 
-  const obj = objects.find((x) => x.id === entry.objectId);
+  const obj = objects.find((x) => x.id === entry.entityId);
 
   return (
     <>
       <Rnd
         className="layout-box"
         position={LayoutPositionHelper.getPosition(entry.position, containerWidth)}
-        size={LayoutPositionHelper.getSize(entry.position, containerWidth)}
+        size={LayoutPositionHelper.getSize(entry.size, containerWidth)}
         onDrag={() => setDragging(true)}
         onDragStop={(_e, data) => onPositionChange(data)}
         onResizeStop={(_e, dir, _el, delta) => onSizeChange(dir, delta)}
@@ -47,15 +47,16 @@ const LayoutConfigBox = ({
           </div>
 
           <div>
-            {entry.display}
+            {entry.displayType}
           </div>
         </Box>
       </Rnd>
 
       <LayoutConfigDialog
+        initial={entry}
         open={dialogOpen}
-        entry={entry}
         onClose={() => setDialogOpen(false)}
+        onSave={() => setDialogOpen(false)}
       />
     </>
   );

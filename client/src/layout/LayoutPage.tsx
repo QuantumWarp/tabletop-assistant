@@ -2,12 +2,9 @@ import React from 'react';
 import {
   Tabs,
   Tab,
-  Container,
-  Box,
 } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { selectCurrentLayout, selectLayouts, setLayoutId } from '../store/config-slice';
-import LayoutContainer from './LayoutContainer';
 import TopBar from '../common/TopBar';
 
 const LayoutPage = () => {
@@ -33,11 +30,11 @@ const LayoutPage = () => {
         </Tabs>
       </TopBar>
 
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      {/* <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
           {currentLayout && <LayoutContainer layout={currentLayout} />}
         </Container>
-      </Box>
+      </Box> */}
     </>
   );
 };

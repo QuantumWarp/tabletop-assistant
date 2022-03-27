@@ -1,27 +1,7 @@
+import { LayoutPosition, LayoutSize } from 'tabletop-assistant-common';
 import LayoutPositionUpdate from './layout-position-update';
 
-export default interface LayoutPosition {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-}
-
-export class LayoutPositionHelper {
-  static createPosition(
-    left: number,
-    top: number,
-    width: number,
-    height: number,
-  ): LayoutPosition {
-    return {
-      left,
-      top,
-      width,
-      height,
-    };
-  }
-
+export default class LayoutPositionHelper {
   static getPositionStyle(pos: LayoutPosition, containerWidth: number) {
     return {
       left: `${(containerWidth / 100) * pos.left}px`,
@@ -29,7 +9,7 @@ export class LayoutPositionHelper {
     };
   }
 
-  static getSizeStyle(pos: LayoutPosition, containerWidth: number) {
+  static getSizeStyle(pos: LayoutSize, containerWidth: number) {
     return {
       width: `${(containerWidth / 100) * pos.width}px`,
       height: `${(containerWidth / 100) * pos.height}px`,
@@ -43,7 +23,7 @@ export class LayoutPositionHelper {
     };
   }
 
-  static getSize(pos: LayoutPosition, containerWidth: number) {
+  static getSize(pos: LayoutSize, containerWidth: number) {
     return {
       width: (containerWidth / 100) * pos.width,
       height: (containerWidth / 100) * pos.height,
@@ -51,8 +31,11 @@ export class LayoutPositionHelper {
   }
 
   // TODO: Better snapping rather than using a grid
-  static updatePositionAndSize(pos: LayoutPosition, update: LayoutPositionUpdate): LayoutPosition {
+  static updatePositionAndSize(
+    pos: LayoutPosition, size: LayoutSize, update: LayoutPositionUpdate,
+  ): { position: LayoutPosition, size: LayoutSize } {
     const newPos = { ...pos };
+    const newSize = { ...size };
 
     if (update.position) {
       newPos.left = Math.round((update.position.x / update.containerWidth) * 100);
@@ -60,8 +43,8 @@ export class LayoutPositionHelper {
     }
 
     if (update.resize) {
-      newPos.width += Math.round((update.resize.deltaWidth / update.containerWidth) * 100);
-      newPos.height += Math.round((update.resize.deltaHeight / update.containerWidth) * 100);
+      newSize.width += Math.round((update.resize.deltaWidth / update.containerWidth) * 100);
+      newSize.height += Math.round((update.resize.deltaHeight / update.containerWidth) * 100);
 
       if (update.resize.direction.toLowerCase().includes('left')) {
         newPos.left -= Math.round((update.resize.deltaWidth / update.containerWidth) * 100);
@@ -72,6 +55,6 @@ export class LayoutPositionHelper {
       }
     }
 
-    return newPos;
+    return { position: newPos, size: newSize };
   }
 }
