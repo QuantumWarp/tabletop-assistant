@@ -15,17 +15,21 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
+import { EntityField } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
+import DisplayType, { DisplayTypeHelper } from '../../display/types/display-type';
 
 interface EditDisplayDialogProps {
   initial?: Partial<{ key: string, value: string }>;
+  type: DisplayType;
+  fields: EntityField[];
   open: boolean;
   onClose: (deleted?: boolean) => void;
   onSave: (display: { key: string, value: string }) => void;
 }
 
 const EditDisplayDialog = ({
-  initial, open, onClose, onSave,
+  initial, type, fields, open, onClose, onSave,
 }: EditDisplayDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
@@ -47,7 +51,7 @@ const EditDisplayDialog = ({
       <DialogTitle>
         <b>
           {initial?.key ? 'Update ' : 'Create '}
-          Display
+          Mapping
         </b>
       </DialogTitle>
 
@@ -61,8 +65,14 @@ const EditDisplayDialog = ({
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
               >
-                <MenuItem value="Example">Example</MenuItem>
-                <MenuItem value="Another">Another</MenuItem>
+                {DisplayTypeHelper.slots(type).map((x) => (
+                  <MenuItem
+                    key={x.key}
+                    value={x.key}
+                  >
+                    {x.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -75,8 +85,14 @@ const EditDisplayDialog = ({
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
               >
-                <MenuItem value="Example">Example</MenuItem>
-                <MenuItem value="Another">Another</MenuItem>
+                {fields.map((x) => (
+                  <MenuItem
+                    key={x.key}
+                    value={x.key}
+                  >
+                    {x.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

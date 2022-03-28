@@ -20,24 +20,26 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityDisplay } from 'tabletop-assistant-common';
+import { EntityDisplay, EntityField } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
+import DisplayType, { DisplayTypeHelper } from '../../display/types/display-type';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
+  fields: EntityField[];
   open: boolean;
   onClose: (deleted?: boolean) => void;
   onSave: (display: EntityDisplay) => void;
 }
 
 const EditDisplayDialog = ({
-  initial, open, onClose, onSave,
+  initial, fields, open, onClose, onSave,
 }: EditDisplayDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
 
-  const [type, setType] = useState(initial?.type || '');
+  const [type, setType] = useState<DisplayType>(initial?.type as DisplayType || DisplayType.Card);
   const [defaultVal, setDefault] = useState(initial?.default || false);
   const [mappings, setMappings] = useState(initial?.mappings || {});
 
@@ -69,10 +71,16 @@ const EditDisplayDialog = ({
               <Select
                 label="Type"
                 value={type}
-                onChange={(e) => setType(e.target.value)}
+                onChange={(e) => setType(e.target.value as DisplayType)}
               >
-                <MenuItem value="Example">Example</MenuItem>
-                <MenuItem value="Another">Another</MenuItem>
+                {DisplayTypeHelper.list().map((x) => (
+                  <MenuItem
+                    key={x}
+                    value={x}
+                  >
+                    {DisplayTypeHelper.displayName(x)}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -110,9 +118,11 @@ const EditDisplayDialog = ({
             Add Mapping
           </Button>
 
-          {editMapping && (
+          {editMapping && type && (
             <EditDisplayMappingDialog
               initial={editMapping}
+              fields={fields}
+              type={type}
               open={Boolean(editMapping)}
               onClose={() => setEditMapping(undefined)}
               onSave={(mapping) => setMappings({ ...mappings, [mapping.key]: mapping.value })}

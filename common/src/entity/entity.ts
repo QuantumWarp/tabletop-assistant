@@ -45,6 +45,6 @@ export interface EntityDisplay {
   type: string;
   default: boolean;
   mappings: {
-    [slot: string]: string
+    [slot: string]: string;
   };
 }

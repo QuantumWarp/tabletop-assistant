@@ -2,15 +2,18 @@ import {
   Button, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { EntityDisplay } from 'tabletop-assistant-common';
+import { EntityDisplay, EntityField } from 'tabletop-assistant-common';
 import EditDisplayDialog from './EditDisplayDialog';
 
 interface EntityDisplayTabProps {
   displays: EntityDisplay[],
+  fields: EntityField[],
   onChange: (displays: EntityDisplay[]) => void,
 }
 
-const ObjectDisplayTab = ({ displays, onChange }: EntityDisplayTabProps) => {
+const ObjectDisplayTab = ({
+  displays, fields, onChange,
+}: EntityDisplayTabProps) => {
   const [editDisplay, setEditDisplay] = useState<Partial<EntityDisplay>>();
 
   return (
@@ -42,6 +45,7 @@ const ObjectDisplayTab = ({ displays, onChange }: EntityDisplayTabProps) => {
       {editDisplay && (
         <EditDisplayDialog
           initial={editDisplay}
+          fields={fields}
           open={Boolean(editDisplay)}
           onClose={() => setEditDisplay(undefined)}
           onSave={(display) => onChange(displays

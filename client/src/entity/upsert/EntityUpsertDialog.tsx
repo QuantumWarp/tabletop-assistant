@@ -124,6 +124,7 @@ const ObjectUpsertDialog = ({
         <div hidden={selectedTab !== 3}>
           <ObjectDisplayTab
             displays={entity.displays}
+            fields={entity.fields}
             onChange={(displays) => entityChange({ displays })}
           />
         </div>
