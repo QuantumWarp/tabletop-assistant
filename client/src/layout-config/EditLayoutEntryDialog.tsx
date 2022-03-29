@@ -17,25 +17,24 @@ import {
 } from '@mui/icons-material';
 import { LayoutEntry } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
-import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
-import './LayoutConfigDialog.css';
 import { useGetEntitiesQuery } from '../store/api';
 import DisplayType from '../models/layout/display-type';
+import DisplayHelper from '../helpers/display.helper';
 
 interface EditLayoutEntryDialogProps {
   initial?: LayoutEntry;
   open: boolean;
-  onClose: (deleted?: boolean) => void;
   onSave: (action: LayoutEntry) => void;
+  onDelete: () => void;
+  onClose: () => void;
 }
 
 const EditLayoutEntryDialog = ({
-  initial, open, onClose, onSave,
+  initial, open, onSave, onDelete, onClose,
 }: EditLayoutEntryDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const [deleteOpen, setDeleteOpen] = useState(false);
   const display = DisplayType.dotCounter;
 
   const [entityId, setEntityId] = useState(initial?.entityId || '');
@@ -76,10 +75,7 @@ const EditLayoutEntryDialog = ({
                 onChange={(e) => setEntityId(e.target.value)}
               >
                 {entities && entities.map((x) => (
-                  <MenuItem
-                    key={x._id}
-                    value={x._id}
-                  >
+                  <MenuItem key={x._id} value={x._id}>
                     {x.name}
                   </MenuItem>
                 ))}
@@ -95,8 +91,11 @@ const EditLayoutEntryDialog = ({
                 value={displayType}
                 onChange={(e) => setDisplayType(e.target.value as DisplayType)}
               >
-                <MenuItem value="Example">Example</MenuItem>
-                <MenuItem value="Another">Another</MenuItem>
+                {DisplayHelper.list().map((x) => (
+                  <MenuItem key={x} value={x}>
+                    {DisplayHelper.displayName(x)}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -105,24 +104,14 @@ const EditLayoutEntryDialog = ({
 
       <DialogActions>
         {initial?.entityId && (
-          <>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<DeleteIcon />}
-              onClick={() => setDeleteOpen(true)}
-            >
-              Delete
-            </Button>
-
-            <DeleteConfirmDialog
-              objType="Entry"
-              objName={initial.entityId}
-              open={deleteOpen}
-              onDelete={() => onClose(true)}
-              onClose={() => setDeleteOpen(false)}
-            />
-          </>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<DeleteIcon />}
+            onClick={() => { onDelete(); onClose(); }}
+          >
+            Delete
+          </Button>
         )}
 
         <Button

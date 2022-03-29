@@ -14,10 +14,11 @@ interface LayoutConfigBoxProps {
   containerWidth: number,
   entry: LayoutEntry,
   onChange: (entry: LayoutEntry) => void,
+  onDelete: () => void,
 }
 
 const LayoutConfigBox = ({
-  containerWidth, entry, onChange,
+  containerWidth, entry, onChange, onDelete,
 }: LayoutConfigBoxProps) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -85,8 +86,9 @@ const LayoutConfigBox = ({
       <LayoutConfigDialog
         initial={entry}
         open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
         onSave={() => setDialogOpen(false)}
+        onDelete={onDelete}
+        onClose={() => setDialogOpen(false)}
       />
     </>
   );

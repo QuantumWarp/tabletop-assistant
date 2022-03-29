@@ -19,7 +19,6 @@ import {
 } from '@mui/icons-material';
 import { EntityActionTrigger } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
-import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import { useGetEntitiesQuery } from '../../store/api';
 
 interface EditActionTriggerDialogProps {
@@ -34,8 +33,6 @@ const EditActionTriggerDialog = ({
 }: EditActionTriggerDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [manual, setManual] = useState(initial?.manual || false);
   const [sibling, setSibling] = useState(initial?.sibling || false);
@@ -137,23 +134,14 @@ const EditActionTriggerDialog = ({
 
       <DialogActions>
         {initial?.manual !== undefined && (
-          <>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<DeleteIcon />}
-              onClick={() => setDeleteOpen(true)}
-            >
-              Delete
-            </Button>
-
-            <DeleteConfirmDialog
-              objType="Trigger"
-              open={deleteOpen}
-              onDelete={() => onClose(true)}
-              onClose={() => setDeleteOpen(false)}
-            />
-          </>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<DeleteIcon />}
+            onClick={() => onClose(true)}
+          >
+            Delete
+          </Button>
         )}
 
         <Button

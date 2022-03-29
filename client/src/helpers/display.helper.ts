@@ -1,18 +1,10 @@
-import { slots as dotsSlots } from './dots.display';
-import { slots as squareSlots } from './square.display';
-import { slots as cardSlots } from './card.display';
-import { slots as toggleSlots } from './toggle.display';
+import DisplayType from './display.type';
+import { slots as dotsSlots } from './displays/dots.display';
+import { slots as squareSlots } from './displays/square.display';
+import { slots as cardSlots } from './displays/card.display';
+import { slots as toggleSlots } from './displays/toggle.display';
 
-enum DisplayType {
-  Dots = 'dots',
-  Square = 'square',
-  Card = 'card',
-  Toggle = 'toggle',
-}
-
-export default DisplayType;
-
-export class DisplayTypeHelper {
+export default class DisplayHelper {
   static displayName(type: DisplayType): string {
     switch (type) {
       case DisplayType.Dots: return 'Dots';

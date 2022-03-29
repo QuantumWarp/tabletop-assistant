@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,
@@ -23,7 +24,8 @@ import {
 import { EntityDisplay, EntityField } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
-import DisplayType, { DisplayTypeHelper } from '../../display/types/display-type';
+import DisplayType from '../../helpers/display.type';
+import DisplayHelper from '../../helpers/display.helper';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
@@ -74,19 +76,16 @@ const EditDisplayDialog = ({
                 value={type}
                 onChange={(e) => setType(e.target.value as DisplayType)}
               >
-                {DisplayTypeHelper.list().map((x) => (
-                  <MenuItem
-                    key={x}
-                    value={x}
-                  >
-                    {DisplayTypeHelper.displayName(x)}
+                {DisplayHelper.list().map((x) => (
+                  <MenuItem key={x} value={x}>
+                    {DisplayHelper.displayName(x)}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <FormControlLabel
               label="Default"
               control={(
@@ -98,26 +97,30 @@ const EditDisplayDialog = ({
             />
           </Grid>
 
-          {Object.entries(mappings).map((mapping) => (
-            <ListItem
-              dense
-              // eslint-disable-next-line react/no-array-index-key
-              key={mapping[0]}
-            >
-              <ListItemButton
-                onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
-              >
-                <ListItemText primary={`${mapping[0]} - ${mapping[1]}`} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {Object.entries(mappings).length > 0 && (
+            <Grid item xs={12}>
+              <Divider />
 
-          <Button
-            variant="outlined"
-            onClick={() => setEditMapping({})}
-          >
-            Add Mapping
-          </Button>
+              {Object.entries(mappings).map((mapping) => (
+                <ListItem dense key={mapping[0]}>
+                  <ListItemButton
+                    onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
+                  >
+                    <ListItemText primary={`${mapping[0]} <---> ${mapping[1]}`} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </Grid>
+          )}
+
+          <Grid item container xs={12} justifyContent="center">
+            <Button
+              variant="outlined"
+              onClick={() => setEditMapping({})}
+            >
+              Add Mapping
+            </Button>
+          </Grid>
 
           {editMapping && type && (
             <EditDisplayMappingDialog

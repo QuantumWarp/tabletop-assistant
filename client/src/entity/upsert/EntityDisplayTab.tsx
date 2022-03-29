@@ -3,6 +3,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { EntityDisplay, EntityField } from 'tabletop-assistant-common';
+import DisplayHelper from '../../helpers/display.helper';
+import DisplayType from '../../helpers/display.type';
 import EditDisplayDialog from './EditDisplayDialog';
 
 interface EntityDisplayTabProps {
@@ -28,8 +30,8 @@ const ObjectDisplayTab = ({
         {displays.map((display) => (
           <ListItem key={display.type}>
             <ListItemButton onClick={() => setEditDisplay(display)}>
-              <ListItemText primary={display.type} />
-              <Chip v-if={display.default} label="Default" />
+              <ListItemText primary={DisplayHelper.displayName(display.type as DisplayType)} />
+              {display.default && (<Chip label="Default" />)}
             </ListItemButton>
           </ListItem>
         ))}

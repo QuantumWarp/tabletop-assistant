@@ -26,7 +26,7 @@ const EntityActionTab = ({ actions, onChange }: EntityActionTabProps) => {
           <ListItem key={action.key}>
             <ListItemButton onClick={() => setEditAction(action)}>
               <ListItemText primary={action.name} />
-              <Chip v-if={action.roll} label="Roll" />
+              {action.roll && (<Chip label="Roll" />)}
             </ListItemButton>
           </ListItem>
         ))}

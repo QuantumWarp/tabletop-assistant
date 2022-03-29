@@ -17,7 +17,8 @@ import {
 } from '@mui/icons-material';
 import { EntityField } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
-import DisplayType, { DisplayTypeHelper } from '../../display/types/display-type';
+import DisplayType from '../../helpers/display.type';
+import DisplayHelper from '../../helpers/display.helper';
 
 interface EditDisplayDialogProps {
   initial?: Partial<{ key: string, value: string }>;
@@ -65,7 +66,7 @@ const EditDisplayDialog = ({
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
               >
-                {DisplayTypeHelper.slots(type).map((x) => (
+                {DisplayHelper.slots(type).map((x) => (
                   <MenuItem
                     key={x.key}
                     value={x.key}
@@ -86,10 +87,7 @@ const EditDisplayDialog = ({
                 onChange={(e) => setValue(e.target.value)}
               >
                 {fields.map((x) => (
-                  <MenuItem
-                    key={x.key}
-                    value={x.key}
-                  >
+                  <MenuItem key={x.key} value={x.key}>
                     {x.name}
                   </MenuItem>
                 ))}

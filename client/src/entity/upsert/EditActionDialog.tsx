@@ -17,7 +17,6 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
-import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import EditActionTriggerDialog from './EditActionTriggerDialog';
 
 interface EditActionDialogProps {
@@ -31,7 +30,6 @@ interface EditActionDialogProps {
 const EditActionDialog = ({
   initial, open, onSave, onDelete, onClose,
 }: EditActionDialogProps) => {
-  const [deleteOpen, setDeleteOpen] = useState(false);
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
   const [name, setName] = useState(initial?.name || '');
@@ -80,21 +78,23 @@ const EditActionDialog = ({
             />
           </Grid>
 
-          <Grid v-if={triggers.length > 0} item xs={12}>
-            <Divider />
+          {triggers.length > 0 && (
+            <Grid item xs={12}>
+              <Divider />
 
-            {triggers.map((trigger, index) => (
-              <ListItem
-                dense
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-              >
-                <ListItemButton onClick={() => setEditTrigger(trigger)}>
-                  <ListItemText primary={trigger.manual ? 'Manual' : 'Triggered'} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </Grid>
+              {triggers.map((trigger, index) => (
+                <ListItem
+                  dense
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                >
+                  <ListItemButton onClick={() => setEditTrigger(trigger)}>
+                    <ListItemText primary={trigger.manual ? 'Manual' : 'Triggered'} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </Grid>
+          )}
 
           <Grid item container xs={12} justifyContent="center">
             <Button
@@ -118,24 +118,14 @@ const EditActionDialog = ({
 
       <DialogActions>
         {initial?.key && (
-          <>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<DeleteIcon />}
-              onClick={() => setDeleteOpen(true)}
-            >
-              Delete
-            </Button>
-
-            <DeleteConfirmDialog
-              objType="Note"
-              objName={initial.name}
-              open={deleteOpen}
-              onDelete={() => { onDelete(); onClose(); }}
-              onClose={() => setDeleteOpen(false)}
-            />
-          </>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<DeleteIcon />}
+            onClick={() => onDelete()}
+          >
+            Delete
+          </Button>
         )}
 
         <Button

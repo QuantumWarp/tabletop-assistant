@@ -20,6 +20,8 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
 
   const [entries, setEntries] = useState(layout.entries);
 
+  useEffect(() => setEntries(layout.entries), [layout]);
+
   useEffect(() => {
     const handleResize = () => {
       if (!containerRef.current) return;
@@ -48,8 +50,14 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
             entry={entry}
             // TODO: Don't save so often
             onChange={(updated) => {
-              setEntries(entries.filter((x) => x !== entry).concat([updated]));
-              updateLayout({ ...layout, entries });
+              const newEntries = entries.filter((x) => x !== entry).concat([updated]);
+              setEntries(newEntries);
+              updateLayout({ ...layout, entries: newEntries });
+            }}
+            onDelete={() => {
+              const newEntries = entries.filter((x) => x !== entry);
+              setEntries(newEntries);
+              updateLayout({ ...layout, entries: newEntries });
             }}
           />
         ))}
@@ -58,8 +66,9 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
       {newEntryDialogOpen && (
         <EditLayoutEntryDialog
           open={newEntryDialogOpen}
-          onClose={() => setNewEntryDialogOpen(false)}
           onSave={(entry) => setEntries(entries.concat([entry]))}
+          onDelete={() => {}}
+          onClose={() => setNewEntryDialogOpen(false)}
         />
       )}
     </>
