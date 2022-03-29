@@ -29,12 +29,13 @@ interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
   fields: EntityField[];
   open: boolean;
-  onClose: (deleted?: boolean) => void;
   onSave: (display: EntityDisplay) => void;
+  onDelete: () => void;
+  onClose: () => void;
 }
 
 const EditDisplayDialog = ({
-  initial, fields, open, onClose, onSave,
+  initial, fields, open, onSave, onDelete, onClose,
 }: EditDisplayDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
@@ -147,7 +148,7 @@ const EditDisplayDialog = ({
               objType="Note"
               objName={initial.type}
               open={deleteOpen}
-              onDelete={() => onClose(true)}
+              onDelete={() => { onDelete(); onClose(); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

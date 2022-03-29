@@ -17,31 +17,29 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { EntityField } from 'tabletop-assistant-common';
-import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 
 interface EditFieldDialogProps {
   initial?: Partial<EntityField>;
   open: boolean;
-  onClose: (deleted?: boolean) => void;
   onSave: (field: EntityField) => void;
+  onDelete: () => void;
+  onClose: () => void;
 }
 
 const EditFieldDialog = ({
-  initial, open, onClose, onSave,
+  initial, open, onSave, onDelete, onClose,
 }: EditFieldDialogProps) => {
-  const [deleteOpen, setDeleteOpen] = useState(false);
-
   const [name, setName] = useState(initial?.name || '');
   const key = name.replace(' ', ''); // TODO
   const [type, setType] = useState(initial?.type || '');
-  const [initialValue, setInitialValue] = useState(initial?.type || '');
+  const [initialValue, setInitialValue] = useState(initial?.initial || '');
 
   const saveField = () => {
     const updatedProps = {
       name,
       key,
-      type: 'string',
-      initial,
+      type,
+      initial: initialValue,
     };
 
     onSave({ ...initial, ...updatedProps });
@@ -97,24 +95,14 @@ const EditFieldDialog = ({
 
       <DialogActions>
         {initial?.key && (
-          <>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<DeleteIcon />}
-              onClick={() => setDeleteOpen(true)}
-            >
-              Delete
-            </Button>
-
-            <DeleteConfirmDialog
-              objType="Note"
-              objName={initial.name}
-              open={deleteOpen}
-              onDelete={() => onClose(true)}
-              onClose={() => setDeleteOpen(false)}
-            />
-          </>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<DeleteIcon />}
+            onClick={() => { onDelete(); onClose(); }}
+          >
+            Delete
+          </Button>
         )}
 
         <Button

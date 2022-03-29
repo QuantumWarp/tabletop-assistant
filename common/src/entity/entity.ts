@@ -25,6 +25,7 @@ export interface EntityField {
   name: string;
   type: string;
   postfix?: string;
+  initial: any;
 }
 
 export interface EntityAction {

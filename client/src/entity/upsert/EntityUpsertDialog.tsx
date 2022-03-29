@@ -10,6 +10,8 @@ import {
   CircularProgress,
   Grid,
   Alert,
+  Box,
+  Divider,
 } from '@mui/material';
 import {
   Delete as DeleteIcon,
@@ -17,10 +19,10 @@ import {
 } from '@mui/icons-material';
 import { CreateEntity, Entity } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
-import ObjectInfoTab from './EntityInfoTab';
-import ObjectFieldsTab from './EntityFieldsTab';
-import ObjectActionsTab from './EntityActionTab';
-import ObjectDisplayTab from './EntityDisplayTab';
+import EntityInfoTab from './EntityInfoTab';
+import EntityFieldTab from './EntityFieldTab';
+import EntityActionTab from './EntityActionTab';
+import EntityDisplayTab from './EntityDisplayTab';
 import { useCreateEntityMutation, useDeleteEntityMutation, useUpdateEntityMutation } from '../../store/api';
 
 interface ObjectUpsertDialogProps {
@@ -100,34 +102,36 @@ const ObjectUpsertDialog = ({
           <Tab label="Display" />
         </Tabs>
 
-        <div hidden={selectedTab !== 0}>
-          <ObjectInfoTab
+        <Divider />
+
+        <Box hidden={selectedTab !== 0}>
+          <EntityInfoTab
             entity={entity}
             onChange={(e) => entityChange({ ...e })}
           />
-        </div>
+        </Box>
 
-        <div hidden={selectedTab !== 1}>
-          <ObjectFieldsTab
+        <Box hidden={selectedTab !== 1}>
+          <EntityFieldTab
             fields={entity.fields}
             onChange={(fields) => entityChange({ fields })}
           />
-        </div>
+        </Box>
 
-        <div hidden={selectedTab !== 2}>
-          <ObjectActionsTab
+        <Box hidden={selectedTab !== 2}>
+          <EntityActionTab
             actions={entity.actions}
             onChange={(actions) => entityChange({ actions })}
           />
-        </div>
+        </Box>
 
-        <div hidden={selectedTab !== 3}>
-          <ObjectDisplayTab
+        <Box hidden={selectedTab !== 3}>
+          <EntityDisplayTab
             displays={entity.displays}
             fields={entity.fields}
             onChange={(displays) => entityChange({ displays })}
           />
-        </div>
+        </Box>
 
         {error && (
           <Grid item xs={12}>

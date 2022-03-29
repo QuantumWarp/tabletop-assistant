@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   Grid,
   ListItem,
   ListItemButton,
@@ -22,12 +23,13 @@ import EditActionTriggerDialog from './EditActionTriggerDialog';
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
   open: boolean;
-  onClose: (deleted?: boolean) => void;
-  onSave: (action: EntityAction) => void;
+  onSave: (field: EntityAction) => void;
+  onDelete: () => void;
+  onClose: () => void;
 }
 
 const EditActionDialog = ({
-  initial, open, onClose, onSave,
+  initial, open, onSave, onDelete, onClose,
 }: EditActionDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
@@ -78,24 +80,30 @@ const EditActionDialog = ({
             />
           </Grid>
 
-          {triggers.map((trigger, index) => (
-            <ListItem
-              dense
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-            >
-              <ListItemButton onClick={() => setEditTrigger(trigger)}>
-                <ListItemText primary={trigger.manual} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          <Grid v-if={triggers.length > 0} item xs={12}>
+            <Divider />
 
-          <Button
-            variant="outlined"
-            onClick={() => setEditTrigger({})}
-          >
-            Add Trigger
-          </Button>
+            {triggers.map((trigger, index) => (
+              <ListItem
+                dense
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+              >
+                <ListItemButton onClick={() => setEditTrigger(trigger)}>
+                  <ListItemText primary={trigger.manual ? 'Manual' : 'Triggered'} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </Grid>
+
+          <Grid item container xs={12} justifyContent="center">
+            <Button
+              variant="outlined"
+              onClick={() => setEditTrigger({})}
+            >
+              Add Trigger
+            </Button>
+          </Grid>
 
           {editTrigger && (
             <EditActionTriggerDialog
@@ -124,7 +132,7 @@ const EditActionDialog = ({
               objType="Note"
               objName={initial.name}
               open={deleteOpen}
-              onDelete={() => onClose(true)}
+              onDelete={() => { onDelete(); onClose(); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

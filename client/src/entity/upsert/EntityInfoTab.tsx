@@ -1,5 +1,5 @@
 import {
-  FormControl, Grid, InputLabel, MenuItem, Select, TextField,
+  FormControl, Grid, InputLabel, ListItemIcon, ListItemText, MenuItem, Select, TextField,
 } from '@mui/material';
 import React from 'react';
 import { Entity } from 'tabletop-assistant-common';
@@ -16,7 +16,7 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
   };
 
   return (
-    <Grid item container spacing={2}>
+    <Grid container spacing={2} sx={{ py: 3 }}>
       <Grid item xs={8}>
         <TextField
           fullWidth
@@ -27,28 +27,35 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
         />
       </Grid>
 
-      <Grid item xs={4}>
+      <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Icon</InputLabel>
           <Select
             label="Icon"
             MenuProps={{ style: { maxHeight: '400px' } }}
             value={entity.icon}
+            renderValue={(x) => <>{x}</>}
             onChange={(e) => entityChange({ icon: e.target.value })}
           >
             {Object.values(TabletopIconType).map((x) => (
-              <MenuItem
-                key={x}
-                value={x}
-              >
-                <div className="icon-menu-item">
+              <MenuItem key={x} value={x}>
+                <ListItemIcon>
                   <TabletopIcon icon={x as TabletopIconType} />
-                  <span>{x}</span>
-                </div>
+                </ListItemIcon>
+                <ListItemText primary={x} />
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+      </Grid>
+
+      <Grid item xs={6}>
+        <TextField
+          fullWidth
+          label="Group"
+          value={entity.group}
+          onChange={(e) => entityChange({ group: e.target.value })}
+        />
       </Grid>
 
       <Grid item xs={12}>
@@ -56,7 +63,7 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
           fullWidth
           label="Description"
           multiline
-          rows={3}
+          rows={10}
           value={entity.description}
           onChange={(e) => entityChange({ description: e.target.value })}
         />
