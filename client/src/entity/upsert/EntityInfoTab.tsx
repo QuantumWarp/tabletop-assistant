@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   FormControl, Grid, InputLabel, ListItemIcon, ListItemText, MenuItem, Select, TextField,
 } from '@mui/material';
 import React from 'react';
@@ -49,12 +50,22 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
         </FormControl>
       </Grid>
 
-      <Grid item xs={6}>
-        <TextField
-          fullWidth
-          label="Group"
-          value={entity.group}
-          onChange={(e) => entityChange({ group: e.target.value })}
+      <Grid item xs={12}>
+        <Autocomplete
+          multiple
+          freeSolo
+          clearOnBlur
+          options={[]}
+          filterSelectedOptions
+          value={entity.tags}
+          onChange={(_, newValue) => entityChange({ tags: newValue as string[] })}
+          renderInput={(params) => (
+            <TextField
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...params}
+              label="Tags"
+            />
+          )}
         />
       </Grid>
 

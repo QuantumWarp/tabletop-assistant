@@ -63,6 +63,7 @@ const ObjectUpsertDialog = ({
   const [entity, setEntity] = useState<CreateEntity>({
     tabletopId,
     name: '',
+    tags: [],
     fields: [],
     actions: [],
     displays: [],

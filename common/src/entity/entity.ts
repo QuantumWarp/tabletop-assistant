@@ -4,7 +4,7 @@ export interface Entity {
   readonly tabletopId: string;
 
   name: string;
-  group?: string;
+  tags: string[];
   description?: string;
   icon?: string;
 
