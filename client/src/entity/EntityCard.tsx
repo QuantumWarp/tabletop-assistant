@@ -24,7 +24,7 @@ const EntityCard = ({ entity, onClick }: EntityCardProps) => (
         </Typography>
 
         {entity.tags.map((x) => (
-          <Chip label={x} />
+          <Chip key={x} label={x} />
         ))}
       </CardContent>
     </CardActionArea>

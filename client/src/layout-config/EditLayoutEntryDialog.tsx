@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -18,8 +18,8 @@ import {
 import { LayoutEntry } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../store/api';
-import DisplayType from '../models/layout/display-type';
 import DisplayHelper from '../helpers/display.helper';
+import DisplayType from '../helpers/display.type';
 
 interface EditLayoutEntryDialogProps {
   initial?: LayoutEntry;
@@ -35,12 +35,20 @@ const EditLayoutEntryDialog = ({
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const display = DisplayType.dotCounter;
+  const display = DisplayType.Dots;
 
   const [entityId, setEntityId] = useState(initial?.entityId || '');
   const [displayType, setDisplayType] = useState<DisplayType>(
     initial?.displayType as DisplayType || display,
   );
+
+  const selectedEntity = entities?.find((x) => x._id === entityId);
+
+  useEffect(() => {
+    const defaultDisplay = selectedEntity?.displays?.find((x) => x.default);
+    if (!defaultDisplay) return;
+    setDisplayType(defaultDisplay.type as DisplayType);
+  }, [selectedEntity]);
 
   const saveEntry = () => {
     const updatedProps = {
@@ -88,14 +96,17 @@ const EditLayoutEntryDialog = ({
               <InputLabel>Type</InputLabel>
               <Select
                 label="Type"
+                disabled={!selectedEntity}
                 value={displayType}
                 onChange={(e) => setDisplayType(e.target.value as DisplayType)}
               >
-                {DisplayHelper.list().map((x) => (
-                  <MenuItem key={x} value={x}>
-                    {DisplayHelper.displayName(x)}
-                  </MenuItem>
-                ))}
+                {selectedEntity?.displays
+                  .map((x) => x.type as DisplayType)
+                  .map((x) => (
+                    <MenuItem key={x} value={x}>
+                      {DisplayHelper.displayName(x)}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Grid>

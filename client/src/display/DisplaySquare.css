@@ -1,11 +1,13 @@
-.display-number-square {
+.display-square {
   padding: 2px;
   box-sizing: border-box;
   height: 100%;
   width: 100%;
 }
 
-.display-number-square .container {
+.display-square .container {
+  border-width: 1px;
+  border-style: solid;
   border-radius: 8px;
   height: 100%;
   display: flex;
@@ -14,24 +16,37 @@
   position: relative;
 }
 
-.display-number-square .header {
+.display-square .header {
   position: absolute;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
 
-.display-number-square .icon,
-.display-number-square .secondary-value {
+.display-square .icon,
+.display-square .secondary-value {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   height: 30px;
   width: 30px;
   opacity: 0.5;
 }
 
-.display-number-square .value {
+.display-square .icon {
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+.display-square .secondary-value {
+  border-left-width: 1px;
+  border-left-style: solid;
+  right: 0;
+}
+
+.display-square .value {
   margin-top: -10px;
   height: 100%;
   font-size: 60px;
@@ -40,7 +55,7 @@
   align-items: center;
 }
 
-.display-number-square .name {
+.display-square .name {
   position: absolute;
   bottom: 5px;
   width: 100%;
@@ -49,14 +64,14 @@
   justify-content: center;
 }
 
-.display-number-square .click-left {
+.display-square .click-left {
   position: absolute;
   width: 50%;
   height: 100%;
   cursor: pointer;
 }
 
-.display-number-square .click-right {
+.display-square .click-right {
   position: absolute;
   width: 50%;
   height: 100%;

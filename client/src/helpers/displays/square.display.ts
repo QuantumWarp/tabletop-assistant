@@ -1,24 +1,27 @@
-export default interface CardDisplay {
-  disabled: boolean;
-  name: string;
-  current: number;
-  maximum: number;
-}
+import { DisplaySlot } from '../display.type';
 
-export const slots = [{
-  name: 'Disabled',
-  key: 'disabled',
-  type: 'boolean',
-}, {
+export const slots: DisplaySlot[] = [{
   name: 'Name',
   key: 'name',
   type: 'string',
 }, {
-  name: 'Current',
-  key: 'current',
+  name: 'Disabled',
+  key: 'disabled',
+  type: 'boolean',
+}, {
+  name: 'Value',
+  key: 'value',
   type: 'number',
 }, {
-  name: 'Maximum',
-  key: 'maximum',
+  name: 'Secondary Value',
+  key: 'secondaryValue',
   type: 'number',
 }];
+
+export default interface SquareDisplay {
+  icon?: string;
+  name?: string;
+  disabled?: boolean;
+  value?: number;
+  secondaryValue?: number;
+}

@@ -1,21 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Layout } from 'tabletop-assistant-common';
-import { useAppSelector } from '../store/store';
-import { selectObjects } from '../store/config-slice';
-import DisplayType from '../models/layout/display-type';
-import DisplaySimpleCard from '../display/DisplaySimpleCard';
-import DisplaySimpleToggle from '../display/DisplaySimpleToggle';
-import DisplayNumberSquare from '../display/DisplayNumberSquare';
-import DisplayDotCounter from '../display/DisplayDotCounter';
+import { useParams } from 'react-router-dom';
+// import DisplayType from '../models/layout/display-type';
+// import DisplaySimpleCard from '../display/DisplaySimpleCard';
+// import DisplaySimpleToggle from '../display/DisplaySimpleToggle';
+// import DisplayNumberSquare from '../display/DisplaySquare';
+// import DisplayDotCounter from '../display/DisplayDotCounter';
 import LayoutPositionHelper from '../models/layout/layout-position';
 import './LayoutContainer.css';
+import { useGetAllValuesQuery, useGetEntitiesQuery } from '../store/api';
+import DisplayType from '../helpers/display.type';
+import LayoutDisplay from '../display/LayoutDisplay';
 
 interface LayoutContainerProps {
   layout: Layout,
 }
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
-  const objects = useAppSelector(selectObjects);
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: entities } = useGetEntitiesQuery(tabletopId);
+  const { data: values } = useGetAllValuesQuery(tabletopId);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -35,7 +39,13 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     <div className="layout-container" ref={containerRef}>
       <div>
         {layout.entries.map((entry, index) => {
-          const obj = objects.find((x) => entry.entityId === x.id);
+          const selectedEntity = entities?.find((x) => entry.entityId === x._id);
+          const display = selectedEntity?.displays.find((x) => x.type === entry.displayType);
+          const entityValues = values?.find((x) => x.entityId === entry.entityId);
+          // eslint-disable-next-line react/no-array-index-key
+          if (!display) return (<div key={index}>None</div>);
+          // eslint-disable-next-line react/no-array-index-key
+          if (!entityValues) return (<div key={index}>None</div>);
 
           return (
             <div
@@ -47,30 +57,11 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
                 ...LayoutPositionHelper.getSizeStyle(entry.size, containerWidth),
               }}
             >
-              {obj && entry.displayType === DisplayType.simpleCard && (
-                <DisplaySimpleCard
-                  key={entry.entityId}
-                  obj={obj}
-                />
-              )}
-              {obj && entry.displayType === DisplayType.simpleToggle && (
-                <DisplaySimpleToggle
-                  key={entry.entityId}
-                  obj={obj}
-                />
-              )}
-              {obj && entry.displayType === DisplayType.numberSquare && (
-                <DisplayNumberSquare
-                  key={entry.entityId}
-                  obj={obj}
-                />
-              )}
-              {obj && entry.displayType === DisplayType.dotCounter && (
-                <DisplayDotCounter
-                  key={entry.entityId}
-                  obj={obj}
-                />
-              )}
+              <LayoutDisplay
+                type={entry.displayType as DisplayType}
+                slotFieldMappings={display.mappings}
+                fieldValueMappings={entityValues.mappings}
+              />
             </div>
           );
         })}

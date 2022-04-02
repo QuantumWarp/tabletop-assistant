@@ -4,11 +4,11 @@ import {
   DraggableData, ResizableDelta, Rnd,
 } from 'react-rnd';
 import { LayoutEntry } from 'tabletop-assistant-common';
-import { selectObjects } from '../store/config-slice';
-import { useAppSelector } from '../store/store';
+import { useParams } from 'react-router-dom';
 import LayoutConfigDialog from './EditLayoutEntryDialog';
 import './LayoutConfigBox.css';
 import LayoutPositionHelper from '../models/layout/layout-position';
+import { useGetEntitiesQuery } from '../store/api';
 
 interface LayoutConfigBoxProps {
   containerWidth: number,
@@ -20,12 +20,13 @@ interface LayoutConfigBoxProps {
 const LayoutConfigBox = ({
   containerWidth, entry, onChange, onDelete,
 }: LayoutConfigBoxProps) => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: entities } = useGetEntitiesQuery(tabletopId);
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
 
-  const objects = useAppSelector(selectObjects);
-
-  const obj = objects.find((x) => x.id === entry.entityId);
+  const selectedEntity = entities?.find((x) => x._id === entry.entityId);
 
   const updatePosition = (data: DraggableData) => {
     const { position, size } = LayoutPositionHelper.updatePositionAndSize(
@@ -74,7 +75,7 @@ const LayoutConfigBox = ({
           onClick={() => { if (!dragging) setDialogOpen(true); setDragging(false); }}
         >
           <div>
-            <b>{obj ? obj.name : 'Empty'}</b>
+            <b>{selectedEntity ? selectedEntity.name : 'Empty'}</b>
           </div>
 
           <div>

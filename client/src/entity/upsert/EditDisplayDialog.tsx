@@ -26,6 +26,7 @@ import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 import DisplayType from '../../helpers/display.type';
 import DisplayHelper from '../../helpers/display.helper';
+import LayoutDisplay from '../../display/LayoutDisplay';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
@@ -58,7 +59,7 @@ const EditDisplayDialog = ({
   };
 
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <b>
           {initial?.type ? 'Update ' : 'Create '}
@@ -67,71 +68,88 @@ const EditDisplayDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
-            <FormControl fullWidth required>
-              <InputLabel>Type</InputLabel>
-              <Select
-                label="Type"
-                value={type}
-                onChange={(e) => setType(e.target.value as DisplayType)}
-              >
-                {DisplayHelper.list().map((x) => (
-                  <MenuItem key={x} value={x}>
-                    {DisplayHelper.displayName(x)}
-                  </MenuItem>
+        <Grid container spacing={2}>
+          <Grid item xs={5} container spacing={2} marginTop={0}>
+            <Grid item xs={12}>
+              <FormControl fullWidth required>
+                <InputLabel>Type</InputLabel>
+                <Select
+                  label="Type"
+                  value={type}
+                  onChange={(e) => setType(e.target.value as DisplayType)}
+                >
+                  {DisplayHelper.list().map((x) => (
+                    <MenuItem key={x} value={x}>
+                      {DisplayHelper.displayName(x)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControlLabel
+                label="Default"
+                control={(
+                  <Checkbox
+                    checked={defaultVal}
+                    onChange={(e) => setDefault(e.target.checked)}
+                  />
+                )}
+              />
+            </Grid>
+
+            {Object.entries(mappings).length > 0 && (
+              <Grid item xs={12}>
+                <Divider />
+
+                {Object.entries(mappings).map((mapping) => (
+                  <ListItem dense key={mapping[0]}>
+                    <ListItemButton
+                      onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
+                    >
+                      <ListItemText primary={`${mapping[0]} <---> ${mapping[1]}`} />
+                    </ListItemButton>
+                  </ListItem>
                 ))}
-              </Select>
-            </FormControl>
+              </Grid>
+            )}
+
+            <Grid item container xs={12} justifyContent="center">
+              <Button
+                variant="outlined"
+                onClick={() => setEditMapping({})}
+              >
+                Add Mapping
+              </Button>
+            </Grid>
+
+            {editMapping && type && (
+              <EditDisplayMappingDialog
+                initial={editMapping}
+                fields={fields}
+                type={type}
+                open={Boolean(editMapping)}
+                onClose={() => setEditMapping(undefined)}
+                onSave={(mapping) => setMappings({ ...mappings, [mapping.key]: mapping.value })}
+              />
+            )}
           </Grid>
 
-          <Grid item xs={12}>
-            <FormControlLabel
-              label="Default"
-              control={(
-                <Checkbox
-                  checked={defaultVal}
-                  onChange={(e) => setDefault(e.target.checked)}
-                />
+          <Grid item>
+            <Divider orientation="vertical" />
+          </Grid>
+
+          <Grid item>
+            <LayoutDisplay
+              preview
+              type={type}
+              slotFieldMappings={mappings}
+              fieldValueMappings={fields.reduce(
+                (obj, field) => ({ ...obj, [field.key]: field.initial }), {},
               )}
             />
           </Grid>
-
-          {Object.entries(mappings).length > 0 && (
-            <Grid item xs={12}>
-              <Divider />
-
-              {Object.entries(mappings).map((mapping) => (
-                <ListItem dense key={mapping[0]}>
-                  <ListItemButton
-                    onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
-                  >
-                    <ListItemText primary={`${mapping[0]} <---> ${mapping[1]}`} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </Grid>
-          )}
-
-          <Grid item container xs={12} justifyContent="center">
-            <Button
-              variant="outlined"
-              onClick={() => setEditMapping({})}
-            >
-              Add Mapping
-            </Button>
-          </Grid>
-
-          {editMapping && type && (
-            <EditDisplayMappingDialog
-              initial={editMapping}
-              fields={fields}
-              type={type}
-              open={Boolean(editMapping)}
-              onClose={() => setEditMapping(undefined)}
-              onSave={(mapping) => setMappings({ ...mappings, [mapping.key]: mapping.value })}
-            />
-          )}
         </Grid>
       </DialogContent>
 

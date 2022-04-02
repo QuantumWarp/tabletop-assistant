@@ -6,3 +6,9 @@ enum DisplayType {
 }
 
 export default DisplayType;
+
+export interface DisplaySlot {
+  name: string;
+  key: string;
+  type: string;
+}

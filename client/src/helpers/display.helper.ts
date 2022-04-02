@@ -25,6 +25,30 @@ export default class DisplayHelper {
     }
   }
 
+  static defaultSize(type: DisplayType) {
+    switch (type) {
+      case DisplayType.Dots: return { width: '400px', height: '100px' };
+      case DisplayType.Square: return { width: '200px', height: '200px' };
+      case DisplayType.Card: return { width: '450px', height: '85px' };
+      case DisplayType.Toggle: return { width: '300px', height: '50px' };
+      default: throw new Error('Invalid display type');
+    }
+  }
+
+  static map<T>(
+    slotFieldMappings: { [slot: string]: string },
+    fieldValueMappings: { [field: string]: string },
+  ): T {
+    const slotValueMapping = Object.keys(slotFieldMappings)
+      .reduce((obj, slot) => {
+        const field = slotFieldMappings[slot];
+        const value = fieldValueMappings[field];
+        return { ...obj, [slot]: value };
+      }, {});
+
+    return slotValueMapping as T;
+  }
+
   static list(): DisplayType[] {
     return Object.values(DisplayType);
   }
