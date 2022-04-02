@@ -27,10 +27,10 @@ export default class DisplayHelper {
 
   static defaultSize(type: DisplayType) {
     switch (type) {
-      case DisplayType.Dots: return { width: '400px', height: '100px' };
-      case DisplayType.Square: return { width: '200px', height: '200px' };
-      case DisplayType.Card: return { width: '450px', height: '85px' };
-      case DisplayType.Toggle: return { width: '300px', height: '50px' };
+      case DisplayType.Dots: return { width: 40, height: 10 };
+      case DisplayType.Square: return { width: 20, height: 20 };
+      case DisplayType.Card: return { width: 45, height: 8.5 };
+      case DisplayType.Toggle: return { width: 30, height: 5 };
       default: throw new Error('Invalid display type');
     }
   }

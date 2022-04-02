@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { Layout } from 'tabletop-assistant-common';
+import { Layout, LayoutPosition } from 'tabletop-assistant-common';
 import LayoutConfigBox from './LayoutConfigBox';
 import './LayoutConfigContainer.css';
 import EditLayoutEntryDialog from './EditLayoutEntryDialog';
@@ -11,7 +11,7 @@ interface LayoutConfigContainerProps {
 }
 
 const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
-  const [newEntryDialogOpen, setNewEntryDialogOpen] = useState(false);
+  const [newEntryPosition, setNewEntryPosition] = useState<LayoutPosition>();
 
   const [updateLayout] = useUpdateLayoutMutation();
 
@@ -40,7 +40,17 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
         sx={{ backgroundColor: 'custom.layout.background' }}
         ref={containerRef}
       >
-        <div className="click-area" onClick={() => setNewEntryDialogOpen(true)} />
+        <div
+          className="click-area"
+          onClick={(e) => {
+            const rect = (e.target as any).getBoundingClientRect();
+            const newPos = {
+              left: ((e.clientX - rect.left) / containerWidth) * 100,
+              top: ((e.clientY - rect.top) / containerWidth) * 100,
+            };
+            setNewEntryPosition(newPos);
+          }}
+        />
 
         {entries.map((entry, index) => (
           <LayoutConfigBox
@@ -63,12 +73,13 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
         ))}
       </Box>
 
-      {newEntryDialogOpen && (
+      {newEntryPosition && (
         <EditLayoutEntryDialog
-          open={newEntryDialogOpen}
+          open={Boolean(newEntryPosition)}
+          position={newEntryPosition}
           onSave={(entry) => setEntries(entries.concat([entry]))}
           onDelete={() => {}}
-          onClose={() => setNewEntryDialogOpen(false)}
+          onClose={() => setNewEntryPosition(undefined)}
         />
       )}
     </>

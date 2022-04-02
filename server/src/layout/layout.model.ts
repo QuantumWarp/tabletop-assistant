@@ -10,12 +10,12 @@ const schema = new Schema<Layout>({
     entityId: { type: String, required: true },
     displayType: { type: String, required: true },
     position: {
-      left: { type: String, required: true },
-      top: { type: String, required: true },
+      left: { type: Number, required: true },
+      top: { type: Number, required: true },
     },
     size: {
-      width: { type: String, required: true },
-      height: { type: String, required: true },
+      width: { type: Number, required: true },
+      height: { type: Number, required: true },
     },
   }],
 }, {

@@ -15,7 +15,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { LayoutEntry } from 'tabletop-assistant-common';
+import { LayoutEntry, LayoutPosition } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../store/api';
 import DisplayHelper from '../helpers/display.helper';
@@ -23,6 +23,7 @@ import DisplayType from '../helpers/display.type';
 
 interface EditLayoutEntryDialogProps {
   initial?: LayoutEntry;
+  position?: LayoutPosition;
   open: boolean;
   onSave: (action: LayoutEntry) => void;
   onDelete: () => void;
@@ -30,7 +31,7 @@ interface EditLayoutEntryDialogProps {
 }
 
 const EditLayoutEntryDialog = ({
-  initial, open, onSave, onDelete, onClose,
+  initial, position, open, onSave, onDelete, onClose,
 }: EditLayoutEntryDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -54,10 +55,9 @@ const EditLayoutEntryDialog = ({
     const updatedProps = {
       entityId,
       displayType,
-      position: { top: 0, left: 0 },
-      size: { height: 100, width: 100 },
+      position: initial?.position || position || { left: 0, top: 0 },
+      size: initial?.size || DisplayHelper.defaultSize(displayType),
     };
-
     onSave({ ...initial, ...updatedProps });
     onClose();
   };
@@ -146,6 +146,7 @@ const EditLayoutEntryDialog = ({
 
 EditLayoutEntryDialog.defaultProps = {
   initial: undefined,
+  position: undefined,
 };
 
 export default EditLayoutEntryDialog;

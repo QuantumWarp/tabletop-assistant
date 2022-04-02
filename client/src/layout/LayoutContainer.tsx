@@ -37,35 +37,42 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   return (
     <div className="layout-container" ref={containerRef}>
-      <div>
-        {layout.entries.map((entry, index) => {
-          const selectedEntity = entities?.find((x) => entry.entityId === x._id);
-          const display = selectedEntity?.displays.find((x) => x.type === entry.displayType);
-          const entityValues = values?.find((x) => x.entityId === entry.entityId);
-          // eslint-disable-next-line react/no-array-index-key
-          if (!display) return (<div key={index}>None</div>);
-          // eslint-disable-next-line react/no-array-index-key
-          if (!entityValues) return (<div key={index}>None</div>);
+      {layout.entries.map((entry, index) => {
+        const entity = entities?.find((x) => entry.entityId === x._id);
+        const display = entity?.displays.find((x) => x.type === entry.displayType);
+        const entityValues = values?.find((x) => x.entityId === entry.entityId);
 
-          return (
-            <div
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              className="entry"
-              style={{
-                ...LayoutPositionHelper.getPositionStyle(entry.position, containerWidth),
-                ...LayoutPositionHelper.getSizeStyle(entry.size, containerWidth),
-              }}
-            >
-              <LayoutDisplay
-                type={entry.displayType as DisplayType}
-                slotFieldMappings={display.mappings}
-                fieldValueMappings={entityValues.mappings}
-              />
-            </div>
-          );
-        })}
-      </div>
+        // eslint-disable-next-line react/no-array-index-key
+        if (!entity) return (<div key={index}>None</div>);
+        // eslint-disable-next-line react/no-array-index-key
+        if (!display) return (<div key={index}>None</div>);
+        // eslint-disable-next-line react/no-array-index-key
+        if (!entityValues) return (<div key={index}>None</div>);
+
+        const fieldValueMap = entity.fields.reduce((obj, field) => {
+          const existingValue = entityValues.mappings[field.key];
+          const value = existingValue !== undefined ? existingValue : field.initial;
+          return { ...obj, [field.key]: value };
+        }, {});
+
+        return (
+          <div
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            className="entry"
+            style={{
+              ...LayoutPositionHelper.getPositionStyle(entry.position, containerWidth),
+              ...LayoutPositionHelper.getSizeStyle(entry.size, containerWidth),
+            }}
+          >
+            <LayoutDisplay
+              type={entry.displayType as DisplayType}
+              slotFieldMappings={display.mappings}
+              fieldValueMappings={fieldValueMap}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

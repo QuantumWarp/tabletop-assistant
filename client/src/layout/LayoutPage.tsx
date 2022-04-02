@@ -14,7 +14,7 @@ const LayoutPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
-  const [layoutId, setLayoutId] = useState(layouts?.[0]._id || '');
+  const [layoutId, setLayoutId] = useState(layouts?.[0]?._id || '');
   const currentLayout = layouts?.find((x) => x._id === layoutId);
 
   return (

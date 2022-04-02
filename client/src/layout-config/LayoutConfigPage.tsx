@@ -23,7 +23,7 @@ const LayoutConfigPage = () => {
   const [editLayout, setEditLayout] = useState<Layout | undefined>(undefined);
   const [newLayout, setNewLayout] = useState(false);
 
-  const [layoutId, setLayoutId] = useState(layouts?.[0]._id || '');
+  const [layoutId, setLayoutId] = useState(layouts?.[0]?._id || '');
   const currentLayout = layouts?.find((x) => x._id === layoutId);
 
   return (

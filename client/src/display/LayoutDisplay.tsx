@@ -17,7 +17,7 @@ const LayoutDisplay = ({
   const slotValues = DisplayHelper.map(slotFieldMappings, fieldValueMappings);
 
   return (
-    <div style={{ ...DisplayHelper.defaultSize(type) }}>
+    <>
       {type === DisplayType.Square && (
         <DisplaySquare
           preview={preview}
@@ -25,7 +25,7 @@ const LayoutDisplay = ({
           onClick={() => {}}
         />
       )}
-    </div>
+    </>
   );
 };
 

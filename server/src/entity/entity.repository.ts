@@ -1,5 +1,6 @@
 import { Entity, CreateEntity, UpdateEntity } from 'tabletop-assistant-common';
 import { ResourceNotFound } from '../setup/error';
+import ValuesModel from '../values/values.model';
 import EntityModel from './entity.model';
 
 export default class EntityRepository {
@@ -20,6 +21,7 @@ export default class EntityRepository {
   async create(entry: CreateEntity): Promise<Entity> {
     const model = new EntityModel({ ...entry, userId: this.userId });
     await model.save();
+    await this.createEmptyValues(model);
     return model;
   }
 
@@ -28,6 +30,10 @@ export default class EntityRepository {
     if (!model) throw new ResourceNotFound();
     model.set(entry);
     await model.save();
+
+    const valuesModel = await ValuesModel.findOne({ _id: entry._id, userId: this.userId });
+    if (!valuesModel) await this.createEmptyValues(model);
+
     return model;
   }
 
@@ -35,5 +41,19 @@ export default class EntityRepository {
     const model = await EntityModel.findOne({ _id, userId: this.userId });
     if (!model) throw new ResourceNotFound();
     await model.delete();
+
+    const valuesModel = await ValuesModel.findOne({ _id, userId: this.userId });
+    if (!valuesModel) throw new ResourceNotFound();
+    await valuesModel.delete();
+  }
+
+  private async createEmptyValues(model: Entity) {
+    const valuesModel = new ValuesModel({
+      userId: this.userId,
+      entityId: model._id,
+      tabletopId: model.tabletopId,
+      mappings: {},
+    });
+    await valuesModel.save();
   }
 }
