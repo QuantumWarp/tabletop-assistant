@@ -1,4 +1,4 @@
-export default interface DotDisplay {
+export default interface ToggleDisplay {
   disabled: boolean;
   name: string;
   toggle: boolean;

@@ -2,9 +2,13 @@ import React from 'react';
 import DisplayHelper from '../helpers/display.helper';
 import DisplayType from '../helpers/display.type';
 import CardDisplay from '../helpers/displays/card.display';
+import DotsDisplay from '../helpers/displays/dots.display';
 import SquareDisplay from '../helpers/displays/square.display';
+import ToggleDisplay from '../helpers/displays/toggle.display';
 import DisplayCard from './DisplayCard';
+import DisplayDots from './DisplayDots';
 import DisplaySquare from './DisplaySquare';
+import DisplayToggle from './DisplayToggle';
 
 interface LayoutDisplayProps {
   type: DisplayType,
@@ -27,10 +31,24 @@ const LayoutDisplay = ({
           onClick={() => {}}
         />
       )}
+      {type === DisplayType.Dots && (
+        <DisplayDots
+          preview={preview}
+          slots={slotValues as DotsDisplay}
+          onClick={() => {}}
+        />
+      )}
       {type === DisplayType.Square && (
         <DisplaySquare
           preview={preview}
           slots={slotValues as SquareDisplay}
+          onClick={() => {}}
+        />
+      )}
+      {type === DisplayType.Toggle && (
+        <DisplayToggle
+          preview={preview}
+          slots={slotValues as ToggleDisplay}
           onClick={() => {}}
         />
       )}
