@@ -18,7 +18,7 @@ import {
   Select,
 } from '@mui/material';
 import {
-  CompareArrows as MapIcon,
+  ArrowLeft as MapIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';

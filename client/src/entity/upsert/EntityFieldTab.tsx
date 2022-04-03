@@ -3,6 +3,8 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { EntityField } from 'tabletop-assistant-common';
+import FieldHelper from '../../helpers/field.helper';
+import FieldType from '../../helpers/field.type';
 import EditFieldDialog from './EditFieldDialog';
 
 interface EntityFieldTabProps {
@@ -26,7 +28,7 @@ const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
           <ListItem key={field.key}>
             <ListItemButton onClick={() => setEditField(field)}>
               <ListItemText primary={field.name} />
-              <Chip label={field.type} />
+              <Chip label={FieldHelper.displayName(field.type as FieldType)} />
             </ListItemButton>
           </ListItem>
         ))}

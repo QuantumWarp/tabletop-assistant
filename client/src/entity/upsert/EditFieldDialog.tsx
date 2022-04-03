@@ -17,6 +17,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { EntityField } from 'tabletop-assistant-common';
+import FieldHelper from '../../helpers/field.helper';
 
 interface EditFieldDialogProps {
   initial?: Partial<EntityField>;
@@ -75,9 +76,11 @@ const EditFieldDialog = ({
                 value={type}
                 onChange={(e) => setType(e.target.value)}
               >
-                <MenuItem value="number">Number</MenuItem>
-                <MenuItem value="string">Text</MenuItem>
-                <MenuItem value="boolean">True/False</MenuItem>
+                {FieldHelper.list().map((x) => (
+                  <MenuItem key={x} value={x}>
+                    {FieldHelper.displayName(x)}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
