@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Layout } from 'tabletop-assistant-common';
+import { EntityField, Layout } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 // import DisplayType from '../models/layout/display-type';
 // import DisplaySimpleCard from '../display/DisplaySimpleCard';
@@ -49,7 +49,20 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
         // eslint-disable-next-line react/no-array-index-key
         if (!entityValues) return (<div key={index}>None</div>);
 
-        const fieldValueMap = entity.fields.reduce((obj, field) => {
+        // TODO: sort these fixed fields out
+        const fixedFields: EntityField[] = [{
+          key: '_name',
+          name: 'Name (Info)',
+          type: 'string',
+          initial: entity.name,
+        }, {
+          key: '_icon',
+          name: 'Icon (Info)',
+          type: 'string',
+          initial: entity.icon,
+        }];
+
+        const fieldValueMap = entity.fields.concat(fixedFields).reduce((obj, field) => {
           const existingValue = entityValues.mappings[field.key];
           const value = existingValue !== undefined ? existingValue : field.initial;
           return { ...obj, [field.key]: value };

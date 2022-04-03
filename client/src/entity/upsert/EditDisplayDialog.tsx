@@ -58,6 +58,19 @@ const EditDisplayDialog = ({
     onClose();
   };
 
+  // TODO: sort these fixed fields out
+  const fixedFields: EntityField[] = [{
+    key: '_name',
+    name: 'Name (Info)',
+    type: 'string',
+    initial: 'Test Name',
+  }, {
+    key: '_icon',
+    name: 'Icon (Info)',
+    type: 'string',
+    initial: 'Test',
+  }];
+
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -145,7 +158,7 @@ const EditDisplayDialog = ({
               preview
               type={type}
               slotFieldMappings={mappings}
-              fieldValueMappings={fields.reduce(
+              fieldValueMappings={fields.concat(fixedFields).reduce(
                 (obj, field) => ({ ...obj, [field.key]: field.initial }), {},
               )}
             />

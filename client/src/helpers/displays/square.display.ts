@@ -1,6 +1,10 @@
 import { DisplaySlot } from '../display.type';
 
 export const slots: DisplaySlot[] = [{
+  name: 'Icon',
+  key: 'icon',
+  type: 'string',
+}, {
   name: 'Name',
   key: 'name',
   type: 'string',

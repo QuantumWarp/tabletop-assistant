@@ -37,6 +37,18 @@ const EditDisplayDialog = ({
   const [key, setKey] = useState(initial?.key || '');
   const [value, setValue] = useState(initial?.value || '');
 
+  const fixedFields: EntityField[] = [{
+    key: '_name',
+    name: 'Name (Info)',
+    type: 'string',
+    initial: '',
+  }, {
+    key: '_icon',
+    name: 'Icon (Info)',
+    type: 'string',
+    initial: '',
+  }];
+
   const saveField = () => {
     const updatedProps = {
       key,
@@ -86,7 +98,7 @@ const EditDisplayDialog = ({
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
               >
-                {fields.map((x) => (
+                {fields.concat(fixedFields).map((x) => (
                   <MenuItem key={x.key} value={x.key}>
                     {x.name}
                   </MenuItem>
