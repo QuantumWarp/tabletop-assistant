@@ -1,5 +1,6 @@
 export default interface CardDisplay {
   disabled: boolean;
+  icon: string;
   name: string;
   description: string;
   current: number;
@@ -11,6 +12,10 @@ export const slots = [{
   name: 'Disabled',
   key: 'disabled',
   type: 'boolean',
+}, {
+  name: 'Icon',
+  key: 'icon',
+  type: 'string',
 }, {
   name: 'Name',
   key: 'name',

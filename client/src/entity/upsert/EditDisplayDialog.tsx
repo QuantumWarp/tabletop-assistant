@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Box,
   Button,
   Checkbox,
   Dialog,
@@ -13,11 +14,11 @@ import {
   InputLabel,
   ListItem,
   ListItemButton,
-  ListItemText,
   MenuItem,
   Select,
 } from '@mui/material';
 import {
+  CompareArrows as MapIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
@@ -27,6 +28,7 @@ import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 import DisplayType from '../../helpers/display.type';
 import DisplayHelper from '../../helpers/display.helper';
 import LayoutDisplay from '../../display/LayoutDisplay';
+import LayoutPositionHelper from '../../models/layout/layout-position';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
@@ -121,7 +123,11 @@ const EditDisplayDialog = ({
                     <ListItemButton
                       onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
                     >
-                      <ListItemText primary={`${mapping[0]} <---> ${mapping[1]}`} />
+                      <Grid container>
+                        <Grid item xs={5} container justifyContent="flex-end">{mapping[0]}</Grid>
+                        <Grid item xs={2} container justifyContent="center"><MapIcon /></Grid>
+                        <Grid item xs={5}>{mapping[1]}</Grid>
+                      </Grid>
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -153,15 +159,19 @@ const EditDisplayDialog = ({
             <Divider orientation="vertical" />
           </Grid>
 
-          <Grid item>
-            <LayoutDisplay
-              preview
-              type={type}
-              slotFieldMappings={mappings}
-              fieldValueMappings={fields.concat(fixedFields).reduce(
-                (obj, field) => ({ ...obj, [field.key]: field.initial }), {},
-              )}
-            />
+          <Grid item xs container justifyContent="center" my={2}>
+            <Box
+              sx={{ ...LayoutPositionHelper.getSizeStyle(DisplayHelper.defaultSize(type), 1000) }}
+            >
+              <LayoutDisplay
+                preview
+                type={type}
+                slotFieldMappings={mappings}
+                fieldValueMappings={fields.concat(fixedFields).reduce(
+                  (obj, field) => ({ ...obj, [field.key]: field.initial }), {},
+                )}
+              />
+            </Box>
           </Grid>
         </Grid>
       </DialogContent>

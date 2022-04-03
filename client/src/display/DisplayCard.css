@@ -1,11 +1,11 @@
-.display-simple-card {
+.display-card {
   padding: 2px;
   box-sizing: border-box;
   height: 100%;
   width: 100%;
 }
 
-.display-simple-card .container {
+.display-card .container {
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
@@ -13,11 +13,11 @@
   overflow: hidden;
   user-select: none;
 }
-.display-simple-card .container.disabled {
+.display-card .container.disabled {
   opacity: 0.25;
 }
 
-.display-simple-card .icon {
+.display-card .icon {
   all: unset;
   cursor: pointer;
   display: flex;
@@ -26,12 +26,12 @@
   width: 60px;
   cursor: pointer;
 }
-.display-simple-card .icon > * {
+.display-card .icon > * {
   width: 60%;
   height: 100%;
 }
 
-.display-simple-card .content {
+.display-card .content {
   all: unset;
   cursor: pointer;
   padding: 4px 8px ;
@@ -40,7 +40,7 @@
   flex-direction: column;
 }
 
-.display-simple-card .header {
+.display-card .header {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -50,7 +50,7 @@
   font-size: 18px;
 }
 
-.display-simple-card .action {
+.display-card .action {
   all: unset;
   cursor: pointer;
   width: 60px;
@@ -60,11 +60,11 @@
   overflow: hidden;
 }
 
-.display-simple-card .dots {
+.display-card .dots {
   display: flex;
 }
 
-.display-simple-card .dot {
+.display-card .dot {
   border-radius: 50%;
   height: 20px;
   width: 20px;
