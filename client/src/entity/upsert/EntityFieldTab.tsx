@@ -25,7 +25,7 @@ const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
         )}
 
         {fields.map((field) => (
-          <ListItem key={field.key}>
+          <ListItem key={field.name}>
             <ListItemButton onClick={() => setEditField(field)}>
               <ListItemText primary={field.name} />
               <Chip label={FieldHelper.displayName(field.type as FieldType)} />
@@ -56,7 +56,11 @@ const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
         <EditFieldDialog
           initial={editField}
           open={Boolean(editField)}
-          onSave={(field) => onChange(fields.filter((x) => x !== editField).concat([field]))}
+          onSave={(field) => onChange(
+            fields.filter((x) => x !== editField)
+              .concat([field])
+              .sort((a, b) => (a.name > b.name ? 1 : -1)),
+          )}
           onDelete={() => onChange(fields.filter((x) => x !== editField))}
           onClose={() => setEditField(undefined)}
         />

@@ -129,7 +129,7 @@ const ObjectUpsertDialog = ({
         <Box hidden={selectedTab !== 3}>
           <EntityDisplayTab
             displays={entity.displays}
-            fields={entity.fields}
+            entity={entity}
             onChange={(displays) => entityChange({ displays })}
           />
         </Box>

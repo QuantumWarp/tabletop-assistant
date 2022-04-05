@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -15,39 +15,36 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityField } from 'tabletop-assistant-common';
-import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
+import { CreateEntity } from 'tabletop-assistant-common';
 import DisplayType from '../../helpers/display.type';
 import DisplayHelper from '../../helpers/display.helper';
+import FieldHelper from '../../helpers/field.helper';
 
 interface EditDisplayDialogProps {
   initial?: Partial<{ key: string, value: string }>;
+  entity: CreateEntity;
+  usedSlotKeys: string[];
   type: DisplayType;
-  fields: EntityField[];
   open: boolean;
-  onClose: (deleted?: boolean) => void;
   onSave: (display: { key: string, value: string }) => void;
+  onDelete: () => void;
+  onClose: () => void;
 }
 
 const EditDisplayDialog = ({
-  initial, type, fields, open, onClose, onSave,
+  initial, entity, usedSlotKeys, type, open, onClose, onDelete, onSave,
 }: EditDisplayDialogProps) => {
-  const [deleteOpen, setDeleteOpen] = useState(false);
-
   const [key, setKey] = useState(initial?.key || '');
   const [value, setValue] = useState(initial?.value || '');
 
-  const fixedFields: EntityField[] = [{
-    key: '_name',
-    name: 'Name (Info)',
-    type: 'string',
-    initial: '',
-  }, {
-    key: '_icon',
-    name: 'Icon (Info)',
-    type: 'string',
-    initial: '',
-  }];
+  const availableSlots = DisplayHelper.slots(type)
+    .filter((x) => initial?.key === x.key || !usedSlotKeys.includes(x.key))
+    .sort((a, b) => (a.name > b.name ? 1 : -1));
+
+  const selectedSlot = availableSlots.find((x) => x.key === key);
+
+  const validFields = FieldHelper.getFields(entity)
+    .filter((x) => x.type === selectedSlot?.type);
 
   const saveField = () => {
     const updatedProps = {
@@ -58,6 +55,10 @@ const EditDisplayDialog = ({
     onSave({ ...initial, ...updatedProps });
     onClose();
   };
+
+  useEffect(() => {
+    if (!initial?.key) setValue('');
+  }, [initial?.key, key]);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
@@ -75,30 +76,11 @@ const EditDisplayDialog = ({
               <InputLabel>Slot</InputLabel>
               <Select
                 label="Slot"
+                disabled={Boolean(initial?.key)}
                 value={key}
                 onChange={(e) => setKey(e.target.value)}
               >
-                {DisplayHelper.slots(type).map((x) => (
-                  <MenuItem
-                    key={x.key}
-                    value={x.key}
-                  >
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl fullWidth required>
-              <InputLabel>Field</InputLabel>
-              <Select
-                label="Field"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-              >
-                {fields.concat(fixedFields).map((x) => (
+                {availableSlots.map((x) => (
                   <MenuItem key={x.key} value={x.key}>
                     {x.name}
                   </MenuItem>
@@ -106,29 +88,68 @@ const EditDisplayDialog = ({
               </Select>
             </FormControl>
           </Grid>
+
+          {selectedSlot?.type !== 'action' && (
+            <Grid item xs={12}>
+              <FormControl fullWidth required>
+                <InputLabel>Field</InputLabel>
+                <Select
+                  label="Field"
+                  disabled={!selectedSlot}
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                >
+                  {validFields.map((x) => (
+                    <MenuItem key={x.key} value={x.key}>
+                      {x.name}
+                    </MenuItem>
+                  ))}
+                  {validFields.length === 0 && (
+                    <MenuItem disabled>
+                      No valid fields
+                    </MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
+
+          {selectedSlot?.type === 'action' && (
+            <Grid item xs={12}>
+              <FormControl fullWidth required>
+                <InputLabel>Action</InputLabel>
+                <Select
+                  label="Action"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                >
+                  {entity.actions.map((x) => (
+                    <MenuItem key={x.key} value={x.key}>
+                      {x.name}
+                    </MenuItem>
+                  ))}
+                  {entity.actions.length === 0 && (
+                    <MenuItem disabled>
+                      No actions
+                    </MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+          )}
         </Grid>
       </DialogContent>
 
       <DialogActions>
         {initial?.key && (
-          <>
-            <Button
-              variant="outlined"
-              color="error"
-              endIcon={<DeleteIcon />}
-              onClick={() => setDeleteOpen(true)}
-            >
-              Delete
-            </Button>
-
-            <DeleteConfirmDialog
-              objType="Note"
-              objName={initial.key}
-              open={deleteOpen}
-              onDelete={() => onClose(true)}
-              onClose={() => setDeleteOpen(false)}
-            />
-          </>
+          <Button
+            variant="outlined"
+            color="error"
+            endIcon={<DeleteIcon />}
+            onClick={() => { onDelete(); onClose(); }}
+          >
+            Delete
+          </Button>
         )}
 
         <Button

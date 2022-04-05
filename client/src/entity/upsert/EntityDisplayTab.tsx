@@ -2,19 +2,19 @@ import {
   Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { EntityDisplay, EntityField } from 'tabletop-assistant-common';
+import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
 import DisplayHelper from '../../helpers/display.helper';
 import DisplayType from '../../helpers/display.type';
 import EditDisplayDialog from './EditDisplayDialog';
 
 interface EntityDisplayTabProps {
   displays: EntityDisplay[],
-  fields: EntityField[],
+  entity: CreateEntity,
   onChange: (displays: EntityDisplay[]) => void,
 }
 
 const ObjectDisplayTab = ({
-  displays, fields, onChange,
+  displays, entity, onChange,
 }: EntityDisplayTabProps) => {
   const [editDisplay, setEditDisplay] = useState<Partial<EntityDisplay>>();
 
@@ -58,9 +58,13 @@ const ObjectDisplayTab = ({
       {editDisplay && (
         <EditDisplayDialog
           initial={editDisplay}
+          entity={entity}
           open={Boolean(editDisplay)}
-          fields={fields}
-          onSave={(dis) => onChange(displays.filter((x) => x !== editDisplay).concat([dis]))}
+          onSave={(display) => onChange(
+            displays.filter((x) => x !== editDisplay)
+              .concat([display])
+              .sort((a, b) => (a.type > b.type ? 1 : -1)),
+          )}
           onDelete={() => onChange(displays.filter((x) => x !== editDisplay))}
           onClose={() => setEditDisplay(undefined)}
         />

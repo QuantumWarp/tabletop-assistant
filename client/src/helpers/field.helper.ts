@@ -1,3 +1,4 @@
+import { CreateEntity, EntityField } from 'tabletop-assistant-common';
 import FieldType from './field.type';
 
 export default class FieldHelper {
@@ -8,6 +9,27 @@ export default class FieldHelper {
       case FieldType.Number: return 'Number';
       default: throw new Error('Invalid field type');
     }
+  }
+
+  static getFields(entity: CreateEntity): EntityField[] {
+    return [{
+      key: '_name',
+      name: 'Name (Info)',
+      type: 'string',
+      initial: entity.name,
+    }, {
+      key: '_icon',
+      name: 'Icon (Info)',
+      type: 'string',
+      initial: entity.icon,
+    }].concat(entity.fields);
+  }
+
+  static createKey(name: string) {
+    const replacedName = name
+      .replace(/[^a-zA-Z0-9]/g, '');
+    const lcName = replacedName.charAt(0).toLowerCase() + replacedName.slice(1);
+    return (lcName.match(/^\d/) ? '_' : '') + lcName;
   }
 
   static list(): FieldType[] {

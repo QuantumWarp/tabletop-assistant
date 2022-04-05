@@ -31,9 +31,10 @@ const EditFieldDialog = ({
   initial, open, onSave, onDelete, onClose,
 }: EditFieldDialogProps) => {
   const [name, setName] = useState(initial?.name || '');
-  const key = name.replace(' ', ''); // TODO
   const [type, setType] = useState(initial?.type || '');
   const [initialValue, setInitialValue] = useState(initial?.initial || '');
+
+  const key = FieldHelper.createKey(name);
 
   const saveField = () => {
     const updatedProps = {

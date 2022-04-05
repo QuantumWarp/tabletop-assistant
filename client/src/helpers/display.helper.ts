@@ -3,9 +3,20 @@ import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
+import { CreateEntity } from 'tabletop-assistant-common';
 
 export default class DisplayHelper {
   static displayName(type: DisplayType): string {
+    switch (type) {
+      case DisplayType.Dots: return 'Dots';
+      case DisplayType.Square: return 'Square';
+      case DisplayType.Card: return 'Card';
+      case DisplayType.Toggle: return 'Toggle';
+      default: throw new Error('Invalid display type');
+    }
+  }
+
+  static slotName(type: DisplayType): string {
     switch (type) {
       case DisplayType.Dots: return 'Dots';
       case DisplayType.Square: return 'Square';
@@ -36,14 +47,23 @@ export default class DisplayHelper {
   }
 
   static map<T>(
-    slotFieldMappings: { [slot: string]: string },
-    fieldValueMappings: { [field: string]: string },
+    type: DisplayType,
+    entity: CreateEntity,
+    mappings?: { [field: string]: string },
   ): T {
+    const slots = DisplayHelper.slots(type);
+
     const slotValueMapping = Object.keys(slotFieldMappings)
-      .reduce((obj, slot) => {
-        const field = slotFieldMappings[slot];
+      .reduce((obj, slotKey) => {
+        const slot = slots.find((x) => x.key === slotKey);
+
+        if (slot?.type === 'action') {
+          return { ...obj, [slotKey]: slotFieldMappings[slotKey] };
+        }
+
+        const field = slotFieldMappings[slotKey];
         const value = fieldValueMappings[field];
-        return { ...obj, [slot]: value };
+        return { ...obj, [slotKey]: value };
       }, {});
 
     return slotValueMapping as T;

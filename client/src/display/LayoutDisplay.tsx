@@ -1,4 +1,5 @@
 import React from 'react';
+import { CreateEntity } from 'tabletop-assistant-common';
 import DisplayHelper from '../helpers/display.helper';
 import DisplayType from '../helpers/display.type';
 import CardDisplay from '../helpers/displays/card.display';
@@ -13,41 +14,41 @@ import DisplayToggle from './DisplayToggle';
 interface LayoutDisplayProps {
   type: DisplayType,
   preview?: boolean,
-  slotFieldMappings: { [slot: string]: string },
-  fieldValueMappings: { [field: string]: any },
+  entity: CreateEntity,
+  mappings?: { [field: string]: any },
 }
 
 const LayoutDisplay = ({
-  type, preview = false, slotFieldMappings, fieldValueMappings,
+  type, preview, entity, mappings,
 }: LayoutDisplayProps) => {
-  const slotValues = DisplayHelper.map(slotFieldMappings, fieldValueMappings);
+  const slotValues = DisplayHelper.map(type, entity, mappings);
 
   return (
     <>
       {type === DisplayType.Card && (
         <DisplayCard
-          preview={preview}
+          preview={Boolean(preview)}
           slots={slotValues as CardDisplay}
           onClick={() => {}}
         />
       )}
       {type === DisplayType.Dots && (
         <DisplayDots
-          preview={preview}
+          preview={Boolean(preview)}
           slots={slotValues as DotsDisplay}
           onClick={() => {}}
         />
       )}
       {type === DisplayType.Square && (
         <DisplaySquare
-          preview={preview}
+          preview={Boolean(preview)}
           slots={slotValues as SquareDisplay}
           onClick={() => {}}
         />
       )}
       {type === DisplayType.Toggle && (
         <DisplayToggle
-          preview={preview}
+          preview={Boolean(preview)}
           slots={slotValues as ToggleDisplay}
           onClick={() => {}}
         />
@@ -57,7 +58,8 @@ const LayoutDisplay = ({
 };
 
 LayoutDisplay.defaultProps = {
-  preview: false,
+  preview: undefined,
+  mappings: undefined,
 };
 
 export default LayoutDisplay;

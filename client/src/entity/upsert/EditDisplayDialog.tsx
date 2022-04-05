@@ -22,17 +22,18 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityDisplay, EntityField } from 'tabletop-assistant-common';
+import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 import DisplayType from '../../helpers/display.type';
 import DisplayHelper from '../../helpers/display.helper';
 import LayoutDisplay from '../../display/LayoutDisplay';
 import LayoutPositionHelper from '../../models/layout/layout-position';
+import FieldHelper from '../../helpers/field.helper';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
-  fields: EntityField[];
+  entity: CreateEntity,
   open: boolean;
   onSave: (display: EntityDisplay) => void;
   onDelete: () => void;
@@ -40,7 +41,7 @@ interface EditDisplayDialogProps {
 }
 
 const EditDisplayDialog = ({
-  initial, fields, open, onSave, onDelete, onClose,
+  initial, entity, open, onSave, onDelete, onClose,
 }: EditDisplayDialogProps) => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
@@ -59,19 +60,6 @@ const EditDisplayDialog = ({
     onSave({ ...initial, ...updatedProps });
     onClose();
   };
-
-  // TODO: sort these fixed fields out
-  const fixedFields: EntityField[] = [{
-    key: '_name',
-    name: 'Name (Info)',
-    type: 'string',
-    initial: 'Test Name',
-  }, {
-    key: '_icon',
-    name: 'Icon (Info)',
-    type: 'string',
-    initial: 'Test',
-  }];
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
@@ -118,19 +106,24 @@ const EditDisplayDialog = ({
               <Grid item xs={12}>
                 <Divider />
 
-                {Object.entries(mappings).map((mapping) => (
-                  <ListItem dense key={mapping[0]}>
-                    <ListItemButton
-                      onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
-                    >
-                      <Grid container>
-                        <Grid item xs={5} container justifyContent="flex-end">{mapping[0]}</Grid>
-                        <Grid item xs={2} container justifyContent="center"><MapIcon /></Grid>
-                        <Grid item xs={5}>{mapping[1]}</Grid>
-                      </Grid>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
+                {Object.entries(mappings).map((mapping) => {
+                  const slot = DisplayHelper.slots(type).find((x) => x.key === mapping[0]);
+                  const field = FieldHelper.getFields(entity).find((x) => x.key === mapping[1]);
+                  const action = entity.actions.find((x) => x.key === mapping[1]);
+                  return (
+                    <ListItem dense key={mapping[0]}>
+                      <ListItemButton
+                        onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
+                      >
+                        <Grid container>
+                          <Grid item xs={5} container justifyContent="flex-end">{slot?.name}</Grid>
+                          <Grid item xs={2} container justifyContent="center"><MapIcon /></Grid>
+                          <Grid item xs={5}>{slot?.type === 'action' ? action?.name : field?.name}</Grid>
+                        </Grid>
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                })}
               </Grid>
             )}
 
@@ -146,11 +139,22 @@ const EditDisplayDialog = ({
             {editMapping && type && (
               <EditDisplayMappingDialog
                 initial={editMapping}
-                fields={fields}
+                entity={entity}
+                usedSlotKeys={Object.keys(mappings)}
                 type={type}
                 open={Boolean(editMapping)}
+                onSave={(mapping) => {
+                  const newObj = { ...mappings, [mapping.key]: mapping.value };
+                  const keys = Object.keys(newObj).sort();
+                  setMappings(keys.reduce((obj, x) => ({ ...obj, [x]: newObj[x] }), {}));
+                }}
+                onDelete={() => {
+                  if (!editMapping.key) return;
+                  const newObj = { ...mappings };
+                  delete newObj[editMapping.key];
+                  setMappings(newObj);
+                }}
                 onClose={() => setEditMapping(undefined)}
-                onSave={(mapping) => setMappings({ ...mappings, [mapping.key]: mapping.value })}
               />
             )}
           </Grid>
@@ -166,10 +170,8 @@ const EditDisplayDialog = ({
               <LayoutDisplay
                 preview
                 type={type}
-                slotFieldMappings={mappings}
-                fieldValueMappings={fields.concat(fixedFields).reduce(
-                  (obj, field) => ({ ...obj, [field.key]: field.initial }), {},
-                )}
+                entity={entity}
+                mappings={mappings}
               />
             </Box>
           </Grid>

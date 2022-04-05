@@ -58,7 +58,7 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
           options={[]}
           filterSelectedOptions
           value={entity.tags}
-          onChange={(_, newValue) => entityChange({ tags: newValue as string[] })}
+          onChange={(_, newValue) => entityChange({ tags: (newValue as string[]).sort() })}
           renderInput={(params) => (
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading

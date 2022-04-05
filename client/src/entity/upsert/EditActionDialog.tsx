@@ -18,6 +18,7 @@ import {
 } from '@mui/icons-material';
 import { EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
 import EditActionTriggerDialog from './EditActionTriggerDialog';
+import FieldHelper from '../../helpers/field.helper';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -33,9 +34,10 @@ const EditActionDialog = ({
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
   const [name, setName] = useState(initial?.name || '');
-  const key = name.replace(' ', ''); // TODO
   const [roll, setRoll] = useState(initial?.roll || '');
   const [triggers, setTriggers] = useState(initial?.triggers || []);
+
+  const key = FieldHelper.createKey(name);
 
   const saveField = () => {
     const updatedProps = {

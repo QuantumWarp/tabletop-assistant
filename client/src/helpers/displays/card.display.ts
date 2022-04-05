@@ -35,5 +35,5 @@ export const slots = [{
 }, {
   name: 'Action',
   key: 'action',
-  type: 'string',
+  type: 'action',
 }];
