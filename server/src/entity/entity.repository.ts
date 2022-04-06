@@ -9,7 +9,8 @@ export default class EntityRepository {
   ) {}
 
   async getAll(tabletopId: string): Promise<Entity[]> {
-    return EntityModel.find({ userId: this.userId, tabletopId });
+    return EntityModel
+      .find({ userId: this.userId, tabletopId });
   }
 
   async get(_id: string): Promise<Entity> {

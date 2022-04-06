@@ -4,10 +4,12 @@ import {
   CardActionArea,
   CardContent,
   Chip,
+  Grid,
   Typography,
 } from '@mui/material';
 import { Entity } from 'tabletop-assistant-common';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
+import './Entity.css';
 
 interface EntityCardProps {
   entity: Entity;
@@ -15,17 +17,24 @@ interface EntityCardProps {
 }
 
 const EntityCard = ({ entity, onClick }: EntityCardProps) => (
-  <Card>
+  <Card className="entity-card">
     <CardActionArea onClick={onClick}>
       <CardContent>
-        <TabletopIcon icon={(entity.icon || 'Heavy') as TabletopIconType} />
-        <Typography gutterBottom variant="h5" component="div">
-          {entity.name}
-        </Typography>
+        <Grid container>
+          <Grid className="icon" item xs={2}>
+            <TabletopIcon icon={entity.icon as TabletopIconType} />
+          </Grid>
 
-        {entity.tags.map((x) => (
-          <Chip key={x} label={x} />
-        ))}
+          <Grid item>
+            <Typography gutterBottom variant="h5" component="div">
+              {entity.name}
+            </Typography>
+
+            {entity.tags.map((x) => (
+              <Chip sx={{ marginRight: '8px' }} key={x} label={x} />
+            ))}
+          </Grid>
+        </Grid>
       </CardContent>
     </CardActionArea>
   </Card>

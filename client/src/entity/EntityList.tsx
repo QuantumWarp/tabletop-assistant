@@ -18,9 +18,11 @@ const EntityList = ({ filter }: EntityListProps) => {
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const filteredEntities = entities
-    ? entities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())) : [];
+    ? entities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())
+      || x.tags.find((tag) => tag.toLowerCase() === filter.toLowerCase()))
+    : [];
   const sortedEntities = filteredEntities.sort(
-    (a, b) => (a.name > b.name ? -1 : 1),
+    (a, b) => (a.name > b.name ? 1 : -1),
   );
 
   return (

@@ -1,0 +1,10 @@
+.entity-card .icon {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  margin-right: 5px;
+}
+.entity-card .icon > * {
+  width: 80%;
+  height: 100%;
+}
