@@ -171,7 +171,7 @@ const EditDisplayDialog = ({
                 preview
                 type={type}
                 entity={entity}
-                mappings={mappings}
+                slotMappings={mappings}
               />
             </Box>
           </Grid>

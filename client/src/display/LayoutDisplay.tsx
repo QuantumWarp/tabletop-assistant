@@ -15,13 +15,19 @@ interface LayoutDisplayProps {
   type: DisplayType,
   preview?: boolean,
   entity: CreateEntity,
-  mappings?: { [field: string]: any },
+  slotMappings?: { [slot: string]: any },
+  fieldMappings?: { [field: string]: any },
 }
 
 const LayoutDisplay = ({
-  type, preview, entity, mappings,
+  type, preview, entity, slotMappings, fieldMappings,
 }: LayoutDisplayProps) => {
-  const slotValues = DisplayHelper.map(type, entity, mappings);
+  const slotValues = DisplayHelper.map(
+    type,
+    entity,
+    slotMappings,
+    fieldMappings,
+  );
 
   return (
     <>
@@ -59,7 +65,8 @@ const LayoutDisplay = ({
 
 LayoutDisplay.defaultProps = {
   preview: undefined,
-  mappings: undefined,
+  slotMappings: undefined,
+  fieldMappings: undefined,
 };
 
 export default LayoutDisplay;

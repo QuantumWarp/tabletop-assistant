@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { EntityField, Layout } from 'tabletop-assistant-common';
+import { Layout } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
-// import DisplayType from '../models/layout/display-type';
-// import DisplaySimpleCard from '../display/DisplaySimpleCard';
-// import DisplaySimpleToggle from '../display/DisplaySimpleToggle';
-// import DisplayNumberSquare from '../display/DisplaySquare';
-// import DisplayDotCounter from '../display/DisplayDotCounter';
 import LayoutPositionHelper from '../models/layout/layout-position';
 import './LayoutContainer.css';
 import { useGetAllValuesQuery, useGetEntitiesQuery } from '../store/api';
@@ -49,25 +44,6 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
         // eslint-disable-next-line react/no-array-index-key
         if (!entityValues) return (<div key={index}>None</div>);
 
-        // TODO: sort these fixed fields out
-        const fixedFields: EntityField[] = [{
-          key: '_name',
-          name: 'Name (Info)',
-          type: 'string',
-          initial: entity.name,
-        }, {
-          key: '_icon',
-          name: 'Icon (Info)',
-          type: 'string',
-          initial: entity.icon,
-        }];
-
-        const fieldValueMap = entity.fields.concat(fixedFields).reduce((obj, field) => {
-          const existingValue = entityValues.mappings[field.key];
-          const value = existingValue !== undefined ? existingValue : field.initial;
-          return { ...obj, [field.key]: value };
-        }, {});
-
         return (
           <div
             // eslint-disable-next-line react/no-array-index-key
@@ -80,8 +56,8 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
           >
             <LayoutDisplay
               type={entry.displayType as DisplayType}
-              slotFieldMappings={display.mappings}
-              fieldValueMappings={fieldValueMap}
+              entity={entity}
+              fieldMappings={entityValues.mappings}
             />
           </div>
         );

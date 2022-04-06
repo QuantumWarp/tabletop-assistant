@@ -1,9 +1,10 @@
+import { CreateEntity } from 'tabletop-assistant-common';
 import DisplayType from './display.type';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
-import { CreateEntity } from 'tabletop-assistant-common';
+import FieldHelper from './field.helper';
 
 export default class DisplayHelper {
   static displayName(type: DisplayType): string {
@@ -49,20 +50,35 @@ export default class DisplayHelper {
   static map<T>(
     type: DisplayType,
     entity: CreateEntity,
-    mappings?: { [field: string]: string },
+    optionalSlotMappings?: { [slot: string]: string },
+    optionalFieldMappings: { [field: string]: string } = {},
   ): T {
     const slots = DisplayHelper.slots(type);
+    const display = entity.displays.find((x) => x.type);
+    if (!display) return {} as T;
 
-    const slotValueMapping = Object.keys(slotFieldMappings)
+    const initialFieldMappings = FieldHelper.getFields(entity)
+      .reduce((obj, a) => ({
+        ...obj,
+        [a.key]: a.initial,
+      }), {} as { [field: string]: string });
+
+    const slotMappings = optionalSlotMappings || display.mappings;
+    const fieldMappings = {
+      ...initialFieldMappings,
+      ...optionalFieldMappings,
+    };
+
+    const slotValueMapping = Object.keys(slotMappings)
       .reduce((obj, slotKey) => {
         const slot = slots.find((x) => x.key === slotKey);
 
         if (slot?.type === 'action') {
-          return { ...obj, [slotKey]: slotFieldMappings[slotKey] };
+          return { ...obj, [slotKey]: slotMappings[slotKey] };
         }
 
-        const field = slotFieldMappings[slotKey];
-        const value = fieldValueMappings[field];
+        const field = slotMappings[slotKey];
+        const value = fieldMappings[field];
         return { ...obj, [slotKey]: value };
       }, {});
 
