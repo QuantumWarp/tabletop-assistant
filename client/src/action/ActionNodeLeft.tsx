@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Divider } from '@mui/material';
-import { ActionTreeNode } from '../models/objects/action-tree';
-import { rollAction, selectObjects, setupRollAction } from '../store/config-slice';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import TabletopIcon from '../common/TabletopIcon';
+import { useParams } from 'react-router-dom';
+import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import ActionRoll from './content/ActionRoll';
 import './ActionNodeLeft.css';
 import ActionRollDialog from './dialogs/ActionRollDialog';
-import RollCombo from '../models/rolling/roll-combo';
+// import RollCombo from '../models/rolling/roll-combo';
+import { ActionTreeNode } from '../helpers/action.helper';
+import { useGetEntitiesQuery } from '../store/api';
 
 interface ActionNodeLeftProps {
   level: number;
@@ -15,15 +15,19 @@ interface ActionNodeLeftProps {
 }
 
 const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
-  const dispatch = useAppDispatch();
-  const objects = useAppSelector(selectObjects);
-  const [editCombo, setEditCombo] = useState<boolean | null>(null);
-  const obj = objects.find((x) => x.id === node.action.objectId);
-  const icon = node.action.icon || obj?.icon;
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const handleRollUpdate = (updatedCombo?: RollCombo, rollNow?: boolean) => {
-    if (updatedCombo) dispatch(setupRollAction({ actionId: node.action.id, combo: updatedCombo }));
-    if (rollNow) dispatch(rollAction(node.action.id));
+  const [editCombo, setEditCombo] = useState<boolean | null>(null);
+
+  const entity = entities?.find((x) => x._id === node.entityId);
+  const action = entity?.actions.find((x) => x.key === node.actionKey);
+
+  const handleRollUpdate = (
+    // updatedCombo?: RollCombo, rollNow?: boolean
+  ) => {
+    // if (updatedCombo) setupRollAction({ actionId: node.action.id, combo: updatedCombo });
+    // if (rollNow) rollAction(node.action.id);
     setEditCombo(false);
   };
 
@@ -38,10 +42,10 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
         }}
         onClick={() => node.combo && setEditCombo(true)}
       >
-        {icon && (
+        {entity?.icon && (
           <>
             <div className="icon">
-              <TabletopIcon icon={icon} />
+              <TabletopIcon icon={entity.icon as TabletopIconType} />
             </div>
 
             <Divider orientation="vertical" />
@@ -50,16 +54,14 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
 
         <div className="content">
           <div className="title">
-            {obj?.name}
-            {node.action.name && ` - ${node.action.name}`}
+            {entity?.name}
+            {` - ${action?.name}`}
           </div>
 
           <div className="detail">
             {node.combo && (
               <ActionRoll combo={node.combo} />
             )}
-
-            {!node.combo && (obj?.fields.text || obj?.description)}
           </div>
         </div>
       </Box>

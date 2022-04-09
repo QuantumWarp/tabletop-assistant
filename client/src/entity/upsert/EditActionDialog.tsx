@@ -43,6 +43,7 @@ const EditActionDialog = ({
     const updatedProps = {
       name,
       key,
+      roll,
       triggers,
     };
 

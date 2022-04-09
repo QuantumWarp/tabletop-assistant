@@ -1,6 +1,6 @@
 import { Box, Button, Container } from '@mui/material';
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import ActionNode from './ActionNode';
 import TopBar from '../common/TopBar';
 import { ActionHelper } from '../helpers/action.helper';
@@ -11,18 +11,19 @@ const ActionPage = () => {
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const history = useHistory();
 
-  const actionTree = ActionHelper.createActionTree(
-    searchParams.get('entityId'),
-    searchParams.get('actionKey'),
-    entities,
-  );
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const entityId = params.get('entity');
+  const actionKey = params.get('action');
+
+  const actionTree = entityId && actionKey && entities
+    && ActionHelper.createActionTree(entityId, actionKey, entities);
 
   return (
     <>
       <TopBar title="Action">
         <Box />
-
-        {actionTree.length > 0 && (
+        {actionTree && actionTree.length > 0 && (
           <Button
             variant="outlined"
             sx={{ float: 'right' }}
@@ -43,9 +44,9 @@ const ActionPage = () => {
           }}
           maxWidth="lg"
         >
-          {actionTree.map((x) => (
+          {actionTree && actionTree.map((x) => (
             <ActionNode
-              key={x.action.id}
+              key={`${x.entityId}-${x.actionKey}`}
               level={0}
               node={x}
             />
@@ -57,7 +58,3 @@ const ActionPage = () => {
 };
 
 export default ActionPage;
-function useSearchParams(): [any, any] {
-  throw new Error('Function not implemented.');
-}
-

@@ -4,12 +4,11 @@ import {
   Casino as RollIcon,
   ArrowRightAlt as ArrowRightIcon,
 } from '@mui/icons-material';
-import { ActionTreeNode } from '../models/objects/action-tree';
-import { rollAction } from '../store/config-slice';
-import { useAppDispatch } from '../store/store';
 import ActionNodeLeft from './ActionNodeLeft';
 import ActionNodeRight from './ActionNodeRight';
 import './ActionNode.css';
+import { ActionTreeNode } from '../helpers/action.helper';
+import { RollComboHelper } from '../models/rolling/roll-combo';
 
 interface ActionNodeProps {
   level: number;
@@ -17,7 +16,12 @@ interface ActionNodeProps {
 }
 
 const ActionNode = ({ level, node }: ActionNodeProps) => {
-  const dispatch = useAppDispatch();
+  const rollAction = () => {
+    if (!node.combo) return;
+
+    const result = RollComboHelper.roll(node.combo);
+    node.results.push(result);
+  };
 
   return (
     <>
@@ -30,7 +34,7 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
           {node.combo && (
             <Button
               className="button"
-              onClick={() => dispatch(rollAction(node.action.id))}
+              onClick={() => rollAction()}
             >
               <RollIcon />
               <ArrowRightIcon />
@@ -47,7 +51,7 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
 
       {node.children.map((x) => (
         <ActionNode
-          key={x.action.id}
+          key={`${x.entityId}-${x.actionKey}`}
           level={level + 1}
           node={x}
         />
