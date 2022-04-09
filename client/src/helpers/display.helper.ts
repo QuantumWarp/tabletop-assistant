@@ -74,7 +74,8 @@ export default class DisplayHelper {
         const slot = slots.find((x) => x.key === slotKey);
 
         if (slot?.type === 'action') {
-          return { ...obj, [slotKey]: slotMappings[slotKey] };
+          const action = entity.actions.find((x) => x.key === slotMappings[slotKey]);
+          return { ...obj, [slotKey]: action?.name };
         }
 
         const field = slotMappings[slotKey];

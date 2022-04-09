@@ -17,10 +17,11 @@ interface LayoutDisplayProps {
   entity: CreateEntity,
   slotMappings?: { [slot: string]: any },
   fieldMappings?: { [field: string]: any },
+  onClick?: (slot: string) => void,
 }
 
 const LayoutDisplay = ({
-  type, preview, entity, slotMappings, fieldMappings,
+  type, preview, entity, slotMappings, fieldMappings, onClick = () => {},
 }: LayoutDisplayProps) => {
   const slotValues = DisplayHelper.map(
     type,
@@ -35,28 +36,28 @@ const LayoutDisplay = ({
         <DisplayCard
           preview={Boolean(preview)}
           slots={slotValues as CardDisplay}
-          onClick={() => {}}
+          onClick={onClick}
         />
       )}
       {type === DisplayType.Dots && (
         <DisplayDots
           preview={Boolean(preview)}
           slots={slotValues as DotsDisplay}
-          onClick={() => {}}
+          onClick={onClick}
         />
       )}
       {type === DisplayType.Square && (
         <DisplaySquare
           preview={Boolean(preview)}
           slots={slotValues as SquareDisplay}
-          onClick={() => {}}
+          onClick={onClick}
         />
       )}
       {type === DisplayType.Toggle && (
         <DisplayToggle
           preview={Boolean(preview)}
           slots={slotValues as ToggleDisplay}
-          onClick={() => {}}
+          onClick={onClick}
         />
       )}
     </>
@@ -67,6 +68,7 @@ LayoutDisplay.defaultProps = {
   preview: undefined,
   slotMappings: undefined,
   fieldMappings: undefined,
+  onClick: () => {},
 };
 
 export default LayoutDisplay;

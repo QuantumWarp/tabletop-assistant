@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Layout } from 'tabletop-assistant-common';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../models/layout/layout-position';
 import './LayoutContainer.css';
 import { useGetAllValuesQuery, useGetEntitiesQuery } from '../store/api';
@@ -15,6 +15,8 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { data: values } = useGetAllValuesQuery(tabletopId);
+
+  const history = useHistory();
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
@@ -44,6 +46,15 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
         // eslint-disable-next-line react/no-array-index-key
         if (!entityValues) return (<div key={index}>None</div>);
 
+        const slotClickHandler = (slot: string) => {
+          const action = entity.actions.find((x) => x.key === display.mappings[slot]);
+          if (!action) return;
+          history.push({
+            pathname: './action',
+            search: `?entity=${entity._id}&action=${action.key}`,
+          });
+        };
+
         return (
           <div
             // eslint-disable-next-line react/no-array-index-key
@@ -58,6 +69,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               type={entry.displayType as DisplayType}
               entity={entity}
               fieldMappings={entityValues.mappings}
+              onClick={slotClickHandler}
             />
           </div>
         );

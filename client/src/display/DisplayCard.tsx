@@ -70,10 +70,9 @@ const DisplayCard = ({
           <Divider orientation="vertical" />
 
           <Button
-            key={slots.action}
             className="action"
             type="button"
-            onClick={() => onClick(slots.action)}
+            onClick={() => onClick('action')}
           >
             {slots.action}
           </Button>
