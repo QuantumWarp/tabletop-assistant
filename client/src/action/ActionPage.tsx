@@ -1,15 +1,21 @@
 import { Box, Button, Container } from '@mui/material';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import ActionNode from './ActionNode';
 import TopBar from '../common/TopBar';
-import { clearAction, selectActionTree } from '../store/config-slice';
-import { useAppDispatch, useAppSelector } from '../store/store';
+import { ActionHelper } from '../helpers/action.helper';
+import { useGetEntitiesQuery } from '../store/api';
 
 const ActionPage = () => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: entities } = useGetEntitiesQuery(tabletopId);
   const history = useHistory();
-  const dispatch = useAppDispatch();
-  const actionTree = useAppSelector(selectActionTree);
+
+  const actionTree = ActionHelper.createActionTree(
+    searchParams.get('entityId'),
+    searchParams.get('actionKey'),
+    entities,
+  );
 
   return (
     <>
@@ -20,7 +26,7 @@ const ActionPage = () => {
           <Button
             variant="outlined"
             sx={{ float: 'right' }}
-            onClick={() => { dispatch(clearAction()); history.push('./layout'); }}
+            onClick={() => history.push('./layout')}
           >
             Finish
           </Button>
@@ -51,3 +57,7 @@ const ActionPage = () => {
 };
 
 export default ActionPage;
+function useSearchParams(): [any, any] {
+  throw new Error('Function not implemented.');
+}
+
