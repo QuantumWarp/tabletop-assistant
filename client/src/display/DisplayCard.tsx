@@ -3,15 +3,17 @@ import React from 'react';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import './DisplayCard.css';
 import CardDisplay from '../helpers/displays/card.display';
+import FixedActions from '../helpers/action.helper';
 
 interface DisplayCardProps {
   preview: boolean,
   slots: CardDisplay,
-  onClick: (slot: string) => void,
+  onSlot: (slot: string) => void,
+  onOperation: (operation: FixedActions, ...slotArguments: string[]) => void,
 }
 
 const DisplayCard = ({
-  preview, slots, onClick,
+  preview, slots, onSlot, onOperation,
 }: DisplayCardProps) => (
   <div className={`display-card ${preview ? 'preview' : ''}`}>
     <Box
@@ -38,6 +40,7 @@ const DisplayCard = ({
       <Button
         className="content"
         type="button"
+        onClick={() => onOperation(FixedActions.Detail)}
       >
         <div className="header">
           <span>{slots.name}</span>
@@ -72,21 +75,13 @@ const DisplayCard = ({
           <Button
             className="action"
             type="button"
-            onClick={() => onClick('action')}
+            onClick={() => onSlot('action')}
           >
             {slots.action}
           </Button>
         </>
       )}
     </Box>
-
-    {/* {objectInfoOpen && (
-      <EntitySummaryDialog
-        obj={obj}
-        open={objectInfoOpen}
-        onClose={() => setObjectInfoOpen(false)}
-      />
-    )} */}
   </div>
 );
 

@@ -6,11 +6,11 @@ import './DisplayDots.css';
 interface DisplayDotsProps {
   preview: boolean,
   slots: DotsDisplay,
-  onClick: (slot: string) => void,
+  onSlot: (slot: string) => void,
 }
 
 const DisplayDots = ({
-  preview, slots, onClick,
+  preview, slots, onSlot,
 }: DisplayDotsProps) => (
   <div className={`display-dots ${preview ? 'preview' : ''}`}>
     <span className="name">{slots.name}</span>
@@ -25,7 +25,7 @@ const DisplayDots = ({
           borderColor: 'custom.dot.border',
           backgroundColor: index < (slots.current || 0) ? 'custom.dot.background' : 'none',
         }}
-        onClick={() => onClick('adjust')}
+        onClick={() => onSlot('adjust')}
       />
     ))}
   </div>

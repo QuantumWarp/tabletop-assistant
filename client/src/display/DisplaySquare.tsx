@@ -3,15 +3,16 @@ import { Box, Button } from '@mui/material';
 import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import './DisplaySquare.css';
 import SquareDisplay from '../helpers/displays/square.display';
+import FixedActions from '../helpers/action.helper';
 
 interface DisplaySquareProps {
   preview: boolean,
   slots: SquareDisplay,
-  onClick: (slot: string) => void,
+  onOperation: (operation: FixedActions, ...slotArguments: string[]) => void,
 }
 
 const DisplaySquare = ({
-  preview, slots, onClick,
+  preview, slots, onOperation,
 }: DisplaySquareProps) => (
   <div className={`display-square ${preview ? 'preview' : ''}`}>
     <Box
@@ -48,8 +49,16 @@ const DisplaySquare = ({
 
       {!slots.disabled && (
         <>
-          <Button type="button" className="click-left" onClick={() => onClick('decrement')} />
-          <Button type="button" className="click-right" onClick={() => onClick('increment')} />
+          <Button
+            type="button"
+            className="click-left"
+            onClick={() => onOperation(FixedActions.Decrement, 'value')}
+          />
+          <Button
+            type="button"
+            className="click-right"
+            onClick={() => onOperation(FixedActions.Increment, 'value')}
+          />
         </>
       )}
     </Box>

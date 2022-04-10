@@ -11,4 +11,6 @@ export interface DisplaySlot {
   name: string;
   key: string;
   type: string;
+  field?: string;
+  value?: any;
 }

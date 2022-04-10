@@ -3,7 +3,7 @@ import React from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import ActionNode from './ActionNode';
 import TopBar from '../common/TopBar';
-import { ActionHelper } from '../helpers/action.helper';
+import { ActionTreeHelper } from '../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../store/api';
 
 const ActionPage = () => {
@@ -17,7 +17,7 @@ const ActionPage = () => {
   const actionKey = params.get('action');
 
   const actionTree = entityId && actionKey && entities
-    && ActionHelper.createActionTree(entityId, actionKey, entities);
+    && ActionTreeHelper.createActionTree(entityId, actionKey, entities);
 
   return (
     <>

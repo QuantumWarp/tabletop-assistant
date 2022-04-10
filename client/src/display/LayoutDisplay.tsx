@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CreateEntity } from 'tabletop-assistant-common';
+import FixedActions, { ActionHelper } from '../helpers/action.helper';
 import DisplayHelper from '../helpers/display.helper';
 import DisplayType from '../helpers/display.type';
 import CardDisplay from '../helpers/displays/card.display';
 import DotsDisplay from '../helpers/displays/dots.display';
 import SquareDisplay from '../helpers/displays/square.display';
 import ToggleDisplay from '../helpers/displays/toggle.display';
+import EntitySummaryDialog from '../layout/EntitySummaryDialog';
 import DisplayCard from './DisplayCard';
 import DisplayDots from './DisplayDots';
 import DisplaySquare from './DisplaySquare';
@@ -17,12 +19,16 @@ interface LayoutDisplayProps {
   entity: CreateEntity,
   slotMappings?: { [slot: string]: any },
   fieldMappings?: { [field: string]: any },
-  onClick?: (slot: string) => void,
+  onSlot?: (slot: string) => void,
+  onUpdateValues?: (values: { [field: string]: any }) => void,
 }
 
 const LayoutDisplay = ({
-  type, preview, entity, slotMappings, fieldMappings, onClick = () => {},
+  type, preview, entity, slotMappings, fieldMappings,
+  onSlot = () => {}, onUpdateValues = () => {},
 }: LayoutDisplayProps) => {
+  const [entitySummaryOpen, setEntitySummaryOpen] = useState(false);
+
   const slotValues = DisplayHelper.map(
     type,
     entity,
@@ -30,34 +36,62 @@ const LayoutDisplay = ({
     fieldMappings,
   );
 
+  const runOperation = (operation: FixedActions, ...slotArguments: string[]) => {
+    if (preview) return;
+
+    if (operation === FixedActions.Detail) {
+      setEntitySummaryOpen(true);
+      return;
+    }
+
+    const filledFieldMappings = DisplayHelper.getFieldMappings(entity, fieldMappings);
+    const display = entity.displays.find((x) => x.type === type);
+    if (!display) return;
+
+    const fieldArguments = slotArguments.map((x) => display.mappings[x]);
+    const updatedValues = ActionHelper.run(operation, filledFieldMappings, fieldArguments);
+    onUpdateValues(updatedValues);
+  };
+
   return (
     <>
       {type === DisplayType.Card && (
         <DisplayCard
           preview={Boolean(preview)}
           slots={slotValues as CardDisplay}
-          onClick={onClick}
+          onSlot={onSlot}
+          onOperation={runOperation}
         />
       )}
       {type === DisplayType.Dots && (
         <DisplayDots
           preview={Boolean(preview)}
           slots={slotValues as DotsDisplay}
-          onClick={onClick}
+          onSlot={onSlot}
         />
       )}
       {type === DisplayType.Square && (
         <DisplaySquare
           preview={Boolean(preview)}
           slots={slotValues as SquareDisplay}
-          onClick={onClick}
+          onOperation={runOperation}
         />
       )}
       {type === DisplayType.Toggle && (
         <DisplayToggle
           preview={Boolean(preview)}
           slots={slotValues as ToggleDisplay}
-          onClick={onClick}
+          onSlot={onSlot}
+          onOperation={runOperation}
+        />
+      )}
+
+      {entitySummaryOpen && fieldMappings && (
+        <EntitySummaryDialog
+          entity={entity}
+          fieldMappings={fieldMappings}
+          open={entitySummaryOpen}
+          onClose={() => setEntitySummaryOpen(false)}
         />
       )}
     </>
@@ -68,7 +102,8 @@ LayoutDisplay.defaultProps = {
   preview: undefined,
   slotMappings: undefined,
   fieldMappings: undefined,
-  onClick: () => {},
+  onSlot: () => {},
+  onUpdateValues: () => {},
 };
 
 export default LayoutDisplay;

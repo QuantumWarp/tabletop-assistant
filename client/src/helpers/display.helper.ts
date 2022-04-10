@@ -47,6 +47,22 @@ export default class DisplayHelper {
     }
   }
 
+  static getFieldMappings(
+    entity: CreateEntity,
+    optionalFieldMappings: { [field: string]: string } = {},
+  ) {
+    const initialFieldMappings = FieldHelper.getFields(entity)
+      .reduce((obj, a) => ({
+        ...obj,
+        [a.key]: a.initial,
+      }), {} as { [field: string]: string });
+
+    return {
+      ...initialFieldMappings,
+      ...optionalFieldMappings,
+    };
+  }
+
   static map<T>(
     type: DisplayType,
     entity: CreateEntity,
@@ -57,17 +73,8 @@ export default class DisplayHelper {
     const display = entity.displays.find((x) => x.type);
     if (!display) return {} as T;
 
-    const initialFieldMappings = FieldHelper.getFields(entity)
-      .reduce((obj, a) => ({
-        ...obj,
-        [a.key]: a.initial,
-      }), {} as { [field: string]: string });
-
     const slotMappings = optionalSlotMappings || display.mappings;
-    const fieldMappings = {
-      ...initialFieldMappings,
-      ...optionalFieldMappings,
-    };
+    const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);
 
     const slotValueMapping = Object.keys(slotMappings)
       .reduce((obj, slotKey) => {

@@ -3,7 +3,7 @@ import { Layout } from 'tabletop-assistant-common';
 import { useHistory, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../models/layout/layout-position';
 import './LayoutContainer.css';
-import { useGetAllValuesQuery, useGetEntitiesQuery } from '../store/api';
+import { useGetAllValuesQuery, useGetEntitiesQuery, useUpdateValuesMutation } from '../store/api';
 import DisplayType from '../helpers/display.type';
 import LayoutDisplay from '../display/LayoutDisplay';
 
@@ -15,6 +15,8 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { data: values } = useGetAllValuesQuery(tabletopId);
+
+  const [updateValues] = useUpdateValuesMutation();
 
   const history = useHistory();
 
@@ -69,7 +71,14 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               type={entry.displayType as DisplayType}
               entity={entity}
               fieldMappings={entityValues.mappings}
-              onClick={slotClickHandler}
+              onSlot={slotClickHandler}
+              onUpdateValues={(updatedValues) => updateValues({
+                ...entityValues,
+                mappings: {
+                  ...entityValues.mappings,
+                  ...updatedValues,
+                },
+              })}
             />
           </div>
         );
