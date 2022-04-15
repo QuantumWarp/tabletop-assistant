@@ -15,7 +15,7 @@ const HistoryPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const [filter, setFilter] = useState('');
   const [newHistoryDialogOpen, setNewHistoryDialogOpen] = useState(false);
-  const { data: entries } = useGetHistoryQuery();
+  const { data: entries } = useGetHistoryQuery(tabletopId);
 
   const filteredEntries = entries
     ? entries.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())) : [];

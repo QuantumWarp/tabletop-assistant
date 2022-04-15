@@ -39,7 +39,7 @@ const HistoryRow = ({ entry }: HistoryRowProps) => {
                   {entry.name}
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: 'pre-line' }}>
                   {entry.description}
                 </Typography>
               </Grid>

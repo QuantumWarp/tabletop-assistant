@@ -133,7 +133,7 @@ export const api = createApi({
     }),
 
     // History
-    getHistory: build.query<HistoryEntry[], void>({
+    getHistory: build.query<HistoryEntry[], string>({
       query: (tabletopId) => `/history?tabletopId=${tabletopId}`,
       providesTags: ['History'],
     }),

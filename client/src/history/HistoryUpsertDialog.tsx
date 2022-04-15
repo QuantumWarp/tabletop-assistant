@@ -73,7 +73,7 @@ const HistoryUpsertDialog = ({
   };
 
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <b>
           {initial?._id ? 'Update ' : 'Create '}
