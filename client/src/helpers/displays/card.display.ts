@@ -5,7 +5,7 @@ export default interface CardDisplay {
   description: string;
   current: number;
   maximum: number;
-  action: { key: string, name: string };
+  action: string;
 }
 
 export const slots = [{
