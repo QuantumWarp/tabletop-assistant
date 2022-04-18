@@ -1,10 +1,9 @@
 import {
-  Autocomplete,
-  FormControl, Grid, InputLabel, ListItemIcon, ListItemText, MenuItem, Select, TextField,
+  Autocomplete, Grid, TextField,
 } from '@mui/material';
 import React from 'react';
 import { Entity } from 'tabletop-assistant-common';
-import TabletopIcon, { TabletopIconType } from '../../common/TabletopIcon';
+import IconifyDropdown from '../../common/IconifyDropdown';
 
 interface ObjectInfoTabProps {
   entity: Partial<Entity>,
@@ -29,25 +28,10 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
       </Grid>
 
       <Grid item xs={6}>
-        <FormControl fullWidth>
-          <InputLabel>Icon</InputLabel>
-          <Select
-            label="Icon"
-            MenuProps={{ style: { maxHeight: '400px' } }}
-            value={entity.icon}
-            renderValue={(x) => <>{x}</>}
-            onChange={(e) => entityChange({ icon: e.target.value })}
-          >
-            {Object.values(TabletopIconType).map((x) => (
-              <MenuItem key={x} value={x}>
-                <ListItemIcon>
-                  <TabletopIcon icon={x as TabletopIconType} />
-                </ListItemIcon>
-                <ListItemText primary={x} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <IconifyDropdown
+          value={entity.icon}
+          onChange={(newValue) => entityChange({ icon: newValue })}
+        />
       </Grid>
 
       <Grid item xs={12}>
