@@ -8,8 +8,9 @@ import ActionPage from '../action/ActionPage';
 import HistoryView from '../history/HistoryPage';
 import LayoutPage from '../layout/LayoutPage';
 import NotesPage from '../note/NotePage';
+import TemplatePage from '../template/TemplatePage';
 import LayoutConfigPage from '../layout-config/LayoutConfigPage';
-import ObjectConfigPage from '../entity/EntityPage';
+import EntityPage from '../entity/EntityPage';
 
 const MainView = () => {
   const { path } = useRouteMatch();
@@ -44,12 +45,16 @@ const MainView = () => {
             <HistoryView />
           </Route>
 
+          <Route path={`${path}/templates`}>
+            <TemplatePage />
+          </Route>
+
           <Route path={`${path}/layout-config`}>
             <LayoutConfigPage />
           </Route>
 
-          <Route path={`${path}/object-config`}>
-            <ObjectConfigPage />
+          <Route path={`${path}/objects`}>
+            <EntityPage />
           </Route>
         </Switch>
       </Box>

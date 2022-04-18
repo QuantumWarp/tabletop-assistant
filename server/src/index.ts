@@ -13,6 +13,7 @@ import historyRouter from './history/history.router';
 import layoutRouter from './layout/layout.router';
 import noteRouter from './note/note.router';
 import tabletopRouter from './tabletop/tabletop.router';
+import templateRouter from './template/template.router';
 import valuesRouter from './values/values.router';
 
 connect(config.dbConnection);
@@ -36,6 +37,8 @@ app.use('/layouts', layoutRouter);
 
 app.use('/history', historyRouter);
 app.use('/notes', noteRouter);
+
+app.use('/templates', templateRouter);
 
 app.use(error);
 

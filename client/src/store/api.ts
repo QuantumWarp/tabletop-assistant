@@ -19,6 +19,7 @@ import {
   CreateValues,
   UpdateLayout,
   UpdateValues,
+  Template,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -30,7 +31,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note'],
+  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Template'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -175,6 +176,12 @@ export const api = createApi({
       query: (id) => ({ url: `/notes/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Note'],
     }),
+
+    // Templates
+    getTemplates: build.query<Template[], void>({
+      query: () => '/templates',
+      providesTags: ['Template'],
+    }),
   }),
 });
 
@@ -214,4 +221,6 @@ export const {
   useCreateNoteMutation,
   useUpdateNoteMutation,
   useDeleteNoteMutation,
+
+  useGetTemplatesQuery,
 } = api;

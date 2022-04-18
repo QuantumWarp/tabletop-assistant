@@ -40,3 +40,9 @@ export type {
   CreateNote,
   UpdateNote,
 } from './notes/note';
+
+export type {
+  Template,
+  CreateTemplate,
+  UpdateTemplate,
+} from './template/template';
