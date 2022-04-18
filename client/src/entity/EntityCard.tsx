@@ -7,8 +7,8 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import { Icon } from '@iconify/react';
 import { Entity } from 'tabletop-assistant-common';
-import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import './Entity.css';
 
 interface EntityCardProps {
@@ -22,7 +22,7 @@ const EntityCard = ({ entity, onClick }: EntityCardProps) => (
       <CardContent>
         <Grid container>
           <Grid className="icon" item xs={2}>
-            <TabletopIcon icon={entity.icon as TabletopIconType} />
+            {entity.icon && <Icon icon={entity.icon} />}
           </Grid>
 
           <Grid item>

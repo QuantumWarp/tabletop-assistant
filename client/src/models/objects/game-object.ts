@@ -1,4 +1,3 @@
-import { TabletopIconType } from '../../common/TabletopIcon';
 import DisplayType from '../layout/display-type';
 
 export default interface GameObject {
@@ -6,7 +5,7 @@ export default interface GameObject {
   name: string;
   disabled: boolean;
   defaultDisplay: DisplayType;
-  icon?: TabletopIconType;
+  icon?: string;
   description?: string;
   fields: {
     title?: string;

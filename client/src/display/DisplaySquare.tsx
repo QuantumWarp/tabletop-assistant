@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
-import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
+import { Icon } from '@iconify/react';
 import './DisplaySquare.css';
 import SquareDisplay from '../helpers/displays/square.display';
 import FixedActions from '../helpers/action.helper';
@@ -25,7 +25,7 @@ const DisplaySquare = ({
             className="icon"
             sx={{ borderColor: 'custom.layout.border' }}
           >
-            {slots.icon && <TabletopIcon icon={slots.icon as TabletopIconType} />}
+            {slots.icon && <Icon icon={slots.icon} />}
           </Box>
         )}
 

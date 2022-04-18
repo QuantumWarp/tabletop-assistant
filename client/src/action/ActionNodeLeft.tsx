@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Divider } from '@mui/material';
+import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
-import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import ActionRoll from './content/ActionRoll';
 import './ActionNodeLeft.css';
 import ActionRollDialog from './dialogs/ActionRollDialog';
@@ -45,7 +45,7 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
         {entity?.icon && (
           <>
             <div className="icon">
-              <TabletopIcon icon={entity.icon as TabletopIconType} />
+              <Icon icon={entity.icon} />
             </div>
 
             <Divider orientation="vertical" />

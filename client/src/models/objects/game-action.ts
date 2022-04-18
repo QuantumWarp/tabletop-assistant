@@ -1,11 +1,10 @@
-import { TabletopIconType } from '../../common/TabletopIcon';
 import ActionTrigger from './action-trigger';
 
 export default interface GameAction {
   id: string;
   objectId: string;
   triggers: ActionTrigger[];
-  icon?: TabletopIconType;
+  icon?: string;
   name?: string;
   roll?: string;
 }

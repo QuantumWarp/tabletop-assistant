@@ -1,6 +1,6 @@
 import { Box, Button, Divider } from '@mui/material';
+import { Icon } from '@iconify/react';
 import React from 'react';
-import TabletopIcon, { TabletopIconType } from '../common/TabletopIcon';
 import './DisplayCard.css';
 import CardDisplay from '../helpers/displays/card.display';
 import FixedActions from '../helpers/action.helper';
@@ -30,7 +30,7 @@ const DisplayCard = ({
             className="icon"
             type="button"
           >
-            <TabletopIcon icon={slots.icon as TabletopIconType} />
+            <Icon icon={slots.icon} />
           </Button>
 
           <Divider orientation="vertical" />
