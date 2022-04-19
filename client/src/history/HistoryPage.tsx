@@ -43,7 +43,12 @@ const HistoryPage = () => {
       </TopBar>
 
       <Box sx={{ flex: 1, overflow: 'auto' }}>
-        <Container sx={{ py: 2 }} maxWidth="lg">
+        <Container
+          sx={{
+            py: 2, display: 'flex', flexDirection: 'column', alignItems: 'center',
+          }}
+          maxWidth="lg"
+        >
           {sortedEntries.map((x) => (
             <HistoryRow key={x._id} entry={x} />
           ))}

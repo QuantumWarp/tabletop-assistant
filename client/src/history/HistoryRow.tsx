@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import {
   Card, CardActionArea, CardContent, Grid, Typography,
 } from '@mui/material';
-import { TextSnippet } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { HistoryEntry } from 'tabletop-assistant-common';
 import HistoryUpsertDialog from './HistoryUpsertDialog';
@@ -29,13 +28,13 @@ const HistoryRow = ({ entry }: HistoryRowProps) => {
       <Card className="history-card">
         <CardActionArea onClick={() => setEditHistory(entry)}>
           <CardContent>
-            <Grid container spacing={2}>
-              <Grid className="icon" item xs={1}>
+            <Grid container spacing={2} padding={2}>
+              {/* <Grid className="icon" item xs={1}>
                 <TextSnippet />
-              </Grid>
+              </Grid> */}
 
-              <Grid item xs={11}>
-                <Typography gutterBottom variant="h5" component="div">
+              <Grid item xs={12}>
+                <Typography gutterBottom variant="h4" component="div">
                   {entry.name}
                 </Typography>
 
