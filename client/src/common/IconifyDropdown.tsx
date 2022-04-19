@@ -17,7 +17,7 @@ interface IconifyDropdownProps {
 const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
   const [open, setOpen] = useState(false);
 
-  const isOption = Object.values(iconifyMappings).find((x) => x === value);
+  const isOption = Object.keys(iconifyMappings).find((x) => iconifyMappings[x] === value);
   const isLoaded = listIcons().find((x) => x === value);
   const loadedIcon = isOption || isLoaded;
 
@@ -27,9 +27,9 @@ const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
     const newValue = key ? iconifyMappings[key] : text;
     onChange(newValue);
   };
-
   return (
     <Autocomplete
+      value={isOption || value}
       fullWidth
       freeSolo
       onOpen={() => setOpen(true)}
