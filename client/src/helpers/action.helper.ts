@@ -19,6 +19,10 @@ export class ActionHelper {
         return this.increment(fieldMappings, fieldArguments[0]);
       case FixedActions.Decrement:
         return this.decrement(fieldMappings, fieldArguments[0]);
+      case FixedActions.SetValue:
+        return this.setValue(fieldMappings, fieldArguments[0], fieldArguments[1]);
+      case FixedActions.Toggle:
+        return this.toggle(fieldMappings, fieldArguments[0]);
       default: throw new Error('Invalid fixed action');
     }
   }
@@ -31,5 +35,15 @@ export class ActionHelper {
   static decrement(fieldMappings: { [field: string]: any }, field: string) {
     const value = fieldMappings[field];
     return { [field]: value - 1 };
+  }
+
+  static setValue(fieldMappings: { [field: string]: any }, field: string, fromField: string) {
+    const fromValue = fieldMappings[fromField];
+    return { [field]: fromValue };
+  }
+
+  static toggle(fieldMappings: { [field: string]: any }, field: string) {
+    const value = fieldMappings[field];
+    return { [field]: !value };
   }
 }

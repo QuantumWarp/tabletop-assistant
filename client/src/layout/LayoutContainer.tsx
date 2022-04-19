@@ -31,6 +31,10 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
+    setUpdatedValuesList([]);
+  }, [entities]);
+
+  useEffect(() => {
     const handleResize = () => {
       if (!containerRef.current) return;
       setContainerWidth(containerRef.current.offsetWidth);
@@ -45,7 +49,6 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     async () => {
       updatedValuesList.map((x) => updateValues(x));
       await Promise.all(updatedValuesList);
-      setUpdatedValuesList([]);
     },
     1500,
   );
