@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Tabs,
   Tab,
@@ -14,14 +14,19 @@ const LayoutPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
-  const [layoutId, setLayoutId] = useState(layouts?.[0]?._id || '');
+  const [layoutId, setLayoutId] = useState<string | false>();
   const currentLayout = layouts?.find((x) => x._id === layoutId);
+
+  useEffect(() => {
+    if (!layouts) return;
+    setLayoutId(layouts[0]._id);
+  }, [layouts]);
 
   return (
     <>
       <TopBar title={currentLayout ? currentLayout.name : 'Layout'}>
         <Tabs
-          value={currentLayout?._id}
+          value={currentLayout?._id || false}
           onChange={(_e, val) => setLayoutId(val)}
           centered
         >
