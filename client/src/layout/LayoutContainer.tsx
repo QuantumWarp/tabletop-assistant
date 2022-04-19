@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Layout } from 'tabletop-assistant-common';
+import {
+  Entity, EntityDisplay, Layout, Values,
+} from 'tabletop-assistant-common';
+import { useDebouncedCallback } from 'use-debounce';
 import { useHistory, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../models/layout/layout-position';
 import './LayoutContainer.css';
@@ -18,6 +21,10 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   const [updateValues] = useUpdateValuesMutation();
 
+  const [updatedValuesList, setUpdatedValuesList] = useState<Values[]>([]);
+
+  const valuesList = values?.map((x) => updatedValuesList.find((val) => x._id === val._id) || x);
+
   const history = useHistory();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,52 +41,85 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const debouncedUpdate = useDebouncedCallback(
+    async () => {
+      updatedValuesList.map((x) => updateValues(x));
+      await Promise.all(updatedValuesList);
+      setUpdatedValuesList([]);
+    },
+    1500,
+  );
+
+  const valueRef = useRef<Values[]>([]);
+
+  useEffect(() => {
+    valueRef.current = updatedValuesList;
+  }, [updatedValuesList]);
+
+  useEffect(() => () => {
+    debouncedUpdate.cancel();
+    const promises = valueRef.current.map((x) => updateValues(x));
+    Promise.all(promises);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valueRef]);
+
+  const updateValueHandler = (
+    updatedMappings: { [field: string]: any },
+    entityValues: Values,
+  ) => {
+    const newValues = {
+      ...entityValues,
+      mappings: {
+        ...entityValues.mappings,
+        ...updatedMappings,
+      },
+    };
+    const newList = updatedValuesList
+      .filter((x) => x._id !== newValues._id)
+      .concat(newValues);
+    setUpdatedValuesList(newList);
+    debouncedUpdate();
+  };
+
+  const slotClickHandler = (slot: string, entity: Entity, display: EntityDisplay) => {
+    const action = entity.actions.find((x) => x.key === display.mappings[slot]);
+    if (!action) return;
+    history.push({
+      pathname: './action',
+      search: `?entity=${entity._id}&action=${action.key}`,
+    });
+  };
+
   return (
     <div className="layout-container" ref={containerRef}>
-      {layout.entries.map((entry, index) => {
+      {layout.entries.map((entry) => {
         const entity = entities?.find((x) => entry.entityId === x._id);
         const display = entity?.displays.find((x) => x.type === entry.displayType);
-        const entityValues = values?.find((x) => x.entityId === entry.entityId);
-
-        // eslint-disable-next-line react/no-array-index-key
-        if (!entity) return (<div key={index}>None</div>);
-        // eslint-disable-next-line react/no-array-index-key
-        if (!display) return (<div key={index}>None</div>);
-        // eslint-disable-next-line react/no-array-index-key
-        if (!entityValues) return (<div key={index}>None</div>);
-
-        const slotClickHandler = (slot: string) => {
-          const action = entity.actions.find((x) => x.key === display.mappings[slot]);
-          if (!action) return;
-          history.push({
-            pathname: './action',
-            search: `?entity=${entity._id}&action=${action.key}`,
-          });
-        };
+        const entityValues = valuesList?.find((x) => x.entityId === entry.entityId);
+        const invalidEntry = !entity || !display || !entityValues;
 
         return (
           <div
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
+            key={`${entry.displayType}-${entry.entityId}`}
             className="entry"
             style={{
               ...LayoutPositionHelper.getPositionStyle(entry.position, containerWidth),
               ...LayoutPositionHelper.getSizeStyle(entry.size, containerWidth),
             }}
           >
-            <LayoutDisplay
-              type={entry.displayType as DisplayType}
-              entity={entity}
-              fieldMappings={entityValues.mappings}
-              onSlot={slotClickHandler}
-              onUpdateValues={(updatedValues) => updateValues({
-                ...entityValues,
-                mappings: {
-                  ...entityValues.mappings,
-                  ...updatedValues,
-                },
-              })}
-            />
+            {invalidEntry && <div>Invalid entry</div>}
+
+            {!invalidEntry && (
+              <LayoutDisplay
+                type={entry.displayType as DisplayType}
+                entity={entity}
+                fieldMappings={entityValues.mappings}
+                onSlot={(slot) => slotClickHandler(slot, entity, display)}
+                onUpdateValues={(updatedMappings) => updateValueHandler(
+                  updatedMappings, entityValues,
+                )}
+              />
+            )}
           </div>
         );
       })}
