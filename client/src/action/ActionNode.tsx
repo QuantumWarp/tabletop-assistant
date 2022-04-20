@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import {
   Casino as RollIcon,
@@ -16,25 +16,37 @@ interface ActionNodeProps {
 }
 
 const ActionNode = ({ level, node }: ActionNodeProps) => {
-  const rollAction = () => {
-    if (!node.combo) return;
+  const [updatedNode, setUpdatedNode] = useState(node);
 
-    const result = RollComboHelper.roll(node.combo);
-    node.results.push(result);
+  const rollAction = (rollNode: ActionTreeNode) => {
+    if (!rollNode.combo) return;
+
+    const result = RollComboHelper.roll(rollNode.combo);
+    setUpdatedNode({
+      ...rollNode,
+      results: rollNode.results.concat([result]),
+    });
   };
 
   return (
     <>
       <div className={`action-node${level === 0 ? ' level0' : ''}`}>
         <div className="left">
-          <ActionNodeLeft level={level} node={node} />
+          <ActionNodeLeft
+            level={level}
+            node={updatedNode}
+            updateNode={(e, rollNow) => {
+              if (rollNow) rollAction(e);
+              else setUpdatedNode(e);
+            }}
+          />
         </div>
 
         <div className="center">
-          {node.combo && (
+          {updatedNode.combo && (
             <Button
               className="button"
-              onClick={() => rollAction()}
+              onClick={() => rollAction(updatedNode)}
             >
               <RollIcon />
               <ArrowRightIcon />
@@ -43,13 +55,16 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
         </div>
 
         <div className="right">
-          {node.combo && (
-            <ActionNodeRight node={node} />
+          {updatedNode.combo && (
+            <ActionNodeRight
+              node={updatedNode}
+              updateNode={(e) => setUpdatedNode(e)}
+            />
           )}
         </div>
       </div>
 
-      {node.children.map((x) => (
+      {updatedNode.children.map((x) => (
         <ActionNode
           key={`${x.entityId}-${x.actionKey}`}
           level={level + 1}

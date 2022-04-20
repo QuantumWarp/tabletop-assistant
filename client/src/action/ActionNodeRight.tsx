@@ -7,18 +7,21 @@ import { ActionTreeNode } from '../helpers/action-tree.helper';
 
 interface ActionNodeRightProps {
   node: ActionTreeNode;
+  updateNode: (node: ActionTreeNode) => void;
 }
 
-const ActionNodeRight = ({ node }: ActionNodeRightProps) => {
+const ActionNodeRight = ({ node, updateNode }: ActionNodeRightProps) => {
   const [editComboResult, setEditComboResult] = useState<RollCombo | null>(null);
 
   const handleResultUpdate = (updatedCombo?: RollCombo) => {
     if (updatedCombo && editComboResult) {
-      // updateRollResult({
-      //   actionId: node.action.id,
-      //   resultIndex: node.results.indexOf(editComboResult),
-      //   combo: updatedCombo,
-      // });
+      const index = node.results.indexOf(editComboResult);
+      const newResults = [...node.results];
+      newResults[index] = updatedCombo;
+      updateNode({
+        ...node,
+        results: newResults,
+      });
     }
     setEditComboResult(null);
   };
@@ -35,9 +38,8 @@ const ActionNodeRight = ({ node }: ActionNodeRightProps) => {
         const { min, max } = RollComboHelper.hasMinMax(res);
 
         return (
-          <>
+          <React.Fragment key={res.map((x) => x.id).join(',')}>
             <div
-              key={res.map((x) => x.id).join(',')}
               className={`result${min ? ' min' : ''}${max ? ' max' : ''}`}
               onClick={() => setEditComboResult(res)}
             >
@@ -45,7 +47,7 @@ const ActionNodeRight = ({ node }: ActionNodeRightProps) => {
             </div>
 
             <Divider orientation="vertical" />
-          </>
+          </React.Fragment>
         );
       })}
 

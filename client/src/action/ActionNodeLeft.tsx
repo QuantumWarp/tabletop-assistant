@@ -5,16 +5,19 @@ import { useParams } from 'react-router-dom';
 import ActionRoll from './content/ActionRoll';
 import './ActionNodeLeft.css';
 import ActionRollDialog from './dialogs/ActionRollDialog';
-// import RollCombo from '../models/rolling/roll-combo';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../store/api';
+import RollCombo from '../models/rolling/roll-combo';
 
 interface ActionNodeLeftProps {
   level: number;
   node: ActionTreeNode;
+  updateNode: (node: ActionTreeNode, rollNow?: boolean) => void;
 }
 
-const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
+const ActionNodeLeft = ({
+  level, node, updateNode,
+}: ActionNodeLeftProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -24,10 +27,9 @@ const ActionNodeLeft = ({ level, node }: ActionNodeLeftProps) => {
   const action = entity?.actions.find((x) => x.key === node.actionKey);
 
   const handleRollUpdate = (
-    // updatedCombo?: RollCombo, rollNow?: boolean
+    updatedCombo?: RollCombo, rollNow?: boolean,
   ) => {
-    // if (updatedCombo) setupRollAction({ actionId: node.action.id, combo: updatedCombo });
-    // if (rollNow) rollAction(node.action.id);
+    if (updatedCombo) updateNode({ ...node, combo: updatedCombo }, rollNow);
     setEditCombo(false);
   };
 
