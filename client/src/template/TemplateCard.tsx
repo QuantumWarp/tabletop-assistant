@@ -10,11 +10,12 @@ import { Template } from 'tabletop-assistant-common';
 
 interface TemplateCardProps {
   template: Template;
+  onClick: () => void;
 }
 
-const TemplateCard = ({ template }: TemplateCardProps) => (
+const TemplateCard = ({ template, onClick }: TemplateCardProps) => (
   <Card>
-    <CardActionArea>
+    <CardActionArea onClick={onClick}>
       {template.imageUrl && (
         <CardMedia
           component="img"
