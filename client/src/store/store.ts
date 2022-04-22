@@ -5,12 +5,10 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { api } from './api';
-import configurationReducer from './config-slice';
 import mainReducer from './main-slice';
 
 const reducers = combineReducers({
   main: mainReducer,
-  config: configurationReducer,
   [api.reducerPath]: api.reducer,
 });
 

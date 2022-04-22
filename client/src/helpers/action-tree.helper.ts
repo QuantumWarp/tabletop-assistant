@@ -1,6 +1,6 @@
 import { Entity } from 'tabletop-assistant-common';
-import RollCombo from '../models/rolling/roll-combo';
-import RollComboParser from '../models/rolling/roll-combo-parser';
+import RollCombo from '../models/roll-combo';
+import RollComboParser from '../models/roll-combo-parser';
 
 interface EntityActionId {
   entityId: string;

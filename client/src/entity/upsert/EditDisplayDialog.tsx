@@ -28,7 +28,7 @@ import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 import DisplayType from '../../helpers/display.type';
 import DisplayHelper from '../../helpers/display.helper';
 import LayoutDisplay from '../../display/LayoutDisplay';
-import LayoutPositionHelper from '../../models/layout/layout-position';
+import LayoutPositionHelper from '../../models/layout-position.helper';
 import FieldHelper from '../../helpers/field.helper';
 
 interface EditDisplayDialogProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
+import RollCombo, { RollComboHelper } from '../../models/roll-combo';
 import './ActionRoll.css';
 
 interface ActionRollProps {

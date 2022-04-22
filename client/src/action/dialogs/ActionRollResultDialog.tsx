@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { Redo } from '@mui/icons-material';
-import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
+import RollCombo, { RollComboHelper } from '../../models/roll-combo';
 import './ActionRollResultDialog.css';
 
 interface ActionRollResultDialogProps {

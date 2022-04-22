@@ -4,7 +4,7 @@ import {
 } from 'tabletop-assistant-common';
 import { useDebouncedCallback } from 'use-debounce';
 import { useHistory, useParams } from 'react-router-dom';
-import LayoutPositionHelper from '../models/layout/layout-position';
+import LayoutPositionHelper from '../models/layout-position.helper';
 import './LayoutContainer.css';
 import { useGetAllValuesQuery, useGetEntitiesQuery, useUpdateValuesMutation } from '../store/api';
 import DisplayType from '../helpers/display.type';

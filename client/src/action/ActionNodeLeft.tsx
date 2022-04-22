@@ -7,7 +7,7 @@ import './ActionNodeLeft.css';
 import ActionRollDialog from './dialogs/ActionRollDialog';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../store/api';
-import RollCombo from '../models/rolling/roll-combo';
+import RollCombo from '../models/roll-combo';
 
 interface ActionNodeLeftProps {
   level: number;

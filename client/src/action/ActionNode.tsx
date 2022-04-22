@@ -8,7 +8,7 @@ import ActionNodeLeft from './ActionNodeLeft';
 import ActionNodeRight from './ActionNodeRight';
 import './ActionNode.css';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
-import { RollComboHelper } from '../models/rolling/roll-combo';
+import { RollComboHelper } from '../models/roll-combo';
 
 interface ActionNodeProps {
   level: number;

@@ -11,7 +11,7 @@ import {
 import { v4 as guid } from 'uuid';
 import { Icon } from '@iconify/react';
 import ActionRoll from '../content/ActionRoll';
-import RollCombo, { RollComboHelper } from '../../models/rolling/roll-combo';
+import RollCombo, { RollComboHelper } from '../../models/roll-combo';
 import './ActionRollDialog.css';
 
 interface ActionRollDialogProps {

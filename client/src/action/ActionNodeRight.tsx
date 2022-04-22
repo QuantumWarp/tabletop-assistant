@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Divider } from '@mui/material';
-import RollCombo, { RollComboHelper } from '../models/rolling/roll-combo';
+import RollCombo, { RollComboHelper } from '../models/roll-combo';
 import './ActionNodeRight.css';
 import ActionRollResultDialog from './dialogs/ActionRollResultDialog';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
