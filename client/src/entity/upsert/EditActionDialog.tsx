@@ -16,12 +16,13 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
+import { CreateEntity, EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
 import EditActionTriggerDialog from './EditActionTriggerDialog';
 import FieldHelper from '../../helpers/field.helper';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
+  entity: CreateEntity,
   open: boolean;
   onSave: (field: EntityAction) => void;
   onDelete: () => void;
@@ -29,7 +30,7 @@ interface EditActionDialogProps {
 }
 
 const EditActionDialog = ({
-  initial, open, onSave, onDelete, onClose,
+  initial, entity, open, onSave, onDelete, onClose,
 }: EditActionDialogProps) => {
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
@@ -111,6 +112,7 @@ const EditActionDialog = ({
           {editTrigger && (
             <EditActionTriggerDialog
               initial={editTrigger}
+              entity={entity}
               open={Boolean(editTrigger)}
               onClose={() => setEditTrigger(undefined)}
               onSave={(trigger) => setTriggers(triggers.concat([trigger]))}

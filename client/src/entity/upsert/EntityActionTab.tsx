@@ -2,15 +2,18 @@ import {
   Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { EntityAction } from 'tabletop-assistant-common';
+import { CreateEntity, EntityAction } from 'tabletop-assistant-common';
 import EditActionDialog from './EditActionDialog';
 
 interface EntityActionTabProps {
   actions: EntityAction[],
+  entity: CreateEntity,
   onChange: (displays: EntityAction[]) => void,
 }
 
-const EntityActionTab = ({ actions, onChange }: EntityActionTabProps) => {
+const EntityActionTab = ({
+  actions, entity, onChange,
+}: EntityActionTabProps) => {
   const [editAction, setEditAction] = useState<Partial<EntityAction>>();
 
   return (
@@ -53,6 +56,7 @@ const EntityActionTab = ({ actions, onChange }: EntityActionTabProps) => {
       {editAction && (
         <EditActionDialog
           initial={editAction}
+          entity={entity}
           open={Boolean(editAction)}
           onSave={(action) => onChange(
             actions.filter((x) => x !== editAction)

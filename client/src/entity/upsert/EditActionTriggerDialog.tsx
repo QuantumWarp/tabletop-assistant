@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Checkbox,
@@ -17,19 +17,22 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityActionTrigger } from 'tabletop-assistant-common';
+import {
+  CreateEntity, EntityActionTrigger, UpdateEntity,
+} from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
 
 interface EditActionTriggerDialogProps {
   initial?: Partial<EntityActionTrigger>;
+  entity: CreateEntity | UpdateEntity;
   open: boolean;
   onClose: (deleted?: boolean) => void;
   onSave: (action: EntityActionTrigger) => void;
 }
 
 const EditActionTriggerDialog = ({
-  initial, open, onClose, onSave,
+  initial, entity, open, onClose, onSave,
 }: EditActionTriggerDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -39,7 +42,15 @@ const EditActionTriggerDialog = ({
   const [entityId, setEntityId] = useState(initial?.entityId);
   const [actionKey, setActionKey] = useState(initial?.actionKey);
 
-  const entity = entityId && entities?.find((x) => x._id === entityId);
+  const currentEntity = { ...entity, _id: '-', name: `${entity.name} (Current)` };
+  const sortedEntities = entities
+    ?.filter((x) => x._id !== (entity as UpdateEntity)._id)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const entitySelection = [currentEntity].concat(sortedEntities || []);
+
+  const selectedEntity = entitySelection.find((x) => x._id === entityId);
+
+  const actionSelection = selectedEntity?.actions;
 
   const saveTrigger = () => {
     const updatedProps = {
@@ -52,6 +63,12 @@ const EditActionTriggerDialog = ({
     onSave({ ...initial, ...updatedProps });
     onClose();
   };
+
+  useEffect(() => {
+    if (!actionSelection?.find((x) => x.key === actionKey)) {
+      setActionKey(undefined);
+    }
+  }, [selectedEntity, actionSelection, actionKey]);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
@@ -97,7 +114,10 @@ const EditActionTriggerDialog = ({
                 value={entityId}
                 onChange={(e) => setEntityId(e.target.value)}
               >
-                {entities && entities.map((x) => (
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {entitySelection.map((x) => (
                   <MenuItem
                     key={x._id}
                     value={x._id}
@@ -114,11 +134,17 @@ const EditActionTriggerDialog = ({
               <InputLabel>Action</InputLabel>
               <Select
                 label="Icon"
+                disabled={!selectedEntity}
                 MenuProps={{ style: { maxHeight: '400px' } }}
                 value={actionKey}
                 onChange={(e) => setActionKey(e.target.value)}
               >
-                {entity && entity.actions.map((x) => (
+                {!actionSelection?.length && (
+                  <MenuItem disabled>
+                    No Actions on Object
+                  </MenuItem>
+                )}
+                {actionSelection && actionSelection.map((x) => (
                   <MenuItem
                     key={x.key}
                     value={x.key}
