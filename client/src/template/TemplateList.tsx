@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
-import { Template } from 'tabletop-assistant-common';
+import { TemplateSummary } from 'tabletop-assistant-common';
+import { useParams } from 'react-router-dom';
 import TemplateCard from './TemplateCard';
 import { useGetTemplatesQuery } from '../store/api';
 import TemplateImportDialog from './TemplateImportDialog';
@@ -10,8 +11,9 @@ interface TemplateListProps {
 }
 
 const TemplateList = ({ filter }: TemplateListProps) => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: templates } = useGetTemplatesQuery();
-  const [importTemplate, setImportTemplate] = useState<Template | undefined>();
+  const [importTemplate, setImportTemplate] = useState<TemplateSummary | undefined>();
 
   const filteredTemplates = templates
     ? templates.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())) : [];
@@ -31,6 +33,7 @@ const TemplateList = ({ filter }: TemplateListProps) => {
       {importTemplate && (
         <TemplateImportDialog
           template={importTemplate}
+          tabletopId={tabletopId}
           open={Boolean(importTemplate)}
           onClose={() => setImportTemplate(undefined)}
         />

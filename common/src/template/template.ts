@@ -17,5 +17,6 @@ export interface Template {
   readonly __v: number;
 }
 
+export type TemplateSummary = Omit<Template, | 'layouts' | 'entities'>;
 export type UpdateTemplate = Omit<Template, | 'createdAt' | 'updatedAt' | '__v'>;
 export type CreateTemplate = UpdateTemplate;

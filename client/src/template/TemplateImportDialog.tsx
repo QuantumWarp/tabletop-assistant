@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,
@@ -7,42 +8,71 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { Template } from 'tabletop-assistant-common';
+import { TemplateSummary } from 'tabletop-assistant-common';
+import { useImportTemplateMutation } from '../store/api';
 
 interface TemplateImportDialogProps {
-  template: Template;
+  template: TemplateSummary;
+  tabletopId: string;
   open: boolean;
   onClose: () => void;
 }
 
 const TemplateImportDialog = ({
-  template, open, onClose,
-}: TemplateImportDialogProps) => (
-  <Dialog open={open} onClose={() => onClose()} fullWidth>
-    <DialogTitle>
-      <b>
-        Import
-        {' - '}
-        {template.name}
-      </b>
-    </DialogTitle>
+  template, tabletopId, open, onClose,
+}: TemplateImportDialogProps) => {
+  const [importTemplate, {
+    isLoading,
+    isSuccess,
+    isError,
+  }] = useImportTemplateMutation();
 
-    <DialogContent>
-      <Typography sx={{ whiteSpace: 'pre-line' }}>
-        {template.description}
-      </Typography>
-    </DialogContent>
+  useEffect(() => {
+    if (isSuccess) onClose();
+  }, [isSuccess, onClose]);
 
-    <DialogActions>
-      <Button onClick={() => onClose()} variant="outlined">
-        Cancel
-      </Button>
+  return (
+    <Dialog open={open} onClose={() => onClose()} fullWidth>
+      <DialogTitle>
+        <b>
+          Import
+          {' - '}
+          {template.name}
+        </b>
+      </DialogTitle>
 
-      <Button onClick={() => onClose()} variant="outlined">
-        Import
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+      <DialogContent>
+        <Typography sx={{ whiteSpace: 'pre-line' }}>
+          {template.description}
+        </Typography>
+
+        {isError && (
+          <Alert severity="error">An error occured</Alert>
+        )}
+      </DialogContent>
+
+      <DialogActions>
+        <Button
+          disabled={isLoading}
+          onClick={() => onClose()}
+          variant="outlined"
+        >
+          Cancel
+        </Button>
+
+        <Button
+          disabled={isLoading}
+          onClick={() => importTemplate({
+            templateId: template._id,
+            tabletopId,
+          })}
+          variant="outlined"
+        >
+          Import
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default TemplateImportDialog;

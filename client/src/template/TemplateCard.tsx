@@ -6,10 +6,10 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { Template } from 'tabletop-assistant-common';
+import { TemplateSummary } from 'tabletop-assistant-common';
 
 interface TemplateCardProps {
-  template: Template;
+  template: TemplateSummary;
   onClick: () => void;
 }
 

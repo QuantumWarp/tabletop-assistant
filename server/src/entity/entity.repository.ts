@@ -44,8 +44,7 @@ export default class EntityRepository {
     await model.delete();
 
     const valuesModel = await ValuesModel.findOne({ _id, userId: this.userId });
-    if (!valuesModel) throw new ResourceNotFound();
-    await valuesModel.delete();
+    if (valuesModel) await valuesModel.delete();
   }
 
   private async createEmptyValues(model: Entity) {

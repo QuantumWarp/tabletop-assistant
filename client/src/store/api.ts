@@ -19,7 +19,7 @@ import {
   CreateValues,
   UpdateLayout,
   UpdateValues,
-  Template,
+  TemplateSummary,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -178,9 +178,13 @@ export const api = createApi({
     }),
 
     // Templates
-    getTemplates: build.query<Template[], void>({
+    getTemplates: build.query<TemplateSummary[], void>({
       query: () => '/templates',
       providesTags: ['Template'],
+    }),
+    importTemplate: build.mutation<void, { templateId: string, tabletopId: string }>({
+      query: (body) => ({ url: '/templates/import', method: 'POST', body }),
+      invalidatesTags: ['Entity', 'Values', 'Layout'],
     }),
   }),
 });
@@ -223,4 +227,5 @@ export const {
   useDeleteNoteMutation,
 
   useGetTemplatesQuery,
+  useImportTemplateMutation,
 } = api;

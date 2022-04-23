@@ -43,6 +43,7 @@ export type {
 
 export type {
   Template,
+  TemplateSummary,
   CreateTemplate,
   UpdateTemplate,
 } from './template/template';
