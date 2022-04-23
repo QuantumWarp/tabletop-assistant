@@ -71,9 +71,8 @@ export default class DisplayHelper {
   ): T {
     const slots = DisplayHelper.slots(type);
     const display = entity.displays.find((x) => x.type);
-    if (!display) return {} as T;
 
-    const slotMappings = optionalSlotMappings || display.mappings;
+    const slotMappings = optionalSlotMappings || display?.mappings || {};
     const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);
 
     const slotValueMapping = Object.keys(slotMappings)
