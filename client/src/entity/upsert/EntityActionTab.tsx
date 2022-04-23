@@ -54,7 +54,11 @@ const EntityActionTab = ({ actions, onChange }: EntityActionTabProps) => {
         <EditActionDialog
           initial={editAction}
           open={Boolean(editAction)}
-          onSave={(action) => onChange(actions.filter((x) => x !== editAction).concat([action]))}
+          onSave={(action) => onChange(
+            actions.filter((x) => x !== editAction)
+              .concat([action])
+              .sort((a, b) => (a.name > b.name ? 1 : -1)),
+          )}
           onDelete={() => onChange(actions.filter((x) => x !== editAction))}
           onClose={() => setEditAction(undefined)}
         />
