@@ -8,13 +8,16 @@ const schema = new Schema<Layout>({
   hidden: { type: Boolean },
 
   entries: [{
+    _id: { id: false },
     entityId: { type: String, required: true },
     displayType: { type: String, required: true },
     position: {
+      _id: { id: false },
       left: { type: Number, required: true },
       top: { type: Number, required: true },
     },
     size: {
+      _id: { id: false },
       width: { type: Number, required: true },
       height: { type: Number, required: true },
     },

@@ -147,6 +147,17 @@ const ObjectUpsertDialog = ({
           <>
             <Button
               variant="outlined"
+              disabled={loading}
+              onClick={() => {
+                navigator.clipboard.writeText(JSON.stringify(entity, null, 2));
+                onClose();
+              }}
+            >
+              Export
+            </Button>
+
+            <Button
+              variant="outlined"
               color="error"
               disabled={loading}
               endIcon={deleting ? <CircularProgress size="20px" /> : <DeleteIcon />}

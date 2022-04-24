@@ -105,6 +105,17 @@ const LayoutUpsertDialog = ({
           <>
             <Button
               variant="outlined"
+              disabled={loading}
+              onClick={() => {
+                navigator.clipboard.writeText(JSON.stringify(initial, null, 2));
+                onClose();
+              }}
+            >
+              Export
+            </Button>
+
+            <Button
+              variant="outlined"
               color="error"
               disabled={loading}
               endIcon={deleting ? <CircularProgress size="20px" /> : <DeleteIcon />}

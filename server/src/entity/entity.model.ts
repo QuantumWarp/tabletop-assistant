@@ -10,6 +10,7 @@ const schema = new Schema<Entity>({
   icon: { type: String },
 
   fields: [{
+    _id: { id: false },
     key: { type: String, required: true },
     name: { type: String, required: true },
     type: { type: String, required: true },
@@ -18,10 +19,12 @@ const schema = new Schema<Entity>({
   }],
 
   actions: [{
+    _id: { id: false },
     key: { type: String, required: true },
     name: { type: String, required: true },
     roll: { type: String },
     triggers: [{
+      _id: { id: false },
       manual: { type: Boolean, required: true },
       sibling: { type: Boolean, required: true },
       entityId: { type: String },
@@ -30,6 +33,7 @@ const schema = new Schema<Entity>({
   }],
 
   displays: [{
+    _id: { id: false },
     type: { type: String, required: true },
     default: { type: Boolean, required: true },
     mappings: { type: Map },
