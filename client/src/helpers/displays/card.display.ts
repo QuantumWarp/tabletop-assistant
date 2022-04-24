@@ -1,5 +1,6 @@
 export default interface CardDisplay {
-  disabled: boolean;
+  disabled?: boolean;
+  enabled?: boolean;
   icon: string;
   name: string;
   description: string;
@@ -12,6 +13,12 @@ export const slots = [{
   name: 'Disabled',
   key: 'disabled',
   type: 'boolean',
+  inverse: 'enabled',
+}, {
+  name: 'Enabled',
+  key: 'enabled',
+  type: 'boolean',
+  inverse: 'disabled',
 }, {
   name: 'Icon',
   key: 'icon',

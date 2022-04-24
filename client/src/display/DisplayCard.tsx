@@ -4,6 +4,7 @@ import React from 'react';
 import './DisplayCard.css';
 import CardDisplay from '../helpers/displays/card.display';
 import FixedActions from '../helpers/action.helper';
+import DisplayHelper from '../helpers/display.helper';
 
 interface DisplayCardProps {
   preview: boolean,
@@ -17,7 +18,7 @@ const DisplayCard = ({
 }: DisplayCardProps) => (
   <div className={`display-card ${preview ? 'preview' : ''}`}>
     <Box
-      className={`container${slots.disabled ? ' disabled' : ''}`}
+      className={`container ${DisplayHelper.isDisabled(slots) ? 'disabled' : ''}`}
       sx={{
         border: 1,
         borderColor: 'custom.layout.border',
@@ -29,6 +30,7 @@ const DisplayCard = ({
           <Button
             className="icon"
             type="button"
+            onClick={() => onOperation(FixedActions.Toggle, 'enabled', 'disabled')}
           >
             <Icon icon={slots.icon} />
           </Button>

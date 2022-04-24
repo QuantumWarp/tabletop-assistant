@@ -22,28 +22,33 @@ export class ActionHelper {
       case FixedActions.SetValue:
         return this.setValue(fieldMappings, fieldArguments[0], fieldArguments[1]);
       case FixedActions.Toggle:
-        return this.toggle(fieldMappings, fieldArguments[0]);
+        return this.toggle(fieldMappings, fieldArguments);
       default: throw new Error('Invalid fixed action');
     }
   }
 
   static increment(fieldMappings: { [field: string]: any }, field: string) {
+    if (!field) return {};
     const value = fieldMappings[field];
     return { [field]: value + 1 };
   }
 
   static decrement(fieldMappings: { [field: string]: any }, field: string) {
+    if (!field) return {};
     const value = fieldMappings[field];
     return { [field]: value - 1 };
   }
 
   static setValue(fieldMappings: { [field: string]: any }, field: string, fromField: string) {
+    if (!field || fromField) return {};
     const fromValue = fieldMappings[fromField];
     return { [field]: fromValue };
   }
 
-  static toggle(fieldMappings: { [field: string]: any }, field: string) {
-    const value = fieldMappings[field];
-    return { [field]: !value };
+  static toggle(fieldMappings: { [field: string]: any }, fields: string[]) {
+    return fields.reduce((obj, a) => {
+      const value = fieldMappings[a];
+      return { ...obj, [a]: !value };
+    }, {});
   }
 }

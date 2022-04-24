@@ -7,6 +7,16 @@ import { slots as toggleSlots } from './displays/toggle.display';
 import FieldHelper from './field.helper';
 
 export default class DisplayHelper {
+  static isDisabled(slotValues: { [field: string]: any }) {
+    if (slotValues.enabled !== undefined) {
+      return !slotValues.enabled;
+    }
+    if (slotValues.disabled !== undefined) {
+      return slotValues.disabled;
+    }
+    return false;
+  }
+
   static displayName(type: DisplayType): string {
     switch (type) {
       case DisplayType.Dots: return 'Dots';
