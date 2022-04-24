@@ -26,6 +26,7 @@ const MainView = () => {
           height: '100vh',
           display: 'flex',
           flexDirection: 'column',
+          minWidth: 0,
         }}
       >
         <Switch>

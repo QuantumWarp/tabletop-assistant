@@ -26,6 +26,7 @@ const LayoutPage = () => {
     <>
       <TopBar title={currentLayout ? currentLayout.name : 'Layout'}>
         <Tabs
+          variant="scrollable"
           value={currentLayout?._id || false}
           onChange={(_e, val) => setLayoutId(val)}
           centered

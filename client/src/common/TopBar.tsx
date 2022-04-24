@@ -9,7 +9,11 @@ interface TopBarProps {
 const TopBar = ({ title, children }: TopBarProps) => (
   <>
     <Stack
-      sx={{ width: '100%', minHeight: 65, p: 1 }}
+      sx={{
+        width: '100%',
+        minHeight: 65,
+        p: 1,
+      }}
       direction="row"
       alignItems="stretch"
     >
@@ -24,7 +28,13 @@ const TopBar = ({ title, children }: TopBarProps) => (
         {title}
       </Typography>
 
-      <Stack flex="1" direction="row" justifyContent="space-between" alignItems="stretch">
+      <Stack
+        flex="1"
+        direction="row"
+        justifyContent="space-between"
+        alignItems="stretch"
+        overflow="auto"
+      >
         {children}
       </Stack>
     </Stack>

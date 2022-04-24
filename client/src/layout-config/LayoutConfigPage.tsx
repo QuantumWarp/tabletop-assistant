@@ -35,6 +35,7 @@ const LayoutConfigPage = () => {
     <>
       <TopBar title="Layout Config">
         <Tabs
+          variant="scrollable"
           value={currentLayout?._id || false}
           onChange={(_e, val) => setLayoutId(val)}
           centered
