@@ -4,6 +4,7 @@ export interface Layout {
   readonly tabletopId: string;
 
   name: string;
+  hidden: boolean;
   entries: LayoutEntry[];
 
   readonly createdAt: Date;

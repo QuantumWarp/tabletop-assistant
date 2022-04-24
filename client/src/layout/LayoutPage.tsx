@@ -17,6 +17,8 @@ const LayoutPage = () => {
   const [layoutId, setLayoutId] = useState<string | false>();
   const currentLayout = layouts?.find((x) => x._id === layoutId);
 
+  const layoutList = layouts?.filter((x) => !x.hidden);
+
   useEffect(() => {
     if (!layouts) return;
     setLayoutId(layouts[0]._id);
@@ -31,7 +33,7 @@ const LayoutPage = () => {
           onChange={(_e, val) => setLayoutId(val)}
           centered
         >
-          {layouts?.map((layout) => (
+          {layoutList?.map((layout) => (
             <Tab
               key={layout._id}
               label={layout.name}

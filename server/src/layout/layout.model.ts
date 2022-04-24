@@ -5,6 +5,7 @@ const schema = new Schema<Layout>({
   userId: { type: String, required: true, immutable: true },
   tabletopId: { type: String, required: true, immutable: true },
   name: { type: String, required: true },
+  hidden: { type: Boolean },
 
   entries: [{
     entityId: { type: String, required: true },

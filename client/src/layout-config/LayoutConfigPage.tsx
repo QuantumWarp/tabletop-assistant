@@ -7,14 +7,14 @@ import {
   Stack,
   Box,
 } from '@mui/material';
+import { Icon } from '@iconify/react';
 import { Layout } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
-import EditIcon from '@mui/icons-material/Edit';
-import AddIcon from '@mui/icons-material/AddCircle';
+import { useDebouncedCallback } from 'use-debounce';
 import LayoutConfigContainer from './LayoutConfigContainer';
 import TopBar from '../common/TopBar';
 import LayoutUpsertDialog from './LayoutUpsertDialog';
-import { useGetLayoutsQuery } from '../store/api';
+import { useGetLayoutsQuery, useUpdateLayoutMutation } from '../store/api';
 
 const LayoutConfigPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
@@ -24,64 +24,96 @@ const LayoutConfigPage = () => {
   const [newLayout, setNewLayout] = useState(false);
 
   const [layoutId, setLayoutId] = useState<string | false>();
-  const currentLayout = layouts?.find((x) => x._id === layoutId);
+  const [updatedLayout, setUpdatedLayout] = useState<Layout>();
+
+  const currentLayout = updatedLayout || layouts?.find((x) => x._id === layoutId);
+  const layoutList = layouts
+    ?.map((x) => (x._id === updatedLayout?._id ? updatedLayout : x));
+
+  const [updateLayout] = useUpdateLayoutMutation();
+  const debouncedUpdate = useDebouncedCallback(
+    async () => {
+      if (updatedLayout) await updateLayout(updatedLayout);
+    },
+    1500,
+  );
 
   useEffect(() => {
     if (!layouts) return;
+    if (layouts.find((x) => x._id === layoutId)) return;
     setLayoutId(layouts[0]._id);
+  }, [layouts, layoutId]);
+
+  useEffect(() => {
+    setUpdatedLayout(undefined);
   }, [layouts]);
+
+  const changeTab = async (newLayoutId: string) => {
+    if (updatedLayout) {
+      await updateLayout(updatedLayout);
+    }
+    setLayoutId(newLayoutId);
+  };
+
+  const layoutChangeHandler = (update: Partial<Layout>) => {
+    if (!currentLayout) return;
+    setUpdatedLayout({
+      ...currentLayout,
+      ...update,
+    });
+    debouncedUpdate();
+  };
 
   return (
     <>
-      <TopBar title="Layout Config">
+      <TopBar title="Configure">
         <Tabs
           variant="scrollable"
           value={currentLayout?._id || false}
-          onChange={(_e, val) => setLayoutId(val)}
-          centered
+          onChange={(_e, val) => changeTab(val)}
         >
-          {layouts?.map((layout) => (
+          {layoutList?.map((layout) => (
             <Tab
               key={layout._id}
               label={layout.name}
               value={layout._id}
+              sx={{ textDecoration: layout.hidden ? 'line-through' : 'none' }}
             />
           ))}
         </Tabs>
 
         <Stack
+          marginLeft={2}
           direction="row"
           justifyContent="center"
         >
           {currentLayout !== undefined && (
             <>
-              {/* <IconButton
-                color="primary"
+              <IconButton
                 title="Move Layout Left"
-                disabled={currentIndex === 0}
-                onClick={() => dispatch(moveLayout(
-                  { id: currentLayout.id, index: currentIndex - 1 },
-                ))}
               >
-                <LeftIcon />
+                <Icon icon="bi:arrow-left-circle-fill" />
               </IconButton>
 
               <IconButton
-                color="primary"
                 title="Move Layout Right"
-                disabled={currentIndex + 1 === layouts?.length}
-                onClick={() => dispatch(moveLayout(
-                  { id: currentLayout.id, index: currentIndex + 1 },
-                ))}
               >
-                <RightIcon />
-              </IconButton> */}
+                <Icon icon="bi:arrow-right-circle-fill" />
+              </IconButton>
+
+              <IconButton
+                title="Toggle Visible"
+                onClick={() => layoutChangeHandler({ hidden: !currentLayout.hidden })}
+              >
+                {currentLayout.hidden && <Icon icon="bi:eye-slash-fill" />}
+                {!currentLayout.hidden && <Icon icon="bi:eye-fill" />}
+              </IconButton>
 
               <IconButton
                 title="Edit Layout"
                 onClick={() => setEditLayout(currentLayout)}
               >
-                <EditIcon />
+                <Icon icon="bi:pencil-fill" />
               </IconButton>
             </>
           )}
@@ -91,7 +123,7 @@ const LayoutConfigPage = () => {
             title="New Layout"
             onClick={() => setNewLayout(true)}
           >
-            <AddIcon />
+            <Icon icon="bi:plus-circle-fill" />
           </IconButton>
 
           {editLayout && (
