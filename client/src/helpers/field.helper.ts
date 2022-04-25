@@ -17,12 +17,19 @@ export default class FieldHelper {
       name: 'Name (Info)',
       type: 'string',
       initial: entity.name,
-    }, {
+    },
+    ...(entity.icon ? [{
       key: '_icon',
       name: 'Icon (Info)',
       type: 'string',
       initial: entity.icon,
-    }].concat(entity.fields);
+    }] : []),
+    ...(entity.description ? [{
+      key: '_description',
+      name: 'Description (Info)',
+      type: 'string',
+      initial: entity.description,
+    }] : [])].concat(entity.fields);
   }
 
   static createKey(name: string) {

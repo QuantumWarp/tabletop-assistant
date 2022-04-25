@@ -48,7 +48,11 @@ const EditDisplayDialog = ({
 
   const [type, setType] = useState<DisplayType>(initial?.type as DisplayType || DisplayType.Card);
   const [defaultVal, setDefault] = useState(initial?.default || false);
-  const [mappings, setMappings] = useState(initial?.mappings || {});
+  const [mappings, setMappings] = useState(initial?.mappings || DisplayHelper.autoMapping(
+    initial?.type as DisplayType || DisplayType.Card,
+    FieldHelper.getFields(entity),
+    entity.actions,
+  ));
 
   const saveField = () => {
     const updatedProps = {

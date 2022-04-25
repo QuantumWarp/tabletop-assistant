@@ -38,7 +38,9 @@ const EditDisplayDialog = ({
   const [value, setValue] = useState(initial?.value || '');
 
   const availableSlots = DisplayHelper.slots(type)
-    .filter((x) => initial?.key === x.key || !usedSlotKeys.includes(x.key))
+    .filter((x) => initial?.key === x.key
+      || (!usedSlotKeys.includes(x.key)
+        && (!x.inverse || !usedSlotKeys.includes(x.inverse))))
     .sort((a, b) => (a.name > b.name ? 1 : -1));
 
   const selectedSlot = availableSlots.find((x) => x.key === key);

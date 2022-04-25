@@ -1,10 +1,18 @@
-import { CreateEntity } from 'tabletop-assistant-common';
+import { CreateEntity, EntityAction, EntityField } from 'tabletop-assistant-common';
 import DisplayType from './display.type';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
 import FieldHelper from './field.helper';
+
+interface DisplaySlot {
+  name: string;
+  key: string;
+  type: string;
+  inverse?: string;
+  auto?: string[];
+}
 
 export default class DisplayHelper {
   static isDisabled(slotValues: { [field: string]: any }) {
@@ -37,7 +45,7 @@ export default class DisplayHelper {
     }
   }
 
-  static slots(type: DisplayType) {
+  static slots(type: DisplayType): DisplaySlot[] {
     switch (type) {
       case DisplayType.Dots: return dotsSlots;
       case DisplayType.Square: return squareSlots;
@@ -55,6 +63,21 @@ export default class DisplayHelper {
       case DisplayType.Toggle: return { width: 30, height: 5 };
       default: throw new Error('Invalid display type');
     }
+  }
+
+  static autoMapping(
+    type: DisplayType, fields: EntityField[], actions: EntityAction[],
+  ): { [slot: string]: string } {
+    const slots = DisplayHelper.slots(type);
+    const sortedSlots = slots.sort((a, b) => a.key.localeCompare(b.key));
+    return sortedSlots.reduce((obj, a) => {
+      const autoKey = a.auto && a.auto.find((key) => (a.type === 'action'
+        ? actions.find((x) => x.key === key)
+        : fields.find((x) => x.key === key)));
+      if (!autoKey) return obj;
+      if (a.inverse && Object.keys(obj).includes(a.inverse)) return obj;
+      return { ...obj, [a.key]: autoKey };
+    }, {});
   }
 
   static getFieldMappings(
