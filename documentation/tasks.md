@@ -1,0 +1,19 @@
+- Action Trigger List needs more detail
+- Show fields on Entity Summary dialog
+- Update Entity Summary Component name
+- License Information
+- Debouncing on layout editing
+- Saving icon when doing debounced saving
+- Fix dot counter display
+- Get types in common package to replace enums
+- Make templates project part of repo with no templates in git
+- Fix snapping
+- Layout ordering
+- Pessimistic update values & layouts
+- Initial Value box should depend on the type
+- Cannot delete trigger
+- Editing trigger causes duplication
+- Actions a not found when they should trigger off an action in the same entity
+- Changing display type does not regenerate auto mappings
+- Display type should be disabled on edit
+- Display default should be dynamic
