@@ -4,5 +4,5 @@
     "titleBar.activeBackground": "#0e2155",
     "titleBar.activeForeground": "#F7FCE8"
   },
-  "eslint.workingDirectories": ["client", "common", "server"]
+  "eslint.workingDirectories": ["client", "common", "server", "utility"]
 }

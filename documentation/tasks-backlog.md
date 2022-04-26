@@ -16,3 +16,5 @@
 - Only return enabled layouts from server
 - Disallow unlicensed icons
 - Allow multiple displays of the same type, will need optional display naming
+- Add tutorial and introductory information
+- Add helper info around what things do and how things work
