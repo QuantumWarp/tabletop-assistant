@@ -7,7 +7,6 @@
 
 ## Tickets
 
-- Allow manual editing of non-static values from Entity Summary/Entity List
 - Create/Edit template could save number of thing as a property on the main object
 - Storing notes within templates
 - Utility to find and delete dangling documents, primarily values
@@ -18,3 +17,4 @@
 - Allow multiple displays of the same type, will need optional display naming
 - Add tutorial and introductory information
 - Add helper info around what things do and how things work
+- Add a multipurpose input field as a display type

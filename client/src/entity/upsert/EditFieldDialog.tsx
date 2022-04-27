@@ -18,6 +18,8 @@ import {
 } from '@mui/icons-material';
 import { EntityField } from 'tabletop-assistant-common';
 import FieldHelper from '../../helpers/field.helper';
+import ValueInput from '../../common/ValueInput';
+import FieldType from '../../helpers/field.type';
 
 interface EditFieldDialogProps {
   initial?: Partial<EntityField>;
@@ -31,7 +33,7 @@ const EditFieldDialog = ({
   initial, open, onSave, onDelete, onClose,
 }: EditFieldDialogProps) => {
   const [name, setName] = useState(initial?.name || '');
-  const [type, setType] = useState(initial?.type || '');
+  const [type, setType] = useState(initial?.type || FieldType.String);
   const [initialValue, setInitialValue] = useState(initial?.initial || '');
 
   const key = FieldHelper.createKey(name);
@@ -87,11 +89,11 @@ const EditFieldDialog = ({
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
-              fullWidth
+            <ValueInput
               label="Initial Value"
               value={initialValue}
-              onChange={(e) => setInitialValue(e.target.value)}
+              type={type as FieldType}
+              onChange={(value) => setInitialValue(value)}
             />
           </Grid>
         </Grid>

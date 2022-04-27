@@ -1,3 +1,4 @@
+- Allow manual editing of non-static values from Entity Summary/Entity List
 - Action Trigger List needs more detail
 - Show fields on Entity Summary dialog
 - Update Entity Summary Component name
@@ -10,7 +11,6 @@
 - Fix snapping
 - Layout ordering
 - Pessimistic update values & layouts
-- Initial Value box should depend on the type
 - Cannot delete trigger
 - Editing trigger causes duplication
 - Actions a not found when they should trigger off an action in the same entity
