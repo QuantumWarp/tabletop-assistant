@@ -22,19 +22,27 @@ const DisplayDots = ({
       {slots.name}
     </span>
 
-    {Array(slots.maximum).fill(0).map((_x, index) => (
-      <Box
-        // eslint-disable-next-line react/no-array-index-key
-        key={index}
-        className="dot"
-        sx={{
-          border: 1,
-          borderColor: 'custom.dot.border',
-          backgroundColor: index < (slots.current || 0) ? 'custom.dot.background' : 'none',
-        }}
-        onClick={() => onOperation(FixedActions.SetValue, { slot: 'current' }, { value: 0 })}
-      />
-    ))}
+    {Array(Number(slots.maximum)).fill(0).map((_x, index) => {
+      const filled = index < (slots.current || 0);
+
+      return (
+        <Box
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
+          className="dot"
+          sx={{
+            border: 1,
+            borderColor: 'custom.dot.border',
+            backgroundColor: filled ? 'custom.dot.background' : 'none',
+          }}
+          onClick={() => onOperation(
+            FixedActions.SetValue,
+            { slot: 'current' },
+            { value: index === 0 && slots.current === 1 ? 0 : index + 1 },
+          )}
+        />
+      );
+    })}
   </div>
 );
 

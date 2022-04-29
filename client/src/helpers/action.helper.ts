@@ -43,7 +43,7 @@ export class ActionHelper {
   }
 
   static setValue(to: FixedActionArg, from: FixedActionArg) {
-    if (!to.field || !from.value) return {};
+    if (!to.field || from.value === undefined) return {};
     return { [to.field]: from.value };
   }
 

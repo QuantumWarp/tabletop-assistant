@@ -93,7 +93,7 @@ const EditFieldDialog = ({
               label="Initial Value"
               value={initialValue}
               type={type as FieldType}
-              onChange={(value) => setInitialValue(value)}
+              onChange={setInitialValue}
             />
           </Grid>
         </Grid>

@@ -53,6 +53,7 @@ const LayoutDisplay = ({
       const value = field ? filledFieldMappings[field] : x.value;
       return { ...x, field, value };
     });
+
     const updatedValues = ActionHelper.run(operation, mappedArgs);
     onUpdateValues(updatedValues);
   };

@@ -7,7 +7,6 @@
 - Debouncing on layout editing
 - Saving icon when doing debounced saving
 - Get types in common package to replace enums
-- Make templates project part of repo with no templates in git
 - Fix snapping
 - Layout ordering
 - Pessimistic update values & layouts
@@ -17,5 +16,4 @@
 - Changing display type does not regenerate auto mappings
 - Display type should be disabled on edit
 - Display default should be dynamic
-
-- Fix dot counter display
+- Initial value is not saved as a number
