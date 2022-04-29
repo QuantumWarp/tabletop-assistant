@@ -1,18 +1,18 @@
+### Technical
+
 - Fix all remaining warnings and errors
 - Sort out helpers files
-- Allow manual editing of non-static values from Entity Summary/Entity List
-- Action Trigger List needs more detail
-- Show fields on Entity Summary dialog
-- Update Entity Summary Component name
-- License Information
-- Debouncing on layout editing
-- Saving icon when doing debounced saving
 - Get types in common package to replace enums
+- Debouncing on layout editing
+- Pessimistic update values & layouts
+
+### Functional
+
+- Allow manual editing of non-static values from Entity Summary/Entity List
+- Show fields on Entity Summary dialog
+- Saving icon when doing debounced saving
 - Fix snapping
 - Layout ordering
-- Pessimistic update values & layouts
-- Cannot delete trigger
-- Editing trigger causes duplication
 - Actions a not found when they should trigger off an action in the same entity
 - Changing display type does not regenerate auto mappings
 - Display type should be disabled on edit

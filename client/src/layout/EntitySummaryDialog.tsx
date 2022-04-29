@@ -9,17 +9,17 @@ import {
 } from '@mui/material';
 import { CreateEntity } from 'tabletop-assistant-common';
 
-interface ObjectInfoDialogProps {
+interface EntitySummaryDialogProps {
   entity: CreateEntity;
   fieldMappings: { [field: string]: string };
   open: boolean;
   onClose: () => void;
 }
 
-const ObjectInfoDialog = ({
+const EntitySummaryDialog = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   entity, fieldMappings, open, onClose,
-}: ObjectInfoDialogProps) => (
+}: EntitySummaryDialogProps) => (
   <Dialog open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
     <DialogTitle>
       <b>{entity.name}</b>
@@ -39,4 +39,4 @@ const ObjectInfoDialog = ({
   </Dialog>
 );
 
-export default ObjectInfoDialog;
+export default EntitySummaryDialog;
