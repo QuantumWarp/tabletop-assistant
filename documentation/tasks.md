@@ -1,4 +1,5 @@
 - Fix all remaining warnings and errors
+- Sort out helpers files
 - Allow manual editing of non-static values from Entity Summary/Entity List
 - Action Trigger List needs more detail
 - Show fields on Entity Summary dialog

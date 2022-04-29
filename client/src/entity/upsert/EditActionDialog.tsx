@@ -17,8 +17,11 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { CreateEntity, EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
+import { useParams } from 'react-router-dom';
 import EditActionTriggerDialog from './EditActionTriggerDialog';
 import FieldHelper from '../../helpers/field.helper';
+import { useGetEntitiesQuery } from '../../store/api';
+import { ActionTreeHelper } from '../../helpers/action-tree.helper';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -32,6 +35,8 @@ interface EditActionDialogProps {
 const EditActionDialog = ({
   initial, entity, open, onSave, onDelete, onClose,
 }: EditActionDialogProps) => {
+  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { data: entities } = useGetEntitiesQuery(tabletopId);
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
   const [name, setName] = useState(initial?.name || '');
@@ -86,17 +91,22 @@ const EditActionDialog = ({
             <Grid item xs={12}>
               <Divider />
 
-              {triggers.map((trigger, index) => (
-                <ListItem
-                  dense
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                >
-                  <ListItemButton onClick={() => setEditTrigger(trigger)}>
-                    <ListItemText primary={trigger.manual ? 'Manual' : 'Triggered'} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
+              {triggers.map((trigger) => {
+                const text = ActionTreeHelper.getTriggerString(
+                  trigger, entity, entities,
+                );
+
+                return (
+                  <ListItem
+                    dense
+                    key={text}
+                  >
+                    <ListItemButton onClick={() => setEditTrigger(trigger)}>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
             </Grid>
           )}
 
@@ -114,8 +124,13 @@ const EditActionDialog = ({
               initial={editTrigger}
               entity={entity}
               open={Boolean(editTrigger)}
+              onSave={(trigger) => setTriggers(
+                triggers.filter((x) => x !== editTrigger)
+                  .concat([trigger])
+                  .sort((a, b) => -ActionTreeHelper.triggerCompare(a, b)),
+              )}
+              onDelete={() => setTriggers(triggers.filter((x) => x !== editTrigger))}
               onClose={() => setEditTrigger(undefined)}
-              onSave={(trigger) => setTriggers(triggers.concat([trigger]))}
             />
           )}
         </Grid>

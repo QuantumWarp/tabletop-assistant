@@ -27,12 +27,13 @@ interface EditActionTriggerDialogProps {
   initial?: Partial<EntityActionTrigger>;
   entity: CreateEntity | UpdateEntity;
   open: boolean;
-  onClose: (deleted?: boolean) => void;
   onSave: (action: EntityActionTrigger) => void;
+  onDelete: () => void;
+  onClose: () => void;
 }
 
 const EditActionTriggerDialog = ({
-  initial, entity, open, onClose, onSave,
+  initial, entity, open, onSave, onDelete, onClose,
 }: EditActionTriggerDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -164,7 +165,7 @@ const EditActionTriggerDialog = ({
             variant="outlined"
             color="error"
             endIcon={<DeleteIcon />}
-            onClick={() => onClose(true)}
+            onClick={() => { onDelete(); onClose(); }}
           >
             Delete
           </Button>

@@ -1,4 +1,4 @@
-import { Entity } from 'tabletop-assistant-common';
+import { CreateEntity, Entity, EntityActionTrigger } from 'tabletop-assistant-common';
 import RollCombo from '../models/roll-combo';
 import RollComboParser from '../models/roll-combo-parser';
 
@@ -94,5 +94,32 @@ export class ActionTreeHelper {
         .concat(match ? [node] : [])
         .concat(this.findNodes(node.children, actionKey));
     }, [] as ActionTree);
+  }
+
+  static getTriggerString(
+    trigger: EntityActionTrigger, current: CreateEntity, entities?: Entity[],
+  ): string {
+    let text = trigger.manual ? 'Manual' : 'Triggered';
+    text += trigger.sibling ? ' (Sibling)' : '';
+
+    const triggerEntity = trigger.entityId === '-'
+      ? current
+      : entities?.find((x) => x._id === trigger.entityId);
+    text += triggerEntity ? ` - ${triggerEntity.name}` : '';
+    text += trigger.entityId === '-' ? ' (Current)' : '';
+
+    const triggerAction = triggerEntity?.actions
+      .find((x) => x.key === trigger.actionKey);
+    text += triggerAction ? ` - ${triggerAction.name}` : '';
+
+    return text;
+  }
+
+  static triggerCompare(triggerA: EntityActionTrigger, triggerB: EntityActionTrigger): number {
+    if (triggerA.manual && !triggerB.manual) return -1;
+    if (!triggerA.manual && triggerB.manual) return 1;
+    if (triggerA.sibling && !triggerB.sibling) return -1;
+    if (!triggerA.sibling && triggerB.sibling) return 1;
+    return 0;
   }
 }
