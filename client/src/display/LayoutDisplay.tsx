@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CreateEntity } from 'tabletop-assistant-common';
-import FixedActions, { ActionHelper } from '../helpers/action.helper';
+import FixedActions, { ActionHelper, FixedActionArg } from '../helpers/action.helper';
 import DisplayHelper from '../helpers/display.helper';
 import DisplayType from '../helpers/display.type';
 import CardDisplay from '../helpers/displays/card.display';
@@ -36,7 +36,7 @@ const LayoutDisplay = ({
     fieldMappings,
   );
 
-  const runOperation = (operation: FixedActions, ...slotArguments: string[]) => {
+  const runOperation = (operation: FixedActions, ...args: FixedActionArg[]) => {
     if (preview) return;
 
     if (operation === FixedActions.Detail) {
@@ -48,8 +48,12 @@ const LayoutDisplay = ({
     const display = entity.displays.find((x) => x.type === type);
     if (!display) return;
 
-    const fieldArguments = slotArguments.map((x) => display.mappings[x]);
-    const updatedValues = ActionHelper.run(operation, filledFieldMappings, fieldArguments);
+    const mappedArgs = args.map((x) => {
+      const field = x.slot ? display.mappings[x.slot] : x.field;
+      const value = field ? filledFieldMappings[field] : x.value;
+      return { ...x, field, value };
+    });
+    const updatedValues = ActionHelper.run(operation, mappedArgs);
     onUpdateValues(updatedValues);
   };
 
@@ -68,6 +72,7 @@ const LayoutDisplay = ({
           preview={Boolean(preview)}
           slots={slotValues as DotsDisplay}
           onSlot={onSlot}
+          onOperation={runOperation}
         />
       )}
       {type === DisplayType.Square && (

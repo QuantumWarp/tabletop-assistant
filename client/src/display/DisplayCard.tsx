@@ -3,14 +3,14 @@ import { Icon } from '@iconify/react';
 import React from 'react';
 import './DisplayCard.css';
 import CardDisplay from '../helpers/displays/card.display';
-import FixedActions from '../helpers/action.helper';
+import FixedActions, { FixedActionArg } from '../helpers/action.helper';
 import DisplayHelper from '../helpers/display.helper';
 
 interface DisplayCardProps {
   preview: boolean,
   slots: CardDisplay,
   onSlot: (slot: string) => void,
-  onOperation: (operation: FixedActions, ...slotArguments: string[]) => void,
+  onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
 }
 
 const DisplayCard = ({
@@ -30,7 +30,7 @@ const DisplayCard = ({
           <Button
             className="icon"
             type="button"
-            onClick={() => onOperation(FixedActions.Toggle, 'enabled', 'disabled')}
+            onClick={() => onOperation(FixedActions.Toggle, { slot: 'enabled' }, { slot: 'disabled' })}
           >
             <Icon icon={slots.icon} />
           </Button>

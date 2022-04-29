@@ -8,47 +8,49 @@ enum FixedActions {
 
 export default FixedActions;
 
+export interface FixedActionArg {
+  slot?: string;
+  field?: string;
+  value?: any;
+}
+
 export class ActionHelper {
   static run(
     operation: FixedActions,
-    fieldMappings: { [field: string]: any },
-    fieldArguments: string[],
+    args: FixedActionArg[],
   ): { [field: string]: any } {
     switch (operation) {
       case FixedActions.Increment:
-        return this.increment(fieldMappings, fieldArguments[0]);
+        return this.increment(args[0]);
       case FixedActions.Decrement:
-        return this.decrement(fieldMappings, fieldArguments[0]);
+        return this.decrement(args[0]);
       case FixedActions.SetValue:
-        return this.setValue(fieldMappings, fieldArguments[0], fieldArguments[1]);
+        return this.setValue(args[0], args[1]);
       case FixedActions.Toggle:
-        return this.toggle(fieldMappings, fieldArguments);
+        return this.toggle(args);
       default: throw new Error('Invalid fixed action');
     }
   }
 
-  static increment(fieldMappings: { [field: string]: any }, field: string) {
-    if (!field) return {};
-    const value = fieldMappings[field];
-    return { [field]: value + 1 };
+  static increment(arg: FixedActionArg) {
+    if (!arg.field) return {};
+    return { [arg.field]: (arg.value || 0) + 1 };
   }
 
-  static decrement(fieldMappings: { [field: string]: any }, field: string) {
-    if (!field) return {};
-    const value = fieldMappings[field];
-    return { [field]: value - 1 };
+  static decrement(arg: FixedActionArg) {
+    if (!arg.field) return {};
+    return { [arg.field]: (arg.value || 0) - 1 };
   }
 
-  static setValue(fieldMappings: { [field: string]: any }, field: string, fromField: string) {
-    if (!field || fromField) return {};
-    const fromValue = fieldMappings[fromField];
-    return { [field]: fromValue };
+  static setValue(to: FixedActionArg, from: FixedActionArg) {
+    if (!to.field || !from.value) return {};
+    return { [to.field]: from.value };
   }
 
-  static toggle(fieldMappings: { [field: string]: any }, fields: string[]) {
+  static toggle(fields: FixedActionArg[]) {
     return fields.reduce((obj, a) => {
-      const value = fieldMappings[a];
-      return { ...obj, [a]: !value };
+      if (!a.field) return obj;
+      return { ...obj, [a.field]: !a.value };
     }, {});
   }
 }

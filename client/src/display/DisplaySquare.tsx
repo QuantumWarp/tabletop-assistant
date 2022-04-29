@@ -3,12 +3,12 @@ import { Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import './DisplaySquare.css';
 import SquareDisplay from '../helpers/displays/square.display';
-import FixedActions from '../helpers/action.helper';
+import FixedActions, { FixedActionArg } from '../helpers/action.helper';
 
 interface DisplaySquareProps {
   preview: boolean,
   slots: SquareDisplay,
-  onOperation: (operation: FixedActions, ...slotArguments: string[]) => void,
+  onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
 }
 
 const DisplaySquare = ({
@@ -52,12 +52,12 @@ const DisplaySquare = ({
           <Button
             type="button"
             className="click-left"
-            onClick={() => onOperation(FixedActions.Decrement, 'value')}
+            onClick={() => onOperation(FixedActions.Decrement, { slot: 'value' })}
           />
           <Button
             type="button"
             className="click-right"
-            onClick={() => onOperation(FixedActions.Increment, 'value')}
+            onClick={() => onOperation(FixedActions.Increment, { slot: 'value' })}
           />
         </>
       )}

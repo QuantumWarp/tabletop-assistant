@@ -1,3 +1,4 @@
+- Fix all remaining warnings and errors
 - Allow manual editing of non-static values from Entity Summary/Entity List
 - Action Trigger List needs more detail
 - Show fields on Entity Summary dialog
@@ -5,7 +6,6 @@
 - License Information
 - Debouncing on layout editing
 - Saving icon when doing debounced saving
-- Fix dot counter display
 - Get types in common package to replace enums
 - Make templates project part of repo with no templates in git
 - Fix snapping
@@ -17,3 +17,5 @@
 - Changing display type does not regenerate auto mappings
 - Display type should be disabled on edit
 - Display default should be dynamic
+
+- Fix dot counter display
