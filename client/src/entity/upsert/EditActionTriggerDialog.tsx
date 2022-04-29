@@ -71,6 +71,13 @@ const EditActionTriggerDialog = ({
     }
   }, [selectedEntity, actionSelection, actionKey]);
 
+  useEffect(() => {
+    if (!manual) return;
+    setSibling(false);
+    setEntityId('');
+    setActionKey('');
+  }, [manual]);
+
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
@@ -97,6 +104,7 @@ const EditActionTriggerDialog = ({
           <Grid item xs={12}>
             <FormControlLabel
               label="Sibling"
+              disabled={manual}
               control={(
                 <Checkbox
                   checked={sibling}
@@ -111,6 +119,7 @@ const EditActionTriggerDialog = ({
               <InputLabel>Entity</InputLabel>
               <Select
                 label="Icon"
+                disabled={manual}
                 MenuProps={{ style: { maxHeight: '400px' } }}
                 value={entityId}
                 onChange={(e) => setEntityId(e.target.value)}
