@@ -5,10 +5,13 @@
 - Roll builder include value reference
 - Image Gallery
 
+### Templates
+
 ### Technical
 
 - Utility to find and delete dangling documents, primarily values
 - Only return enabled layouts from server
+- Add limitations to number of entities and layouts
 
 ### Functional
 
@@ -16,7 +19,6 @@
 - License Information on templates and based on entity tags
 - Cleanup displays, e.g. click areas, text wrapping etc
 - Storing notes within templates
-- Allow multiple displays of the same type, will need optional display naming
 - Add tutorial and introductory information
 - Add helper info around what things do and how things work
 - Add a multipurpose input field as a display type
@@ -24,3 +26,5 @@
 - Infinite layout height
 - Create/Edit template could save number of thing as a property on the main object for display
 - Suggested fields such and Enabled and Disabled
+- Validation on some field, length etc
+- Persist latest action and rolls
