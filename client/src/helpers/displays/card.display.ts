@@ -1,15 +1,6 @@
-export default interface CardDisplay {
-  disabled?: boolean;
-  enabled?: boolean;
-  icon: string;
-  name: string;
-  description: string;
-  current: number;
-  maximum: number;
-  action: string;
-}
+import { DisplaySlot } from '../display.type';
 
-export const slots = [{
+export const slots: DisplaySlot[] = [{
   name: 'Disabled',
   key: 'disabled',
   type: 'boolean',
@@ -52,3 +43,14 @@ export const slots = [{
   type: 'action',
   auto: ['action', 'use', 'cast', 'fire', 'activate'],
 }];
+
+export default interface CardDisplay {
+  disabled?: boolean;
+  enabled?: boolean;
+  icon: string;
+  name: string;
+  description: string;
+  current: number;
+  maximum: number;
+  action: string;
+}

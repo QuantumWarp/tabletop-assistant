@@ -22,13 +22,13 @@ const DisplayDots = ({
       {slots.name}
     </span>
 
-    {Array(Number(slots.maximum)).fill(0).map((_x, index) => {
-      const filled = index < (slots.current || 0);
+    {slots.maximum && Array(Number(slots.maximum)).fill(0).map((_x, index) => {
+      const filled = index < (slots.value || 0);
 
       return (
         <Box
           // eslint-disable-next-line react/no-array-index-key
-          key={index}
+          key={`${index}-${filled}`}
           className="dot"
           sx={{
             border: 1,
@@ -38,7 +38,7 @@ const DisplayDots = ({
           onClick={() => onOperation(
             FixedActions.SetValue,
             { slot: 'current' },
-            { value: index === 0 && slots.current === 1 ? 0 : index + 1 },
+            { value: index === 0 && slots.value === 1 ? 0 : index + 1 },
           )}
         />
       );

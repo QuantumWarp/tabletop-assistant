@@ -14,6 +14,7 @@
 - Utility to find and delete dangling documents, primarily values
 - Only return enabled layouts from server
 - Add limitations to number of entities and layouts
+- Improve the way the different display types are stored
 
 ### Functional
 

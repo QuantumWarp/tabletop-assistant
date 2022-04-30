@@ -1,24 +1,24 @@
-export default interface DotsDisplay {
-  disabled: boolean;
-  name: string;
-  current: number;
-  maximum: number;
-}
+import { DisplaySlot } from '../display.type';
 
-export const slots = [{
-  name: 'Disabled',
-  key: 'disabled',
-  type: 'boolean',
-}, {
+export const slots: DisplaySlot[] = [{
   name: 'Name',
   key: 'name',
   type: 'string',
+  auto: ['name', 'title', '_name'],
 }, {
-  name: 'Current',
-  key: 'current',
+  name: 'Value',
+  key: 'value',
   type: 'number',
+  auto: ['value', 'amount', 'current'],
 }, {
   name: 'Maximum',
   key: 'maximum',
   type: 'number',
+  auto: ['secondaryValue', 'maximum'],
 }];
+
+export default interface DotsDisplay {
+  name: string;
+  value: number;
+  maximum: number;
+}

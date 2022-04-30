@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -64,6 +64,14 @@ const EditDisplayDialog = ({
     onSave({ ...initial, ...updatedProps });
     onClose();
   };
+
+  useEffect(() => {
+    setMappings(DisplayHelper.autoMapping(
+      type,
+      FieldHelper.getFields(entity),
+      entity.actions,
+    ));
+  }, [type, entity]);
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
