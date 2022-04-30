@@ -26,7 +26,7 @@ interface EntityValueUpdateDialogProps {
 const EntityValueUpdateDialog = ({
   open, field, value, onSave, onClose,
 }: EntityValueUpdateDialogProps) => {
-  const [newValue, setNewValue] = useState(value);
+  const [newValue, setNewValue] = useState(value !== undefined ? value : field.initial);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>

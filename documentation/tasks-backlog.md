@@ -28,3 +28,8 @@
 - Suggested fields such and Enabled and Disabled
 - Validation on some field, length etc
 - Persist latest action and rolls
+- Make sure value being undefined behaves consistently
+
+### Minor
+
+- When the value is true/false the first letter should be capitalised

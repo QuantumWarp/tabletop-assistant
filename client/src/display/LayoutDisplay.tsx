@@ -97,6 +97,7 @@ const LayoutDisplay = ({
           entity={entity}
           fieldMappings={fieldMappings}
           open={entitySummaryOpen}
+          onSave={onUpdateValues}
           onClose={() => setEntitySummaryOpen(false)}
         />
       )}

@@ -8,7 +8,6 @@
 
 ### Functional
 
-- Allow manual editing of non-static values from Entity Summary/Entity List
 - Saving icon when doing debounced saving
 - Fix snapping
 - Layout ordering

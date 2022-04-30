@@ -29,7 +29,8 @@ const ValueInput = ({
     } else {
       onChange('');
     }
-  }, [type, onChange, isFirstRender]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type, onChange]);
 
   return (
     <>
