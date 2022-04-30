@@ -103,7 +103,7 @@ export default class DisplayHelper {
     optionalFieldMappings: { [field: string]: string } = {},
   ): T {
     const slots = DisplayHelper.slots(type);
-    const display = entity.displays.find((x) => x.type);
+    const display = entity.displays.find((x) => x.type === type);
 
     const slotMappings = optionalSlotMappings || display?.mappings || {};
     const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);

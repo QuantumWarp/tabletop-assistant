@@ -8,7 +8,6 @@
 
 ### Functional
 
-- Changing display type does not regenerate auto mappings
 - Display type should be disabled on edit
 - Display default should be dynamic
 - Allow multiple displays of the same type, will need optional display naming

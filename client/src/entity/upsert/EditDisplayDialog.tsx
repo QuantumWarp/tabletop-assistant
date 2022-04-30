@@ -30,6 +30,7 @@ import DisplayHelper from '../../helpers/display.helper';
 import LayoutDisplay from '../../display/LayoutDisplay';
 import LayoutPositionHelper from '../../models/layout-position.helper';
 import FieldHelper from '../../helpers/field.helper';
+import useIsFirstRender from '../../helpers/is-first-render';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
@@ -43,6 +44,7 @@ interface EditDisplayDialogProps {
 const EditDisplayDialog = ({
   initial, entity, open, onSave, onDelete, onClose,
 }: EditDisplayDialogProps) => {
+  const isFirstRender = useIsFirstRender();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
 
@@ -54,7 +56,7 @@ const EditDisplayDialog = ({
     entity.actions,
   ));
 
-  const saveField = () => {
+  const saveDisplay = () => {
     const updatedProps = {
       type,
       default: defaultVal,
@@ -66,12 +68,14 @@ const EditDisplayDialog = ({
   };
 
   useEffect(() => {
+    if (isFirstRender) return;
+
     setMappings(DisplayHelper.autoMapping(
       type,
       FieldHelper.getFields(entity),
       entity.actions,
     ));
-  }, [type, entity]);
+  }, [type, entity, isFirstRender]);
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
@@ -222,7 +226,7 @@ const EditDisplayDialog = ({
         <Button
           variant="outlined"
           endIcon={<SaveIcon />}
-          onClick={() => saveField()}
+          onClick={() => saveDisplay()}
         >
           Save
         </Button>
