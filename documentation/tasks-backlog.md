@@ -4,6 +4,8 @@
 - Roll builder
 - Roll builder include value reference
 - Image Gallery
+- Containers and purely display things e.g. headers to add to layouts
+- User settings - Dark mode, allow export
 
 ### Templates
 
@@ -30,6 +32,7 @@
 - Persist latest action and rolls
 - Make sure value being undefined behaves consistently
 - Static value logic
+- Better method of snapping
 
 ### Minor
 

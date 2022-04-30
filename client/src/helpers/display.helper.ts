@@ -59,7 +59,7 @@ export default class DisplayHelper {
     switch (type) {
       case DisplayType.Dots: return { width: 40, height: 10 };
       case DisplayType.Square: return { width: 20, height: 20 };
-      case DisplayType.Card: return { width: 45, height: 8.5 };
+      case DisplayType.Card: return { width: 45, height: 8 };
       case DisplayType.Toggle: return { width: 30, height: 5 };
       default: throw new Error('Invalid display type');
     }
