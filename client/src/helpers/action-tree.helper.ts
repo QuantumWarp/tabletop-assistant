@@ -72,11 +72,12 @@ export class ActionTreeHelper {
     sibling: boolean,
   ): EntityActionId[] {
     return entities.reduce((related, entity) => {
+      const isCurrentEntity = entity._id === node.entityId;
       const actions = entity.actions
         .filter((x) => x.triggers
           .find((trigger) => !trigger.manual
             && Boolean(trigger.sibling) === Boolean(sibling)
-            && trigger.entityId === node.entityId
+            && trigger.entityId === (isCurrentEntity ? '-' : node.entityId)
             && trigger.actionKey === node.actionKey));
       const eaIds = actions.map((x) => ({ entityId: entity._id, actionKey: x.key }));
       return related.concat(eaIds);

@@ -29,6 +29,7 @@
 - Validation on some field, length etc
 - Persist latest action and rolls
 - Make sure value being undefined behaves consistently
+- Static value logic
 
 ### Minor
 
