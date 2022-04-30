@@ -23,7 +23,6 @@ interface EntitySummaryDialogProps {
 }
 
 const EntitySummaryDialog = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   entity, fieldMappings, open, onClose,
 }: EntitySummaryDialogProps) => (
   <Dialog open={open} onClose={() => onClose()} maxWidth="md" fullWidth>

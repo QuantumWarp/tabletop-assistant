@@ -9,7 +9,6 @@
 ### Functional
 
 - Allow manual editing of non-static values from Entity Summary/Entity List
-- Show fields on Entity Summary dialog
 - Saving icon when doing debounced saving
 - Fix snapping
 - Layout ordering
@@ -20,3 +19,4 @@
 - Initial value is not saved as a number
 - Allow multiple displays of the same type, will need optional display naming
 - Static value logic
+- Add postfix logic
