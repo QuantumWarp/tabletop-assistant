@@ -21,7 +21,7 @@ const LayoutPage = () => {
 
   useEffect(() => {
     if (!layouts) return;
-    setLayoutId(layouts[0]._id);
+    setLayoutId(layouts[0]?._id);
   }, [layouts]);
 
   return (

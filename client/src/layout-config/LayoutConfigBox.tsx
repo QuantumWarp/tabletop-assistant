@@ -79,7 +79,7 @@ const LayoutConfigBox = ({
           </div>
 
           <div>
-            {entry.displayType}
+            {entry.displayKey}
           </div>
         </Box>
       </Rnd>

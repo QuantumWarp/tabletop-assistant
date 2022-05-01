@@ -7,7 +7,6 @@ import { useHistory, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../models/layout-position.helper';
 import './LayoutContainer.css';
 import { useGetAllValuesQuery, useGetEntitiesQuery, useUpdateValuesMutation } from '../store/api';
-import DisplayType from '../helpers/display.type';
 import LayoutDisplay from '../display/LayoutDisplay';
 
 interface LayoutContainerProps {
@@ -97,13 +96,13 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     <div className="layout-container" ref={containerRef}>
       {layout.entries.map((entry) => {
         const entity = entities?.find((x) => entry.entityId === x._id);
-        const display = entity?.displays.find((x) => x.type === entry.displayType);
+        const display = entity?.displays.find((x) => x.key === entry.displayKey);
         const entityValues = valuesList?.find((x) => x.entityId === entry.entityId);
         const invalidEntry = !entity || !display || !entityValues;
 
         return (
           <div
-            key={`${entry.displayType}-${entry.entityId}`}
+            key={`${entry.displayKey}-${entry.entityId}`}
             className="entry"
             style={{
               ...LayoutPositionHelper.getPositionStyle(entry.position, containerWidth),
@@ -114,7 +113,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
             {!invalidEntry && (
               <LayoutDisplay
-                type={entry.displayType as DisplayType}
+                display={display}
                 entity={entity}
                 fieldMappings={entityValues.mappings}
                 onSlot={(slot) => slotClickHandler(slot, entity, display)}

@@ -34,6 +34,8 @@ const schema = new Schema<Entity>({
 
   displays: [{
     _id: { id: false },
+    name: { type: String, required: true },
+    key: { type: String, required: true },
     type: { type: String, required: true },
     default: { type: Boolean, required: true },
     mappings: { type: Map },

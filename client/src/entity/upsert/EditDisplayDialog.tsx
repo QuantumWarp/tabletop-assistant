@@ -16,6 +16,7 @@ import {
   ListItemButton,
   MenuItem,
   Select,
+  TextField,
 } from '@mui/material';
 import {
   ArrowLeft as MapIcon,
@@ -48,6 +49,7 @@ const EditDisplayDialog = ({
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
 
+  const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState<DisplayType>(initial?.type as DisplayType || DisplayType.Card);
   const [defaultVal, setDefault] = useState(initial?.default || false);
   const [mappings, setMappings] = useState(initial?.mappings || DisplayHelper.autoMapping(
@@ -56,26 +58,33 @@ const EditDisplayDialog = ({
     entity.actions,
   ));
 
-  const saveDisplay = () => {
-    const updatedProps = {
-      type,
-      default: defaultVal,
-      mappings,
-    };
+  const key = name
+    ? FieldHelper.createKey(name)
+    : type;
 
-    onSave({ ...initial, ...updatedProps });
+  const display: EntityDisplay = {
+    name,
+    key,
+    type,
+    default: defaultVal,
+    mappings,
+  };
+
+  const saveDisplay = () => {
+    onSave({ ...initial, ...display });
     onClose();
   };
 
   useEffect(() => {
-    if (isFirstRender) return;
+    if (isFirstRender && initial?.type) return;
 
     setMappings(DisplayHelper.autoMapping(
       type,
       FieldHelper.getFields(entity),
       entity.actions,
     ));
-  }, [type, entity, isFirstRender]);
+    setName(DisplayHelper.displayName(type));
+  }, [type, entity, isFirstRender, initial?.type]);
 
   return (
     <Dialog open={open} maxWidth="md" fullWidth>
@@ -104,6 +113,16 @@ const EditDisplayDialog = ({
                   ))}
                 </Select>
               </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </Grid>
 
             <Grid item xs={12}>
@@ -185,7 +204,7 @@ const EditDisplayDialog = ({
             >
               <LayoutDisplay
                 preview
-                type={type}
+                display={display}
                 entity={entity}
                 slotMappings={mappings}
               />

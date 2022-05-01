@@ -44,6 +44,8 @@ export interface EntityActionTrigger {
 }
 
 export interface EntityDisplay {
+  key: string;
+  name: string;
   type: string;
   default: boolean;
   mappings: {

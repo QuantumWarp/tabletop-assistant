@@ -15,6 +15,7 @@
 - Only return enabled layouts from server
 - Add limitations to number of entities and layouts
 - Improve the way the different display types are stored
+- Cascade delete
 
 ### Functional
 
@@ -34,6 +35,8 @@
 - Make sure value being undefined behaves consistently
 - Static value logic
 - Better method of snapping
+- Mass delete
+- Make it more clear that naming a display is only needed if adding multiple displays of the same type
 
 ### Minor
 

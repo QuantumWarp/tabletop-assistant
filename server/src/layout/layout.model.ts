@@ -10,7 +10,7 @@ const schema = new Schema<Layout>({
   entries: [{
     _id: { id: false },
     entityId: { type: String, required: true },
-    displayType: { type: String, required: true },
+    displayKey: { type: String, required: true },
     position: {
       _id: { id: false },
       left: { type: Number, required: true },

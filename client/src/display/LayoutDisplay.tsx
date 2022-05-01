@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CreateEntity } from 'tabletop-assistant-common';
+import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
 import FixedActions, { ActionHelper, FixedActionArg } from '../helpers/action.helper';
 import DisplayHelper from '../helpers/display.helper';
 import DisplayType from '../helpers/display.type';
@@ -14,8 +14,8 @@ import DisplaySquare from './DisplaySquare';
 import DisplayToggle from './DisplayToggle';
 
 interface LayoutDisplayProps {
-  type: DisplayType,
   preview?: boolean,
+  display: EntityDisplay,
   entity: CreateEntity,
   slotMappings?: { [slot: string]: any },
   fieldMappings?: { [field: string]: any },
@@ -24,13 +24,13 @@ interface LayoutDisplayProps {
 }
 
 const LayoutDisplay = ({
-  type, preview, entity, slotMappings, fieldMappings,
+  preview, display, entity, slotMappings, fieldMappings,
   onSlot = () => {}, onUpdateValues = () => {},
 }: LayoutDisplayProps) => {
   const [entitySummaryOpen, setEntitySummaryOpen] = useState(false);
 
   const slotValues = DisplayHelper.map(
-    type,
+    display,
     entity,
     slotMappings,
     fieldMappings,
@@ -45,8 +45,6 @@ const LayoutDisplay = ({
     }
 
     const filledFieldMappings = DisplayHelper.getFieldMappings(entity, fieldMappings);
-    const display = entity.displays.find((x) => x.type === type);
-    if (!display) return;
 
     const mappedArgs = args.map((x) => {
       const field = x.slot ? display.mappings[x.slot] : x.field;
@@ -60,7 +58,7 @@ const LayoutDisplay = ({
 
   return (
     <>
-      {type === DisplayType.Card && (
+      {display.type === DisplayType.Card && (
         <DisplayCard
           preview={Boolean(preview)}
           slots={slotValues as CardDisplay}
@@ -68,7 +66,7 @@ const LayoutDisplay = ({
           onOperation={runOperation}
         />
       )}
-      {type === DisplayType.Dots && (
+      {display.type === DisplayType.Dots && (
         <DisplayDots
           preview={Boolean(preview)}
           slots={slotValues as DotsDisplay}
@@ -76,14 +74,14 @@ const LayoutDisplay = ({
           onOperation={runOperation}
         />
       )}
-      {type === DisplayType.Square && (
+      {display.type === DisplayType.Square && (
         <DisplaySquare
           preview={Boolean(preview)}
           slots={slotValues as SquareDisplay}
           onOperation={runOperation}
         />
       )}
-      {type === DisplayType.Toggle && (
+      {display.type === DisplayType.Toggle && (
         <DisplayToggle
           preview={Boolean(preview)}
           slots={slotValues as ToggleDisplay}

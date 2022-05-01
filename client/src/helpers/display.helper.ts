@@ -1,4 +1,6 @@
-import { CreateEntity, EntityAction, EntityField } from 'tabletop-assistant-common';
+import {
+  CreateEntity, EntityAction, EntityDisplay, EntityField,
+} from 'tabletop-assistant-common';
 import DisplayType from './display.type';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
@@ -97,13 +99,12 @@ export default class DisplayHelper {
   }
 
   static map<T>(
-    type: DisplayType,
+    display: EntityDisplay,
     entity: CreateEntity,
     optionalSlotMappings?: { [slot: string]: string },
     optionalFieldMappings: { [field: string]: string } = {},
   ): T {
-    const slots = DisplayHelper.slots(type);
-    const display = entity.displays.find((x) => x.type === type);
+    const slots = DisplayHelper.slots(display.type as DisplayType);
 
     const slotMappings = optionalSlotMappings || display?.mappings || {};
     const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);

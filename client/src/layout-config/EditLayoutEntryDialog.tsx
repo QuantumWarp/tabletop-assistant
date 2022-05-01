@@ -36,27 +36,26 @@ const EditLayoutEntryDialog = ({
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const display = DisplayType.Dots;
-
   const [entityId, setEntityId] = useState(initial?.entityId || '');
-  const [displayType, setDisplayType] = useState<DisplayType>(
-    initial?.displayType as DisplayType || display,
-  );
+  const [displayKey, setDisplayKey] = useState(initial?.displayKey || '');
 
   const selectedEntity = entities?.find((x) => x._id === entityId);
+  const selectedDisplay = selectedEntity?.displays?.find((x) => x.key === displayKey);
 
   useEffect(() => {
     const defaultDisplay = selectedEntity?.displays?.find((x) => x.default);
     if (!defaultDisplay) return;
-    setDisplayType(defaultDisplay.type as DisplayType);
+    setDisplayKey(defaultDisplay.key);
   }, [selectedEntity]);
 
   const saveEntry = () => {
     const updatedProps = {
       entityId,
-      displayType,
+      displayKey,
       position: initial?.position || position || { left: 0, top: 0 },
-      size: initial?.size || DisplayHelper.defaultSize(displayType),
+      size: initial?.size || DisplayHelper.defaultSize(
+        selectedDisplay?.type as DisplayType || DisplayType.Card,
+      ),
     };
     onSave({ ...initial, ...updatedProps });
     onClose();
@@ -93,18 +92,17 @@ const EditLayoutEntryDialog = ({
 
           <Grid item xs={12}>
             <FormControl fullWidth required>
-              <InputLabel>Type</InputLabel>
+              <InputLabel>Display</InputLabel>
               <Select
-                label="Type"
+                label="Display"
                 disabled={!selectedEntity}
-                value={displayType}
-                onChange={(e) => setDisplayType(e.target.value as DisplayType)}
+                value={displayKey}
+                onChange={(e) => setDisplayKey(e.target.value as DisplayType)}
               >
                 {selectedEntity?.displays
-                  .map((x) => x.type as DisplayType)
                   .map((x) => (
-                    <MenuItem key={x} value={x}>
-                      {DisplayHelper.displayName(x)}
+                    <MenuItem key={x.key} value={x.key}>
+                      {x.name}
                     </MenuItem>
                   ))}
               </Select>
