@@ -6,6 +6,7 @@
 - Image Gallery
 - Containers and purely display things e.g. headers to add to layouts
 - User settings - Dark mode, allow export
+- User feature requests/polling
 
 ### Templates
 
@@ -37,6 +38,7 @@
 - Better method of snapping
 - Mass delete
 - Make it more clear that naming a display is only needed if adding multiple displays of the same type
+- Add cloning objects
 
 ### Minor
 

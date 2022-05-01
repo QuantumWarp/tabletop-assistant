@@ -35,7 +35,8 @@ import useIsFirstRender from '../../helpers/is-first-render';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
-  entity: CreateEntity,
+  displays: EntityDisplay[];
+  entity: CreateEntity;
   open: boolean;
   onSave: (display: EntityDisplay) => void;
   onDelete: () => void;
@@ -43,15 +44,17 @@ interface EditDisplayDialogProps {
 }
 
 const EditDisplayDialog = ({
-  initial, entity, open, onSave, onDelete, onClose,
+  initial, displays, entity, open, onSave, onDelete, onClose,
 }: EditDisplayDialogProps) => {
   const isFirstRender = useIsFirstRender();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
 
+  const onlyDisplay = displays.filter((x) => x !== initial).length === 0;
+
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState<DisplayType>(initial?.type as DisplayType || DisplayType.Card);
-  const [defaultVal, setDefault] = useState(initial?.default || false);
+  const [defaultVal, setDefault] = useState(initial?.default || onlyDisplay);
   const [mappings, setMappings] = useState(initial?.mappings || DisplayHelper.autoMapping(
     initial?.type as DisplayType || DisplayType.Card,
     FieldHelper.getFields(entity),
@@ -103,6 +106,7 @@ const EditDisplayDialog = ({
                 <InputLabel>Type</InputLabel>
                 <Select
                   label="Type"
+                  disabled={Boolean(initial?.type)}
                   value={type}
                   onChange={(e) => setType(e.target.value as DisplayType)}
                 >
@@ -119,6 +123,7 @@ const EditDisplayDialog = ({
               <TextField
                 fullWidth
                 required
+                disabled={Boolean(initial?.name)}
                 label="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -126,15 +131,17 @@ const EditDisplayDialog = ({
             </Grid>
 
             <Grid item xs={12}>
-              <FormControlLabel
-                label="Default"
-                control={(
-                  <Checkbox
-                    checked={defaultVal}
-                    onChange={(e) => setDefault(e.target.checked)}
-                  />
-                )}
-              />
+              {!onlyDisplay && (
+                <FormControlLabel
+                  label="Default"
+                  control={(
+                    <Checkbox
+                      checked={defaultVal}
+                      onChange={(e) => setDefault(e.target.checked)}
+                    />
+                  )}
+                />
+              )}
             </Grid>
 
             {Object.entries(mappings).length > 0 && (

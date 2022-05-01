@@ -58,6 +58,7 @@ const ObjectDisplayTab = ({
       {editDisplay && (
         <EditDisplayDialog
           initial={editDisplay}
+          displays={displays}
           entity={entity}
           open={Boolean(editDisplay)}
           onSave={(display) => onChange(
