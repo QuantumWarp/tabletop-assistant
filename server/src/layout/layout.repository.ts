@@ -36,4 +36,13 @@ export default class LayoutRepository {
     if (!model) throw new ResourceNotFound();
     await model.delete();
   }
+
+  async order(ids: string[]): Promise<void> {
+    const findPromises = ids.map((id) => LayoutModel.findOne({ _id: id, userId: this.userId }));
+    const models = await Promise.all(findPromises);
+
+    models.forEach((x, index) => x?.set({ order: index }));
+    const savePromises = models.map((x) => x?.save());
+    await Promise.all(savePromises);
+  }
 }

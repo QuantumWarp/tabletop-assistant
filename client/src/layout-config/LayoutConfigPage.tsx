@@ -24,7 +24,9 @@ const LayoutConfigPage = () => {
   const [newLayout, setNewLayout] = useState(false);
 
   const [layoutId, setLayoutId] = useState<string | false>();
+
   const [updatedLayout, setUpdatedLayout] = useState<Layout>();
+  const [updatedLayoutOrder, setUpdatedLayoutOrder] = useState<Layout[]>();
 
   const currentLayout = updatedLayout || layouts?.find((x) => x._id === layoutId);
   const layoutList = layouts
@@ -39,10 +41,11 @@ const LayoutConfigPage = () => {
   );
 
   useEffect(() => {
-    if (!layouts) return;
-    if (layouts.find((x) => x._id === layoutId)) return;
-    setLayoutId(layouts[0]._id);
-  }, [layouts, layoutId]);
+    if (!layoutList) return;
+    if (layoutList.find((x) => x._id === layoutId)) return;
+    setLayoutId(layoutList[0]._id);
+    setUpdatedLayoutOrder(layoutList.sort((a, b) => (a.order < b.order ? 1 : -1)));
+  }, [layoutList, layoutId]);
 
   useEffect(() => {
     setUpdatedLayout(undefined);
@@ -64,6 +67,18 @@ const LayoutConfigPage = () => {
     debouncedUpdate();
   };
 
+  const orderChangeHandler = async (layout: Layout, direction: number) => {
+    if (!updatedLayoutOrder) return;
+    const currentIndex = updatedLayoutOrder.indexOf(layout);
+    const newIndex = currentIndex + direction;
+
+    const newOrder = [...updatedLayoutOrder];
+    newOrder[newIndex] = layout;
+    newOrder[currentIndex] = updatedLayoutOrder[newIndex];
+
+    setUpdatedLayoutOrder(newOrder);
+  };
+
   return (
     <>
       <TopBar title="Configure">
@@ -72,7 +87,7 @@ const LayoutConfigPage = () => {
           value={currentLayout?._id || false}
           onChange={(_e, val) => changeTab(val)}
         >
-          {layoutList?.map((layout) => (
+          {updatedLayoutOrder?.map((layout) => (
             <Tab
               key={layout._id}
               label={layout.name}
@@ -91,12 +106,14 @@ const LayoutConfigPage = () => {
             <>
               <IconButton
                 title="Move Layout Left"
+                onClick={() => orderChangeHandler(currentLayout, -1)}
               >
                 <Icon icon="bi:arrow-left-circle-fill" />
               </IconButton>
 
               <IconButton
                 title="Move Layout Right"
+                onClick={() => orderChangeHandler(currentLayout, 1)}
               >
                 <Icon icon="bi:arrow-right-circle-fill" />
               </IconButton>

@@ -67,7 +67,7 @@ const LayoutUpsertDialog = ({
       updateLayout({ ...initial, ...updatedProps });
     } else {
       createLayout({
-        tabletopId, hidden: false, ...updatedProps, entries: [],
+        tabletopId, hidden: false, order: 1, ...updatedProps, entries: [],
       });
     }
   };

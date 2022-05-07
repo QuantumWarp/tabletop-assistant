@@ -3,6 +3,7 @@ export interface Layout {
   readonly userId: string;
   readonly tabletopId: string;
 
+  order: number;
   name: string;
   hidden: boolean;
   entries: LayoutEntry[];
@@ -32,3 +33,5 @@ export interface LayoutSize {
   width: number;
   height: number;
 }
+
+export type UpdateLayoutOrder = string[];

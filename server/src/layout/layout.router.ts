@@ -39,4 +39,11 @@ router.delete('/:id', async (req, res) => {
   res.sendStatus(204);
 });
 
+router.post('/order', async (req, res) => {
+  const userId = req.session.userId || '';
+  const repository = new LayoutRepository(userId);
+  await repository.order(req.body);
+  res.send(204);
+});
+
 export default router;
