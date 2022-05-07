@@ -14,7 +14,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import LayoutConfigContainer from './LayoutConfigContainer';
 import TopBar from '../common/TopBar';
 import LayoutUpsertDialog from './LayoutUpsertDialog';
-import { useGetLayoutsQuery, useUpdateLayoutMutation } from '../store/api';
+import { useGetLayoutsQuery, useUpdateLayoutMutation, useUpdateLayoutOrderMutation } from '../store/api';
 
 const LayoutConfigPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
@@ -29,13 +29,17 @@ const LayoutConfigPage = () => {
   const [updatedLayoutOrder, setUpdatedLayoutOrder] = useState<Layout[]>();
 
   const currentLayout = updatedLayout || layouts?.find((x) => x._id === layoutId);
-  const layoutList = layouts
+  const orderedList = (layouts && [...layouts])
+    ?.sort((a, b) => (a.order > b.order ? 1 : -1));
+  const layoutList = (updatedLayoutOrder || orderedList)
     ?.map((x) => (x._id === updatedLayout?._id ? updatedLayout : x));
 
   const [updateLayout] = useUpdateLayoutMutation();
+  const [updateLayoutOrder] = useUpdateLayoutOrderMutation();
   const debouncedUpdate = useDebouncedCallback(
-    async () => {
-      if (updatedLayout) await updateLayout(updatedLayout);
+    () => {
+      if (updatedLayout) updateLayout(updatedLayout);
+      if (updatedLayoutOrder) updateLayoutOrder(updatedLayoutOrder.map((x) => x._id));
     },
     1500,
   );
@@ -44,11 +48,11 @@ const LayoutConfigPage = () => {
     if (!layoutList) return;
     if (layoutList.find((x) => x._id === layoutId)) return;
     setLayoutId(layoutList[0]._id);
-    setUpdatedLayoutOrder(layoutList.sort((a, b) => (a.order < b.order ? 1 : -1)));
   }, [layoutList, layoutId]);
 
   useEffect(() => {
     setUpdatedLayout(undefined);
+    setUpdatedLayoutOrder(undefined);
   }, [layouts]);
 
   const changeTab = async (newLayoutId: string) => {
@@ -68,15 +72,17 @@ const LayoutConfigPage = () => {
   };
 
   const orderChangeHandler = async (layout: Layout, direction: number) => {
-    if (!updatedLayoutOrder) return;
-    const currentIndex = updatedLayoutOrder.indexOf(layout);
+    if (!layoutList) return;
+
+    const currentIndex = layoutList.indexOf(layout);
     const newIndex = currentIndex + direction;
 
-    const newOrder = [...updatedLayoutOrder];
+    const newOrder = [...layoutList];
     newOrder[newIndex] = layout;
-    newOrder[currentIndex] = updatedLayoutOrder[newIndex];
+    newOrder[currentIndex] = layoutList[newIndex];
 
     setUpdatedLayoutOrder(newOrder);
+    debouncedUpdate();
   };
 
   return (
@@ -87,7 +93,7 @@ const LayoutConfigPage = () => {
           value={currentLayout?._id || false}
           onChange={(_e, val) => changeTab(val)}
         >
-          {updatedLayoutOrder?.map((layout) => (
+          {layoutList?.map((layout) => (
             <Tab
               key={layout._id}
               label={layout.name}
@@ -152,10 +158,11 @@ const LayoutConfigPage = () => {
             />
           )}
 
-          {newLayout && (
+          {newLayout && layoutList && (
             <LayoutUpsertDialog
               tabletopId={tabletopId}
               open={newLayout}
+              nextOrder={Math.max(...layoutList?.map((x) => x.order)) + 1}
               onClose={() => setNewLayout(false)}
             />
           )}

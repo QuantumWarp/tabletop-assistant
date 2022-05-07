@@ -21,12 +21,13 @@ import { useCreateLayoutMutation, useDeleteLayoutMutation, useUpdateLayoutMutati
 interface LayoutUpsertDialogProps {
   initial?: Layout;
   tabletopId: string;
+  nextOrder?: number;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
 const LayoutUpsertDialog = ({
-  initial, tabletopId, open, onClose,
+  initial, tabletopId, nextOrder = 0, open, onClose,
 }: LayoutUpsertDialogProps) => {
   const [createLayout, {
     isLoading: creating,
@@ -67,7 +68,11 @@ const LayoutUpsertDialog = ({
       updateLayout({ ...initial, ...updatedProps });
     } else {
       createLayout({
-        tabletopId, hidden: false, order: 1, ...updatedProps, entries: [],
+        tabletopId,
+        hidden: false,
+        order: nextOrder,
+        ...updatedProps,
+        entries: [],
       });
     }
   };
@@ -157,6 +162,7 @@ const LayoutUpsertDialog = ({
 
 LayoutUpsertDialog.defaultProps = {
   initial: undefined,
+  nextOrder: 0,
 };
 
 export default LayoutUpsertDialog;

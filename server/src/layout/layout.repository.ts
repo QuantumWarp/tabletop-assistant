@@ -41,7 +41,7 @@ export default class LayoutRepository {
     const findPromises = ids.map((id) => LayoutModel.findOne({ _id: id, userId: this.userId }));
     const models = await Promise.all(findPromises);
 
-    models.forEach((x, index) => x?.set({ order: index }));
+    models.forEach((x, index) => x?.set({ order: index + 1 }));
     const savePromises = models.map((x) => x?.save());
     await Promise.all(savePromises);
   }

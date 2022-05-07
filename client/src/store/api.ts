@@ -132,6 +132,10 @@ export const api = createApi({
       query: (id) => ({ url: `/layouts/${id}`, method: 'DELETE' }),
       invalidatesTags: ['Layout'],
     }),
+    updateLayoutOrder: build.mutation<Layout, string[]>({
+      query: (body) => ({ url: '/layouts/order', method: 'POST', body }),
+      invalidatesTags: ['Layout'],
+    }),
 
     // History
     getHistory: build.query<HistoryEntry[], string>({
@@ -213,6 +217,7 @@ export const {
   useCreateLayoutMutation,
   useUpdateLayoutMutation,
   useDeleteLayoutMutation,
+  useUpdateLayoutOrderMutation,
 
   useGetHistoryQuery,
   useGetHistoryEntryQuery,
