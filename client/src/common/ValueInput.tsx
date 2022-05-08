@@ -1,7 +1,7 @@
 import {
   FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FieldType from '../helpers/field.type';
 import useIsFirstRender from '../helpers/is-first-render';
 
@@ -17,12 +17,15 @@ const ValueInput = ({
 }: ValueInputProps) => {
   const isFirstRender = useIsFirstRender();
 
-  const validNumber = (newValue: string) => /^-?[0-9]*\.?[0-9]*$/.test(newValue);
+  const [internal, setInternal] = useState(value === undefined ? '' : value.toString());
+
+  const numberPattern = (newValue: string) => /^-?[0-9]*\.?[0-9]*$/.test(newValue);
 
   useEffect(() => {
     if (isFirstRender) return;
 
     if (type === FieldType.Number) {
+      setInternal('');
       onChange(0);
     } else if (type === FieldType.Boolean) {
       onChange(false);
@@ -42,6 +45,7 @@ const ValueInput = ({
           onChange={(e) => onChange(e.target.value)}
         />
       )}
+
       {type === FieldType.Boolean && (
         <FormControl fullWidth required>
           <InputLabel>{label}</InputLabel>
@@ -55,14 +59,21 @@ const ValueInput = ({
           </Select>
         </FormControl>
       )}
+
       {type === FieldType.Number && (
         <TextField
           required
           fullWidth
           label={label}
-          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-          value={value}
-          onChange={(e) => validNumber(e.target.value) && onChange(e.target.value)}
+          value={internal}
+          onChange={(e) => {
+            const newValue: string | number = e.target.value;
+            if (!numberPattern(newValue)) return;
+            if (!Number.isNaN(Number(newValue))) {
+              onChange(Number(newValue));
+            }
+            setInternal(newValue);
+          }}
         />
       )}
     </>

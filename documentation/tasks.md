@@ -7,5 +7,3 @@
 - Pessimistic update values & layouts
 
 ### Functional
-
-- Initial value is not saved as a number
