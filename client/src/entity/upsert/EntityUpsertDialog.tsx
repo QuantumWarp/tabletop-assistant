@@ -18,6 +18,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { CreateEntity, Entity } from 'tabletop-assistant-common';
+import ExportHelper from '../../helpers/export.helper';
 import DeleteConfirmDialog from '../../common/DeleteConfirmDialog';
 import EntityInfoTab from './EntityInfoTab';
 import EntityFieldTab from './EntityFieldTab';
@@ -148,10 +149,7 @@ const ObjectUpsertDialog = ({
             <Button
               variant="outlined"
               disabled={loading}
-              onClick={() => {
-                navigator.clipboard.writeText(JSON.stringify(entity, null, 2));
-                onClose();
-              }}
+              onClick={() => ExportHelper.export(entity)}
             >
               Export
             </Button>
