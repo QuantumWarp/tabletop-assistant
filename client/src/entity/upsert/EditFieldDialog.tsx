@@ -35,6 +35,8 @@ const EditFieldDialog = ({
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState(initial?.type || FieldType.String);
   const [initialValue, setInitialValue] = useState(initial?.initial || '');
+  const [prefix, setPrefix] = useState(initial?.prefix || '');
+  const [postfix, setPostfix] = useState(initial?.postfix || '');
 
   const key = FieldHelper.createKey(name);
 
@@ -44,6 +46,8 @@ const EditFieldDialog = ({
       key,
       type,
       initial: initialValue,
+      prefix,
+      postfix,
     };
 
     onSave({ ...initial, ...updatedProps });
@@ -94,6 +98,24 @@ const EditFieldDialog = ({
               value={initialValue}
               type={type as FieldType}
               onChange={setInitialValue}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Prefix"
+              value={prefix}
+              onChange={(e) => setPrefix(e.target.value)}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Postfix"
+              value={postfix}
+              onChange={(e) => setPostfix(e.target.value)}
             />
           </Grid>
         </Grid>

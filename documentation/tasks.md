@@ -8,8 +8,4 @@
 
 ### Functional
 
-- Display default should be dynamic
-- Saving icon when doing debounced saving
-- Layout ordering
 - Initial value is not saved as a number
-- Add postfix logic

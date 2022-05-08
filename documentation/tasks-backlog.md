@@ -39,7 +39,11 @@
 - Mass delete
 - Make it more clear that naming a display is only needed if adding multiple displays of the same type
 - Add cloning objects
+- Saving icon when doing debounced saving
+- Make sure we have access to the whole field in a slot to allow for prefix and postfix to be smaller
+- Display default should be dynamic
 
 ### Minor
 
 - When the value is true/false the first letter should be capitalised
+- The entity summary value edit is cropped off at the top

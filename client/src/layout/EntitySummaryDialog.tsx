@@ -65,13 +65,16 @@ const EntitySummaryDialog = ({
                 : fieldMappings[field.key];
               const text = field.name;
               const currentValue = updates[field.key] !== undefined ? updates[field.key] : value;
+              const fullValue = (field?.prefix ? field?.prefix : '')
+                + currentValue
+                + (field?.postfix ? field?.postfix : '');
               return (
                 <ListItem
                   dense
                   key={field.key}
                 >
                   <ListItemButton onClick={() => setEditField(field)}>
-                    <ListItemText primary={text} secondary={currentValue.toString()} />
+                    <ListItemText primary={text} secondary={fullValue.toString()} />
                   </ListItemButton>
                 </ListItem>
               );

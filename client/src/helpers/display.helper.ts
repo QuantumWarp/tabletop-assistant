@@ -120,7 +120,13 @@ export default class DisplayHelper {
 
         const field = slotMappings[slotKey];
         const value = fieldMappings[field];
-        return { ...obj, [slotKey]: value };
+
+        const entityField = entity.fields.find((x) => x.key === field);
+        const fullValue = (entityField?.prefix ? entityField?.prefix : '')
+          + value
+          + (entityField?.postfix ? entityField?.postfix : '');
+
+        return { ...obj, [slotKey]: fullValue };
       }, {});
 
     return slotValueMapping as T;

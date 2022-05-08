@@ -17,12 +17,14 @@ const LayoutPage = () => {
   const [layoutId, setLayoutId] = useState<string | false>();
   const currentLayout = layouts?.find((x) => x._id === layoutId);
 
-  const layoutList = layouts?.filter((x) => !x.hidden);
+  const layoutList = layouts
+    ?.filter((x) => !x.hidden)
+    ?.sort((a, b) => (a.order > b.order ? 1 : -1));
 
   useEffect(() => {
-    if (!layouts) return;
-    setLayoutId(layouts[0]?._id);
-  }, [layouts]);
+    if (!layoutList) return;
+    setLayoutId(layoutList[0]?._id);
+  }, [layoutList]);
 
   return (
     <>
