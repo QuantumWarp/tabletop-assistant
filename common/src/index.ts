@@ -12,6 +12,10 @@ export type {
   EntityAction,
   EntityActionTrigger,
   EntityDisplay,
+  EntityActionRoll,
+  EntityActionRollDie,
+  EntityFieldExpression,
+  EntityFieldRef,
 } from './entity/entity';
 
 export type {

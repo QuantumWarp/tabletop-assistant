@@ -2,5 +2,6 @@ node_modules
 dist
 .env
 
-src/entities/
+src/ogl/
+src/other/
 src/templates/

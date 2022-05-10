@@ -4,6 +4,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import FieldType from '../helpers/field.type';
 import useIsFirstRender from '../helpers/is-first-render';
+import ComputedInput from './ComputedInput';
 
 interface ValueInputProps {
   label: string;
@@ -74,6 +75,13 @@ const ValueInput = ({
             }
             setInternal(newValue);
           }}
+        />
+      )}
+
+      {type === FieldType.Computed && (
+        <ComputedInput
+          value={value}
+          onChange={(newValue) => onChange(newValue)}
         />
       )}
     </>

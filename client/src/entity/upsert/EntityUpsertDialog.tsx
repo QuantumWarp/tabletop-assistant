@@ -63,12 +63,12 @@ const ObjectUpsertDialog = ({
 
   const [entity, setEntity] = useState<CreateEntity>({
     tabletopId,
-    name: '',
-    tags: [],
-    fields: [],
-    actions: [],
-    displays: [],
-    ...initial,
+    name: initial?.name || '',
+    icon: initial?.icon,
+    tags: initial?.tags || [],
+    fields: initial?.fields || [],
+    actions: initial?.actions || [],
+    displays: initial?.displays || [],
   });
 
   useEffect(() => {
@@ -85,6 +85,10 @@ const ObjectUpsertDialog = ({
     } else {
       createEntity({ ...entity });
     }
+  };
+
+  const saveEntityCopy = () => {
+    createEntity({ ...entity });
   };
 
   return (
@@ -146,6 +150,14 @@ const ObjectUpsertDialog = ({
       <DialogActions>
         {initial?._id && (
           <>
+            <Button
+              variant="outlined"
+              disabled={loading}
+              onClick={saveEntityCopy}
+            >
+              Save as Copy
+            </Button>
+
             <Button
               variant="outlined"
               disabled={loading}

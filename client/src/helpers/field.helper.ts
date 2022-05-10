@@ -7,6 +7,7 @@ export default class FieldHelper {
       case FieldType.String: return 'Text';
       case FieldType.Boolean: return 'True or False';
       case FieldType.Number: return 'Number';
+      case FieldType.Computed: return 'Computed';
       default: throw new Error('Invalid field type');
     }
   }

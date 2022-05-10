@@ -25,6 +25,7 @@ export interface EntityField {
   name: string;
   type: string;
   initial: any;
+  computed?: EntityFieldExpression;
   static?: boolean;
   prefix?: string;
   postfix?: string;
@@ -52,4 +53,21 @@ export interface EntityDisplay {
   mappings: {
     [slot: string]: string;
   };
+}
+
+export type EntityActionRoll = EntityActionRollDie[];
+
+export interface EntityActionRollDie {
+  number: number | EntityFieldExpression;
+  faces: number | EntityFieldExpression;
+}
+
+export interface EntityFieldExpression {
+  expression: string;
+  variables: { [variable: string]: EntityFieldRef },
+}
+
+export interface EntityFieldRef {
+  entityId: string;
+  fieldKey: string;
 }
