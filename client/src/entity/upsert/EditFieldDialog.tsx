@@ -16,10 +16,11 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityField } from 'tabletop-assistant-common';
+import { EntityField, EntityFieldExpression } from 'tabletop-assistant-common';
 import FieldHelper from '../../helpers/field.helper';
 import ValueInput from '../../common/ValueInput';
 import FieldType from '../../helpers/field.type';
+import ComputedInput from '../../common/ComputedInput';
 
 interface EditFieldDialogProps {
   initial?: Partial<EntityField>;
@@ -34,6 +35,7 @@ const EditFieldDialog = ({
 }: EditFieldDialogProps) => {
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState(initial?.type || FieldType.String);
+  const [computed, setComputed] = useState(initial?.computed || {});
   const [initialValue, setInitialValue] = useState(initial?.initial || '');
   const [prefix, setPrefix] = useState(initial?.prefix || '');
   const [postfix, setPostfix] = useState(initial?.postfix || '');
@@ -99,6 +101,13 @@ const EditFieldDialog = ({
               type={type as FieldType}
               onChange={setInitialValue}
             />
+
+            {type === FieldType.Computed && (
+              <ComputedInput
+                value={computed as EntityFieldExpression}
+                onChange={(newValue) => setComputed(newValue)}
+              />
+            )}
           </Grid>
 
           <Grid item xs={6}>
