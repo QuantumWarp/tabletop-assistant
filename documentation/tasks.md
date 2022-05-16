@@ -7,3 +7,5 @@
 - Pessimistic update values & layouts
 
 ### Functional
+
+- Error when deleting final layout
