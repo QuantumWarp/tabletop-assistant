@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "serve": "ts-node-dev ./src/index.ts",
-    "start": "ts-node ./src/index.ts",
-    "docker": "docker context use default && docker start mongodb || docker run --name mongodb -d -p 27017:27017 mongo"
+    "start": "ts-node ./src/index.ts"
   },
   "author": "",
   "license": "ISC",

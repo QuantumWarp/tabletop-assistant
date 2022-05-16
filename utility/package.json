@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node ./src/index.ts"
+    "purge": "ts-node ./src/purge/index.ts",
+    "template": "ts-node ./src/template/index.ts"
   },
   "author": "",
   "license": "ISC",
