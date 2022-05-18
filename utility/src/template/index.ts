@@ -1,7 +1,6 @@
 import 'dotenv/config';
-import { connect, disconnect } from 'mongoose';
-
-import TemplateModel from './template.model';
+import { connect, disconnect } from 'tabletop-assistant-server/src/setup/db';
+import TemplateModel from 'tabletop-assistant-server/src/template/template.model';
 
 import templates from './templates';
 
