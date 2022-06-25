@@ -2,6 +2,7 @@ export interface Layout {
   readonly _id: string;
   readonly userId: string;
   readonly tabletopId: string;
+  readonly templateId?: string;
 
   order: number;
   name: string;

@@ -2,6 +2,7 @@ export interface Entity {
   readonly _id: string;
   readonly userId: string;
   readonly tabletopId: string;
+  readonly templateId?: string;
 
   name: string;
   tags: string[];

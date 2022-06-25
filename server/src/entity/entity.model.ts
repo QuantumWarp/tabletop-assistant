@@ -4,6 +4,7 @@ import { Entity } from 'tabletop-assistant-common';
 const schema = new Schema<Entity>({
   userId: { type: String, required: true, immutable: true },
   tabletopId: { type: String, required: true, immutable: true },
+  templateId: { type: String, immutable: true },
   name: { type: String, required: true },
   tags: [{ type: String }],
   description: { type: String },

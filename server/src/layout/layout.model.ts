@@ -4,6 +4,7 @@ import { Layout } from 'tabletop-assistant-common';
 const schema = new Schema<Layout>({
   userId: { type: String, required: true, immutable: true },
   tabletopId: { type: String, required: true, immutable: true },
+  templateId: { type: String, immutable: true },
 
   order: { type: Number, required: true },
   hidden: { type: Boolean },

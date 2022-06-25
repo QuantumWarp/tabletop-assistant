@@ -13,6 +13,14 @@ export default class EntityRepository {
       .find({ userId: this.userId, tabletopId });
   }
 
+  async getTemplated(tabletopId: string, templateIds: string[]): Promise<Entity[]> {
+    return EntityModel
+      .find({ userId: this.userId, tabletopId })
+      .where('templateId')
+      .in(templateIds)
+      .exec();
+  }
+
   async get(_id: string): Promise<Entity> {
     const model = await EntityModel.findOne({ _id, userId: this.userId });
     if (!model) throw new ResourceNotFound();
