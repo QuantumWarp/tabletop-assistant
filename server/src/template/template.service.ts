@@ -1,3 +1,4 @@
+import produce from 'immer';
 import { Types } from 'mongoose';
 import { CreateEntity, CreateLayout, Entity } from 'tabletop-assistant-common';
 
@@ -30,12 +31,12 @@ export default class TemplateService {
         ...x,
         templateId: x._id,
         tabletopId,
-        _id: new Types.ObjectId(),
+        _id: new Types.ObjectId().toString(),
       }));
 
     const idMap = TemplateService.createEntityIdMap(
-      existingEntities.map((x) => ({ _id: x._id, templateId: templateId as string })),
-      newEntities.map((x) => ({ _id: x._id.toString(), templateId: templateId as string })),
+      existingEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
+      newEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
     );
 
     await Promise.all(newEntities
@@ -58,8 +59,23 @@ export default class TemplateService {
 
   private static findReferencedIds(entities: TemplatedEntity[]) {
     return entities
-      .map((x) => [x._id])
+      .map((x) => TemplateService.findReferencedIdsOnEntity(x))
       .reduce((arr, x) => arr.concat(x), []);
+  }
+
+  private static findReferencedIdsOnEntity(entity: TemplatedEntity) {
+    const computedFieldIds = entity.fields
+      .map((x) => x.computed)
+      .filter((x) => Boolean(x))
+      .map((x) => x!.variables)
+      .map((x) => Object.values(x))
+      .reduce((arr, x) => arr.concat(x), [])
+      .map((x) => x.entityId);
+
+    return [
+      entity._id,
+      ...computedFieldIds,
+    ];
   }
 
   private static createEntityIdMap(
@@ -75,21 +91,28 @@ export default class TemplateService {
 
   private static updateEntityReferencedIds(
     entity: CreateEntity,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     idMap: { [templatedId: string]: string },
   ): CreateEntity {
-    return {
-      ...entity,
-    };
+    return produce(entity, (draft) => {
+      draft.fields
+        .map((x) => x.computed)
+        .filter((x) => Boolean(x))
+        .map((x) => x!.variables)
+        .map((x) => Object.values(x))
+        .reduce((arr, x) => arr.concat(x), [])
+        // eslint-disable-next-line no-param-reassign
+        .forEach((x) => { x.entityId = idMap[x.entityId]; });
+    });
   }
 
   private static updateLayoutReferencedIds(
     entity: CreateLayout,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     idMap: { [templatedId: string]: string },
   ): CreateLayout {
     return {
       ...entity,
+      entries: entity.entries
+        .map((x) => ({ ...x, entityId: idMap[x.entityId] })),
     };
   }
 }
