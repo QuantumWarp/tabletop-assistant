@@ -17,6 +17,7 @@ const schema = new Schema<Entity>({
     type: { type: String, required: true },
     postfix: { type: String },
     initial: {},
+    computed: {},
   }],
 
   actions: [{

@@ -8,6 +8,7 @@ import LayoutPositionHelper from '../models/layout-position.helper';
 import './LayoutContainer.css';
 import { useGetAllValuesQuery, useGetEntitiesQuery, useUpdateValuesMutation } from '../store/api';
 import LayoutDisplay from '../display/LayoutDisplay';
+import ExpressionHelper from '../helpers/expression.helper';
 
 interface LayoutContainerProps {
   layout: Layout,
@@ -23,6 +24,9 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const [updatedValuesList, setUpdatedValuesList] = useState<Values[]>([]);
 
   const valuesList = values?.map((x) => updatedValuesList.find((val) => x._id === val._id) || x);
+
+  const valuesComputedList = valuesList && entities
+    && ExpressionHelper.calculateComputedValues(valuesList, entities);
 
   const history = useHistory();
 
@@ -97,7 +101,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
       {layout.entries.map((entry) => {
         const entity = entities?.find((x) => entry.entityId === x._id);
         const display = entity?.displays.find((x) => x.key === entry.displayKey);
-        const entityValues = valuesList?.find((x) => x.entityId === entry.entityId);
+        const entityValues = valuesComputedList?.find((x) => x.entityId === entry.entityId);
         const invalidEntry = !entity || !display || !entityValues;
 
         return (
