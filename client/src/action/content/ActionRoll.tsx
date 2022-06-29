@@ -1,5 +1,6 @@
 import React from 'react';
-import RollCombo, { RollComboHelper } from '../../models/roll-combo';
+import { RollCombo } from 'tabletop-assistant-common';
+import RollHelper from '../../helpers/roll.helper';
 import './ActionRoll.css';
 
 interface ActionRollProps {
@@ -8,7 +9,7 @@ interface ActionRollProps {
 
 const ActionRoll = ({ combo }: ActionRollProps) => {
   const staticValue = combo.filter((x) => x.static).reduce((sum, x) => sum + x.faces, 0);
-  const faceComboDict = RollComboHelper.groupByFaces(combo.filter((x) => !x.static));
+  const faceComboDict = RollHelper.groupByFaces(combo.filter((x) => !x.static));
 
   return (
     <div className="action-roll">
@@ -19,10 +20,7 @@ const ActionRoll = ({ combo }: ActionRollProps) => {
       {Object.keys(faceComboDict)
         .sort((a, b) => Math.abs(Number(a)) - Math.abs(Number(b)))
         .map((x, index) => (
-          <span
-            key={faceComboDict[Number(x)].map((entry) => entry.id).join(',')}
-            className="face-combo"
-          >
+          <span className="face-combo">
             {(index >= 1 || staticValue !== 0 || Number(x) < 0) && (
               <span className="sign">{Number(x) > 0 ? '+' : '-'}</span>
             )}

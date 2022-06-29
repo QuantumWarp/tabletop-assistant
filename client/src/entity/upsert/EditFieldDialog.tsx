@@ -16,7 +16,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityField, EntityFieldExpression } from 'tabletop-assistant-common';
+import { EntityField, Expression } from 'tabletop-assistant-common';
 import FieldHelper from '../../helpers/field.helper';
 import ValueInput from '../../common/ValueInput';
 import FieldType from '../../helpers/field.type';
@@ -104,7 +104,7 @@ const EditFieldDialog = ({
 
             {type === FieldType.Computed && (
               <ComputedInput
-                value={computed as EntityFieldExpression}
+                value={computed as Expression}
                 onChange={(newValue) => setComputed(newValue)}
               />
             )}

@@ -1,3 +1,6 @@
+import { Expression } from './expression';
+import { RollCombo } from './roll';
+
 export interface Entity {
   readonly _id: string;
   readonly userId: string;
@@ -26,7 +29,7 @@ export interface EntityField {
   name: string;
   type: string;
   initial: any;
-  computed?: EntityFieldExpression;
+  computed?: Expression;
   static?: boolean;
   prefix?: string;
   postfix?: string;
@@ -35,7 +38,7 @@ export interface EntityField {
 export interface EntityAction {
   key: string;
   name: string;
-  roll?: string;
+  roll?: RollCombo;
   triggers: EntityActionTrigger[];
 }
 
@@ -54,21 +57,4 @@ export interface EntityDisplay {
   mappings: {
     [slot: string]: string;
   };
-}
-
-export type EntityActionRoll = EntityActionRollDie[];
-
-export interface EntityActionRollDie {
-  number: number | EntityFieldExpression;
-  faces: number | EntityFieldExpression;
-}
-
-export interface EntityFieldExpression {
-  expression: string;
-  variables: { [variable: string]: EntityFieldRef },
-}
-
-export interface EntityFieldRef {
-  entityId: string;
-  fieldKey: string;
 }

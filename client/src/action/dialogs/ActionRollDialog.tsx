@@ -8,10 +8,9 @@ import {
   Grid,
   TextField,
 } from '@mui/material';
-import { v4 as guid } from 'uuid';
 import { Icon } from '@iconify/react';
+import { RollCombo } from 'tabletop-assistant-common';
 import ActionRoll from '../content/ActionRoll';
-import RollCombo, { RollComboHelper } from '../../models/roll-combo';
 import './ActionRollDialog.css';
 
 interface ActionRollDialogProps {
@@ -21,11 +20,13 @@ interface ActionRollDialogProps {
 }
 
 const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
-  const [updatedCombo, setUpdatedCombo] = useState(RollComboHelper.clone(combo));
+  const [updatedCombo, setUpdatedCombo] = useState(combo);
 
   const updateStaticValue = (value: number) => {
     setUpdatedCombo(updatedCombo.filter((x) => !x.static)
-      .concat([{ id: guid(), faces: value, static: true }]));
+      .concat([{
+        faces: value, static: true, negative: false, number: 1,
+      }]));
   };
 
   const addToCombo = (faces: number) => {
@@ -35,7 +36,9 @@ const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
     } else {
       setUpdatedCombo([
         ...updatedCombo,
-        { id: guid(), faces },
+        {
+          faces, static: false, negative: false, number: 1,
+        },
       ]);
     }
   };
@@ -47,7 +50,9 @@ const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
     } else {
       setUpdatedCombo([
         ...updatedCombo,
-        { id: guid(), faces, negative: true },
+        {
+          faces, negative: true, static: false, number: 1,
+        },
       ]);
     }
   };

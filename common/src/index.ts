@@ -12,11 +12,19 @@ export type {
   EntityAction,
   EntityActionTrigger,
   EntityDisplay,
-  EntityActionRoll,
-  EntityActionRollDie,
-  EntityFieldExpression,
-  EntityFieldRef,
 } from './entity/entity';
+
+export type {
+  Expression,
+  EntityFieldRef,
+} from './entity/expression';
+
+export type {
+  RollCombo,
+  RollComboGroup,
+  RollResult,
+  RollResultDie,
+} from './entity/roll';
 
 export type {
   Values,

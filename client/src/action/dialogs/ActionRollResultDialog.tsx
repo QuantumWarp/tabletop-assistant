@@ -7,27 +7,26 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { Redo } from '@mui/icons-material';
-import RollCombo, { RollComboHelper } from '../../models/roll-combo';
 import './ActionRollResultDialog.css';
+import { RollResult, RollResultDie } from 'tabletop-assistant-common';
+import RollHelper from '../../helpers/roll.helper';
 
 interface ActionRollResultDialogProps {
-  combo: RollCombo;
+  result: RollResult;
   open: boolean;
-  onClose: (updatedCombo?: RollCombo) => void;
+  onClose: (updatedResult?: RollResult) => void;
 }
 
-const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialogProps) => {
-  const [updatedResult, setUpdatedResult] = useState(RollComboHelper.clone(combo, true));
+const ActionRollResultDialog = ({ result, open, onClose }: ActionRollResultDialogProps) => {
+  const [updatedResult, setUpdatedResult] = useState(result);
 
   const staticResults = updatedResult.filter((x) => x.static);
   const nonStaticResults = updatedResult.filter((x) => !x.static);
 
-  const rerollEntry = (entryId: string) => {
-    const entryIndex = updatedResult.findIndex((x) => x.id === entryId);
-    if (entryIndex === -1) return;
-    const entry = updatedResult[entryIndex];
-    const newEntry = RollComboHelper.rollSingle(entry);
+  const rerollEntry = (entry: RollResultDie) => {
+    const newEntry = RollHelper.rollSingleDie(entry);
     const newResult = [...updatedResult];
+    const entryIndex = updatedResult.findIndex((x) => x === entry);
     newResult[entryIndex] = newEntry;
     setUpdatedResult(newResult);
   };
@@ -42,24 +41,23 @@ const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialog
         <div className="total">
           Total
           {': '}
-          {RollComboHelper.totalValue(updatedResult)}
+          {RollHelper.totalValue(updatedResult)}
         </div>
 
         <div className="results">
           <div className="result">
             <span className="top" />
-            <span className="static">{RollComboHelper.totalValue(staticResults)}</span>
+            <span className="static">{RollHelper.totalValue(staticResults)}</span>
             <span className="detail">Static</span>
           </div>
 
           {nonStaticResults.map((x) => (
-            <React.Fragment key={x.id}>
+            <>
               <span className="sign">{x.negative ? '-' : '+'}</span>
 
               <div
-                key={x.id}
                 className="result"
-                onClick={() => rerollEntry(x.id)}
+                onClick={() => rerollEntry(x)}
               >
                 <span className="top">{x.previous && <Redo />}</span>
 
@@ -72,7 +70,7 @@ const ActionRollResultDialog = ({ combo, open, onClose }: ActionRollResultDialog
                   {x.faces}
                 </span>
               </div>
-            </React.Fragment>
+            </>
           ))}
         </div>
       </DialogContent>

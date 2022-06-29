@@ -1,6 +1,6 @@
-import { CreateEntity, Entity, EntityActionTrigger } from 'tabletop-assistant-common';
-import RollCombo from '../models/roll-combo';
-import RollComboParser from '../models/roll-combo-parser';
+import {
+  CreateEntity, Entity, EntityActionTrigger, RollCombo, RollResult,
+} from 'tabletop-assistant-common';
 
 interface EntityActionId {
   entityId: string;
@@ -11,7 +11,7 @@ export interface ActionTreeNode {
   entityId: string;
   actionKey: string;
   combo?: RollCombo;
-  results: RollCombo[];
+  results: RollResult[];
   children: ActionTreeNode[];
 }
 
@@ -41,7 +41,7 @@ export class ActionTreeHelper {
     return {
       entityId: entity._id,
       actionKey: action.key,
-      combo: action.roll ? RollComboParser.parse(action.roll, action.key) : undefined,
+      combo: action.roll,
       results: [],
       children: [],
     };

@@ -24,7 +24,8 @@ const schema = new Schema<Entity>({
     _id: { id: false },
     key: { type: String, required: true },
     name: { type: String, required: true },
-    roll: { type: String },
+    roll: {},
+    macro: {},
     triggers: [{
       _id: { id: false },
       manual: { type: Boolean, required: true },

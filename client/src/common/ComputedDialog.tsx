@@ -18,13 +18,13 @@ import {
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { parse, SymbolNode } from 'mathjs';
-import { EntityFieldExpression, EntityFieldRef } from 'tabletop-assistant-common';
+import { Expression, EntityFieldRef } from 'tabletop-assistant-common';
 import { useGetEntitiesQuery } from '../store/api';
 
 interface ComputedDialogProps {
-  initial: EntityFieldExpression;
+  initial: Expression;
   open: boolean;
-  onSave: (expression: EntityFieldExpression) => void;
+  onSave: (expression: Expression) => void;
   onDelete: () => void;
   onClose: () => void;
 }

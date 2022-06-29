@@ -8,7 +8,7 @@ import ActionNodeLeft from './ActionNodeLeft';
 import ActionNodeRight from './ActionNodeRight';
 import './ActionNode.css';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
-import { RollComboHelper } from '../models/roll-combo';
+import RollHelper from '../helpers/roll.helper';
 
 interface ActionNodeProps {
   level: number;
@@ -21,7 +21,7 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
   const rollAction = (rollNode: ActionTreeNode) => {
     if (!rollNode.combo) return;
 
-    const result = RollComboHelper.roll(rollNode.combo);
+    const result = RollHelper.roll(rollNode.combo);
     setUpdatedNode({
       ...rollNode,
       results: rollNode.results.concat([result]),

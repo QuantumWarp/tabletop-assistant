@@ -40,7 +40,7 @@ const EditActionDialog = ({
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
   const [name, setName] = useState(initial?.name || '');
-  const [roll, setRoll] = useState(initial?.roll || '');
+  const [roll] = useState(initial?.roll);
   const [triggers, setTriggers] = useState(initial?.triggers || []);
 
   const key = FieldHelper.createKey(name);
@@ -79,12 +79,12 @@ const EditActionDialog = ({
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
+            {/* <TextField
               fullWidth
               label="Roll"
               value={roll}
               onChange={(e) => setRoll(e.target.value)}
-            />
+            /> */}
           </Grid>
 
           {triggers.length > 0 && (

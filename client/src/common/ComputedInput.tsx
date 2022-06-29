@@ -2,12 +2,12 @@ import {
   TextField,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { EntityFieldExpression } from 'tabletop-assistant-common';
+import { Expression } from 'tabletop-assistant-common';
 import ComputedDialog from './ComputedDialog';
 
 interface ComputedInputProps {
-  value: EntityFieldExpression;
-  onChange: (value: EntityFieldExpression) => void;
+  value: Expression;
+  onChange: (value: Expression) => void;
 }
 
 const ComputedInput = ({

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Box, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
+import { RollCombo } from 'tabletop-assistant-common';
 import ActionRoll from './content/ActionRoll';
 import './ActionNodeLeft.css';
 import ActionRollDialog from './dialogs/ActionRollDialog';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../store/api';
-import RollCombo from '../models/roll-combo';
 
 interface ActionNodeLeftProps {
   level: number;
