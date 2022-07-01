@@ -1,5 +1,8 @@
-import { RollCombo, RollResult } from 'tabletop-assistant-common';
+import {
+  Entity, RollCombo, RollResult, Values,
+} from 'tabletop-assistant-common';
 import { RollComboGroup, RollResultDie } from 'tabletop-assistant-common/src/entity/roll';
+import ExpressionHelper from './expression.helper';
 
 export default class RollHelper {
   static roll(combo: RollCombo): RollResult {
@@ -26,6 +29,19 @@ export default class RollHelper {
       faces: die.faces,
       result: die.static ? die.faces : Math.floor(Math.random() * die.faces) + 1,
     };
+  }
+
+  static resolveComputed(combo: RollCombo, entities: Entity[], values: Values[]) {
+    return combo
+      .map((x) => ({
+        ...x,
+        faces: x.facesComputed
+          ? ExpressionHelper.calculateExpression(x.facesComputed, values, entities)
+          : x.faces,
+        number: x.numberComputed
+          ? ExpressionHelper.calculateExpression(x.numberComputed, values, entities)
+          : x.number,
+      }));
   }
 
   static groupByFaces(combo: RollCombo): { [key: number]: RollCombo } {

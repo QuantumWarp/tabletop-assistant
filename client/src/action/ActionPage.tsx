@@ -4,11 +4,12 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import ActionNode from './ActionNode';
 import TopBar from '../common/TopBar';
 import { ActionTreeHelper } from '../helpers/action-tree.helper';
-import { useGetEntitiesQuery } from '../store/api';
+import { useGetAllValuesQuery, useGetEntitiesQuery } from '../store/api';
 
 const ActionPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
+  const { data: values } = useGetAllValuesQuery(tabletopId);
   const history = useHistory();
 
   const location = useLocation();
@@ -16,8 +17,8 @@ const ActionPage = () => {
   const entityId = params.get('entity');
   const actionKey = params.get('action');
 
-  const actionTree = entityId && actionKey && entities
-    && ActionTreeHelper.createActionTree(entityId, actionKey, entities);
+  const actionTree = entityId && actionKey && entities && values
+    && ActionTreeHelper.createActionTree(entityId, actionKey, entities, values);
 
   return (
     <>

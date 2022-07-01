@@ -1,5 +1,5 @@
 import {
-  Entity, EntityField, Values,
+  Entity, EntityField, Expression, Values,
 } from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
 import DisplayHelper from './display.helper';
@@ -66,5 +66,35 @@ export default class ExpressionHelper {
 
     entityValues.mappings[field.key] = newValue;
     return newValues;
+  }
+
+  static calculateExpression(
+    expression: Expression, values: Values[], entities: Entity[],
+  ): any | undefined {
+    let newValues = values;
+    const parse = parser();
+
+    const variables = Object.keys(expression.variables);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const variable of variables) {
+      const entityRef = expression.variables[variable];
+
+      const varEntity = entities.find((x) => x._id === entityRef.entityId);
+      const varField = varEntity?.fields.find((x) => x.key === entityRef.fieldKey);
+
+      if (varEntity && varField && varField.computed) {
+        newValues = ExpressionHelper.calculateComputedField(varEntity, varField, values, entities);
+      }
+
+      const value = newValues
+        .find((x) => x.entityId === entityRef.entityId)
+        ?.mappings[entityRef.fieldKey];
+
+      if (!value) return undefined;
+
+      parse.set(variable, value);
+    }
+
+    return parse.evaluate(expression.expression);
   }
 }

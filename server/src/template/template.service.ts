@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { Types } from 'mongoose';
-import { CreateEntity, CreateLayout, Entity } from 'tabletop-assistant-common';
+import {
+  CreateEntity, CreateLayout, Entity, Expression, RollCombo,
+} from 'tabletop-assistant-common';
 
 import EntityRepository from '../entity/entity.repository';
 import LayoutRepository from '../layout/layout.repository';
@@ -72,9 +74,24 @@ export default class TemplateService {
       .reduce((arr, x) => arr.concat(x), [])
       .map((x) => x.entityId);
 
+    const computedRollIds = entity.actions
+      .map((x) => x.roll)
+      .filter((x): x is RollCombo => Boolean(x))
+      .reduce((arr, x) => arr.concat(x), [])
+      .reduce(
+        (arr, x) => arr!.concat([x.facesComputed, x.numberComputed]),
+        [] as (Expression | undefined)[],
+      )
+      .filter((x) => Boolean(x))
+      .map((x) => x!.variables)
+      .map((x) => Object.values(x))
+      .reduce((arr, x) => arr.concat(x), [])
+      .map((x) => x.entityId);
+
     return [
       entity._id,
       ...computedFieldIds,
+      ...computedRollIds,
     ];
   }
 
@@ -96,6 +113,21 @@ export default class TemplateService {
     return produce(entity, (draft) => {
       draft.fields
         .map((x) => x.computed)
+        .filter((x) => Boolean(x))
+        .map((x) => x!.variables)
+        .map((x) => Object.values(x))
+        .reduce((arr, x) => arr.concat(x), [])
+        // eslint-disable-next-line no-param-reassign
+        .forEach((x) => { x.entityId = idMap[x.entityId]; });
+
+      entity.actions
+        .map((x) => x.roll)
+        .filter((x): x is RollCombo => Boolean(x))
+        .reduce((arr, x) => arr.concat(x), [])
+        .reduce(
+          (arr, x) => arr!.concat([x.facesComputed, x.numberComputed]),
+          [] as (Expression | undefined)[],
+        )
         .filter((x) => Boolean(x))
         .map((x) => x!.variables)
         .map((x) => Object.values(x))

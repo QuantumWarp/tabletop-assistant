@@ -1,6 +1,7 @@
 import {
-  CreateEntity, Entity, EntityActionTrigger, RollCombo, RollResult,
+  CreateEntity, Entity, EntityActionTrigger, RollCombo, RollResult, Values,
 } from 'tabletop-assistant-common';
+import RollHelper from './roll.helper';
 
 interface EntityActionId {
   entityId: string;
@@ -24,14 +25,16 @@ export class ActionTreeHelper {
     entityId: string,
     actionKey: string,
     entities: Entity[],
+    values: Values[],
   ): ActionTree {
     return this.processNodes(
-      [this.createNode({ entityId, actionKey }, entities)],
+      [this.createNode({ entityId, actionKey }, entities, values)],
       entities,
+      values,
     );
   }
 
-  static createNode(eaId: EntityActionId, entities: Entity[]): ActionTreeNode {
+  static createNode(eaId: EntityActionId, entities: Entity[], values: Values[]): ActionTreeNode {
     const entity = entities.find((x) => x._id === eaId.entityId);
     if (!entity) throw new Error('No entity found with that id');
 
@@ -41,23 +44,25 @@ export class ActionTreeHelper {
     return {
       entityId: entity._id,
       actionKey: action.key,
-      combo: action.roll,
+      combo: action.roll && RollHelper.resolveComputed(action.roll, entities, values),
       results: [],
       children: [],
     };
   }
 
-  static processNodes(nodes: ActionTreeNode[], entities: Entity[]) {
+  static processNodes(nodes: ActionTreeNode[], entities: Entity[], values: Values[]) {
     let index = 0;
 
     while (nodes[index]) {
       const node = nodes[index];
       const childActions = this.getRelatedActions(node, entities, false);
-      const childNodes: ActionTreeNode[] = childActions.map((x) => this.createNode(x, entities));
-      node.children = this.processNodes(childNodes, entities);
+      const childNodes: ActionTreeNode[] = childActions
+        .map((x) => this.createNode(x, entities, values));
+      node.children = this.processNodes(childNodes, entities, values);
 
       const sibActions = this.getRelatedActions(node, entities, true);
-      const sibNodes: ActionTreeNode[] = sibActions.map((x) => this.createNode(x, entities));
+      const sibNodes: ActionTreeNode[] = sibActions
+        .map((x) => this.createNode(x, entities, values));
       nodes.push(...sibNodes);
 
       index += 1;
