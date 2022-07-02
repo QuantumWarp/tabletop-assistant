@@ -3,6 +3,7 @@ import { Types } from 'mongoose';
 import {
   CreateEntity, CreateLayout, Entity, Expression, RollCombo,
 } from 'tabletop-assistant-common';
+import { Macro } from 'tabletop-assistant-common/src/entity/expression';
 
 import EntityRepository from '../entity/entity.repository';
 import LayoutRepository from '../layout/layout.repository';
@@ -88,10 +89,27 @@ export default class TemplateService {
       .reduce((arr, x) => arr.concat(x), [])
       .map((x) => x.entityId);
 
+    const computedMacroTargetIds = entity.actions
+      .map((x) => x.macros)
+      .filter((x): x is Macro[] => Boolean(x))
+      .reduce((arr, x) => arr.concat(x), [])
+      .map((x) => x.target.entityId);
+
+    const computedMacroIds = entity.actions
+      .map((x) => x.macros)
+      .filter((x): x is Macro[] => Boolean(x))
+      .reduce((arr, x) => arr.concat(x), [])
+      .map((x) => x.expression.variables)
+      .map((x) => Object.values(x))
+      .reduce((arr, x) => arr.concat(x), [])
+      .map((x) => x.entityId);
+
     return [
       entity._id,
       ...computedFieldIds,
       ...computedRollIds,
+      ...computedMacroTargetIds,
+      ...computedMacroIds,
     ];
   }
 
@@ -130,6 +148,24 @@ export default class TemplateService {
         )
         .filter((x) => Boolean(x))
         .map((x) => x!.variables)
+        .map((x) => Object.values(x))
+        .reduce((arr, x) => arr.concat(x), [])
+        // eslint-disable-next-line no-param-reassign
+        .forEach((x) => { x.entityId = idMap[x.entityId]; });
+
+      entity.actions
+        .map((x) => x.macros)
+        .filter((x): x is Macro[] => Boolean(x))
+        .reduce((arr, x) => arr.concat(x), [])
+        .map((x) => x.target)
+        // eslint-disable-next-line no-param-reassign
+        .forEach((x) => { x.entityId = idMap[x.entityId]; });
+
+      entity.actions
+        .map((x) => x.macros)
+        .filter((x): x is Macro[] => Boolean(x))
+        .reduce((arr, x) => arr.concat(x), [])
+        .map((x) => x.expression.variables)
         .map((x) => Object.values(x))
         .reduce((arr, x) => arr.concat(x), [])
         // eslint-disable-next-line no-param-reassign

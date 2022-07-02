@@ -17,6 +17,7 @@ export type {
 export type {
   Expression,
   EntityFieldRef,
+  Macro,
 } from './entity/expression';
 
 export type {

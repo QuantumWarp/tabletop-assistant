@@ -1,4 +1,4 @@
-import { Expression } from './expression';
+import { Expression, Macro } from './expression';
 import { RollCombo } from './roll';
 
 export interface Entity {
@@ -39,6 +39,7 @@ export interface EntityAction {
   key: string;
   name: string;
   roll?: RollCombo;
+  macros?: Macro[],
   triggers: EntityActionTrigger[];
 }
 

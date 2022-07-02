@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import {
+  AcUnit as MacroIcon,
   Casino as RollIcon,
   ArrowRightAlt as ArrowRightIcon,
 } from '@mui/icons-material';
@@ -49,6 +50,15 @@ const ActionNode = ({ level, node }: ActionNodeProps) => {
               onClick={() => rollAction(updatedNode)}
             >
               <RollIcon />
+              <ArrowRightIcon />
+            </Button>
+          )}
+
+          {updatedNode.macros && (
+            <Button
+              className="button"
+            >
+              <MacroIcon />
               <ArrowRightIcon />
             </Button>
           )}
