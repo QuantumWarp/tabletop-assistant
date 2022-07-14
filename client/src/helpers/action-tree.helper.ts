@@ -1,7 +1,6 @@
 import {
-  CreateEntity, Entity, EntityActionTrigger, Macro, RollCombo, RollResult, Values,
+  CreateEntity, Entity, EntityAction, EntityActionTrigger,
 } from 'tabletop-assistant-common';
-import RollHelper from './roll.helper';
 
 interface EntityActionId {
   entityId: string;
@@ -9,11 +8,9 @@ interface EntityActionId {
 }
 
 export interface ActionTreeNode {
-  entityId: string;
-  actionKey: string;
-  combo?: RollCombo;
-  macros?: Macro[];
-  results: RollResult[];
+  level: number;
+  entity: Entity;
+  action: EntityAction;
   children: ActionTreeNode[];
 }
 
@@ -26,16 +23,15 @@ export class ActionTreeHelper {
     entityId: string,
     actionKey: string,
     entities: Entity[],
-    values: Values[],
   ): ActionTree {
     return this.processNodes(
-      [this.createNode({ entityId, actionKey }, entities, values)],
+      [this.createNode({ entityId, actionKey }, entities, 0)],
       entities,
-      values,
+      0,
     );
   }
 
-  static createNode(eaId: EntityActionId, entities: Entity[], values: Values[]): ActionTreeNode {
+  static createNode(eaId: EntityActionId, entities: Entity[], level: number): ActionTreeNode {
     const entity = entities.find((x) => x._id === eaId.entityId);
     if (!entity) throw new Error('No entity found with that id');
 
@@ -43,28 +39,26 @@ export class ActionTreeHelper {
     if (!action) throw new Error('No action on entity with key');
 
     return {
-      entityId: entity._id,
-      actionKey: action.key,
-      combo: action.roll && RollHelper.resolveComputed(action.roll, entities, values),
-      macros: action.macros,
-      results: [],
+      entity,
+      action,
       children: [],
+      level,
     };
   }
 
-  static processNodes(nodes: ActionTreeNode[], entities: Entity[], values: Values[]) {
+  static processNodes(nodes: ActionTreeNode[], entities: Entity[], level: number) {
     let index = 0;
 
     while (nodes[index]) {
       const node = nodes[index];
       const childActions = this.getRelatedActions(node, entities, false);
       const childNodes: ActionTreeNode[] = childActions
-        .map((x) => this.createNode(x, entities, values));
-      node.children = this.processNodes(childNodes, entities, values);
+        .map((x) => this.createNode(x, entities, level));
+      node.children = this.processNodes(childNodes, entities, level + 1);
 
       const sibActions = this.getRelatedActions(node, entities, true);
       const sibNodes: ActionTreeNode[] = sibActions
-        .map((x) => this.createNode(x, entities, values));
+        .map((x) => this.createNode(x, entities, level));
       nodes.push(...sibNodes);
 
       index += 1;
@@ -79,13 +73,13 @@ export class ActionTreeHelper {
     sibling: boolean,
   ): EntityActionId[] {
     return entities.reduce((related, entity) => {
-      const isCurrentEntity = entity._id === node.entityId;
+      const isCurrentEntity = entity === node.entity;
       const actions = entity.actions
         .filter((x) => x.triggers
           .find((trigger) => !trigger.manual
             && Boolean(trigger.sibling) === Boolean(sibling)
-            && trigger.entityId === (isCurrentEntity ? '-' : node.entityId)
-            && trigger.actionKey === node.actionKey));
+            && trigger.entityId === (isCurrentEntity ? '-' : node.entity._id)
+            && trigger.actionKey === node.action.key));
       const eaIds = actions.map((x) => ({ entityId: entity._id, actionKey: x.key }));
       return related.concat(eaIds);
     }, [] as EntityActionId[]);
@@ -97,7 +91,7 @@ export class ActionTreeHelper {
 
   static findNodes(tree: ActionTree, actionKey: string): ActionTreeNode[] {
     return tree.reduce((arr, node) => {
-      const match = node.actionKey === actionKey;
+      const match = node.action.key === actionKey;
       return arr
         .concat(match ? [node] : [])
         .concat(this.findNodes(node.children, actionKey));

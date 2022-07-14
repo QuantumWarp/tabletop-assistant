@@ -14,10 +14,13 @@ import RollHelper from '../../helpers/roll.helper';
 interface ActionRollResultDialogProps {
   result: RollResult;
   open: boolean;
-  onClose: (updatedResult?: RollResult) => void;
+  onUpdate: (updatedResult: RollResult) => void;
+  onClose: () => void;
 }
 
-const ActionRollResultDialog = ({ result, open, onClose }: ActionRollResultDialogProps) => {
+const ActionRollResultDialog = ({
+  result, open, onUpdate, onClose,
+}: ActionRollResultDialogProps) => {
   const [updatedResult, setUpdatedResult] = useState(result);
 
   const staticResults = updatedResult.filter((x) => x.static);
@@ -80,7 +83,7 @@ const ActionRollResultDialog = ({ result, open, onClose }: ActionRollResultDialo
           Cancel
         </Button>
 
-        <Button onClick={() => onClose(updatedResult)} variant="outlined">
+        <Button onClick={() => { onUpdate(updatedResult); onClose(); }} variant="outlined">
           Apply
         </Button>
       </DialogActions>

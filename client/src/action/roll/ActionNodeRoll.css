@@ -1,0 +1,45 @@
+.action-roll {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+  padding-left: 10px;
+  cursor: pointer;
+}
+.action-roll .face-combo .sign {
+  padding: 0 2px;
+}
+.action-roll .face-combo .d {
+  color: brown;
+}
+.action-roll .face-combo .faces {
+  color: brown;
+}
+
+.action-roll-output {
+  display: flex;
+  align-items: center;
+  overflow: auto;
+}
+.action-roll-output .result {
+  font-size: 20px;
+  padding: 0 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 40px;
+}
+.action-roll-output .result:first-child {
+  min-width: 60px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 0 12px;
+}
+.action-roll-output .result.min {
+  color: red;
+}
+.action-roll-output .result.max {
+  color: green;
+}

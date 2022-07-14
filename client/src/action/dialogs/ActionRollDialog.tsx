@@ -10,16 +10,19 @@ import {
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { RollCombo } from 'tabletop-assistant-common';
-import ActionRoll from '../content/ActionRoll';
+import ActionNodeRollInput from '../roll/ActionNodeRollInput';
 import './ActionRollDialog.css';
 
 interface ActionRollDialogProps {
   combo: RollCombo;
   open: boolean;
-  onClose: (updatedCombo?: RollCombo, rollNow?: boolean) => void;
+  onUpdate: (updatedCombo: RollCombo, rollNow?: boolean) => void;
+  onClose: () => void;
 }
 
-const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
+const ActionRollDialog = ({
+  combo, open, onUpdate, onClose,
+}: ActionRollDialogProps) => {
   const [updatedCombo, setUpdatedCombo] = useState(combo);
 
   const updateStaticValue = (value: number) => {
@@ -66,7 +69,7 @@ const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <ActionRoll combo={updatedCombo} />
+            <ActionNodeRollInput combo={updatedCombo} />
           </Grid>
 
           <Grid item xs={12}>
@@ -110,11 +113,11 @@ const ActionRollDialog = ({ combo, open, onClose }: ActionRollDialogProps) => {
           Cancel
         </Button>
 
-        <Button onClick={() => onClose(updatedCombo)} variant="outlined">
+        <Button onClick={() => { onUpdate(updatedCombo); onClose(); }} variant="outlined">
           Apply
         </Button>
 
-        <Button onClick={() => onClose(updatedCombo, true)} variant="outlined">
+        <Button onClick={() => { onUpdate(updatedCombo, true); onClose(); }} variant="outlined">
           Roll Now
         </Button>
       </DialogActions>

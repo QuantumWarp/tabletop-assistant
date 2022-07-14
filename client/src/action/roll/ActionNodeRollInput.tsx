@@ -1,13 +1,13 @@
 import React from 'react';
 import { RollCombo } from 'tabletop-assistant-common';
 import RollHelper from '../../helpers/roll.helper';
-import './ActionRoll.css';
+import './ActionNodeRoll.css';
 
-interface ActionRollProps {
+interface ActionNodeRollInputProps {
   combo: RollCombo;
 }
 
-const ActionRoll = ({ combo }: ActionRollProps) => {
+const ActionNodeRollInput = ({ combo }: ActionNodeRollInputProps) => {
   const staticValue = combo.filter((x) => x.static).reduce((sum, x) => sum + x.faces, 0);
   const faceComboDict = RollHelper.groupByFaces(combo.filter((x) => !x.static));
 
@@ -34,4 +34,4 @@ const ActionRoll = ({ combo }: ActionRollProps) => {
   );
 };
 
-export default ActionRoll;
+export default ActionNodeRollInput;
