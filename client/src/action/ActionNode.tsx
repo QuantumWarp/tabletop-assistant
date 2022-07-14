@@ -1,5 +1,7 @@
 import React from 'react';
 import { ActionTreeNode } from '../helpers/action-tree.helper';
+import ActionNodeInfo from './info/ActionNodeInfo';
+import ActionNodeMacro from './macro/ActionNodeMacro';
 import ActionNodeRoll from './roll/ActionNodeRoll';
 
 interface ActionNodeProps {
@@ -9,8 +11,8 @@ interface ActionNodeProps {
 const ActionNode = ({ node }: ActionNodeProps) => (
   <>
     {node.action.roll && <ActionNodeRoll node={node} />}
-    {node.action.macros && <div>Macro</div>}
-    {!node.action.roll && !node.action.macros && <div>Info</div>}
+    {node.action.macros && <ActionNodeMacro node={node} />}
+    {!node.action.roll && !node.action.macros && <ActionNodeInfo node={node} />}
 
     {node.children.map((x) => (
       <ActionNode

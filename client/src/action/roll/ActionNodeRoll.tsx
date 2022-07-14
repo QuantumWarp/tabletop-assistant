@@ -16,11 +16,11 @@ import RollHelper from '../../helpers/roll.helper';
 import ActionRollResultDialog from '../dialogs/ActionRollResultDialog';
 import '../common/ActionNode.css';
 
-interface ActionNodeProps {
+interface ActionNodeRollProps {
   node: ActionTreeNode;
 }
 
-const ActionNodeRoll = ({ node }: ActionNodeProps) => {
+const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
   const [editRoll, setEditRoll] = useState(false);
   const [editResult, setEditResult] = useState<RollResult | null>(null);
 

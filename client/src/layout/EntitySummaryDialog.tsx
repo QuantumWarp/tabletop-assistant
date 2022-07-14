@@ -23,7 +23,7 @@ interface EntitySummaryDialogProps {
   entity: CreateEntity;
   fieldMappings: { [field: string]: any };
   open: boolean;
-  onSave: (values: { [field: string]: any }) => void;
+  onSave?: (values: { [field: string]: any }) => void;
   onClose: () => void;
 }
 
@@ -73,7 +73,7 @@ const EntitySummaryDialog = ({
                   dense
                   key={field.key}
                 >
-                  <ListItemButton onClick={() => setEditField(field)}>
+                  <ListItemButton onClick={() => setEditField(field)} disabled={!onSave}>
                     <ListItemText primary={text} secondary={fullValue.toString()} />
                   </ListItemButton>
                 </ListItem>
@@ -101,7 +101,7 @@ const EntitySummaryDialog = ({
           {Object.keys(updates).length === 0 ? 'Close' : 'Cancel'}
         </Button>
 
-        {Object.keys(updates).length > 0 && (
+        {onSave && Object.keys(updates).length > 0 && (
           <Button
             variant="outlined"
             endIcon={<SaveIcon />}
@@ -113,6 +113,10 @@ const EntitySummaryDialog = ({
       </DialogActions>
     </Dialog>
   );
+};
+
+EntitySummaryDialog.defaultProps = {
+  onSave: undefined,
 };
 
 export default EntitySummaryDialog;
