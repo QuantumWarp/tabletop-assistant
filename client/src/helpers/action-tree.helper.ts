@@ -27,7 +27,7 @@ export class ActionTreeHelper {
     return this.processNodes(
       [this.createNode({ entityId, actionKey }, entities, 0)],
       entities,
-      0,
+      1,
     );
   }
 

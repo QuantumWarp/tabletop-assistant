@@ -7,11 +7,12 @@ import './ActionNode.css';
 
 interface ActionNodeCenterProps {
   children: React.ReactNode;
+  noOutput?: Boolean;
   onClick?: () => void;
 }
 
 const ActionNodeCenter = ({
-  children, onClick,
+  children, noOutput, onClick,
 }: ActionNodeCenterProps) => (
   <Box className="action-node-center">
     <Button
@@ -19,13 +20,14 @@ const ActionNodeCenter = ({
       onClick={onClick}
     >
       {children}
-      <ArrowRightIcon />
+      {!noOutput && <ArrowRightIcon />}
     </Button>
   </Box>
 );
 
 ActionNodeCenter.defaultProps = {
   onClick: () => {},
+  noOutput: false,
 };
 
 export default ActionNodeCenter;

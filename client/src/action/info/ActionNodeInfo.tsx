@@ -9,6 +9,7 @@ import { ActionTreeNode } from '../../helpers/action-tree.helper';
 import DisplayHelper from '../../helpers/display.helper';
 import '../common/ActionNode.css';
 import EntitySummaryDialog from '../../layout/EntitySummaryDialog';
+import ActionNodeOutput from '../common/ActionNodeOutput';
 
 interface ActionNodeInfoProps {
   node: ActionTreeNode;
@@ -27,9 +28,14 @@ const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
           {node.entity.description}
         </ActionNodeInput>
 
-        <ActionNodeCenter onClick={() => setInfoOpen(true)}>
+        <ActionNodeCenter
+          noOutput
+          onClick={() => setInfoOpen(true)}
+        >
           <BookIcon />
         </ActionNodeCenter>
+
+        <ActionNodeOutput noOutput />
       </Box>
 
       {infoOpen && (
