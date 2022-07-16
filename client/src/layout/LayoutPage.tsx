@@ -23,8 +23,9 @@ const LayoutPage = () => {
 
   useEffect(() => {
     if (!layoutList) return;
-    setLayoutId(layoutList[0]?._id);
-  }, [layoutList]);
+    if (layoutList.find((x) => x._id === layoutId)) return;
+    setLayoutId(layoutList[0]._id);
+  }, [layoutList, layoutId]);
 
   return (
     <>
@@ -33,7 +34,6 @@ const LayoutPage = () => {
           variant="scrollable"
           value={currentLayout?._id || false}
           onChange={(_e, val) => setLayoutId(val)}
-          centered
         >
           {layoutList?.map((layout) => (
             <Tab
