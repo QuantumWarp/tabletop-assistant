@@ -58,5 +58,7 @@ export type {
   Template,
   TemplateSummary,
   CreateTemplate,
+  CreateTemplateLayout,
+  CreateTemplateEntity,
   UpdateTemplate,
 } from './template/template';

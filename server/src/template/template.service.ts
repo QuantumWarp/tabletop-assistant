@@ -67,6 +67,12 @@ export default class TemplateService {
   }
 
   private static findReferencedIdsOnEntity(entity: TemplatedEntity) {
+    const actionTriggerIds = entity.actions
+      .map((x) => x.triggers)
+      .reduce((arr, x) => arr.concat(x), [])
+      .filter((x) => Boolean(x.entityId))
+      .map((x) => x.entityId as string);
+
     const computedFieldIds = entity.fields
       .map((x) => x.computed)
       .filter((x) => Boolean(x))
@@ -106,6 +112,7 @@ export default class TemplateService {
 
     return [
       entity._id,
+      ...actionTriggerIds,
       ...computedFieldIds,
       ...computedRollIds,
       ...computedMacroTargetIds,
@@ -129,6 +136,13 @@ export default class TemplateService {
     idMap: { [templatedId: string]: string },
   ): CreateEntity {
     return produce(entity, (draft) => {
+      draft.actions
+        .map((x) => x.triggers)
+        .reduce((arr, x) => arr.concat(x), [])
+        .filter((x) => Boolean(x.entityId))
+        // eslint-disable-next-line no-param-reassign
+        .forEach((x) => { x.entityId = idMap[x.entityId as string]; });
+
       draft.fields
         .map((x) => x.computed)
         .filter((x) => Boolean(x))
@@ -138,7 +152,7 @@ export default class TemplateService {
         // eslint-disable-next-line no-param-reassign
         .forEach((x) => { x.entityId = idMap[x.entityId]; });
 
-      entity.actions
+      draft.actions
         .map((x) => x.roll)
         .filter((x): x is RollCombo => Boolean(x))
         .reduce((arr, x) => arr.concat(x), [])
@@ -153,7 +167,7 @@ export default class TemplateService {
         // eslint-disable-next-line no-param-reassign
         .forEach((x) => { x.entityId = idMap[x.entityId]; });
 
-      entity.actions
+      draft.actions
         .map((x) => x.macros)
         .filter((x): x is Macro[] => Boolean(x))
         .reduce((arr, x) => arr.concat(x), [])
@@ -161,7 +175,7 @@ export default class TemplateService {
         // eslint-disable-next-line no-param-reassign
         .forEach((x) => { x.entityId = idMap[x.entityId]; });
 
-      entity.actions
+      draft.actions
         .map((x) => x.macros)
         .filter((x): x is Macro[] => Boolean(x))
         .reduce((arr, x) => arr.concat(x), [])

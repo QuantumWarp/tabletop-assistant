@@ -13,7 +13,7 @@ export default class FieldHelper {
   }
 
   static getFields(entity: CreateEntity): EntityField[] {
-    return [{
+    return entity.fields.concat([{
       key: '_name',
       name: 'Name (Info)',
       type: 'string',
@@ -30,7 +30,7 @@ export default class FieldHelper {
       name: 'Description (Info)',
       type: 'string',
       initial: entity.description,
-    }] : [])].concat(entity.fields);
+    }] : [])]);
   }
 
   static createKey(name: string) {

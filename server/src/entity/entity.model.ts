@@ -45,6 +45,7 @@ const schema = new Schema<Entity>({
   }],
 }, {
   timestamps: true,
+  minimize: false,
 });
 
 export default model<Entity>('Entity', schema);

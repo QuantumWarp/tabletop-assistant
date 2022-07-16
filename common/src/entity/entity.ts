@@ -28,7 +28,7 @@ export interface EntityField {
   key: string;
   name: string;
   type: string;
-  initial: any;
+  initial?: any;
   computed?: Expression;
   static?: boolean;
   prefix?: string;

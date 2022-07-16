@@ -11,6 +11,7 @@ const schema = new Schema<Template>({
   entities: [{ type: Object }],
 }, {
   timestamps: true,
+  minimize: false,
 });
 
 export default model<Template>('Template', schema);
