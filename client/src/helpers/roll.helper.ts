@@ -44,15 +44,6 @@ export default class RollHelper {
       }));
   }
 
-  static groupByFaces(combo: RollCombo): { [key: number]: RollCombo } {
-    return combo.reduce((obj, x) => {
-      const key = x.faces * (x.negative ? -1 : 1);
-      const value = obj[key] || [];
-      value.push(x);
-      return { ...obj, [key]: value };
-    }, {} as { [key: number]: RollCombo });
-  }
-
   static totalValue(combo: RollResult): number {
     return combo.reduce(
       (sum, x) => sum + (x.negative ? -1 : 1) * (x.result || 0),

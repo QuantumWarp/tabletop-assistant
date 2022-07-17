@@ -1,6 +1,5 @@
 import React from 'react';
 import { RollCombo } from 'tabletop-assistant-common';
-import RollHelper from '../../helpers/roll.helper';
 import './ActionNodeRoll.css';
 
 interface ActionNodeRollInputProps {
@@ -9,7 +8,6 @@ interface ActionNodeRollInputProps {
 
 const ActionNodeRollInput = ({ combo }: ActionNodeRollInputProps) => {
   const staticValue = combo.filter((x) => x.static).reduce((sum, x) => sum + x.faces, 0);
-  const faceComboDict = RollHelper.groupByFaces(combo.filter((x) => !x.static));
 
   return (
     <div className="action-roll">
@@ -17,17 +15,18 @@ const ActionNodeRollInput = ({ combo }: ActionNodeRollInputProps) => {
         <span className="static">{staticValue}</span>
       )}
 
-      {Object.keys(faceComboDict)
-        .sort((a, b) => Math.abs(Number(a)) - Math.abs(Number(b)))
+      {combo
+        .filter((x) => !x.static)
+        .sort((a, b) => a.faces - b.faces)
         .map((x, index) => (
           <span className="face-combo">
-            {(index >= 1 || staticValue !== 0 || Number(x) < 0) && (
-              <span className="sign">{Number(x) > 0 ? '+' : '-'}</span>
+            {(index >= 1 || staticValue !== 0 || x.negative) && (
+              <span className="sign">{x.negative ? '-' : '+'}</span>
             )}
 
-            <span className="amount">{faceComboDict[Number(x)].length}</span>
+            <span className="amount">{x.number}</span>
             <span className="d">d</span>
-            <span className="faces">{Math.abs(Number(x))}</span>
+            <span className="faces">{x.faces}</span>
           </span>
         ))}
     </div>
