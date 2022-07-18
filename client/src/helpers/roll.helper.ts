@@ -32,14 +32,15 @@ export default class RollHelper {
   }
 
   static resolveComputed(combo: RollCombo, entities: Entity[], values: Values[]) {
+    const computedValues = values.map((x) => ({ ...x, mappings: { ...x.mappings } }));
     return combo
       .map((x) => ({
         ...x,
         faces: x.facesComputed
-          ? ExpressionHelper.calculateExpression(x.facesComputed, values, entities)
+          ? ExpressionHelper.calculateExpression(x.facesComputed, computedValues, entities)
           : x.faces,
         number: x.numberComputed
-          ? ExpressionHelper.calculateExpression(x.numberComputed, values, entities)
+          ? ExpressionHelper.calculateExpression(x.numberComputed, computedValues, entities)
           : x.number,
       }));
   }

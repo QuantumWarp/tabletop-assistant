@@ -5,7 +5,7 @@ import {
 } from '@mui/icons-material';
 import ActionNodeInput from '../common/ActionNodeInput';
 import ActionNodeCenter from '../common/ActionNodeCenter';
-import { ActionTreeNode } from '../../helpers/action-tree.helper';
+import { ActionTreeNode } from '../../helpers/action-tree.builder';
 import DisplayHelper from '../../helpers/display.helper';
 import '../common/ActionNode.css';
 import EntitySummaryDialog from '../../layout/EntitySummaryDialog';

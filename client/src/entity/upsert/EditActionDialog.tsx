@@ -21,7 +21,7 @@ import { useParams } from 'react-router-dom';
 import EditActionTriggerDialog from './EditActionTriggerDialog';
 import FieldHelper from '../../helpers/field.helper';
 import { useGetEntitiesQuery } from '../../store/api';
-import { ActionTreeHelper } from '../../helpers/action-tree.helper';
+import ActionTreeHelper from '../../helpers/action-tree.helper';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;

@@ -10,7 +10,7 @@ import ActionNodeInput from '../common/ActionNodeInput';
 import ActionNodeCenter from '../common/ActionNodeCenter';
 import ActionNodeOutput from '../common/ActionNodeOutput';
 import ActionRollDialog from '../dialogs/ActionRollDialog';
-import { ActionTreeNode } from '../../helpers/action-tree.helper';
+import { ActionTreeNode } from '../../helpers/action-tree.builder';
 import ActionNodeRollOutput from './ActionNodeRollOutput';
 import RollHelper from '../../helpers/roll.helper';
 import ActionRollResultDialog from '../dialogs/ActionRollResultDialog';
@@ -24,7 +24,7 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
   const [editRoll, setEditRoll] = useState(false);
   const [editResult, setEditResult] = useState<RollResult | null>(null);
 
-  const [roll, setRoll] = useState(node.action.roll as RollCombo);
+  const [roll, setRoll] = useState(node.resolvedRoll as RollCombo);
   const [results, setResults] = useState([] as RollResult[]);
 
   const rollAction = () => {

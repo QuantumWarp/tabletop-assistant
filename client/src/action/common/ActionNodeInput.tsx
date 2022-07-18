@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { ActionTreeNode } from '../../helpers/action-tree.helper';
+import { ActionTreeNode } from '../../helpers/action-tree.builder';
 import './ActionNode.css';
 
 interface ActionNodeInputProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionTreeNode } from '../helpers/action-tree.helper';
+import { ActionTreeNode } from '../helpers/action-tree.builder';
 import ActionNodeInfo from './info/ActionNodeInfo';
 import ActionNodeMacro from './macro/ActionNodeMacro';
 import ActionNodeRoll from './roll/ActionNodeRoll';
