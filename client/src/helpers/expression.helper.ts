@@ -1,8 +1,9 @@
 import {
-  Entity, EntityField, Expression, Values,
+  Entity, EntityField, Expression, Macro, Values,
 } from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
 import DisplayHelper from './display.helper';
+import { ResolvedMacro } from '../models/resolved-macro';
 
 export default class ExpressionHelper {
   static calculateComputedValues(values: Values[], entities: Entity[]): Values[] {
@@ -96,5 +97,44 @@ export default class ExpressionHelper {
     }
 
     return parse.evaluate(expression.expression);
+  }
+
+  static resolveMacros(
+    macros: Macro[], values: Values[], entities: Entity[],
+  ): ResolvedMacro[] {
+    const computedValues = values.map((x) => ({ ...x, mappings: { ...x.mappings } }));
+    return macros.map((x) => ExpressionHelper.resolveMacro(x, computedValues, entities));
+  }
+
+  static resolveMacro(
+    macro: Macro, computedValues: Values[], entities: Entity[],
+  ): ResolvedMacro {
+    const entity = entities.find((x) => x._id === macro.target.entityId);
+    const field = entity?.fields.find((x) => x.key === macro.target.fieldKey);
+
+    return {
+      macro,
+      result: ExpressionHelper.calculateExpression(macro.expression, computedValues, entities),
+      entity: entity as Entity,
+      field: field as EntityField,
+    };
+  }
+
+  static updateMacroValues(
+    macros: ResolvedMacro[], values: Values[],
+  ): Values[] {
+    const entityIds = macros.map((x) => x.entity._id);
+    const updateValues = values
+      .filter((x) => entityIds.includes(x.entityId))
+      .map((x) => ({ ...x, mappings: { ...x.mappings } }));
+
+    macros.forEach((macro) => {
+      const entityVals = updateValues.find((x) => x.entityId === macro.entity._id);
+      if (entityVals) {
+        entityVals.mappings[macro.field.key] = macro.result;
+      }
+    });
+
+    return updateValues;
   }
 }

@@ -1,5 +1,5 @@
 import {
-  Entity, EntityAction, Macro, RollCombo, Values,
+  Entity, EntityAction, RollCombo, Values,
 } from 'tabletop-assistant-common';
 import RollHelper from './roll.helper';
 
@@ -14,7 +14,6 @@ export interface ActionTreeNode {
   action: EntityAction;
   children: ActionTreeNode[];
   resolvedRoll?: RollCombo,
-  resolvedMacros?: (Macro & { result: any })[];
 }
 
 type ActionTree = ActionTreeNode[];
