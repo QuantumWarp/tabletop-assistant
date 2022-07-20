@@ -24,6 +24,7 @@ const LayoutPage = () => {
   useEffect(() => {
     if (!layoutList) return;
     if (layoutList.find((x) => x._id === layoutId)) return;
+    if (layoutList.length === 0) return;
     setLayoutId(layoutList[0]._id);
   }, [layoutList, layoutId]);
 
