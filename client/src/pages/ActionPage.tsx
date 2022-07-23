@@ -4,7 +4,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import ActionNode from '../features/action/ActionNode';
 import TopBar from '../components/TopBar';
 import { useGetAllValuesQuery, useGetEntitiesQuery } from '../store/api';
-import { ActionTreeBuilder } from '../helpers/action-tree.builder';
+import ActionTreeBuilder from '../helpers/action-tree.builder';
 
 const ActionPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();

@@ -10,7 +10,7 @@ import ActionNodeInput from '../common/ActionNodeInput';
 import ActionNodeCenter from '../common/ActionNodeCenter';
 import ActionNodeOutput from '../common/ActionNodeOutput';
 import ActionRollDialog from '../dialogs/ActionRollDialog';
-import { ActionTreeNode } from '../../../helpers/action-tree.builder';
+import ActionTreeNode from '../../../models/action-tree-node';
 import ActionNodeRollOutput from './ActionNodeRollOutput';
 import RollHelper from '../../../helpers/roll.helper';
 import ActionRollResultDialog from '../dialogs/ActionRollResultDialog';

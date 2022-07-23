@@ -1,4 +1,4 @@
-import { DisplaySlot } from '../display.type';
+import DisplaySlot from '../../models/display-slot';
 
 export const slots: DisplaySlot[] = [{
   name: 'Name',

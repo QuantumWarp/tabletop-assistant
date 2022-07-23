@@ -1,5 +1,5 @@
 import { LayoutPosition, LayoutSize } from 'tabletop-assistant-common';
-import LayoutPositionUpdate from './layout-position-update';
+import LayoutPositionUpdate from '../models/layout-position-update';
 
 export default class LayoutPositionHelper {
   static getPositionStyle(pos: LayoutPosition, containerWidth: number) {

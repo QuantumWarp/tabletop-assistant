@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
 import FixedActions, { ActionHelper, FixedActionArg } from '../../helpers/action.helper';
 import DisplayHelper from '../../helpers/display.helper';
-import DisplayType from '../../helpers/display.type';
+import DisplayType from '../../models/display.type';
 import CardDisplay from '../../helpers/displays/card.display';
 import DotsDisplay from '../../helpers/displays/dots.display';
 import SquareDisplay from '../../helpers/displays/square.display';

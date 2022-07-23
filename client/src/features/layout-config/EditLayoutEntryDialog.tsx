@@ -19,7 +19,7 @@ import { LayoutEntry, LayoutPosition } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
 import DisplayHelper from '../../helpers/display.helper';
-import DisplayType from '../../helpers/display.type';
+import DisplayType from '../../models/display.type';
 
 interface EditLayoutEntryDialogProps {
   initial?: LayoutEntry;

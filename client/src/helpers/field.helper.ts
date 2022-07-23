@@ -1,5 +1,5 @@
 import { CreateEntity, EntityField } from 'tabletop-assistant-common';
-import FieldType from './field.type';
+import FieldType from '../models/field.type';
 
 export default class FieldHelper {
   static displayName(type: FieldType): string {

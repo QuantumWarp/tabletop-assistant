@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import { EntityField } from 'tabletop-assistant-common';
 import FieldHelper from '../../../helpers/field.helper';
-import FieldType from '../../../helpers/field.type';
+import FieldType from '../../../models/field.type';
 import EditFieldDialog from './EditFieldDialog';
 
 interface EntityFieldTabProps {

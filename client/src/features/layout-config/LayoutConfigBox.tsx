@@ -7,7 +7,7 @@ import { LayoutEntry } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import LayoutConfigDialog from './EditLayoutEntryDialog';
 import './LayoutConfigBox.css';
-import LayoutPositionHelper from '../../models/layout-position.helper';
+import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import { useGetEntitiesQuery } from '../../store/api';
 
 interface LayoutConfigBoxProps {

@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
 import DisplayHelper from '../../../helpers/display.helper';
-import DisplayType from '../../../helpers/display.type';
+import DisplayType from '../../../models/display.type';
 import EditDisplayDialog from './EditDisplayDialog';
 
 interface EntityDisplayTabProps {

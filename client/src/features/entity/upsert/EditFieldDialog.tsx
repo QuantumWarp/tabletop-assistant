@@ -19,7 +19,7 @@ import {
 import { EntityField, Expression } from 'tabletop-assistant-common';
 import FieldHelper from '../../../helpers/field.helper';
 import ValueInput from '../../../components/ValueInput';
-import FieldType from '../../../helpers/field.type';
+import FieldType from '../../../models/field.type';
 import ComputedInput from '../../../components/ComputedInput';
 
 interface EditFieldDialogProps {

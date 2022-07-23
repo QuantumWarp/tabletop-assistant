@@ -10,7 +10,7 @@ import ActionNodeMacroOutput from './ActionNodeMacroOutput';
 import ActionNodeInput from '../common/ActionNodeInput';
 import ActionNodeCenter from '../common/ActionNodeCenter';
 import ActionNodeOutput from '../common/ActionNodeOutput';
-import { ActionTreeNode } from '../../../helpers/action-tree.builder';
+import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import './ActionNodeMacro.css';
 import ExpressionHelper from '../../../helpers/expression.helper';

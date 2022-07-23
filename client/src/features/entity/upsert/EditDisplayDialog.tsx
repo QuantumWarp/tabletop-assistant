@@ -26,10 +26,10 @@ import {
 import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
-import DisplayType from '../../../helpers/display.type';
+import DisplayType from '../../../models/display.type';
 import DisplayHelper from '../../../helpers/display.helper';
 import LayoutDisplay from '../../display/LayoutDisplay';
-import LayoutPositionHelper from '../../../models/layout-position.helper';
+import LayoutPositionHelper from '../../../helpers/layout-position.helper';
 import FieldHelper from '../../../helpers/field.helper';
 import useIsFirstRender from '../../../utils/is-first-render';
 

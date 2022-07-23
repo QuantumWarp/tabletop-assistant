@@ -1,6 +1,6 @@
-import {
-  Entity, EntityAction, RollCombo, Values,
-} from 'tabletop-assistant-common';
+import { Entity, Values } from 'tabletop-assistant-common';
+import ActionTree from '../models/action-tree';
+import ActionTreeNode from '../models/action-tree-node';
 import RollHelper from './roll.helper';
 
 interface EntityActionId {
@@ -8,19 +8,7 @@ interface EntityActionId {
   actionKey: string;
 }
 
-export interface ActionTreeNode {
-  level: number;
-  entity: Entity;
-  action: EntityAction;
-  children: ActionTreeNode[];
-  resolvedRoll?: RollCombo,
-}
-
-type ActionTree = ActionTreeNode[];
-
-export default ActionTree;
-
-export class ActionTreeBuilder {
+export default class ActionTreeBuilder {
   constructor(
     private entities: Entity[],
     private values: Values[],

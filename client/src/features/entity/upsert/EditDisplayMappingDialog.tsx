@@ -16,7 +16,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { CreateEntity } from 'tabletop-assistant-common';
-import DisplayType from '../../../helpers/display.type';
+import DisplayType from '../../../models/display.type';
 import DisplayHelper from '../../../helpers/display.helper';
 import FieldHelper from '../../../helpers/field.helper';
 
