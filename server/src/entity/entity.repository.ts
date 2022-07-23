@@ -1,6 +1,6 @@
 import { Entity, CreateEntity, UpdateEntity } from 'tabletop-assistant-common';
 import { ResourceNotFound } from '../setup/error';
-import ValuesModel from '../values/values.model';
+import ValuesModel from '../value-map/value-map.model';
 import EntityModel from './entity.model';
 
 export default class EntityRepository {

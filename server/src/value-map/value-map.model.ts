@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { Values } from 'tabletop-assistant-common';
+import { ValueMap } from 'tabletop-assistant-common';
 
-const schema = new Schema<Values>({
+const schema = new Schema<ValueMap>({
   userId: { type: String, required: true, immutable: true },
   tabletopId: { type: String, required: true, immutable: true },
   entityId: { type: String, required: true, immutable: true },
@@ -10,4 +10,4 @@ const schema = new Schema<Values>({
   timestamps: true,
 });
 
-export default model<Values>('Values', schema);
+export default model<ValueMap>('ValueMap', schema);

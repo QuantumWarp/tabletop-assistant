@@ -1,13 +1,13 @@
 import {
-  Entity, EntityField, Expression, Macro, Values,
+  Entity, EntityField, Expression, Macro, ValueMap,
 } from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
 import DisplayHelper from './display.helper';
 import { ResolvedMacro } from '../models/resolved-macro';
 
 export default class ExpressionHelper {
-  static calculateComputedValues(values: Values[], entities: Entity[]): Values[] {
-    let computedValues = values.map((x) => ({ ...x, mappings: { ...x.mappings } }));
+  static calculateComputedValues(valueMaps: ValueMap[], entities: Entity[]): ValueMap[] {
+    let computedValues = valueMaps.map((x) => ({ ...x, mappings: { ...x.mappings } }));
 
     entities.forEach((entity) => {
       const entityValues = computedValues.find((x) => x.entityId === entity._id);
@@ -26,10 +26,10 @@ export default class ExpressionHelper {
   }
 
   static calculateComputedField(
-    entity: Entity, field: EntityField, values: Values[], entities: Entity[],
-  ): Values[] {
-    if (!field.computed) return values;
-    let newValues = values;
+    entity: Entity, field: EntityField, valueMaps: ValueMap[], entities: Entity[],
+  ): ValueMap[] {
+    if (!field.computed) return valueMaps;
+    let newValues = valueMaps;
     const parse = parser();
 
     const variables = Object.keys(field.computed.variables);
@@ -48,7 +48,8 @@ export default class ExpressionHelper {
         const varField = varEntity?.fields.find((x) => x.key === entityRef.fieldKey);
         if (!varEntity || !varField || !varField.computed) return newValues;
 
-        newValues = ExpressionHelper.calculateComputedField(varEntity, varField, values, entities);
+        newValues = ExpressionHelper
+          .calculateComputedField(varEntity, varField, valueMaps, entities);
         value = newValues
           .find((x) => x.entityId === entityRef.entityId)
           ?.mappings[entityRef.fieldKey];
@@ -70,9 +71,9 @@ export default class ExpressionHelper {
   }
 
   static calculateExpression(
-    expression: Expression, values: Values[], entities: Entity[],
+    expression: Expression, valueMaps: ValueMap[], entities: Entity[],
   ): any | undefined {
-    let newValues = values;
+    let newValues = valueMaps;
     const parse = parser();
 
     const variables = Object.keys(expression.variables);
@@ -84,7 +85,8 @@ export default class ExpressionHelper {
       const varField = varEntity?.fields.find((x) => x.key === entityRef.fieldKey);
 
       if (varEntity && varField && varField.computed) {
-        newValues = ExpressionHelper.calculateComputedField(varEntity, varField, values, entities);
+        newValues = ExpressionHelper
+          .calculateComputedField(varEntity, varField, valueMaps, entities);
       }
 
       const value = newValues
@@ -100,14 +102,14 @@ export default class ExpressionHelper {
   }
 
   static resolveMacros(
-    macros: Macro[], values: Values[], entities: Entity[],
+    macros: Macro[], valueMaps: ValueMap[], entities: Entity[],
   ): ResolvedMacro[] {
-    const computedValues = values.map((x) => ({ ...x, mappings: { ...x.mappings } }));
+    const computedValues = valueMaps.map((x) => ({ ...x, mappings: { ...x.mappings } }));
     return macros.map((x) => ExpressionHelper.resolveMacro(x, computedValues, entities));
   }
 
   static resolveMacro(
-    macro: Macro, computedValues: Values[], entities: Entity[],
+    macro: Macro, computedValues: ValueMap[], entities: Entity[],
   ): ResolvedMacro {
     const entity = entities.find((x) => x._id === macro.target.entityId);
     const field = entity?.fields.find((x) => x.key === macro.target.fieldKey);
@@ -121,10 +123,10 @@ export default class ExpressionHelper {
   }
 
   static updateMacroValues(
-    macros: ResolvedMacro[], values: Values[],
-  ): Values[] {
+    macros: ResolvedMacro[], valueMaps: ValueMap[],
+  ): ValueMap[] {
     const entityIds = macros.map((x) => x.entity._id);
-    const updateValues = values
+    const updateValues = valueMaps
       .filter((x) => entityIds.includes(x.entityId))
       .map((x) => ({ ...x, mappings: { ...x.mappings } }));
 

@@ -13,12 +13,12 @@ import {
   Entity,
   CreateEntity,
   UpdateEntity,
-  Values,
+  ValueMap,
   Layout,
   CreateLayout,
-  CreateValues,
+  CreateValueMap,
   UpdateLayout,
-  UpdateValues,
+  UpdateValueMap,
   TemplateSummary,
 } from 'tabletop-assistant-common';
 
@@ -89,25 +89,25 @@ export const api = createApi({
       invalidatesTags: ['Entity'],
     }),
 
-    // Values
-    getAllValues: build.query<Values[], string>({
-      query: (tabletopId) => `/values?tabletopId=${tabletopId}`,
+    // ValueMaps
+    getValueMaps: build.query<ValueMap[], string>({
+      query: (tabletopId) => `/value-maps?tabletopId=${tabletopId}`,
       providesTags: ['Values'],
     }),
-    getValues: build.query<Values, string>({
-      query: (entityId) => ({ url: `/values/${entityId}` }),
+    getValueMap: build.query<ValueMap, string>({
+      query: (entityId) => ({ url: `/value-maps/${entityId}` }),
       providesTags: ['Values'],
     }),
-    createValues: build.mutation<Values, CreateValues>({
-      query: (body) => ({ url: '/values', method: 'POST', body }),
+    createValueMap: build.mutation<ValueMap, CreateValueMap>({
+      query: (body) => ({ url: '/value-maps', method: 'POST', body }),
       invalidatesTags: ['Values'],
     }),
-    updateValues: build.mutation<Values, UpdateValues>({
-      query: (body) => ({ url: '/values', method: 'PUT', body }),
+    updateValueMap: build.mutation<ValueMap, UpdateValueMap>({
+      query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
       invalidatesTags: ['Values'],
     }),
-    deleteValues: build.mutation<void, string>({
-      query: (entityId) => ({ url: `/values/${entityId}`, method: 'DELETE' }),
+    deleteValueMap: build.mutation<void, string>({
+      query: (entityId) => ({ url: `/value-maps/${entityId}`, method: 'DELETE' }),
       invalidatesTags: ['Values'],
     }),
 
@@ -206,11 +206,11 @@ export const {
   useUpdateEntityMutation,
   useDeleteEntityMutation,
 
-  useGetAllValuesQuery,
-  useGetValuesQuery,
-  useCreateValuesMutation,
-  useUpdateValuesMutation,
-  useDeleteValuesMutation,
+  useGetValueMapsQuery,
+  useGetValueMapQuery,
+  useCreateValueMapMutation,
+  useUpdateValueMapMutation,
+  useDeleteValueMapMutation,
 
   useGetLayoutsQuery,
   useGetLayoutQuery,

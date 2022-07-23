@@ -1,4 +1,4 @@
-export interface Values {
+export interface ValueMap {
   readonly _id: string;
   readonly userId: string;
   readonly tabletopId: string;
@@ -13,5 +13,5 @@ export interface Values {
   readonly __v: number;
 }
 
-export type UpdateValues = Omit<Values, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateValues = Omit<UpdateValues, '_id'>;
+export type UpdateValueMap = Omit<ValueMap, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+export type CreateValueMap = Omit<UpdateValueMap, '_id'>;

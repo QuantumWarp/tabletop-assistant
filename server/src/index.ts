@@ -14,7 +14,7 @@ import layoutRouter from './layout/layout.router';
 import noteRouter from './note/note.router';
 import tabletopRouter from './tabletop/tabletop.router';
 import templateRouter from './template/template.router';
-import valuesRouter from './values/values.router';
+import valueMapRouter from './value-map/value-map.router';
 
 connect(config.dbConnection);
 
@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 app.use('/tabletops', tabletopRouter);
 
 app.use('/entities', entityRouter);
-app.use('/values', valuesRouter);
+app.use('/value-maps', valueMapRouter);
 app.use('/layouts', layoutRouter);
 
 app.use('/history', historyRouter);

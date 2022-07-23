@@ -14,7 +14,7 @@ import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import './ActionNodeMacro.css';
 import ExpressionHelper from '../../../helpers/expression.helper';
-import { useGetAllValuesQuery, useGetEntitiesQuery, useUpdateValuesMutation } from '../../../store/api';
+import { useGetValueMapsQuery, useGetEntitiesQuery, useUpdateValueMapMutation } from '../../../store/api';
 import { ResolvedMacro } from '../../../models/resolved-macro';
 
 interface ActionNodeMacroProps {
@@ -24,9 +24,9 @@ interface ActionNodeMacroProps {
 const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-  const { data: values } = useGetAllValuesQuery(tabletopId);
+  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
 
-  const [updateValues] = useUpdateValuesMutation();
+  const [updateValues] = useUpdateValueMapMutation();
 
   const [lastResults, setLastResults] = useState<ResolvedMacro[]>();
   const [runCount, setRunCount] = useState(0);
@@ -34,9 +34,9 @@ const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
   const macros = node.action.macros as Macro[];
 
   const runMacros = () => {
-    if (!entities || !values) return;
-    const resolvedMacros = ExpressionHelper.resolveMacros(macros, values, entities);
-    const updatedValuesList = ExpressionHelper.updateMacroValues(resolvedMacros, values);
+    if (!entities || !valueMaps) return;
+    const resolvedMacros = ExpressionHelper.resolveMacros(macros, valueMaps, entities);
+    const updatedValuesList = ExpressionHelper.updateMacroValues(resolvedMacros, valueMaps);
     updatedValuesList.map((x) => updateValues(x));
     setLastResults(resolvedMacros);
     setRunCount(runCount + 1);

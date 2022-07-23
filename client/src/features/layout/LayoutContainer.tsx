@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Entity, EntityDisplay, Layout, Values,
+  Entity, EntityDisplay, Layout, ValueMap,
 } from 'tabletop-assistant-common';
 import { useDebouncedCallback } from 'use-debounce';
 import { useHistory, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import './LayoutContainer.css';
-import { useGetAllValuesQuery, useGetEntitiesQuery, useUpdateValuesMutation } from '../../store/api';
+import { useGetValueMapsQuery, useGetEntitiesQuery, useUpdateValueMapMutation } from '../../store/api';
 import LayoutDisplay from '../display/LayoutDisplay';
 import ExpressionHelper from '../../helpers/expression.helper';
 
@@ -17,13 +17,14 @@ interface LayoutContainerProps {
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-  const { data: values } = useGetAllValuesQuery(tabletopId);
+  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
 
-  const [updateValues] = useUpdateValuesMutation();
+  const [updateValues] = useUpdateValueMapMutation();
 
-  const [updatedValuesList, setUpdatedValuesList] = useState<Values[]>([]);
+  const [updatedValueMapsList, setUpdatedValueMapsList] = useState<ValueMap[]>([]);
 
-  const valuesList = values?.map((x) => updatedValuesList.find((val) => x._id === val._id) || x);
+  const valuesList = valueMaps
+    ?.map((x) => updatedValueMapsList.find((val) => x._id === val._id) || x);
 
   const valuesComputedList = valuesList && entities
     && ExpressionHelper.calculateComputedValues(valuesList, entities);
@@ -34,7 +35,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
-    setUpdatedValuesList([]);
+    setUpdatedValueMapsList([]);
   }, [entities]);
 
   useEffect(() => {
@@ -50,17 +51,17 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   const debouncedUpdate = useDebouncedCallback(
     async () => {
-      updatedValuesList.map((x) => updateValues(x));
-      await Promise.all(updatedValuesList);
+      updatedValueMapsList.map((x) => updateValues(x));
+      await Promise.all(updatedValueMapsList);
     },
     1500,
   );
 
-  const valueRef = useRef<Values[]>([]);
+  const valueRef = useRef<ValueMap[]>([]);
 
   useEffect(() => {
-    valueRef.current = updatedValuesList;
-  }, [updatedValuesList]);
+    valueRef.current = updatedValueMapsList;
+  }, [updatedValueMapsList]);
 
   useEffect(() => () => {
     debouncedUpdate.cancel();
@@ -71,7 +72,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   const updateValueHandler = (
     updatedMappings: { [field: string]: any },
-    entityValues: Values,
+    entityValues: ValueMap,
   ) => {
     const newValues = {
       ...entityValues,
@@ -80,10 +81,10 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
         ...updatedMappings,
       },
     };
-    const newList = updatedValuesList
+    const newList = updatedValueMapsList
       .filter((x) => x._id !== newValues._id)
       .concat(newValues);
-    setUpdatedValuesList(newList);
+    setUpdatedValueMapsList(newList);
     debouncedUpdate();
   };
 

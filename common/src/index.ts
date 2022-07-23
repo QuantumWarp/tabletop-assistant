@@ -28,10 +28,10 @@ export type {
 } from './entity/roll';
 
 export type {
-  Values,
-  CreateValues,
-  UpdateValues,
-} from './entity/values';
+  ValueMap,
+  CreateValueMap,
+  UpdateValueMap,
+} from './entity/value-map';
 
 export type {
   HistoryEntry,

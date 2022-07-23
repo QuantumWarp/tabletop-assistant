@@ -1,4 +1,4 @@
-import { Entity, Values } from 'tabletop-assistant-common';
+import { Entity, ValueMap } from 'tabletop-assistant-common';
 import ActionTree from '../models/action-tree';
 import ActionTreeNode from '../models/action-tree-node';
 import RollHelper from './roll.helper';
@@ -11,7 +11,7 @@ interface EntityActionId {
 export default class ActionTreeBuilder {
   constructor(
     private entities: Entity[],
-    private values: Values[],
+    private valueMaps: ValueMap[],
   ) {}
 
   build(entityId: string, actionKey: string): ActionTree {
@@ -74,7 +74,7 @@ export default class ActionTreeBuilder {
       resolvedRoll: action.roll && RollHelper.resolveComputed(
         action.roll,
         this.entities,
-        this.values,
+        this.valueMaps,
       ),
     };
   }
