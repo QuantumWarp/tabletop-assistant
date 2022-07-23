@@ -2,7 +2,6 @@
 
 ## Technical
 
-- Rename Values model
 - Fix all remaining warnings and errors
 - Sort out helpers files
 - Get types in common package to replace enums

@@ -13,9 +13,17 @@
   flex: 1;
   height: 80px;
   border: 1px solid;
-  border-radius: 8px 0 0 8px;
   display: flex;
   overflow: hidden;
+}
+.action-node-input.round-previous {
+  border-radius: 8px 0 0 0px;
+}
+.action-node-input.round-next {
+  border-radius: 0px 0 0 8px;
+}
+.action-node-input.round-previous.round-next {
+  border-radius: 8px 0 0 8px;
 }
 .action-node-input .icon {
   display: flex;
@@ -67,6 +75,15 @@
   border-radius: 0 8px 8px 0;
   display: flex;
   align-items: stretch;
+}
+.action-node-output.has-previous {
+  border-radius: 0 0px 8px 0;
+}
+.action-node-output.has-next {
+  border-radius: 0 8px 0px 0;
+}
+.action-node-output.has-previous.has-next {
+  border-radius: 0 0px 0px 0;
 }
 .action-node-output-spacer {
   max-width: 250px;

@@ -48,16 +48,14 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
           node={node}
           onClick={() => setEditRoll(true)}
         >
-          <ActionNodeRollInput
-            combo={roll}
-          />
+          <ActionNodeRollInput combo={roll} />
         </ActionNodeInput>
 
         <ActionNodeCenter onClick={rollAction}>
           <RollIcon />
         </ActionNodeCenter>
 
-        <ActionNodeOutput>
+        <ActionNodeOutput node={node}>
           <ActionNodeRollOutput
             results={results}
             onResultClick={(result) => setEditResult(result)}

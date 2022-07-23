@@ -1,22 +1,28 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import './ActionNode.css';
+import ActionTreeHelper from '../../../helpers/action-tree.helper';
+import ActionTreeNode from '../../../models/action-tree-node';
 
 interface ActionNodeOutputProps {
+  node: ActionTreeNode,
   children?: React.ReactNode;
-  noOutput?: Boolean;
   onClick?: () => void;
 }
 
 const ActionNodeOutput = ({
-  children, noOutput, onClick,
+  node, children, onClick,
 }: ActionNodeOutputProps) => (
   <>
-    {noOutput && <Box className="action-node-output-spacer" />}
+    {!ActionTreeHelper.hasOutput(node) && <Box className="action-node-output-spacer" />}
 
-    {!noOutput && (
+    {ActionTreeHelper.hasOutput(node) && (
       <Box
-        className="action-node-output"
+        className={[
+          'action-node-output',
+          ActionTreeHelper.hasOutput(node.previous) && 'has-previous',
+          ActionTreeHelper.hasOutput(node.next) && 'has-next',
+        ].join(' ')}
         sx={{
           borderColor: 'custom.action.border',
           backgroundColor: 'custom.action.background',
@@ -32,7 +38,6 @@ const ActionNodeOutput = ({
 ActionNodeOutput.defaultProps = {
   children: null,
   onClick: () => {},
-  noOutput: false,
 };
 
 export default ActionNodeOutput;

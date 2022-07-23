@@ -4,6 +4,11 @@ export default interface ActionTreeNode {
   level: number;
   entity: Entity;
   action: EntityAction;
+  resolvedRoll?: RollCombo;
+
+  previous?: ActionTreeNode;
+  next?: ActionTreeNode;
+  parent?: ActionTreeNode;
+  triggeredBy?: ActionTreeNode;
   children: ActionTreeNode[];
-  resolvedRoll?: RollCombo,
 }

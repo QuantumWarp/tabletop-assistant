@@ -42,4 +42,14 @@ export default class ActionTreeHelper {
     if (!triggerA.sibling && triggerB.sibling) return 1;
     return 0;
   }
+
+  static hasOutput(node?: ActionTreeNode): boolean {
+    return Boolean(node
+      && (node.action.macros
+        || node.action.roll));
+  }
+
+  static isBelow(node: ActionTreeNode, other?: ActionTreeNode): boolean {
+    return !other || node.level < other.level;
+  }
 }

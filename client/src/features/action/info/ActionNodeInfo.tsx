@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
-import {
-  Book as BookIcon,
-} from '@mui/icons-material';
 import ActionNodeInput from '../common/ActionNodeInput';
 import ActionNodeCenter from '../common/ActionNodeCenter';
 import ActionTreeNode from '../../../models/action-tree-node';
@@ -28,14 +25,9 @@ const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
           {node.entity.description}
         </ActionNodeInput>
 
-        <ActionNodeCenter
-          noOutput
-          onClick={() => setInfoOpen(true)}
-        >
-          <BookIcon />
-        </ActionNodeCenter>
+        <ActionNodeCenter noOutput />
 
-        <ActionNodeOutput noOutput />
+        <ActionNodeOutput node={node} />
       </Box>
 
       {infoOpen && (

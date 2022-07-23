@@ -3,6 +3,7 @@ import { Box, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
 import ActionTreeNode from '../../../models/action-tree-node';
 import './ActionNode.css';
+import ActionTreeHelper from '../../../helpers/action-tree.helper';
 
 interface ActionNodeInputProps {
   node: ActionTreeNode;
@@ -14,7 +15,11 @@ const ActionNodeInput = ({
   node, children, onClick,
 }: ActionNodeInputProps) => (
   <Box
-    className="action-node-input"
+    className={[
+      'action-node-input',
+      ActionTreeHelper.isBelow(node, node.previous) && 'round-previous',
+      ActionTreeHelper.isBelow(node, node.next) && 'round-next',
+    ].join(' ')}
     sx={{
       borderColor: 'custom.action.border',
       backgroundColor: 'custom.action.background',

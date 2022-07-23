@@ -9,31 +9,39 @@ interface EntityActionId {
 }
 
 export default class ActionTreeBuilder {
+  latest?: ActionTreeNode;
+
   constructor(
     private entities: Entity[],
     private valueMaps: ValueMap[],
   ) {}
 
   build(entityId: string, actionKey: string): ActionTree {
-    return this.processNodes(
-      [this.createNode({ entityId, actionKey }, 0)],
-      1,
-    );
+    return this.processNodes([
+      this.createNode({ entityId, actionKey }),
+    ]);
   }
 
-  processNodes(nodes: ActionTreeNode[], level: number) {
+  processNodes(nodes: ActionTreeNode[]) {
     let index = 0;
 
     while (nodes[index]) {
       const node = nodes[index];
+
+      if (this.latest) {
+        this.latest.next = node;
+        node.previous = this.latest;
+      }
+      this.latest = node;
+
       const childActions = this.getRelatedActions(node, false);
       const childNodes: ActionTreeNode[] = childActions
-        .map((x) => this.createNode(x, level));
-      node.children = this.processNodes(childNodes, level + 1);
+        .map((x) => this.createNode(x, node, node));
+      node.children = this.processNodes(childNodes);
 
       const sibActions = this.getRelatedActions(node, true);
       const sibNodes: ActionTreeNode[] = sibActions
-        .map((x) => this.createNode(x, level));
+        .map((x) => this.createNode(x, node, node.parent));
       nodes.push(...sibNodes);
 
       index += 1;
@@ -59,7 +67,9 @@ export default class ActionTreeBuilder {
     }, [] as EntityActionId[]);
   }
 
-  createNode(eaId: EntityActionId, level: number): ActionTreeNode {
+  createNode(
+    eaId: EntityActionId, triggeredBy?: ActionTreeNode, parent?: ActionTreeNode,
+  ): ActionTreeNode {
     const entity = this.entities.find((x) => x._id === eaId.entityId);
     if (!entity) throw new Error('No entity found with that id');
 
@@ -67,15 +77,18 @@ export default class ActionTreeBuilder {
     if (!action) throw new Error('No action on entity with key');
 
     return {
-      level,
+      level: parent ? parent.level + 1 : 0,
       entity,
       action,
-      children: [],
       resolvedRoll: action.roll && RollHelper.resolveComputed(
         action.roll,
         this.entities,
         this.valueMaps,
       ),
+
+      parent,
+      triggeredBy,
+      children: [],
     };
   }
 }

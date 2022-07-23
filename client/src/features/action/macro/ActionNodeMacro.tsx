@@ -45,19 +45,15 @@ const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
   return (
     <>
       <Box className="action-node">
-        <ActionNodeInput
-          node={node}
-        >
-          <ActionNodeMacroInput
-            macros={macros}
-          />
+        <ActionNodeInput node={node}>
+          <ActionNodeMacroInput macros={macros} />
         </ActionNodeInput>
 
         <ActionNodeCenter onClick={runMacros}>
           <RunIcon />
         </ActionNodeCenter>
 
-        <ActionNodeOutput>
+        <ActionNodeOutput node={node}>
           <ActionNodeMacroOutput
             runCount={runCount}
             lastResults={lastResults}
