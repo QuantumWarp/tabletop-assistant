@@ -41,7 +41,10 @@ const schema = new Schema<Entity>({
     key: { type: String, required: true },
     type: { type: String, required: true },
     default: { type: Boolean, required: true },
-    mappings: { type: Map },
+    mappings: [{
+      slotKey: { type: String, required: true },
+      fieldKey: { type: String, required: true },
+    }],
   }],
 }, {
   timestamps: true,
