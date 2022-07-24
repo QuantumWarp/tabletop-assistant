@@ -89,7 +89,8 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   };
 
   const slotClickHandler = (slot: string, entity: Entity, display: EntityDisplay) => {
-    const action = entity.actions.find((x) => x.key === display.mappings[slot]);
+    const mapping = display.mappings.find((x) => x.slotKey === slot);
+    const action = entity.actions.find((x) => x.key === mapping?.fieldKey);
     if (!action) return;
     history.push({
       pathname: './action',

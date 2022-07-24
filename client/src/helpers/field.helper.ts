@@ -13,24 +13,33 @@ export default class FieldHelper {
   }
 
   static getFields(entity: CreateEntity): EntityField[] {
-    return entity.fields.concat([{
+    const nameField: EntityField = {
       key: '_name',
       name: 'Name (Info)',
       type: 'string',
       initial: entity.name,
-    },
-    ...(entity.icon ? [{
+    };
+
+    const iconField: EntityField = {
       key: '_icon',
       name: 'Icon (Info)',
       type: 'string',
       initial: entity.icon,
-    }] : []),
-    ...(entity.description ? [{
+    };
+
+    const descriptionField: EntityField = {
       key: '_description',
       name: 'Description (Info)',
       type: 'string',
       initial: entity.description,
-    }] : [])]);
+    };
+
+    return [
+      ...entity.fields,
+      nameField,
+      ...(entity.icon ? [iconField] : []),
+      ...(entity.description ? [descriptionField] : []),
+    ];
   }
 
   static createKey(name: string) {

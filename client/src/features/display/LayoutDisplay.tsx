@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
+import {
+  CreateEntity, EntityDisplay, FieldValueMapping, SlotFieldMapping,
+} from 'tabletop-assistant-common';
 import FixedActions, { ActionHelper, FixedActionArg } from '../../helpers/action.helper';
 import DisplayHelper from '../../helpers/display.helper';
-import DisplayType from '../../models/display.type';
-import CardDisplay from '../../helpers/displays/card.display';
-import DotsDisplay from '../../helpers/displays/dots.display';
-import SquareDisplay from '../../helpers/displays/square.display';
-import ToggleDisplay from '../../helpers/displays/toggle.display';
 import EntitySummaryDialog from '../layout/EntitySummaryDialog';
 import DisplayCard from './DisplayCard';
 import DisplayDots from './DisplayDots';
@@ -17,8 +14,8 @@ interface LayoutDisplayProps {
   preview?: boolean,
   display: EntityDisplay,
   entity: CreateEntity,
-  slotMappings?: { [slot: string]: any },
-  fieldMappings?: { [field: string]: any },
+  slotMappings?: SlotFieldMapping[],
+  fieldMappings?: FieldValueMapping[],
   onSlot?: (slot: string) => void,
   onUpdateValues?: (values: { [field: string]: any }) => void,
 }
@@ -47,8 +44,12 @@ const LayoutDisplay = ({
     const filledFieldMappings = DisplayHelper.getFieldMappings(entity, fieldMappings);
 
     const mappedArgs = args.map((x) => {
-      const field = x.slot ? display.mappings[x.slot] : x.field;
-      const value = field ? filledFieldMappings[field] : x.value;
+      const field = x.slot
+        ? display.mappings.find((mapping) => mapping.slotKey === x.slot)?.fieldKey
+        : x.field;
+      const value = field
+        ? filledFieldMappings.find((mapping) => mapping.fieldKey === field)?.value
+        : x.value;
       return { ...x, field, value };
     });
 
@@ -58,33 +59,33 @@ const LayoutDisplay = ({
 
   return (
     <>
-      {display.type === DisplayType.Card && (
+      {display.type === 'card' && (
         <DisplayCard
           preview={Boolean(preview)}
-          slots={slotValues as CardDisplay}
+          slots={slotValues}
           onSlot={onSlot}
           onOperation={runOperation}
         />
       )}
-      {display.type === DisplayType.Dots && (
+      {display.type === 'dots' && (
         <DisplayDots
           preview={Boolean(preview)}
-          slots={slotValues as DotsDisplay}
+          slots={slotValues}
           onSlot={onSlot}
           onOperation={runOperation}
         />
       )}
-      {display.type === DisplayType.Square && (
+      {display.type === 'square' && (
         <DisplaySquare
           preview={Boolean(preview)}
-          slots={slotValues as SquareDisplay}
+          slots={slotValues}
           onOperation={runOperation}
         />
       )}
-      {display.type === DisplayType.Toggle && (
+      {display.type === 'toggle' && (
         <DisplayToggle
           preview={Boolean(preview)}
-          slots={slotValues as ToggleDisplay}
+          slots={slotValues}
           onSlot={onSlot}
           onOperation={runOperation}
         />

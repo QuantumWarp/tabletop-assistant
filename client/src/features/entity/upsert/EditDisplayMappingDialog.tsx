@@ -15,18 +15,17 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { CreateEntity } from 'tabletop-assistant-common';
-import DisplayType from '../../../models/display.type';
+import { CreateEntity, EntityDisplayType, SlotFieldMapping } from 'tabletop-assistant-common';
 import DisplayHelper from '../../../helpers/display.helper';
 import FieldHelper from '../../../helpers/field.helper';
 
 interface EditDisplayDialogProps {
-  initial?: Partial<{ key: string, value: string }>;
+  initial?: Partial<SlotFieldMapping>;
   entity: CreateEntity;
   usedSlotKeys: string[];
-  type: DisplayType;
+  type: EntityDisplayType;
   open: boolean;
-  onSave: (display: { key: string, value: string }) => void;
+  onSave: (display: SlotFieldMapping) => void;
   onDelete: () => void;
   onClose: () => void;
 }
@@ -34,24 +33,24 @@ interface EditDisplayDialogProps {
 const EditDisplayDialog = ({
   initial, entity, usedSlotKeys, type, open, onClose, onDelete, onSave,
 }: EditDisplayDialogProps) => {
-  const [key, setKey] = useState(initial?.key || '');
-  const [value, setValue] = useState(initial?.value || '');
+  const [slotKey, setSlotKey] = useState(initial?.slotKey || '');
+  const [fieldKey, setFieldKey] = useState(initial?.fieldKey || '');
 
   const availableSlots = DisplayHelper.slots(type)
-    .filter((x) => initial?.key === x.key
+    .filter((x) => initial?.slotKey === x.key
       || (!usedSlotKeys.includes(x.key)
         && (!x.inverse || !usedSlotKeys.includes(x.inverse))))
     .sort((a, b) => (a.name > b.name ? 1 : -1));
 
-  const selectedSlot = availableSlots.find((x) => x.key === key);
+  const selectedSlot = availableSlots.find((x) => x.key === slotKey);
 
   const validFields = FieldHelper.getFields(entity)
     .filter((x) => x.type === selectedSlot?.type);
 
   const saveField = () => {
     const updatedProps = {
-      key,
-      value,
+      slotKey,
+      fieldKey,
     };
 
     onSave({ ...initial, ...updatedProps });
@@ -59,14 +58,14 @@ const EditDisplayDialog = ({
   };
 
   useEffect(() => {
-    if (!initial?.key) setValue('');
-  }, [initial?.key, key]);
+    if (!initial?.slotKey) setFieldKey('');
+  }, [initial?.slotKey, slotKey]);
 
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
-          {initial?.key ? 'Update ' : 'Create '}
+          {initial?.slotKey ? 'Update ' : 'Create '}
           Mapping
         </b>
       </DialogTitle>
@@ -78,9 +77,9 @@ const EditDisplayDialog = ({
               <InputLabel>Slot</InputLabel>
               <Select
                 label="Slot"
-                disabled={Boolean(initial?.key)}
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
+                disabled={Boolean(initial?.slotKey)}
+                value={slotKey}
+                onChange={(e) => setSlotKey(e.target.value)}
               >
                 {availableSlots.map((x) => (
                   <MenuItem key={x.key} value={x.key}>
@@ -98,8 +97,8 @@ const EditDisplayDialog = ({
                 <Select
                   label="Field"
                   disabled={!selectedSlot}
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={fieldKey}
+                  onChange={(e) => setFieldKey(e.target.value)}
                 >
                   {validFields.map((x) => (
                     <MenuItem key={x.key} value={x.key}>
@@ -122,8 +121,8 @@ const EditDisplayDialog = ({
                 <InputLabel>Action</InputLabel>
                 <Select
                   label="Action"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={fieldKey}
+                  onChange={(e) => setFieldKey(e.target.value)}
                 >
                   {entity.actions.map((x) => (
                     <MenuItem key={x.key} value={x.key}>
@@ -143,7 +142,7 @@ const EditDisplayDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {initial?.key && (
+        {initial?.slotKey && (
           <Button
             variant="outlined"
             color="error"

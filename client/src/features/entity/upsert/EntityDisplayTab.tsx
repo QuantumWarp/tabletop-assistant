@@ -2,9 +2,8 @@ import {
   Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
+import { CreateEntity, EntityDisplay, EntityDisplayType } from 'tabletop-assistant-common';
 import DisplayHelper from '../../../helpers/display.helper';
-import DisplayType from '../../../models/display.type';
 import EditDisplayDialog from './EditDisplayDialog';
 
 interface EntityDisplayTabProps {
@@ -30,7 +29,9 @@ const ObjectDisplayTab = ({
         {displays.map((display) => (
           <ListItem key={display.type}>
             <ListItemButton onClick={() => setEditDisplay(display)}>
-              <ListItemText primary={DisplayHelper.displayName(display.type as DisplayType)} />
+              <ListItemText
+                primary={DisplayHelper.displayName(display.type as EntityDisplayType)}
+              />
               {display.default && (<Chip label="Default" />)}
             </ListItemButton>
           </ListItem>

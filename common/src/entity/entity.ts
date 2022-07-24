@@ -61,13 +61,16 @@ export interface EntityDisplay {
   name: string;
   type: EntityDisplayType;
   default?: boolean;
-  mappings: {
-    [slot: string]: string;
-  };
+  mappings: SlotFieldMapping[];
+}
+
+export interface SlotFieldMapping {
+  slotKey: string;
+  fieldKey: string;
 }
 
 export type EntityDisplayType
-  = 'dot'
+  = 'dots'
   | 'square'
   | 'card'
   | 'toggle';

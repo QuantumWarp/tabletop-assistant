@@ -32,7 +32,7 @@ export default class RollHelper {
   }
 
   static resolveComputed(combo: RollCombo, entities: Entity[], valueMaps: ValueMap[]) {
-    const computedValues = valueMaps.map((x) => ({ ...x, mappings: { ...x.mappings } }));
+    const computedValues: ValueMap[] = valueMaps.map((x) => ({ ...x, mappings: [...x.mappings] }));
     return combo
       .map((x) => ({
         ...x,

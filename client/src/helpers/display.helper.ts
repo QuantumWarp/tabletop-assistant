@@ -1,12 +1,13 @@
 import {
-  CreateEntity, EntityAction, EntityDisplay, EntityField,
+  CreateEntity, EntityAction, EntityDisplay, EntityDisplayType,
+  EntityField, FieldValueMapping, SlotFieldMapping,
 } from 'tabletop-assistant-common';
-import DisplayType from '../models/display.type';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
 import FieldHelper from './field.helper';
+import { SlotFieldValue } from '../models/slot-field-value';
 
 interface DisplaySlot {
   name: string;
@@ -27,112 +28,114 @@ export default class DisplayHelper {
     return false;
   }
 
-  static displayName(type: DisplayType): string {
+  static displayName(type: EntityDisplayType): string {
     switch (type) {
-      case DisplayType.Dots: return 'Dots';
-      case DisplayType.Square: return 'Square';
-      case DisplayType.Card: return 'Card';
-      case DisplayType.Toggle: return 'Toggle';
+      case 'dots': return 'Dots';
+      case 'square': return 'Square';
+      case 'card': return 'Card';
+      case 'toggle': return 'Toggle';
       default: throw new Error('Invalid display type');
     }
   }
 
-  static slotName(type: DisplayType): string {
+  static slotName(type: EntityDisplayType): string {
     switch (type) {
-      case DisplayType.Dots: return 'Dots';
-      case DisplayType.Square: return 'Square';
-      case DisplayType.Card: return 'Card';
-      case DisplayType.Toggle: return 'Toggle';
+      case 'dots': return 'Dots';
+      case 'square': return 'Square';
+      case 'card': return 'Card';
+      case 'toggle': return 'Toggle';
       default: throw new Error('Invalid display type');
     }
   }
 
-  static slots(type: DisplayType): DisplaySlot[] {
+  static slots(type: EntityDisplayType): DisplaySlot[] {
     switch (type) {
-      case DisplayType.Dots: return dotsSlots;
-      case DisplayType.Square: return squareSlots;
-      case DisplayType.Card: return cardSlots;
-      case DisplayType.Toggle: return toggleSlots;
+      case 'dots': return dotsSlots;
+      case 'square': return squareSlots;
+      case 'card': return cardSlots;
+      case 'toggle': return toggleSlots;
       default: throw new Error('Invalid display type');
     }
   }
 
-  static defaultSize(type: DisplayType) {
+  static defaultSize(type: EntityDisplayType) {
     switch (type) {
-      case DisplayType.Dots: return { width: 40, height: 10 };
-      case DisplayType.Square: return { width: 20, height: 20 };
-      case DisplayType.Card: return { width: 45, height: 8 };
-      case DisplayType.Toggle: return { width: 30, height: 5 };
+      case 'dots': return { width: 40, height: 10 };
+      case 'square': return { width: 20, height: 20 };
+      case 'card': return { width: 45, height: 8 };
+      case 'toggle': return { width: 30, height: 5 };
       default: throw new Error('Invalid display type');
     }
   }
 
   static autoMapping(
-    type: DisplayType, fields: EntityField[], actions: EntityAction[],
-  ): { [slot: string]: string } {
+    type: EntityDisplayType, fields: EntityField[], actions: EntityAction[],
+  ): SlotFieldMapping[] {
     const slots = DisplayHelper.slots(type);
     const sortedSlots = slots.sort((a, b) => a.key.localeCompare(b.key));
-    return sortedSlots.reduce((obj, a) => {
-      const autoKey = a.auto && a.auto.find((key) => (a.type === 'action'
-        ? actions.find((x) => x.key === key)
-        : fields.find((x) => x.key === key)));
-      if (!autoKey) return obj;
-      if (a.inverse && Object.keys(obj).includes(a.inverse)) return obj;
-      return { ...obj, [a.key]: autoKey };
-    }, {});
+    return sortedSlots
+      .map((slot) => {
+        const autoKey = slot.auto && slot.auto.find((key) => (slot.type === 'action'
+          ? actions.find((x) => x.key === key)
+          : fields.find((x) => x.key === key)));
+        if (!autoKey) return undefined;
+        return { slotKey: slot.key, fieldKey: autoKey };
+      })
+      .filter((x): x is SlotFieldMapping => Boolean(x));
   }
 
   static getFieldMappings(
     entity: CreateEntity,
-    optionalFieldMappings: { [field: string]: string } = {},
-  ) {
+    optionalFieldMappings: FieldValueMapping[] = [],
+  ): FieldValueMapping[] {
     const initialFieldMappings = FieldHelper.getFields(entity)
-      .reduce((obj, a) => ({
-        ...obj,
-        [a.key]: a.initial,
-      }), {} as { [field: string]: string });
+      .map((field) => {
+        const optional = optionalFieldMappings.find((x) => x.fieldKey === field.key);
+        return {
+          fieldKey: field.key,
+          value: optional || field.initial,
+        };
+      });
 
-    return {
+    return [
       ...initialFieldMappings,
       ...optionalFieldMappings,
-    };
+    ];
   }
 
-  static map<T>(
+  static map(
     display: EntityDisplay,
     entity: CreateEntity,
-    optionalSlotMappings?: { [slot: string]: string },
-    optionalFieldMappings: { [field: string]: string } = {},
-  ): T {
-    const slots = DisplayHelper.slots(display.type as DisplayType);
+    optionalSlotMappings?: SlotFieldMapping[],
+    optionalFieldMappings: FieldValueMapping[] = [],
+  ): SlotFieldValue[] {
+    const slots = DisplayHelper.slots(display.type);
 
     const slotMappings = optionalSlotMappings || display?.mappings || {};
     const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);
 
-    const slotValueMapping = Object.keys(slotMappings)
-      .reduce((obj, slotKey) => {
-        const slot = slots.find((x) => x.key === slotKey);
+    const slotValueMappings: SlotFieldValue[] = slotMappings.map((sfMapping) => {
+      const slot = slots.find((x) => x.key === sfMapping.slotKey);
 
-        if (slot?.type === 'action') {
-          const action = entity.actions.find((x) => x.key === slotMappings[slotKey]);
-          return { ...obj, [slotKey]: action?.name };
-        }
+      if (slot?.type === 'action') {
+        const action = entity.actions.find((x) => x.key === sfMapping.fieldKey);
+        return { ...sfMapping, value: action?.key };
+      }
 
-        const field = slotMappings[slotKey];
-        const value = fieldMappings[field];
+      const fvMapping = fieldMappings.find((x) => x.fieldKey === sfMapping.fieldKey);
 
-        const entityField = entity.fields.find((x) => x.key === field);
-        const fullValue = (entityField?.prefix ? entityField?.prefix : '')
-          + value
-          + (entityField?.postfix ? entityField?.postfix : '');
+      const entityField = entity.fields.find((x) => x.key === fvMapping?.fieldKey);
+      const fullValue = (entityField?.prefix ? entityField?.prefix : '')
+        + fvMapping?.value
+        + (entityField?.postfix ? entityField?.postfix : '');
 
-        return { ...obj, [slotKey]: fullValue };
-      }, {});
+      return { ...sfMapping, value: fullValue };
+    });
 
-    return slotValueMapping as T;
+    return slotValueMappings;
   }
 
-  static list(): DisplayType[] {
-    return Object.values(DisplayType);
+  static list(): EntityDisplayType[] {
+    return ['dots', 'card', 'square', 'toggle'];
   }
 }

@@ -15,11 +15,10 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { LayoutEntry, LayoutPosition } from 'tabletop-assistant-common';
+import { EntityDisplayType, LayoutEntry, LayoutPosition } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
 import DisplayHelper from '../../helpers/display.helper';
-import DisplayType from '../../models/display.type';
 
 interface EditLayoutEntryDialogProps {
   initial?: LayoutEntry;
@@ -54,7 +53,7 @@ const EditLayoutEntryDialog = ({
       displayKey,
       position: initial?.position || position || { left: 0, top: 0 },
       size: initial?.size || DisplayHelper.defaultSize(
-        selectedDisplay?.type as DisplayType || DisplayType.Card,
+        selectedDisplay?.type as EntityDisplayType || 'card',
       ),
     };
     onSave({ ...initial, ...updatedProps });
@@ -97,7 +96,7 @@ const EditLayoutEntryDialog = ({
                 label="Display"
                 disabled={!selectedEntity}
                 value={displayKey}
-                onChange={(e) => setDisplayKey(e.target.value as DisplayType)}
+                onChange={(e) => setDisplayKey(e.target.value as EntityDisplayType)}
               >
                 {selectedEntity?.displays
                   .map((x) => (

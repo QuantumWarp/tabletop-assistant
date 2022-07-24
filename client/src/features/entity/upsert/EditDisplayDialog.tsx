@@ -23,10 +23,11 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { CreateEntity, EntityDisplay } from 'tabletop-assistant-common';
+import {
+  CreateEntity, EntityDisplay, EntityDisplayType, SlotFieldMapping,
+} from 'tabletop-assistant-common';
 import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
-import DisplayType from '../../../models/display.type';
 import DisplayHelper from '../../../helpers/display.helper';
 import LayoutDisplay from '../../display/LayoutDisplay';
 import LayoutPositionHelper from '../../../helpers/layout-position.helper';
@@ -48,15 +49,15 @@ const EditDisplayDialog = ({
 }: EditDisplayDialogProps) => {
   const isFirstRender = useIsFirstRender();
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [editMapping, setEditMapping] = useState<Partial<{ key: string, value: string }>>();
+  const [editMapping, setEditMapping] = useState<Partial<SlotFieldMapping>>();
 
   const onlyDisplay = displays.filter((x) => x !== initial).length === 0;
 
   const [name, setName] = useState(initial?.name || '');
-  const [type, setType] = useState<DisplayType>(initial?.type as DisplayType || DisplayType.Card);
+  const [type, setType] = useState<EntityDisplayType>(initial?.type || 'card');
   const [defaultVal, setDefault] = useState(initial?.default || onlyDisplay);
   const [mappings, setMappings] = useState(initial?.mappings || DisplayHelper.autoMapping(
-    initial?.type as DisplayType || DisplayType.Card,
+    initial?.type || 'card',
     FieldHelper.getFields(entity),
     entity.actions,
   ));
@@ -108,7 +109,7 @@ const EditDisplayDialog = ({
                   label="Type"
                   disabled={Boolean(initial?.type)}
                   value={type}
-                  onChange={(e) => setType(e.target.value as DisplayType)}
+                  onChange={(e) => setType(e.target.value as EntityDisplayType)}
                 >
                   {DisplayHelper.list().map((x) => (
                     <MenuItem key={x} value={x}>
@@ -144,18 +145,19 @@ const EditDisplayDialog = ({
               )}
             </Grid>
 
-            {Object.entries(mappings).length > 0 && (
+            {mappings.length > 0 && (
               <Grid item xs={12}>
                 <Divider />
 
-                {Object.entries(mappings).map((mapping) => {
-                  const slot = DisplayHelper.slots(type).find((x) => x.key === mapping[0]);
-                  const field = FieldHelper.getFields(entity).find((x) => x.key === mapping[1]);
-                  const action = entity.actions.find((x) => x.key === mapping[1]);
+                {mappings.map((mapping) => {
+                  const slot = DisplayHelper.slots(type).find((x) => x.key === mapping.slotKey);
+                  const field = FieldHelper.getFields(entity)
+                    .find((x) => x.key === mapping.fieldKey);
+                  const action = entity.actions.find((x) => x.key === mapping.fieldKey);
                   return (
-                    <ListItem dense key={mapping[0]}>
+                    <ListItem dense key={mapping.slotKey}>
                       <ListItemButton
-                        onClick={() => setEditMapping({ key: mapping[0], value: mapping[1] })}
+                        onClick={() => setEditMapping({ ...editMapping })}
                       >
                         <Grid container>
                           <Grid item xs={5} container justifyContent="flex-end">{slot?.name}</Grid>
@@ -186,15 +188,14 @@ const EditDisplayDialog = ({
                 type={type}
                 open={Boolean(editMapping)}
                 onSave={(mapping) => {
-                  const newObj = { ...mappings, [mapping.key]: mapping.value };
-                  const keys = Object.keys(newObj).sort();
-                  setMappings(keys.reduce((obj, x) => ({ ...obj, [x]: newObj[x] }), {}));
+                  setMappings(mappings
+                    .filter((x) => x.slotKey !== mapping.slotKey)
+                    .concat([mapping]));
                 }}
                 onDelete={() => {
-                  if (!editMapping.key) return;
-                  const newObj = { ...mappings };
-                  delete newObj[editMapping.key];
-                  setMappings(newObj);
+                  if (!editMapping.slotKey) return;
+                  setMappings(mappings
+                    .filter((x) => x.slotKey !== editMapping.slotKey));
                 }}
                 onClose={() => setEditMapping(undefined)}
               />

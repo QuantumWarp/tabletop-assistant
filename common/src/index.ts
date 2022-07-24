@@ -14,11 +14,12 @@ export type {
   EntityActionTrigger,
   EntityDisplay,
   EntityDisplayType,
+  SlotFieldMapping,
 } from './entity/entity';
 
 export type {
   Expression,
-  EntityFieldRef,
+  ExpressionVariable,
   Macro,
 } from './entity/expression';
 
@@ -31,6 +32,7 @@ export type {
 
 export type {
   ValueMap,
+  FieldValueMapping,
   CreateValueMap,
   UpdateValueMap,
 } from './entity/value-map';

@@ -28,7 +28,7 @@ const ComputedInput = ({
         initial={value}
         open={editOpen}
         onSave={(newValue) => onChange(newValue)}
-        onDelete={() => onChange({ expression: '', variables: {} })}
+        onDelete={() => onChange({ expression: '', variables: [] })}
         onClose={() => setEditOpen(false)}
       />
     </>

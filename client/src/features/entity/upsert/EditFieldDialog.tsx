@@ -16,7 +16,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityField, Expression } from 'tabletop-assistant-common';
+import { EntityField, EntityFieldType, Expression } from 'tabletop-assistant-common';
 import FieldHelper from '../../../helpers/field.helper';
 import ValueInput from '../../../components/ValueInput';
 import FieldType from '../../../models/field.type';
@@ -83,7 +83,7 @@ const EditFieldDialog = ({
               <Select
                 label="Type"
                 value={type}
-                onChange={(e) => setType(e.target.value)}
+                onChange={(e) => setType(e.target.value as EntityFieldType)}
               >
                 {FieldHelper.list().map((x) => (
                   <MenuItem key={x} value={x}>

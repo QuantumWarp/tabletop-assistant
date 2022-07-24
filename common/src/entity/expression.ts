@@ -1,14 +1,15 @@
 export interface Expression {
   expression: string;
-  variables: { [variable: string]: EntityFieldRef },
+  variables: ExpressionVariable[];
 }
 
-export interface EntityFieldRef {
+export interface ExpressionVariable {
+  key: string;
   entityId: string;
   fieldKey: string;
 }
 
 export interface Macro {
-  target: EntityFieldRef,
+  target: ExpressionVariable,
   expression: Expression,
 }

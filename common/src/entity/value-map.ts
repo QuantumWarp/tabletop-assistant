@@ -4,13 +4,16 @@ export interface ValueMap {
   readonly tabletopId: string;
   readonly entityId: string;
 
-  mappings: {
-    [field: string]: any;
-  };
+  mappings: FieldValueMapping[];
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly __v: number;
+}
+
+export interface FieldValueMapping {
+  fieldKey: string;
+  value: any;
 }
 
 export type UpdateValueMap = Omit<ValueMap, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;

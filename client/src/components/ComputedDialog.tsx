@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { parse, SymbolNode } from 'mathjs';
-import { Expression, EntityFieldRef } from 'tabletop-assistant-common';
+import { Expression, ExpressionVariable } from 'tabletop-assistant-common';
 import { useGetEntitiesQuery } from '../store/api';
 
 interface ComputedDialogProps {
@@ -36,7 +36,7 @@ const ComputedDialog = ({
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const [expression, setExpression] = useState(initial?.expression || '');
-  const [variables, setVariables] = useState<{ [variable: string]: EntityFieldRef }>(
+  const [variables, setVariables] = useState<ExpressionVariable[]>(
     initial?.variables || {},
   );
 
@@ -74,8 +74,9 @@ const ComputedDialog = ({
           </Grid>
 
           {expressionSymbols.map((variable) => {
-            const variableRef: EntityFieldRef = variables[variable] || {};
-            const entity = entities?.find((x) => x._id === variableRef.entityId);
+            const variableRef: ExpressionVariable | undefined = variables
+              .find((x) => x.key === variable);
+            const entity = entities?.find((x) => x._id === variableRef?.entityId);
 
             return (
               <>
@@ -89,7 +90,7 @@ const ComputedDialog = ({
                     <Select
                       label="Entity"
                       MenuProps={{ style: { maxHeight: '400px' } }}
-                      value={variableRef.entityId}
+                      value={variableRef?.entityId}
                       onChange={(e) => setVariables({
                         ...variables,
                         [variable]: {
@@ -113,7 +114,7 @@ const ComputedDialog = ({
                     <Select
                       label="Field"
                       MenuProps={{ style: { maxHeight: '400px' } }}
-                      value={variableRef.fieldKey}
+                      value={variableRef?.fieldKey}
                       onChange={(e) => setVariables({
                         ...variables,
                         [variable]: {

@@ -7,7 +7,7 @@ import { ResolvedMacro } from '../models/resolved-macro';
 
 export default class ExpressionHelper {
   static calculateComputedValues(valueMaps: ValueMap[], entities: Entity[]): ValueMap[] {
-    let computedValues = valueMaps.map((x) => ({ ...x, mappings: { ...x.mappings } }));
+    let computedValues: ValueMap[] = valueMaps.map((x) => ({ ...x, mappings: [...x.mappings] }));
 
     entities.forEach((entity) => {
       const entityValues = computedValues.find((x) => x.entityId === entity._id);
@@ -15,7 +15,8 @@ export default class ExpressionHelper {
       if (!entityValues) return;
 
       computedFields.forEach((field) => {
-        if (entityValues.mappings[field.key] !== undefined) return;
+        const mapping = entityValues.mappings.find((x) => x.fieldKey === field.key);
+        if (mapping?.value !== undefined) return;
         computedValues = ExpressionHelper.calculateComputedField(
           entity, field, computedValues, entities,
         );
@@ -32,41 +33,42 @@ export default class ExpressionHelper {
     let newValues = valueMaps;
     const parse = parser();
 
-    const variables = Object.keys(field.computed.variables);
     // eslint-disable-next-line no-restricted-syntax
-    for (const variable of variables) {
-      const entityRef = field.computed.variables[variable];
-
+    for (const variable of field.computed.variables) {
       const unfilledMappings = newValues
-        .find((x) => x.entityId === entityRef.entityId)
+        .find((x) => x.entityId === variable?.entityId)
         ?.mappings;
       const filledFieldMappings = DisplayHelper.getFieldMappings(entity, unfilledMappings);
-      let value = filledFieldMappings[entityRef.fieldKey];
+      let value = filledFieldMappings.find((x) => x.fieldKey === variable?.fieldKey)?.value;
 
       if (!value) {
-        const varEntity = entities.find((x) => x._id === entityRef.entityId);
-        const varField = varEntity?.fields.find((x) => x.key === entityRef.fieldKey);
+        const varEntity = entities.find((x) => x._id === variable?.entityId);
+        const varField = varEntity?.fields.find((x) => x.key === variable?.fieldKey);
         if (!varEntity || !varField || !varField.computed) return newValues;
 
         newValues = ExpressionHelper
           .calculateComputedField(varEntity, varField, valueMaps, entities);
         value = newValues
-          .find((x) => x.entityId === entityRef.entityId)
-          ?.mappings[entityRef.fieldKey];
+          .find((x) => x.entityId === variable?.entityId)
+          ?.mappings.find((x) => x.fieldKey === variable?.fieldKey)?.value;
       }
 
       if (!value) {
         return newValues;
       }
 
-      parse.set(variable, value);
+      parse.set(variable.key, value);
     }
 
     const newValue = parse.evaluate(field.computed.expression);
     const entityValues = newValues.find((x) => x.entityId === entity._id);
     if (!entityValues) return newValues;
 
-    entityValues.mappings[field.key] = newValue;
+    const mapping = entityValues.mappings.find((x) => x.fieldKey === field.key);
+    if (mapping) {
+      mapping.value = newValue;
+    }
+
     return newValues;
   }
 
@@ -76,13 +78,10 @@ export default class ExpressionHelper {
     let newValues = valueMaps;
     const parse = parser();
 
-    const variables = Object.keys(expression.variables);
     // eslint-disable-next-line no-restricted-syntax
-    for (const variable of variables) {
-      const entityRef = expression.variables[variable];
-
-      const varEntity = entities.find((x) => x._id === entityRef.entityId);
-      const varField = varEntity?.fields.find((x) => x.key === entityRef.fieldKey);
+    for (const variable of expression.variables) {
+      const varEntity = entities.find((x) => x._id === variable.entityId);
+      const varField = varEntity?.fields.find((x) => x.key === variable.fieldKey);
 
       if (varEntity && varField && varField.computed) {
         newValues = ExpressionHelper
@@ -90,12 +89,12 @@ export default class ExpressionHelper {
       }
 
       const value = newValues
-        .find((x) => x.entityId === entityRef.entityId)
-        ?.mappings[entityRef.fieldKey];
+        .find((x) => x.entityId === variable.entityId)
+        ?.mappings.find((x) => x.fieldKey === variable?.fieldKey)?.value;
 
       if (!value) return undefined;
 
-      parse.set(variable, value);
+      parse.set(variable.key, value);
     }
 
     return parse.evaluate(expression.expression);
@@ -104,7 +103,7 @@ export default class ExpressionHelper {
   static resolveMacros(
     macros: Macro[], valueMaps: ValueMap[], entities: Entity[],
   ): ResolvedMacro[] {
-    const computedValues = valueMaps.map((x) => ({ ...x, mappings: { ...x.mappings } }));
+    const computedValues: ValueMap[] = valueMaps.map((x) => ({ ...x, mappings: [...x.mappings] }));
     return macros.map((x) => ExpressionHelper.resolveMacro(x, computedValues, entities));
   }
 
@@ -128,12 +127,13 @@ export default class ExpressionHelper {
     const entityIds = macros.map((x) => x.entity._id);
     const updateValues = valueMaps
       .filter((x) => entityIds.includes(x.entityId))
-      .map((x) => ({ ...x, mappings: { ...x.mappings } }));
+      .map((x) => ({ ...x, mappings: [...x.mappings] }));
 
     macros.forEach((macro) => {
       const entityVals = updateValues.find((x) => x.entityId === macro.entity._id);
-      if (entityVals) {
-        entityVals.mappings[macro.field.key] = macro.result;
+      const mapping = entityVals?.mappings.find((x) => x.fieldKey === macro.field.key);
+      if (mapping) {
+        mapping.value = macro.result;
       }
     });
 
