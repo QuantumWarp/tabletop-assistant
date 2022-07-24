@@ -9,9 +9,11 @@ export type {
   CreateEntity,
   UpdateEntity,
   EntityField,
+  EntityFieldType,
   EntityAction,
   EntityActionTrigger,
   EntityDisplay,
+  EntityDisplayType,
 } from './entity/entity';
 
 export type {

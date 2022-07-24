@@ -27,13 +27,19 @@ export type CreateEntity = Omit<UpdateEntity, '_id'>;
 export interface EntityField {
   key: string;
   name: string;
-  type: string;
+  type: EntityFieldType;
   initial?: any;
   computed?: Expression;
   static?: boolean;
   prefix?: string;
   postfix?: string;
 }
+
+export type EntityFieldType
+  = 'string'
+  | 'boolean'
+  | 'number'
+  | 'computed';
 
 export interface EntityAction {
   key: string;
@@ -44,8 +50,8 @@ export interface EntityAction {
 }
 
 export interface EntityActionTrigger {
-  manual: boolean;
-  sibling: boolean;
+  manual?: boolean;
+  sibling?: boolean;
   entityId?: string;
   actionKey?: string;
 }
@@ -53,9 +59,15 @@ export interface EntityActionTrigger {
 export interface EntityDisplay {
   key: string;
   name: string;
-  type: string;
-  default: boolean;
+  type: EntityDisplayType;
+  default?: boolean;
   mappings: {
     [slot: string]: string;
   };
 }
+
+export type EntityDisplayType
+  = 'dot'
+  | 'square'
+  | 'card'
+  | 'toggle';

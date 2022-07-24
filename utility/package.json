@@ -12,6 +12,7 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "mongoose": "^6.4.0",
+    "tabletop-assistant-client": "file:../client",
     "tabletop-assistant-common": "file:../common",
     "tabletop-assistant-server": "file:../server"
   },
