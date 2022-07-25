@@ -1,9 +1,9 @@
 import React from 'react';
-import { RollCombo } from 'tabletop-assistant-common';
+import { ResolvedRollCombo } from 'tabletop-assistant-common';
 import './ActionNodeRoll.css';
 
 interface ActionNodeRollInputProps {
-  combo: RollCombo;
+  combo: ResolvedRollCombo;
 }
 
 const ActionNodeRollInput = ({ combo }: ActionNodeRollInputProps) => {

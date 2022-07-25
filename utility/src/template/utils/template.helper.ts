@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import FieldHelper from 'tabletop-assistant-client/src/helpers/field.helper';
-import { ExpressionVariable, SlotFieldMapping } from 'tabletop-assistant-common';
+import { Expression, ExpressionVariable, SlotFieldMapping } from 'tabletop-assistant-common';
 import { TemplatedEntity } from './templated.types';
 
 export default class TemplateHelper {
@@ -23,6 +23,13 @@ export default class TemplateHelper {
       key,
       entityId: entity._id,
       fieldKey,
+    };
+  }
+
+  static singleVariable(key: string, entity: TemplatedEntity, fieldKey: string): Expression {
+    return {
+      expression: key,
+      variables: [TemplateHelper.variable(key, entity, fieldKey)],
     };
   }
 

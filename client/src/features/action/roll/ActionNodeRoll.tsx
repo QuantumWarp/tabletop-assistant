@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RollCombo, RollResult } from 'tabletop-assistant-common';
+import { ResolvedRollCombo, RollResult } from 'tabletop-assistant-common';
 import { Box } from '@mui/material';
 import {
   Casino as RollIcon,
@@ -24,7 +24,7 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
   const [editRoll, setEditRoll] = useState(false);
   const [editResult, setEditResult] = useState<RollResult | null>(null);
 
-  const [roll, setRoll] = useState(node.resolvedRoll as RollCombo);
+  const [roll, setRoll] = useState(node.resolvedRoll as ResolvedRollCombo);
   const [results, setResults] = useState([] as RollResult[]);
 
   const rollAction = () => {

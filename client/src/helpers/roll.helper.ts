@@ -1,17 +1,16 @@
 import {
-  Entity, RollCombo, RollResult, ValueMap,
+  Entity, ResolvedRollComboGroup, ResolvedRollCombo, RollResult, RollResultDie, ValueMap, RollCombo,
 } from 'tabletop-assistant-common';
-import { RollComboGroup, RollResultDie } from 'tabletop-assistant-common/src/entity/roll';
 import ExpressionHelper from './expression.helper';
 
 export default class RollHelper {
-  static roll(combo: RollCombo): RollResult {
+  static roll(combo: ResolvedRollCombo): RollResult {
     return combo
       .map((x) => RollHelper.rollGroup(x))
       .reduce((arr, x) => arr.concat(x), []);
   }
 
-  static rollGroup(group: RollComboGroup): RollResult {
+  static rollGroup(group: ResolvedRollComboGroup): RollResult {
     return new Array(group.number)
       .fill(0)
       .map(() => ({
@@ -31,7 +30,9 @@ export default class RollHelper {
     };
   }
 
-  static resolveComputed(combo: RollCombo, entities: Entity[], valueMaps: ValueMap[]) {
+  static resolveComputed(
+    combo: RollCombo, entities: Entity[], valueMaps: ValueMap[],
+  ): ResolvedRollCombo {
     const computedValues: ValueMap[] = valueMaps.map((x) => ({ ...x, mappings: [...x.mappings] }));
     return combo
       .map((x) => ({

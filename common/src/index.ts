@@ -26,6 +26,8 @@ export type {
 export type {
   RollCombo,
   RollComboGroup,
+  ResolvedRollCombo,
+  ResolvedRollComboGroup,
   RollResult,
   RollResultDie,
 } from './entity/roll';

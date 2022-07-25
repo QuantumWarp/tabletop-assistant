@@ -9,14 +9,14 @@ import {
   TextField,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { RollCombo } from 'tabletop-assistant-common';
+import { ResolvedRollCombo } from 'tabletop-assistant-common';
 import ActionNodeRollInput from '../roll/ActionNodeRollInput';
 import './ActionRollDialog.css';
 
 interface ActionRollDialogProps {
-  combo: RollCombo;
+  combo: ResolvedRollCombo;
   open: boolean;
-  onUpdate: (updatedCombo: RollCombo, rollNow?: boolean) => void;
+  onUpdate: (updatedCombo: ResolvedRollCombo, rollNow?: boolean) => void;
   onClose: () => void;
 }
 
