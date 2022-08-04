@@ -10,6 +10,6 @@ export interface ExpressionVariable {
 }
 
 export interface Macro {
-  target: ExpressionVariable,
+  target: Omit<ExpressionVariable, 'key'>,
   expression: Expression,
 }

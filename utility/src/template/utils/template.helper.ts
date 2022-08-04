@@ -1,10 +1,24 @@
 import { Types } from 'mongoose';
 import FieldHelper from 'tabletop-assistant-client/src/helpers/field.helper';
 import { Expression, ExpressionVariable, SlotFieldMapping } from 'tabletop-assistant-common';
-import { TemplatedEntity } from './templated.types';
+import { Templated, TemplatedEntity, TemplatedLayout } from './templated.types';
 
 export default class TemplateHelper {
-  static create(template: Omit<TemplatedEntity, '_id'>): TemplatedEntity {
+  static create(template: Omit<Templated, '_id'>): Templated {
+    return {
+      _id: new Types.ObjectId().toString(),
+      ...template,
+    };
+  }
+
+  static createLayout(template: Omit<TemplatedLayout, '_id'>): TemplatedLayout {
+    return {
+      _id: new Types.ObjectId().toString(),
+      ...template,
+    };
+  }
+
+  static createEntity(template: Omit<TemplatedEntity, '_id'>): TemplatedEntity {
     return {
       _id: new Types.ObjectId().toString(),
       ...template,
@@ -22,6 +36,14 @@ export default class TemplateHelper {
     return {
       key,
       entityId: entity._id,
+      fieldKey,
+    };
+  }
+
+  static selfVariable(key: string, fieldKey: string): ExpressionVariable {
+    return {
+      key,
+      entityId: '-',
       fieldKey,
     };
   }
