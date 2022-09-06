@@ -8,24 +8,17 @@ import TemplatedLayoutRepository from './templated-layout.repository';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-  const repository = new TemplateRepository();
-  const objs = await repository.getAll();
-  res.send(objs);
-});
-
-router.get('/layouts', async (req: Request<{ ids: string[] }>, res) => {
-  const repository = new TemplatedLayoutRepository();
-  const ids = req.params.ids || undefined;
-  const objs = await repository.getAll(ids);
-  res.send(objs);
-});
-
-router.get('/entities', async (req: Request<{ ids: string[] }>, res) => {
-  const repository = new TemplatedEntityRepository();
-  const ids = req.params.ids || undefined;
-  const objs = await repository.getAll(ids);
-  res.send(objs);
+router.get('/summaries', async (req, res) => {
+  const userId = req.session.userId || '';
+  const service = new TemplateService(
+    new EntityRepository(userId),
+    new LayoutRepository(userId),
+    new TemplateRepository(),
+    new TemplatedLayoutRepository(),
+    new TemplatedEntityRepository(),
+  );
+  const obj = await service.summaries();
+  res.send(obj);
 });
 
 router.post('/import', async (req, res) => {

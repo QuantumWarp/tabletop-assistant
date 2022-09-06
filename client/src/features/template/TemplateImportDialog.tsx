@@ -33,16 +33,16 @@ const TemplateImportDialog = ({
   return (
     <Dialog open={open} onClose={() => onClose()} fullWidth>
       <DialogTitle>
-        <b>
-          Import
-          {' - '}
-          {templateImport.tabletopId}
-        </b>
+        <b>Import</b>
       </DialogTitle>
 
       <DialogContent>
         <Typography sx={{ whiteSpace: 'pre-line' }}>
-          {templateImport.tabletopId}
+          {'Import '}
+          <b>{templateImport.layoutIds.length}</b>
+          {' Layouts and '}
+          <b>{templateImport.entityIds.length}</b>
+          {' Objects?'}
         </Typography>
 
         {isError && (

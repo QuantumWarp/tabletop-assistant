@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { Types } from 'mongoose';
 import {
-  CreateEntity, CreateLayout, Entity, Expression, RollCombo, TemplateImport,
+  CreateEntity, CreateLayout, Entity, Expression, RollCombo, TemplateImport, TemplateSummaries,
 } from 'tabletop-assistant-common';
 import { Macro } from 'tabletop-assistant-common/src/entity/expression';
 
@@ -21,6 +21,14 @@ export default class TemplateService {
     private templatedLayoutRepository: TemplatedLayoutRepository,
     private templatedEntityRepository: TemplatedEntityRepository,
   ) {}
+
+  async summaries(): Promise<TemplateSummaries> {
+    return {
+      templates: await this.templateRepository.getAll(),
+      layouts: await this.templatedLayoutRepository.getAll(),
+      entities: await this.templatedEntityRepository.getAll(),
+    };
+  }
 
   async import(model: TemplateImport) {
     // const layoutsToImport = await this.templatedLayoutRepository.getAll(model.layoutIds);
