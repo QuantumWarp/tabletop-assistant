@@ -65,6 +65,10 @@ export type {
 } from './template/template-import';
 
 export type {
+  TemplateSummaries,
+} from './template/template-summaries';
+
+export type {
   Template,
   CreateTemplate,
   UpdateTemplate,

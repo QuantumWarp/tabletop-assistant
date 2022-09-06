@@ -23,47 +23,46 @@ export default class TemplateService {
   ) {}
 
   async import(model: TemplateImport) {
-    const layoutsToImport = await this.templatedLayoutRepository.getAll(model.layoutIds);
-    const entitiesToImport = await this.templatedEntityRepository.getAll(model.entityIds);
+    // const layoutsToImport = await this.templatedLayoutRepository.getAll(model.layoutIds);
+    // const entitiesToImport = await this.templatedEntityRepository.getAll(model.entityIds);
 
-    // Entities not duplicated
-    const referencedTemplateIds = TemplateService.findReferencedIds(entitiesToImport);
-    const 
+    // // Entities not duplicated
+    // const referencedTemplateIds = TemplateService.findReferencedIds(entitiesToImport);
 
-    const existingEntities = await this.entityRepository
-      .getTemplated(tabletopId, referencedTemplateIds);
-    const existingTemplateIds = existingEntities.map((x) => x.templateId);
+    // const existingEntities = await this.entityRepository
+    //   .getTemplated(tabletopId, referencedTemplateIds);
+    // const existingTemplateIds = existingEntities.map((x) => x.templateId);
 
-    const newEntities = template.entities
-      .filter((x) => !existingTemplateIds.includes(x._id))
-      .map((x) => ({
-        ...x,
-        templateId: x._id,
-        tabletopId,
-        _id: new Types.ObjectId().toString(),
-      }));
+    // const newEntities = template.entities
+    //   .filter((x) => !existingTemplateIds.includes(x._id))
+    //   .map((x) => ({
+    //     ...x,
+    //     templateId: x._id,
+    //     tabletopId,
+    //     _id: new Types.ObjectId().toString(),
+    //   }));
 
-    const idMap = TemplateService.createEntityIdMap(
-      existingEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
-      newEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
-    );
+    // const idMap = TemplateService.createEntityIdMap(
+    //   existingEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
+    //   newEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
+    // );
 
-    await Promise.all(newEntities
-      .map((x) => TemplateService.updateEntityReferencedIds(x, idMap))
-      .map((x) => this.entityRepository.create(x)));
+    // await Promise.all(newEntities
+    //   .map((x) => TemplateService.updateEntityReferencedIds(x, idMap))
+    //   .map((x) => this.entityRepository.create(x)));
 
-    // Layouts created every time
-    const newLayouts = template.layouts
-      .map((x) => ({
-        ...x,
-        templateId: x._id,
-        tabletopId,
-        _id: new Types.ObjectId(),
-      }));
+    // // Layouts created every time
+    // const newLayouts = template.layouts
+    //   .map((x) => ({
+    //     ...x,
+    //     templateId: x._id,
+    //     tabletopId,
+    //     _id: new Types.ObjectId(),
+    //   }));
 
-    await Promise.all(newLayouts
-      .map((x) => TemplateService.updateLayoutReferencedIds(x, idMap))
-      .map((x) => this.layoutRepository.create(x)));
+    // await Promise.all(newLayouts
+    //   .map((x) => TemplateService.updateLayoutReferencedIds(x, idMap))
+    //   .map((x) => this.layoutRepository.create(x)));
   }
 
   private static findReferencedIds(entities: TemplatedEntity[]) {

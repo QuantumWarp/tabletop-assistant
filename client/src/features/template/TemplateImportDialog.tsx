@@ -8,18 +8,17 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { TemplateSummary } from 'tabletop-assistant-common';
+import { TemplateImport } from 'tabletop-assistant-common';
 import { useImportTemplateMutation } from '../../store/api';
 
 interface TemplateImportDialogProps {
-  template: TemplateSummary;
-  tabletopId: string;
+  templateImport: TemplateImport;
   open: boolean;
   onClose: () => void;
 }
 
 const TemplateImportDialog = ({
-  template, tabletopId, open, onClose,
+  templateImport, open, onClose,
 }: TemplateImportDialogProps) => {
   const [importTemplate, {
     isLoading,
@@ -37,13 +36,13 @@ const TemplateImportDialog = ({
         <b>
           Import
           {' - '}
-          {template.name}
+          {templateImport.tabletopId}
         </b>
       </DialogTitle>
 
       <DialogContent>
         <Typography sx={{ whiteSpace: 'pre-line' }}>
-          {template.description}
+          {templateImport.tabletopId}
         </Typography>
 
         {isError && (
@@ -62,10 +61,7 @@ const TemplateImportDialog = ({
 
         <Button
           disabled={isLoading}
-          onClick={() => importTemplate({
-            templateId: template._id,
-            tabletopId,
-          })}
+          onClick={() => importTemplate(templateImport)}
           variant="outlined"
         >
           Import

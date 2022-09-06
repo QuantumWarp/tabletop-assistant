@@ -19,7 +19,8 @@ import {
   CreateValueMap,
   UpdateLayout,
   UpdateValueMap,
-  TemplateSummary,
+  TemplateImport,
+  TemplateSummaries,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -182,11 +183,11 @@ export const api = createApi({
     }),
 
     // Templates
-    getTemplates: build.query<TemplateSummary[], void>({
-      query: () => '/templates',
+    getTemplateSummaries: build.query<TemplateSummaries, void>({
+      query: () => '/templates/summaries',
       providesTags: ['Template'],
     }),
-    importTemplate: build.mutation<void, { templateId: string, tabletopId: string }>({
+    importTemplate: build.mutation<void, TemplateImport>({
       query: (body) => ({ url: '/templates/import', method: 'POST', body }),
       invalidatesTags: ['Entity', 'Values', 'Layout'],
     }),
@@ -231,6 +232,6 @@ export const {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 
-  useGetTemplatesQuery,
+  useGetTemplateSummariesQuery,
   useImportTemplateMutation,
 } = api;

@@ -3,7 +3,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import TopBar from '../components/TopBar';
-import NoteList from '../features/template/TemplateList';
+import TemplateSelector from '../features/template/TemplateSelector';
 
 const NotePage = () => {
   const [filter, setFilter] = useState('');
@@ -22,7 +22,7 @@ const NotePage = () => {
 
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
-          <NoteList
+          <TemplateSelector
             filter={filter}
           />
         </Container>
