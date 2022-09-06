@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { Entity } from 'tabletop-assistant-common';
 
-const schema = new Schema<Entity>({
+export const schema = new Schema<Entity>({
   userId: { type: String, required: true, immutable: true },
   tabletopId: { type: String, required: true, immutable: true },
   templateId: { type: String, immutable: true },
@@ -28,8 +28,8 @@ const schema = new Schema<Entity>({
     macros: {},
     triggers: [{
       _id: { id: false },
-      manual: { type: Boolean, required: true },
-      sibling: { type: Boolean, required: true },
+      manual: { type: Boolean },
+      sibling: { type: Boolean },
       entityId: { type: String },
       actionKey: { type: String },
     }],

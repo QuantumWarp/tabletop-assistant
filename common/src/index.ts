@@ -61,10 +61,23 @@ export type {
 } from './notes/note';
 
 export type {
+  TemplateImport,
+} from './template/template-import';
+
+export type {
   Template,
-  TemplateSummary,
   CreateTemplate,
-  CreateTemplateLayout,
-  CreateTemplateEntity,
   UpdateTemplate,
 } from './template/template';
+
+export type {
+  TemplatedEntity,
+  CreateTemplatedEntity,
+  UpdateTemplatedEntity,
+} from './template/templated-entity';
+
+export type {
+  TemplatedLayout,
+  CreateTemplatedLayout,
+  UpdateTemplatedLayout,
+} from './template/templated-layout';

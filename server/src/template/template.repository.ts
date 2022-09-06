@@ -1,11 +1,16 @@
 /* eslint-disable class-methods-use-this */
-import { TemplateSummary, Template } from 'tabletop-assistant-common';
+import { Template } from 'tabletop-assistant-common';
 import { ResourceNotFound } from '../setup/error';
 import TemplateModel from './template.model';
 
 export default class TemplateRepository {
-  async getSummaries(): Promise<TemplateSummary[]> {
-    return TemplateModel.find({}, { layouts: 0, entities: 0 });
+  async getAll(ids?: string[]): Promise<Template[]> {
+    if (ids) {
+      return TemplateModel.find()
+        .where('_id').in(ids).exec();
+    }
+
+    return TemplateModel.find();
   }
 
   async get(_id: string): Promise<Template> {

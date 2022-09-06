@@ -1,13 +1,15 @@
 import produce from 'immer';
 import { Types } from 'mongoose';
 import {
-  CreateEntity, CreateLayout, Entity, Expression, RollCombo,
+  CreateEntity, CreateLayout, Entity, Expression, RollCombo, TemplateImport,
 } from 'tabletop-assistant-common';
 import { Macro } from 'tabletop-assistant-common/src/entity/expression';
 
 import EntityRepository from '../entity/entity.repository';
 import LayoutRepository from '../layout/layout.repository';
 import TemplateRepository from './template.repository';
+import TemplatedEntityRepository from './templated-entity.repository';
+import TemplatedLayoutRepository from './templated-layout.repository';
 
 type TemplatedEntity = Omit<Entity, 'tabletopId' | 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
 
@@ -16,13 +18,17 @@ export default class TemplateService {
     private entityRepository: EntityRepository,
     private layoutRepository: LayoutRepository,
     private templateRepository: TemplateRepository,
+    private templatedLayoutRepository: TemplatedLayoutRepository,
+    private templatedEntityRepository: TemplatedEntityRepository,
   ) {}
 
-  async import(templateId: string, tabletopId: string) {
-    const template = await this.templateRepository.get(templateId);
+  async import(model: TemplateImport) {
+    const layoutsToImport = await this.templatedLayoutRepository.getAll(model.layoutIds);
+    const entitiesToImport = await this.templatedEntityRepository.getAll(model.entityIds);
 
     // Entities not duplicated
-    const referencedTemplateIds = TemplateService.findReferencedIds(template.entities);
+    const referencedTemplateIds = TemplateService.findReferencedIds(entitiesToImport);
+    const 
 
     const existingEntities = await this.entityRepository
       .getTemplated(tabletopId, referencedTemplateIds);
