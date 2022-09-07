@@ -6,8 +6,9 @@ import TemplatedLayoutModel from './templated-layout.model';
 export default class TemplatedLayoutRepository {
   async getAll(ids?: string[]): Promise<TemplatedLayout[]> {
     if (ids) {
-      return TemplatedLayoutModel.find()
-        .where('_id').in(ids).exec();
+      return TemplatedLayoutModel.find().lean()
+        .where('_id').in(ids)
+        .exec();
     }
 
     return TemplatedLayoutModel.find();

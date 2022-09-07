@@ -1,17 +1,16 @@
-import produce from 'immer';
 import { Types } from 'mongoose';
 import {
-  CreateEntity, CreateLayout, Entity, Expression, RollCombo, TemplateImport, TemplateSummaries,
+  CreateEntity, CreateLayout, TemplateImport, TemplateSummaries,
 } from 'tabletop-assistant-common';
-import { Macro } from 'tabletop-assistant-common/src/entity/expression';
 
 import EntityRepository from '../entity/entity.repository';
 import LayoutRepository from '../layout/layout.repository';
+import ReferencedIdHelper from './referenced-id.helper';
 import TemplateRepository from './template.repository';
 import TemplatedEntityRepository from './templated-entity.repository';
 import TemplatedLayoutRepository from './templated-layout.repository';
 
-type TemplatedEntity = Omit<Entity, 'tabletopId' | 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
+type CreateEntityWithId = CreateEntity & { _id: string };
 
 export default class TemplateService {
   constructor(
@@ -31,183 +30,59 @@ export default class TemplateService {
   }
 
   async import(model: TemplateImport) {
-    // const layoutsToImport = await this.templatedLayoutRepository.getAll(model.layoutIds);
-    // const entitiesToImport = await this.templatedEntityRepository.getAll(model.entityIds);
+    const layoutsToImport = await this.templatedLayoutRepository.getAll(model.layoutIds);
+    const entitiesToImport = await this.templatedEntityRepository.getAll(model.entityIds);
 
-    // // Entities not duplicated
-    // const referencedTemplateIds = TemplateService.findReferencedIds(entitiesToImport);
+    const entityTemplateIds = Array.from(new Set([
+      ...entitiesToImport.map((x) => x._id),
+      ...layoutsToImport.map((x) => x.referencedEntityIds).reduce((arr, x) => arr.concat(x), []),
+      ...entitiesToImport.map((x) => x.referencedEntityIds).reduce((arr, x) => arr.concat(x), []),
+    ]));
 
-    // const existingEntities = await this.entityRepository
-    //   .getTemplated(tabletopId, referencedTemplateIds);
-    // const existingTemplateIds = existingEntities.map((x) => x.templateId);
+    const existingEntities = await this.entityRepository
+      .getTemplated(model.tabletopId, entityTemplateIds);
+    const existingEntityTemplateIds = existingEntities.map((x) => x.templateId);
 
-    // const newEntities = template.entities
-    //   .filter((x) => !existingTemplateIds.includes(x._id))
-    //   .map((x) => ({
-    //     ...x,
-    //     templateId: x._id,
-    //     tabletopId,
-    //     _id: new Types.ObjectId().toString(),
-    //   }));
+    const newEntities = entitiesToImport
+      .filter((x) => !existingEntityTemplateIds.includes(x._id))
+      .map((x) => (<CreateEntity & { _id: string }>{
+        ...x,
+        templateId: x._id,
+        tabletopId: model.tabletopId,
+        _id: new Types.ObjectId().toString(),
+      }));
 
-    // const idMap = TemplateService.createEntityIdMap(
-    //   existingEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
-    //   newEntities.map((x) => ({ _id: x._id, templateId: x.templateId })),
-    // );
+    const idMap = ReferencedIdHelper.createEntityIdMap(existingEntities, newEntities);
 
-    // await Promise.all(newEntities
-    //   .map((x) => TemplateService.updateEntityReferencedIds(x, idMap))
-    //   .map((x) => this.entityRepository.create(x)));
+    const entitiesToSave = newEntities.map((x) => this.saveEntity(x, idMap));
+    await Promise.all(entitiesToSave);
 
-    // // Layouts created every time
-    // const newLayouts = template.layouts
-    //   .map((x) => ({
-    //     ...x,
-    //     templateId: x._id,
-    //     tabletopId,
-    //     _id: new Types.ObjectId(),
-    //   }));
-
-    // await Promise.all(newLayouts
-    //   .map((x) => TemplateService.updateLayoutReferencedIds(x, idMap))
-    //   .map((x) => this.layoutRepository.create(x)));
+    const newLayouts = layoutsToImport
+      .map((x) => ({
+        ...x,
+        templateId: x._id,
+        tabletopId: model.tabletopId,
+        _id: new Types.ObjectId().toString(),
+      }));
+    const layoutsToSave = newLayouts.map((x) => this.saveLayout(x, idMap));
+    await Promise.all(layoutsToSave);
   }
 
-  private static findReferencedIds(entities: TemplatedEntity[]) {
-    return entities
-      .map((x) => TemplateService.findReferencedIdsOnEntity(x))
-      .reduce((arr, x) => arr.concat(x), []);
-  }
-
-  private static findReferencedIdsOnEntity(entity: TemplatedEntity) {
-    const actionTriggerIds = entity.actions
-      .map((x) => x.triggers)
-      .reduce((arr, x) => arr.concat(x), [])
-      .filter((x) => Boolean(x.entityId))
-      .map((x) => x.entityId as string);
-
-    const computedFieldIds = entity.fields
-      .map((x) => x.computed)
-      .filter((x) => Boolean(x))
-      .map((x) => x!.variables)
-      .map((x) => Object.values(x))
-      .reduce((arr, x) => arr.concat(x), [])
-      .map((x) => x.entityId);
-
-    const computedRollIds = entity.actions
-      .map((x) => x.roll)
-      .filter((x): x is RollCombo => Boolean(x))
-      .reduce((arr, x) => arr.concat(x), [])
-      .reduce(
-        (arr, x) => arr!.concat([x.facesComputed, x.numberComputed]),
-        [] as (Expression | undefined)[],
-      )
-      .filter((x) => Boolean(x))
-      .map((x) => x!.variables)
-      .map((x) => Object.values(x))
-      .reduce((arr, x) => arr.concat(x), [])
-      .map((x) => x.entityId);
-
-    const computedMacroTargetIds = entity.actions
-      .map((x) => x.macros)
-      .filter((x): x is Macro[] => Boolean(x))
-      .reduce((arr, x) => arr.concat(x), [])
-      .map((x) => x.target.entityId);
-
-    const computedMacroIds = entity.actions
-      .map((x) => x.macros)
-      .filter((x): x is Macro[] => Boolean(x))
-      .reduce((arr, x) => arr.concat(x), [])
-      .map((x) => x.expression.variables)
-      .map((x) => Object.values(x))
-      .reduce((arr, x) => arr.concat(x), [])
-      .map((x) => x.entityId);
-
-    return [
-      entity._id,
-      ...actionTriggerIds,
-      ...computedFieldIds,
-      ...computedRollIds,
-      ...computedMacroTargetIds,
-      ...computedMacroIds,
-    ];
-  }
-
-  private static createEntityIdMap(
-    existingEntities: { _id: string, templateId?: string }[],
-    newEntities: { _id: string, templateId?: string }[],
-  ): { [templatedId: string]: string } {
-    return existingEntities.concat(newEntities)
-      .reduce((obj, x) => ({
-        ...obj,
-        [x.templateId as string]: x._id,
-      }), {});
-  }
-
-  private static updateEntityReferencedIds(
-    entity: CreateEntity,
+  private async saveEntity(
+    entity: CreateEntityWithId,
     idMap: { [templatedId: string]: string },
-  ): CreateEntity {
-    return produce(entity, (draft) => {
-      draft.actions
-        .map((x) => x.triggers)
-        .reduce((arr, x) => arr.concat(x), [])
-        .filter((x) => Boolean(x.entityId))
-        // eslint-disable-next-line no-param-reassign
-        .forEach((x) => { x.entityId = idMap[x.entityId as string]; });
-
-      draft.fields
-        .map((x) => x.computed)
-        .filter((x) => Boolean(x))
-        .map((x) => x!.variables)
-        .map((x) => Object.values(x))
-        .reduce((arr, x) => arr.concat(x), [])
-        // eslint-disable-next-line no-param-reassign
-        .forEach((x) => { x.entityId = idMap[x.entityId]; });
-
-      draft.actions
-        .map((x) => x.roll)
-        .filter((x): x is RollCombo => Boolean(x))
-        .reduce((arr, x) => arr.concat(x), [])
-        .reduce(
-          (arr, x) => arr!.concat([x.facesComputed, x.numberComputed]),
-          [] as (Expression | undefined)[],
-        )
-        .filter((x) => Boolean(x))
-        .map((x) => x!.variables)
-        .map((x) => Object.values(x))
-        .reduce((arr, x) => arr.concat(x), [])
-        // eslint-disable-next-line no-param-reassign
-        .forEach((x) => { x.entityId = idMap[x.entityId]; });
-
-      draft.actions
-        .map((x) => x.macros)
-        .filter((x): x is Macro[] => Boolean(x))
-        .reduce((arr, x) => arr.concat(x), [])
-        .map((x) => x.target)
-        // eslint-disable-next-line no-param-reassign
-        .forEach((x) => { x.entityId = idMap[x.entityId]; });
-
-      draft.actions
-        .map((x) => x.macros)
-        .filter((x): x is Macro[] => Boolean(x))
-        .reduce((arr, x) => arr.concat(x), [])
-        .map((x) => x.expression.variables)
-        .map((x) => Object.values(x))
-        .reduce((arr, x) => arr.concat(x), [])
-        // eslint-disable-next-line no-param-reassign
-        .forEach((x) => { x.entityId = idMap[x.entityId]; });
-    });
+  ): Promise<void> {
+    const entityRefs = ReferencedIdHelper.forEntity(entity);
+    ReferencedIdHelper.setWithMap(entityRefs, idMap);
+    await this.entityRepository.create(entity);
   }
 
-  private static updateLayoutReferencedIds(
-    entity: CreateLayout,
+  private async saveLayout(
+    layout: CreateLayout,
     idMap: { [templatedId: string]: string },
-  ): CreateLayout {
-    return {
-      ...entity,
-      entries: entity.entries
-        .map((x) => ({ ...x, entityId: idMap[x.entityId] })),
-    };
+  ): Promise<void> {
+    const entityRefs = ReferencedIdHelper.forLayout(layout);
+    ReferencedIdHelper.setWithMap(entityRefs, idMap);
+    await this.layoutRepository.create(layout);
   }
 }

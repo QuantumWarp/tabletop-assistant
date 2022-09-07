@@ -6,6 +6,7 @@ const schema = new Schema<ValueMap>({
   tabletopId: { type: String, required: true, immutable: true },
   entityId: { type: String, required: true, immutable: true },
   mappings: [{
+    _id: { id: false },
     fieldKey: { type: String, required: true },
     value: { type: String, required: true },
   }],

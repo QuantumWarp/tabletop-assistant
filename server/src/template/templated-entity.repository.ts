@@ -6,8 +6,9 @@ import TemplatedEntityModel from './templated-entity.model';
 export default class TemplatedEntityRepository {
   async getAll(ids?: string[]): Promise<TemplatedEntity[]> {
     if (ids) {
-      return TemplatedEntityModel.find()
-        .where('_id').in(ids).exec();
+      return TemplatedEntityModel.find().lean()
+        .where('_id').in(ids)
+        .exec();
     }
 
     return TemplatedEntityModel.find();

@@ -60,7 +60,7 @@ export default class EntityRepository {
       userId: this.userId,
       entityId: model._id,
       tabletopId: model.tabletopId,
-      mappings: {},
+      mappings: [],
     });
     await valuesModel.save();
   }

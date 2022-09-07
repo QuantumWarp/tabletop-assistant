@@ -4,6 +4,7 @@ import { schema as entitySchema } from '../entity/entity.model';
 
 const schema = new Schema<TemplatedEntity>({
   ...entitySchema.obj,
+  referencedEntityIds: [{ type: String }],
 }, {
   timestamps: true,
 });

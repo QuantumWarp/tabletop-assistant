@@ -42,6 +42,7 @@ export const schema = new Schema<Entity>({
     type: { type: String, required: true },
     default: { type: Boolean, required: true },
     mappings: [{
+      _id: { id: false },
       slotKey: { type: String, required: true },
       fieldKey: { type: String, required: true },
     }],

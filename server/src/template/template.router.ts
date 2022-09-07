@@ -1,4 +1,4 @@
-import { Request, Router } from 'express';
+import { Router } from 'express';
 import EntityRepository from '../entity/entity.repository';
 import LayoutRepository from '../layout/layout.repository';
 import TemplateRepository from './template.repository';
