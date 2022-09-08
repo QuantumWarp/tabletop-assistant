@@ -1,3 +1,5 @@
+import { FieldValueMapping } from 'tabletop-assistant-common';
+
 enum FixedActions {
   Increment = 'increment',
   Decrement = 'decrement',
@@ -18,7 +20,7 @@ export class ActionHelper {
   static run(
     operation: FixedActions,
     args: FixedActionArg[],
-  ): { [field: string]: any } {
+  ): FieldValueMapping[] {
     switch (operation) {
       case FixedActions.Increment:
         return this.increment(args[0]);
@@ -32,25 +34,36 @@ export class ActionHelper {
     }
   }
 
-  static increment(arg: FixedActionArg) {
-    if (!arg.field) return {};
-    return { [arg.field]: (arg.value || 0) + 1 };
+  static increment(arg: FixedActionArg): FieldValueMapping[] {
+    if (!arg.field) return [];
+    return [{
+      fieldKey: arg.field,
+      value: (arg.value || 0) + 1,
+    }];
   }
 
-  static decrement(arg: FixedActionArg) {
-    if (!arg.field) return {};
-    return { [arg.field]: (arg.value || 0) - 1 };
+  static decrement(arg: FixedActionArg): FieldValueMapping[] {
+    if (!arg.field) return [];
+    return [{
+      fieldKey: arg.field,
+      value: (arg.value || 0) - 1,
+    }];
   }
 
-  static setValue(to: FixedActionArg, from: FixedActionArg) {
-    if (!to.field || from.value === undefined) return {};
-    return { [to.field]: from.value };
+  static setValue(to: FixedActionArg, from: FixedActionArg): FieldValueMapping[] {
+    if (!to.field || from.value === undefined) return [];
+    return [{
+      fieldKey: to.field,
+      value: from.value,
+    }];
   }
 
-  static toggle(fields: FixedActionArg[]) {
-    return fields.reduce((obj, a) => {
-      if (!a.field) return obj;
-      return { ...obj, [a.field]: !a.value };
-    }, {});
+  static toggle(fields: FixedActionArg[]): FieldValueMapping[] {
+    return fields
+      .filter((x) => Boolean(x.field))
+      .map((x) => ({
+        fieldKey: x.field as string,
+        value: !x.value,
+      }));
   }
 }

@@ -62,11 +62,19 @@ export default class ExpressionHelper {
 
     const newValue = parse.evaluate(field.computed.expression);
     const entityValues = newValues.find((x) => x.entityId === entity._id);
-    if (!entityValues) return newValues;
+    if (!entityValues) {
+      return newValues;
+    }
 
     const mapping = entityValues.mappings.find((x) => x.fieldKey === field.key);
+
     if (mapping) {
       mapping.value = newValue;
+    } else {
+      entityValues.mappings.push({
+        fieldKey: field.key,
+        value: newValue,
+      });
     }
 
     return newValues;

@@ -17,7 +17,7 @@ interface LayoutDisplayProps {
   slotMappings?: SlotFieldMapping[],
   fieldMappings?: FieldValueMapping[],
   onSlot?: (slot: string) => void,
-  onUpdateValues?: (values: { [field: string]: any }) => void,
+  onUpdateValues?: (values: FieldValueMapping[]) => void,
 }
 
 const LayoutDisplay = ({

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  Entity, EntityDisplay, Layout, ValueMap,
+  Entity, EntityDisplay, FieldValueMapping, Layout, ValueMap,
 } from 'tabletop-assistant-common';
 import { useDebouncedCallback } from 'use-debounce';
 import { useHistory, useParams } from 'react-router-dom';
@@ -25,7 +25,6 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   const valuesList = valueMaps
     ?.map((x) => updatedValueMapsList.find((val) => x._id === val._id) || x);
-
   const valuesComputedList = valuesList && entities
     && ExpressionHelper.calculateComputedValues(valuesList, entities);
 
@@ -71,15 +70,15 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   }, [valueRef]);
 
   const updateValueHandler = (
-    updatedMappings: { [field: string]: any },
+    updatedMappings: FieldValueMapping[],
     entityValues: ValueMap,
   ) => {
+    const updatedFieldKeys = updatedMappings.map((x) => x.fieldKey);
     const newValues = {
       ...entityValues,
-      mappings: {
-        ...entityValues.mappings,
-        ...updatedMappings,
-      },
+      mappings: entityValues.mappings
+        .filter((x) => !updatedFieldKeys.includes(x.fieldKey))
+        .concat(updatedMappings),
     };
     const newList = updatedValueMapsList
       .filter((x) => x._id !== newValues._id)

@@ -93,7 +93,7 @@ export default class DisplayHelper {
         const optional = optionalFieldMappings.find((x) => x.fieldKey === field.key);
         return {
           fieldKey: field.key,
-          value: optional || field.initial,
+          value: optional?.value !== undefined ? optional.value : field.initial,
         };
       });
 
@@ -111,7 +111,7 @@ export default class DisplayHelper {
   ): SlotFieldValue[] {
     const slots = DisplayHelper.slots(display.type);
 
-    const slotMappings = optionalSlotMappings || display?.mappings || {};
+    const slotMappings = optionalSlotMappings || display?.mappings || [];
     const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);
 
     const slotValueMappings: SlotFieldValue[] = slotMappings.map((sfMapping) => {
@@ -128,7 +128,6 @@ export default class DisplayHelper {
       const fullValue = (entityField?.prefix ? entityField?.prefix : '')
         + fvMapping?.value
         + (entityField?.postfix ? entityField?.postfix : '');
-
       return { ...sfMapping, value: fullValue };
     });
 

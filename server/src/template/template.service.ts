@@ -44,7 +44,7 @@ export default class TemplateService {
     const existingEntityTemplateIds = existingEntities.map((x) => x.templateId);
 
     const newEntities = entitiesToImport
-      .filter((x) => !existingEntityTemplateIds.includes(x._id))
+      .filter((x) => !existingEntityTemplateIds.includes(x._id.toString()))
       .map((x) => (<CreateEntity & { _id: string }>{
         ...x,
         templateId: x._id,

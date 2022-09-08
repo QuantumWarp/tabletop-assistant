@@ -16,14 +16,14 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
-import { CreateEntity, EntityField } from 'tabletop-assistant-common';
+import { CreateEntity, EntityField, FieldValueMapping } from 'tabletop-assistant-common';
 import EntityValueUpdateDialog from './EntityValueUpdateDialog';
 
 interface EntitySummaryDialogProps {
   entity: CreateEntity;
-  fieldMappings: { [field: string]: any };
+  fieldMappings: FieldValueMapping[];
   open: boolean;
-  onSave?: (values: { [field: string]: any }) => void;
+  onSave?: (values: FieldValueMapping[]) => void;
   onClose: () => void;
 }
 
@@ -31,7 +31,7 @@ const EntitySummaryDialog = ({
   entity, fieldMappings, open, onSave, onClose,
 }: EntitySummaryDialogProps) => {
   const [editField, setEditField] = useState<EntityField>();
-  const [updates, setUpdates] = useState<{ [field: string]: any }>({});
+  const [updates, setUpdates] = useState<FieldValueMapping[]>([]);
 
   return (
     <Dialog open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
@@ -60,14 +60,17 @@ const EntitySummaryDialog = ({
 
           <Grid item xs>
             {entity.fields.map((field) => {
-              const value = fieldMappings[field.key] === undefined
-                ? field.initial
-                : fieldMappings[field.key];
+              const mapping = fieldMappings.find((x) => Boolean(x.fieldKey));
+              const value = mapping ? mapping.value : field.initial;
               const text = field.name;
-              const currentValue = updates[field.key] !== undefined ? updates[field.key] : value;
+
+              const updatedMapping = updates.find((x) => x.fieldKey === field.key);
+              const currentValue = updatedMapping?.value !== undefined
+                ? updatedMapping.value : value;
               const fullValue = (field?.prefix ? field?.prefix : '')
                 + currentValue
                 + (field?.postfix ? field?.postfix : '');
+
               return (
                 <ListItem
                   dense
@@ -84,7 +87,7 @@ const EntitySummaryDialog = ({
               <EntityValueUpdateDialog
                 open={Boolean(editField)}
                 field={editField}
-                value={fieldMappings[editField.key]}
+                value={fieldMappings.find((x) => x.fieldKey === editField.key)?.value}
                 onSave={(value) => setUpdates({ ...updates, [editField.key]: value })}
                 onClose={() => setEditField(undefined)}
               />
