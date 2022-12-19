@@ -38,7 +38,7 @@ export class ActionHelper {
     if (!arg.field) return [];
     return [{
       fieldKey: arg.field,
-      value: (arg.value || 0) + 1,
+      value: (Number(arg.value) || 0) + 1,
     }];
   }
 
@@ -46,7 +46,7 @@ export class ActionHelper {
     if (!arg.field) return [];
     return [{
       fieldKey: arg.field,
-      value: (arg.value || 0) - 1,
+      value: (Number(arg.value) || 0) - 1,
     }];
   }
 
