@@ -11,15 +11,19 @@ export default class ExpressionHelper {
 
     entities.forEach((entity) => {
       const entityValues = computedValues.find((x) => x.entityId === entity._id);
-      const computedFields = entity.fields.filter((x) => Boolean(x.computed));
       if (!entityValues) return;
 
-      computedFields.forEach((field) => {
+      entity.fields.forEach((field) => {
         const mapping = entityValues.mappings.find((x) => x.fieldKey === field.key);
         if (mapping?.value !== undefined) return;
-        computedValues = ExpressionHelper.calculateComputedField(
-          entity, field, computedValues, entities,
-        );
+
+        if (field.initial) {
+          ExpressionHelper.upsertMapping(entityValues, field, field.initial);
+        } else if (field.computed) {
+          computedValues = ExpressionHelper.calculateComputedField(
+            entity, field, computedValues, entities,
+          );
+        }
       });
     });
 
@@ -66,6 +70,12 @@ export default class ExpressionHelper {
       return newValues;
     }
 
+    ExpressionHelper.upsertMapping(entityValues, field, newValue);
+
+    return newValues;
+  }
+
+  static upsertMapping(entityValues: ValueMap, field: EntityField, newValue: any) {
     const mapping = entityValues.mappings.find((x) => x.fieldKey === field.key);
 
     if (mapping) {
@@ -76,8 +86,6 @@ export default class ExpressionHelper {
         value: newValue,
       });
     }
-
-    return newValues;
   }
 
   static calculateExpression(

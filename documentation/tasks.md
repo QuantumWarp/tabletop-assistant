@@ -8,7 +8,6 @@
 - Debouncing on layout editing
 - Pessimistic update values & layouts
 - Make computed less prone to forgetting to map initial fields etc
-- Computed fields are undefined at the start
 - Finalise the model for templates (for creating the first templates)
 
 ## Functional
