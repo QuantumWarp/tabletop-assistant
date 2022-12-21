@@ -6,17 +6,23 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
   ListItem,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
   TextField,
 } from '@mui/material';
 import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { CreateEntity, EntityAction, EntityActionTrigger } from 'tabletop-assistant-common';
+import {
+  CreateEntity, EntityAction, EntityActionTrigger,
+} from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
 import EditActionTriggerDialog from './EditActionTriggerDialog';
 import FieldHelper from '../../../helpers/field.helper';
@@ -40,6 +46,7 @@ const EditActionDialog = ({
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
 
   const [name, setName] = useState(initial?.name || '');
+  const [type, setType] = useState((initial?.roll && 'roll') || (initial?.macros && 'macros') || 'info');
   const [roll] = useState(initial?.roll);
   const [triggers, setTriggers] = useState(initial?.triggers || []);
 
@@ -76,6 +83,21 @@ const EditActionDialog = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormControl fullWidth required>
+              <InputLabel>Type</InputLabel>
+              <Select
+                label="Type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
+                <MenuItem value="info">Information</MenuItem>
+                <MenuItem value="roll">Roll</MenuItem>
+                <MenuItem value="macro">Macro</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
 
           <Grid item xs={12}>
