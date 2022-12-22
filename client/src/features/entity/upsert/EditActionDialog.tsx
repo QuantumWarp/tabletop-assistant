@@ -22,6 +22,7 @@ import {
 import FieldHelper from '../../../helpers/field.helper';
 import RollInput from '../../../components/RollInput';
 import TriggerInput from '../../../components/TriggerInput';
+import MacroInput from '../../../components/MacroInput';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -38,6 +39,7 @@ const EditActionDialog = ({
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState((initial?.roll && 'roll') || (initial?.macros && 'macros') || 'info');
   const [roll, setRoll] = useState(initial?.roll);
+  const [macros, setMacros] = useState(initial?.macros);
   const [triggers, setTriggers] = useState(initial?.triggers || []);
 
   const key = FieldHelper.createKey(name);
@@ -90,14 +92,23 @@ const EditActionDialog = ({
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
-            {type === 'roll' && (
+          {type === 'roll' && (
+            <Grid item xs={12}>
               <RollInput
                 value={roll || []}
                 onChange={(newRoll) => setRoll(newRoll)}
               />
-            )}
-          </Grid>
+            </Grid>
+          )}
+
+          {type === 'macro' && (
+            <Grid item xs={12}>
+              <MacroInput
+                value={macros || []}
+                onChange={(newMacros) => setMacros(newMacros)}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12}>
             <TriggerInput

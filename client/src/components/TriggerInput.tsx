@@ -13,15 +13,15 @@ import TriggerDialog from './TriggerDialog';
 import ActionTreeHelper from '../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../store/api';
 
-interface RollInputProps {
+interface TriggerInputProps {
   value: EntityActionTrigger[];
   entity: UpdateEntity | CreateEntity;
   onChange: (triggers: EntityActionTrigger[]) => void;
 }
 
-const RollInput = ({
+const TriggerInput = ({
   value, entity, onChange,
-}: RollInputProps) => {
+}: TriggerInputProps) => {
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -31,7 +31,6 @@ const RollInput = ({
       <Autocomplete
         multiple
         freeSolo
-        limitTags={2}
         value={value.sort(ActionTreeHelper.triggerCompare)}
         options={[] as EntityActionTrigger[]}
         clearIcon={false}
@@ -74,4 +73,4 @@ const RollInput = ({
   );
 };
 
-export default RollInput;
+export default TriggerInput;
