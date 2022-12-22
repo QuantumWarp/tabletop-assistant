@@ -28,6 +28,7 @@ import EditActionTriggerDialog from './EditActionTriggerDialog';
 import FieldHelper from '../../../helpers/field.helper';
 import { useGetEntitiesQuery } from '../../../store/api';
 import ActionTreeHelper from '../../../helpers/action-tree.helper';
+import RollInput from '../../../components/RollInput';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -47,7 +48,7 @@ const EditActionDialog = ({
 
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState((initial?.roll && 'roll') || (initial?.macros && 'macros') || 'info');
-  const [roll] = useState(initial?.roll);
+  const [roll, setRoll] = useState(initial?.roll);
   const [triggers, setTriggers] = useState(initial?.triggers || []);
 
   const key = FieldHelper.createKey(name);
@@ -101,12 +102,12 @@ const EditActionDialog = ({
           </Grid>
 
           <Grid item xs={12}>
-            {/* <TextField
-              fullWidth
-              label="Roll"
-              value={roll}
-              onChange={(e) => setRoll(e.target.value)}
-            /> */}
+            {type === 'roll' && (
+              <RollInput
+                value={roll || []}
+                onChange={(newRoll) => setRoll(newRoll)}
+              />
+            )}
           </Grid>
 
           {triggers.length > 0 && (
