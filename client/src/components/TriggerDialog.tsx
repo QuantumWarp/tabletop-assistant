@@ -21,9 +21,9 @@ import {
   CreateEntity, EntityActionTrigger, UpdateEntity,
 } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
-import { useGetEntitiesQuery } from '../../../store/api';
+import { useGetEntitiesQuery } from '../store/api';
 
-interface EditActionTriggerDialogProps {
+interface TriggerDialogProps {
   initial?: Partial<EntityActionTrigger>;
   entity: CreateEntity | UpdateEntity;
   open: boolean;
@@ -32,9 +32,9 @@ interface EditActionTriggerDialogProps {
   onClose: () => void;
 }
 
-const EditActionTriggerDialog = ({
+const TriggerDialog = ({
   initial, entity, open, onSave, onDelete, onClose,
-}: EditActionTriggerDialogProps) => {
+}: TriggerDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -82,8 +82,8 @@ const EditActionTriggerDialog = ({
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
-          {initial?.manual !== undefined ? 'Update ' : 'Create '}
-          Action
+          {(initial?.manual !== undefined || initial?.entityId !== undefined) ? 'Update ' : 'Create '}
+          Trigger
         </b>
       </DialogTitle>
 
@@ -199,8 +199,8 @@ const EditActionTriggerDialog = ({
   );
 };
 
-EditActionTriggerDialog.defaultProps = {
+TriggerDialog.defaultProps = {
   initial: {},
 };
 
-export default EditActionTriggerDialog;
+export default TriggerDialog;

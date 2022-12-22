@@ -19,14 +19,13 @@ export default class ActionTreeHelper {
   static getTriggerString(
     trigger: EntityActionTrigger, current: CreateEntity, entities?: Entity[],
   ): string {
-    let text = trigger.manual ? 'Manual' : 'Triggered';
-    text += trigger.sibling ? ' (Sibling)' : '';
+    let text = trigger.manual ? 'Manual' : '';
 
     const triggerEntity = trigger.entityId === '-'
       ? current
       : entities?.find((x) => x._id === trigger.entityId);
-    text += triggerEntity ? ` - ${triggerEntity.name}` : '';
-    text += trigger.entityId === '-' ? ' (Current)' : '';
+    text += triggerEntity ? `${triggerEntity.name}` : '';
+    text += trigger.entityId === '-' ? '(Current)' : '';
 
     const triggerAction = triggerEntity?.actions
       .find((x) => x.key === trigger.actionKey);

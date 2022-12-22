@@ -5,13 +5,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   FormControl,
   Grid,
   InputLabel,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   MenuItem,
   Select,
   TextField,
@@ -21,14 +17,11 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import {
-  CreateEntity, EntityAction, EntityActionTrigger,
+  CreateEntity, EntityAction,
 } from 'tabletop-assistant-common';
-import { useParams } from 'react-router-dom';
-import EditActionTriggerDialog from './EditActionTriggerDialog';
 import FieldHelper from '../../../helpers/field.helper';
-import { useGetEntitiesQuery } from '../../../store/api';
-import ActionTreeHelper from '../../../helpers/action-tree.helper';
 import RollInput from '../../../components/RollInput';
+import TriggerInput from '../../../components/TriggerInput';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -42,10 +35,6 @@ interface EditActionDialogProps {
 const EditActionDialog = ({
   initial, entity, open, onSave, onDelete, onClose,
 }: EditActionDialogProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
-  const { data: entities } = useGetEntitiesQuery(tabletopId);
-  const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
-
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState((initial?.roll && 'roll') || (initial?.macros && 'macros') || 'info');
   const [roll, setRoll] = useState(initial?.roll);
@@ -110,52 +99,13 @@ const EditActionDialog = ({
             )}
           </Grid>
 
-          {triggers.length > 0 && (
-            <Grid item xs={12}>
-              <Divider />
-
-              {triggers.map((trigger) => {
-                const text = ActionTreeHelper.getTriggerString(
-                  trigger, entity, entities,
-                );
-
-                return (
-                  <ListItem
-                    dense
-                    key={text}
-                  >
-                    <ListItemButton onClick={() => setEditTrigger(trigger)}>
-                      <ListItemText primary={text} />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-            </Grid>
-          )}
-
-          <Grid item container xs={12} justifyContent="center">
-            <Button
-              variant="outlined"
-              onClick={() => setEditTrigger({})}
-            >
-              Add Trigger
-            </Button>
-          </Grid>
-
-          {editTrigger && (
-            <EditActionTriggerDialog
-              initial={editTrigger}
+          <Grid item xs={12}>
+            <TriggerInput
+              value={triggers}
               entity={entity}
-              open={Boolean(editTrigger)}
-              onSave={(trigger) => setTriggers(
-                triggers.filter((x) => x !== editTrigger)
-                  .concat([trigger])
-                  .sort((a, b) => -ActionTreeHelper.triggerCompare(a, b)),
-              )}
-              onDelete={() => setTriggers(triggers.filter((x) => x !== editTrigger))}
-              onClose={() => setEditTrigger(undefined)}
+              onChange={(x) => setTriggers(x)}
             />
-          )}
+          </Grid>
         </Grid>
       </DialogContent>
 
