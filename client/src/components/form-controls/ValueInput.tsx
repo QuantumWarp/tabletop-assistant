@@ -2,8 +2,8 @@ import {
   FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import FieldType from '../models/field.type';
-import useIsFirstRender from '../utils/is-first-render';
+import FieldType from '../../models/field.type';
+import useIsFirstRender from '../../utils/is-first-render';
 
 interface ValueInputProps {
   label: string;

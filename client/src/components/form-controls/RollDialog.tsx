@@ -12,8 +12,8 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import { RollCombo, RollComboGroup } from 'tabletop-assistant-common';
-import ActionNodeRollInput from '../features/action/roll/ActionNodeRollInput';
-import RollHelper from '../helpers/roll.helper';
+import ActionNodeRollInput from '../../features/action/roll/ActionNodeRollInput';
+import RollHelper from '../../helpers/roll.helper';
 
 interface RollDialogProps {
   initial: RollCombo;

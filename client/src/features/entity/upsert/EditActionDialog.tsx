@@ -20,9 +20,9 @@ import {
   CreateEntity, EntityAction,
 } from 'tabletop-assistant-common';
 import FieldHelper from '../../../helpers/field.helper';
-import RollInput from '../../../components/RollInput';
-import TriggerInput from '../../../components/TriggerInput';
-import MacroInput from '../../../components/MacroInput';
+import RollInput from '../../../components/form-controls/RollInput';
+import TriggerInput from '../../../components/form-controls/TriggerInput';
+import MacroInput from '../../../components/form-controls/MacroInput';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;

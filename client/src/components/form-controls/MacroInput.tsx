@@ -7,7 +7,7 @@ import {
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Macro } from 'tabletop-assistant-common';
-import { useGetEntitiesQuery } from '../store/api';
+import { useGetEntitiesQuery } from '../../store/api';
 import MacroDialog from './MacroDialog';
 
 interface MacroInputProps {

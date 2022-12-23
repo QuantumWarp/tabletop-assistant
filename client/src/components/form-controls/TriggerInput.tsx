@@ -10,8 +10,8 @@ import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { CreateEntity, EntityActionTrigger, UpdateEntity } from 'tabletop-assistant-common';
 import TriggerDialog from './TriggerDialog';
-import ActionTreeHelper from '../helpers/action-tree.helper';
-import { useGetEntitiesQuery } from '../store/api';
+import ActionTreeHelper from '../../helpers/action-tree.helper';
+import { useGetEntitiesQuery } from '../../store/api';
 
 interface TriggerInputProps {
   value: EntityActionTrigger[];

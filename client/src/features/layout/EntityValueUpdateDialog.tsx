@@ -12,7 +12,7 @@ import {
 import {
   EntityField,
 } from 'tabletop-assistant-common';
-import ValueInput from '../../components/ValueInput';
+import ValueInput from '../../components/form-controls/ValueInput';
 import FieldType from '../../models/field.type';
 
 interface EntityValueUpdateDialogProps {

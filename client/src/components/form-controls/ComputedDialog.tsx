@@ -18,27 +18,26 @@ import {
 } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { parse, SymbolNode } from 'mathjs';
-import { ExpressionVariable, Macro } from 'tabletop-assistant-common';
-import { useGetEntitiesQuery } from '../store/api';
+import { Expression, ExpressionVariable } from 'tabletop-assistant-common';
+import { useGetEntitiesQuery } from '../../store/api';
 
-interface MacroDialogProps {
-  initial: Partial<Macro>;
+interface ComputedDialogProps {
+  initial: Expression;
   open: boolean;
-  onSave: (macro: Macro) => void;
+  onSave: (expression: Expression) => void;
   onDelete: () => void;
   onClose: () => void;
 }
 
-const MacroDialog = ({
+const ComputedDialog = ({
   initial, open, onSave, onDelete, onClose,
-}: MacroDialogProps) => {
+}: ComputedDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const [target, setTarget] = useState(initial?.target || { key: 'target' } as ExpressionVariable);
-  const [expression, setExpression] = useState(initial?.expression?.expression || '');
+  const [expression, setExpression] = useState(initial?.expression || '');
   const [variables, setVariables] = useState<ExpressionVariable[]>(
-    initial?.expression?.variables || [],
+    initial?.variables || {},
   );
 
   let expressionValid = true;
@@ -51,66 +50,16 @@ const MacroDialog = ({
     expressionValid = false;
   }
 
-  const targetEntity = entities?.find((x) => x._id === target?.entityId);
-
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
-          {initial?.target ? 'Update ' : 'Create '}
-          Macro
+          Computed Expression
         </b>
       </DialogTitle>
 
       <DialogContent>
         <Grid container spacing={2} marginTop={0}>
-
-          <Grid item xs={2} display="flex" justifyContent="center" alignItems="center">
-            <b>Target</b>
-          </Grid>
-
-          <Grid item xs={5}>
-            <FormControl fullWidth>
-              <InputLabel>Entity</InputLabel>
-              <Select
-                label="Entity"
-                MenuProps={{ style: { maxHeight: '400px' } }}
-                value={target?.entityId}
-                onChange={(e) => setTarget({
-                  ...target,
-                  entityId: e.target.value,
-                })}
-              >
-                {entities?.map((x) => (
-                  <MenuItem key={x._id} value={x._id}>
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={5}>
-            <FormControl fullWidth>
-              <InputLabel>Field</InputLabel>
-              <Select
-                label="Field"
-                MenuProps={{ style: { maxHeight: '400px' } }}
-                value={target?.fieldKey}
-                onChange={(e) => setTarget({
-                  ...target,
-                  fieldKey: e.target.value,
-                })}
-              >
-                {targetEntity?.fields?.map((x) => (
-                  <MenuItem key={x.key} value={x.key}>
-                    {x.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
           <Grid item xs={12}>
             <TextField
               error={!expressionValid}
@@ -210,7 +159,7 @@ const MacroDialog = ({
         <Button
           variant="outlined"
           endIcon={<SaveIcon />}
-          onClick={() => onSave({ target: { entityId: '-', fieldKey: 'test' }, expression: { expression, variables } })}
+          onClick={() => onSave({ expression, variables })}
         >
           Save
         </Button>
@@ -219,4 +168,4 @@ const MacroDialog = ({
   );
 };
 
-export default MacroDialog;
+export default ComputedDialog;

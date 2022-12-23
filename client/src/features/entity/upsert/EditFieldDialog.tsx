@@ -18,9 +18,9 @@ import {
 } from '@mui/icons-material';
 import { EntityField, EntityFieldType, Expression } from 'tabletop-assistant-common';
 import FieldHelper from '../../../helpers/field.helper';
-import ValueInput from '../../../components/ValueInput';
+import ValueInput from '../../../components/form-controls/ValueInput';
 import FieldType from '../../../models/field.type';
-import ComputedInput from '../../../components/ComputedInput';
+import ComputedInput from '../../../components/form-controls/ComputedInput';
 
 interface EditFieldDialogProps {
   initial?: Partial<EntityField>;

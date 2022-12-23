@@ -21,7 +21,7 @@ import {
   CreateEntity, EntityActionTrigger, UpdateEntity,
 } from 'tabletop-assistant-common';
 import { useParams } from 'react-router-dom';
-import { useGetEntitiesQuery } from '../store/api';
+import { useGetEntitiesQuery } from '../../store/api';
 
 interface TriggerDialogProps {
   initial?: Partial<EntityActionTrigger>;
