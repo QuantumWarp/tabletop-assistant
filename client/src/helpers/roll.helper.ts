@@ -83,7 +83,7 @@ export default class RollHelper {
         addStr += 'd';
       }
 
-      if (x.faces) addStr += x.number;
+      if (x.faces) addStr += x.faces;
       if (x.facesComputed) addStr += '?';
 
       return str + addStr;
@@ -117,7 +117,10 @@ export default class RollHelper {
 
       if (mergable) {
         initialCombo = initialCombo.filter((x) => x !== mergable);
-        newCombo.push(RollHelper.mergeComboGroups(element, mergable) as RollComboGroup);
+        const merged = RollHelper.mergeComboGroups(element, mergable) as RollComboGroup;
+        if (merged.number !== 0 && merged.faces !== 0) {
+          initialCombo.push(merged);
+        }
       } else {
         newCombo.push(element);
       }
@@ -134,13 +137,13 @@ export default class RollHelper {
     if (a.static) {
       const facesTotal = (a.negative ? -1 : 1) * (a.faces || 0)
         + (b.negative ? -1 : 1) * (b.faces || 0);
-      return { ...a, negative: facesTotal < 0, faces: facesTotal };
+      return { ...a, negative: facesTotal < 0, faces: Math.abs(facesTotal) };
     }
 
     if (a.faces !== b.faces) return false;
 
-    const numberTotal = (a.number ? -1 : 1) * (a.number || 0)
-      + (b.negative ? -1 : 1) * (b.number || 0);
-    return { ...a, negative: numberTotal < 0, number: numberTotal };
+    const numberTotal = ((a.negative ? -1 : 1) * (a.number || 0))
+      + ((b.negative ? -1 : 1) * (b.number || 0));
+    return { ...a, negative: numberTotal < 0, number: Math.abs(numberTotal) };
   }
 }
