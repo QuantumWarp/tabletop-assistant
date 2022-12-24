@@ -25,7 +25,7 @@ export default class ActionTreeHelper {
       ? current
       : entities?.find((x) => x._id === trigger.entityId);
     text += triggerEntity ? `${triggerEntity.name}` : '';
-    text += trigger.entityId === '-' ? '(Current)' : '';
+    text += trigger.entityId === '-' ? ' (Current)' : '';
 
     const triggerAction = triggerEntity?.actions
       .find((x) => x.key === trigger.actionKey);

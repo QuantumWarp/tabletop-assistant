@@ -96,13 +96,13 @@ export default class RollHelper {
     if (b.faces && a.facesComputed) return 1;
     if (a.faces && b.facesComputed) return -1;
     if ((b.faces || 0) - (a.faces || 0) > 0) return 1;
-    if ((a.faces || 0) - (b.faces || 0) > 0) return 1;
+    if ((a.faces || 0) - (b.faces || 0) > 0) return -1;
     if (a.negative && !b.negative) return 1;
     if (!a.negative && b.negative) return -1;
     if (b.number && a.numberComputed) return 1;
     if (a.number && b.numberComputed) return -1;
     if ((b.number || 0) - (a.number || 0) > 0) return 1;
-    if ((a.number || 0) - (b.number || 0) > 0) return 1;
+    if ((a.number || 0) - (b.number || 0) > 0) return -1;
     return 0;
   }
 
@@ -130,7 +130,7 @@ export default class RollHelper {
   }
 
   static mergeComboGroups(a: RollComboGroup, b: RollComboGroup): RollComboGroup | Boolean {
-    if (a.static !== b.static) return false;
+    if (Boolean(a.static) !== Boolean(b.static)) return false;
     if (a.facesComputed || b.facesComputed) return false;
     if (a.numberComputed || b.numberComputed) return false;
 

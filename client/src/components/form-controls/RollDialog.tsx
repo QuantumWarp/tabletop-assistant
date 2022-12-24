@@ -14,28 +14,34 @@ import { Icon } from '@iconify/react';
 import { RollCombo, RollComboGroup } from 'tabletop-assistant-common';
 import ActionNodeRollInput from '../../features/action/roll/ActionNodeRollInput';
 import RollHelper from '../../helpers/roll.helper';
+import RollGroupDialog from './RollGroupDialog';
 
 interface RollDialogProps {
   initial: RollCombo;
   open: boolean;
   onSave: (roll: RollCombo) => void;
-  onDelete: () => void;
   onClose: () => void;
 }
 
 const RollDialog = ({
-  initial, open, onSave, onDelete, onClose,
+  initial, open, onSave, onClose,
 }: RollDialogProps) => {
   const [updatedCombo, setUpdatedCombo] = useState(initial);
+  const [selectedGroup, setSelectedGroup] = useState<RollComboGroup>();
+
+  const updateCombo = (newCombo: RollCombo) => {
+    const simplified = RollHelper.simplifyCombo(newCombo);
+    const sorted = simplified.sort(RollHelper.compareComboGroup);
+    setSelectedGroup(undefined);
+    setUpdatedCombo(sorted);
+  };
 
   const addToCombo = (faces: number, negative = false, isStatic = false) => {
     const addGroup: RollComboGroup = {
       number: 1, faces, negative, static: isStatic,
     };
     const newCombo = updatedCombo.concat(addGroup);
-    const simplified = RollHelper.simplifyCombo(newCombo);
-    const sorted = simplified.sort(RollHelper.compareComboGroup);
-    setUpdatedCombo(sorted);
+    updateCombo(newCombo);
   };
 
   return (
@@ -47,7 +53,11 @@ const RollDialog = ({
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <ActionNodeRollInput combo={updatedCombo} />
+            <ActionNodeRollInput
+              combo={updatedCombo}
+              selected={selectedGroup}
+              onGroupClick={(x) => setSelectedGroup(x)}
+            />
           </Grid>
 
           <Grid item xs={12}>
@@ -71,15 +81,44 @@ const RollDialog = ({
                 <Icon icon="mdi:dice-d12-outline" onClick={() => addToCombo(12, true)} />
                 <Icon icon="mdi:dice-d20-outline" onClick={() => addToCombo(20, true)} />
               </div>
+
+              <div className="row">
+                <span className="title">Static</span>
+                <span onClick={() => addToCombo(1, false, true)}>+1</span>
+                <span onClick={() => addToCombo(1, true, true)}>-1</span>
+                <span onClick={() => addToCombo(5, false, true)}>+5</span>
+                <span onClick={() => addToCombo(5, true, true)}>-5</span>
+                <span onClick={() => addToCombo(10, false, true)}>+10</span>
+                <span onClick={() => addToCombo(10, true, true)}>-10</span>
+              </div>
             </div>
           </Grid>
         </Grid>
+
+        {selectedGroup && (
+          <RollGroupDialog
+            initial={selectedGroup}
+            open={Boolean(selectedGroup)}
+            onSave={(newGroup) => updateCombo(updatedCombo
+              .filter((x) => x !== selectedGroup)
+              .concat([newGroup]))}
+            onDelete={() => updateCombo(updatedCombo.filter((x) => x !== selectedGroup))}
+            onClose={() => setSelectedGroup(undefined)}
+          />
+        )}
       </DialogContent>
 
       <DialogActions>
         <Button
           variant="outlined"
-          onClick={() => onDelete()}
+          onClick={() => setSelectedGroup({})}
+        >
+          Add Group
+        </Button>
+
+        <Button
+          variant="outlined"
+          onClick={() => setUpdatedCombo([])}
         >
           Clear
         </Button>

@@ -29,7 +29,6 @@ const RollInput = ({
         initial={value}
         open={editOpen}
         onSave={(newValue) => onChange(newValue)}
-        onDelete={() => onChange([])}
         onClose={() => setEditOpen(false)}
       />
     </>
