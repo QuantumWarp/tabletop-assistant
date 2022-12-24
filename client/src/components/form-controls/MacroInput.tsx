@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Macro } from 'tabletop-assistant-common';
 import { useGetEntitiesQuery } from '../../store/api';
-import MacroDialog from './MacroDialog';
+import ComputedDialog from './ComputedDialog';
 
 interface MacroInputProps {
   value: Macro[];
@@ -18,10 +18,10 @@ interface MacroInputProps {
 const MacroInput = ({
   value, onChange,
 }: MacroInputProps) => {
-  const [editMacro, setEditMacro] = useState<Partial<Macro>>();
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-  console.log(entities);
+
+  const [editMacro, setEditMacro] = useState<Partial<Macro>>();
 
   return (
     <>
@@ -38,7 +38,7 @@ const MacroInput = ({
           <Chip
             {...getTagProps({ index })}
             variant="filled"
-            label={macro.target}
+            label={entities?.find((x) => x._id === macro.target.entityId)?.name}
             size="medium"
             onClick={(e) => { e.stopPropagation(); setEditMacro(macro); }}
             onDelete={() => onChange(value.filter((x) => x !== macro))}
@@ -47,10 +47,14 @@ const MacroInput = ({
       />
 
       {editMacro && (
-        <MacroDialog
-          initial={editMacro}
+        <ComputedDialog
+          includeTarget
+          initialTarget={editMacro.target}
+          initialExpression={editMacro.expression}
           open={Boolean(editMacro)}
-          onSave={() => {}}
+          onSave={(expression, target) => onChange(value
+            .filter((x) => x !== editMacro)
+            .concat([{ target: target!, expression }]))}
           onDelete={() => onChange(value.filter((x) => x !== editMacro))}
           onClose={() => setEditMacro(undefined)}
         />

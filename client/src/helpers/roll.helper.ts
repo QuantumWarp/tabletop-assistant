@@ -95,14 +95,14 @@ export default class RollHelper {
     if (a.static && !b.static) return -1;
     if (b.faces && a.facesComputed) return 1;
     if (a.faces && b.facesComputed) return -1;
-    if ((b.faces || 0) - (a.faces || 0) > 0) return 1;
-    if ((a.faces || 0) - (b.faces || 0) > 0) return -1;
+    if ((b.faces || 0) - (a.faces || 0) > 0) return -1;
+    if ((a.faces || 0) - (b.faces || 0) > 0) return 1;
     if (a.negative && !b.negative) return 1;
     if (!a.negative && b.negative) return -1;
     if (b.number && a.numberComputed) return 1;
     if (a.number && b.numberComputed) return -1;
-    if ((b.number || 0) - (a.number || 0) > 0) return 1;
-    if ((a.number || 0) - (b.number || 0) > 0) return -1;
+    if ((b.number || 0) - (a.number || 0) > 0) return -1;
+    if ((a.number || 0) - (b.number || 0) > 0) return 1;
     return 0;
   }
 

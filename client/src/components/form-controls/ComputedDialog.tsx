@@ -5,39 +5,34 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
 } from '@mui/material';
 import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
 import { parse, SymbolNode } from 'mathjs';
 import { Expression, ExpressionVariable } from 'tabletop-assistant-common';
-import { useGetEntitiesQuery } from '../../store/api';
+import ComputedInputRow from './ComputedInputRow';
 
 interface ComputedDialogProps {
-  initial: Expression;
+  includeTarget?: boolean;
+  initialTarget?: Omit<ExpressionVariable, 'key'>;
+  initialExpression?: Expression;
   open: boolean;
-  onSave: (expression: Expression) => void;
+  onSave: (expression: Expression, target?: Omit<ExpressionVariable, 'key'>) => void;
   onDelete: () => void;
   onClose: () => void;
 }
 
 const ComputedDialog = ({
-  initial, open, onSave, onDelete, onClose,
+  includeTarget, initialTarget, initialExpression, open, onSave, onDelete, onClose,
 }: ComputedDialogProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
-  const { data: entities } = useGetEntitiesQuery(tabletopId);
-
-  const [expression, setExpression] = useState(initial?.expression || '');
+  const [target, setTarget] = useState(initialTarget);
+  const [expression, setExpression] = useState(initialExpression?.expression || '');
   const [variables, setVariables] = useState<ExpressionVariable[]>(
-    initial?.variables || {},
+    initialExpression?.variables || [],
   );
 
   let expressionValid = true;
@@ -54,12 +49,21 @@ const ComputedDialog = ({
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
-          Computed Expression
+          {initialTarget ? 'Update ' : 'Create '}
+          {includeTarget ? 'Macro' : 'Expression'}
         </b>
       </DialogTitle>
 
       <DialogContent>
         <Grid container spacing={2} marginTop={0}>
+          {includeTarget && (
+            <ComputedInputRow
+              name="Target"
+              value={target && { key: 'Target', ...target }}
+              onChange={(newExpression) => setTarget(newExpression)}
+            />
+          )}
+
           <Grid item xs={12}>
             <TextField
               error={!expressionValid}
@@ -73,72 +77,20 @@ const ComputedDialog = ({
             />
           </Grid>
 
-          {expressionSymbols.map((variable) => {
-            const variableRef: ExpressionVariable | undefined = variables
-              .find((x) => x.key === variable);
-            const entity = entities?.find((x) => x._id === variableRef?.entityId);
-
-            return (
-              <>
-                <Grid item xs={2} display="flex" justifyContent="center" alignItems="center">
-                  <b>{variable}</b>
-                </Grid>
-
-                <Grid item xs={5}>
-                  <FormControl fullWidth>
-                    <InputLabel>Entity</InputLabel>
-                    <Select
-                      label="Entity"
-                      MenuProps={{ style: { maxHeight: '400px' } }}
-                      value={variableRef?.entityId}
-                      onChange={(e) => setVariables({
-                        ...variables,
-                        [variable]: {
-                          ...variableRef,
-                          entityId: e.target.value,
-                        },
-                      })}
-                    >
-                      {entities?.map((x) => (
-                        <MenuItem key={x._id} value={x._id}>
-                          {x.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={5}>
-                  <FormControl fullWidth>
-                    <InputLabel>Field</InputLabel>
-                    <Select
-                      label="Field"
-                      MenuProps={{ style: { maxHeight: '400px' } }}
-                      value={variableRef?.fieldKey}
-                      onChange={(e) => setVariables({
-                        ...variables,
-                        [variable]: {
-                          ...variableRef,
-                          fieldKey: e.target.value,
-                        },
-                      })}
-                    >
-                      {entity?.fields?.map((x) => (
-                        <MenuItem key={x.key} value={x.key}>
-                          {x.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </>
-            );
-          })}
+          {expressionSymbols.map((variable) => (
+            <ComputedInputRow
+              name={variable}
+              value={variables.find((x) => x.key === variable)}
+              onChange={(newExpression) => setVariables(variables
+                .filter((x) => x.key !== variable)
+                .concat([newExpression]))}
+            />
+          ))}
         </Grid>
       </DialogContent>
 
       <DialogActions>
-        {initial?.expression && (
+        {initialExpression && (
           <Button
             variant="outlined"
             color="error"
@@ -159,13 +111,19 @@ const ComputedDialog = ({
         <Button
           variant="outlined"
           endIcon={<SaveIcon />}
-          onClick={() => onSave({ expression, variables })}
+          onClick={() => onSave({ expression, variables }, target)}
         >
           Save
         </Button>
       </DialogActions>
     </Dialog>
   );
+};
+
+ComputedDialog.defaultProps = {
+  includeTarget: false,
+  initialTarget: undefined,
+  initialExpression: undefined,
 };
 
 export default ComputedDialog;

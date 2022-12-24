@@ -20,12 +20,12 @@ const ComputedInput = ({
       <TextField
         fullWidth
         label="Expression"
-        value={value}
+        value={value.expression}
         onClick={() => setEditOpen(true)}
       />
 
       <ComputedDialog
-        initial={value}
+        initialExpression={value}
         open={editOpen}
         onSave={(newValue) => onChange(newValue)}
         onDelete={() => onChange({ expression: '', variables: [] })}
