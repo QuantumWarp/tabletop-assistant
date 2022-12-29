@@ -1,7 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { HydratedDocument, Schema } from 'mongoose';
 import { Tabletop } from 'tabletop-assistant-common';
 
-const schema = new Schema<Tabletop>(
+export const tabletopSchema = new Schema<Tabletop>(
   {
     userId: { type: String, required: true, immutable: true },
     name: { type: String, required: true },
@@ -14,4 +14,4 @@ const schema = new Schema<Tabletop>(
   },
 );
 
-export default model<Tabletop>('Tabletop', schema);
+export type TabletopDocument = HydratedDocument<Tabletop>;

@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { HydratedDocument, Schema } from 'mongoose';
 
 export interface User {
   readonly _id: string;
@@ -14,7 +14,7 @@ export interface User {
 }
 export type UpsertUser = Omit<User, '_id' | 'createdAt' | 'updatedAt' | '__v'>;
 
-const schema = new Schema<User>(
+export const userSchema = new Schema<User>(
   {
     sub: { type: String, required: true, immutable: true },
     iss: { type: String, required: true, immutable: true },
@@ -26,4 +26,4 @@ const schema = new Schema<User>(
   },
 );
 
-export const UserModel = model<User>('User', schema);
+export type UserDocument = HydratedDocument<User>;
