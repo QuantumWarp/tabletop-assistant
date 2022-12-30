@@ -8,7 +8,6 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { MicrosoftGuard } from 'src/setup/auth';
 import {
   CreateTabletop,
   Tabletop,
@@ -16,6 +15,7 @@ import {
 } from 'tabletop-assistant-common';
 import TabletopRepository from './tabletop.repository';
 import { UserId } from 'src/setup/user.decorator';
+import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
 
 @UseGuards(MicrosoftGuard)
 @Controller('tabletops')
@@ -24,7 +24,6 @@ export class TabletopController {
 
   @Get()
   async getAll(@UserId() userId: string): Promise<Tabletop[]> {
-    console.log(userId);
     return this.repository.getAll(userId);
   }
 

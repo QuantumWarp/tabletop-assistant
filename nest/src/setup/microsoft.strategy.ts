@@ -19,14 +19,13 @@ export class MicrosoftStrategy extends PassportStrategy(
     });
   }
 
-  async validate(data) {
+  async validate(data: any) {
     const user = this.userRepository.getAndUpsert({
       iss: data.iss,
       sub: data.sub,
       email: data.email,
       name: data.name,
     });
-    console.log(data);
     return user;
   }
 }

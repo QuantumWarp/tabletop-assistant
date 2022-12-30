@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MicrosoftStrategy } from './setup/auth';
 import { TabletopController } from './tabletop/tabletop.controller';
 import { tabletopSchema } from './tabletop/tabletop.model';
 import TabletopRepository from './tabletop/tabletop.repository';
 import { userSchema } from './user/user.models';
 import UserRepository from './user/user.repository';
+import { MicrosoftStrategy } from './setup/microsoft.strategy';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import UserRepository from './user/user.repository';
       { name: 'Tabletop', schema: tabletopSchema },
       { name: 'User', schema: userSchema },
     ]),
+    PassportModule,
   ],
   controllers: [TabletopController],
   providers: [TabletopRepository, UserRepository, MicrosoftStrategy],
