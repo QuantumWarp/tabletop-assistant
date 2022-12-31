@@ -12,7 +12,7 @@ import { LayoutService } from '../layout/layout.service';
 import { TemplatedEntityService } from './templated-entity.service';
 import { TemplatedLayoutService } from './templated-layout.service';
 import { InjectModel } from '@nestjs/mongoose';
-import { ResourceNotFound } from 'src/setup/error';
+import { NotFoundException } from '@nestjs/common';
 
 type CreateEntityWithId = CreateEntity & { _id: string };
 
@@ -35,7 +35,7 @@ export class TemplateService {
 
   async get(_id: string): Promise<Template> {
     const model = await this.templateModel.findOne({ _id });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 

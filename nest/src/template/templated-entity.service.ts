@@ -1,7 +1,7 @@
+import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TemplatedEntity } from 'tabletop-assistant-common';
-import { ResourceNotFound } from '../setup/error';
 
 export class TemplatedEntityService {
   constructor(
@@ -24,7 +24,7 @@ export class TemplatedEntityService {
 
   async get(_id: string): Promise<TemplatedEntity> {
     const model = await this.templatedEntityModel.findOne({ _id });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 }

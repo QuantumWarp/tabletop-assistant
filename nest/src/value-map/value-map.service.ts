@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -6,7 +7,6 @@ import {
   UpdateValueMap,
   Entity,
 } from 'tabletop-assistant-common';
-import { ResourceNotFound } from '../setup/error';
 
 export class ValueMapService {
   constructor(
@@ -19,7 +19,7 @@ export class ValueMapService {
 
   async get(userId: string, entityId: string): Promise<ValueMap> {
     const model = await this.valueMapModel.findOne({ entityId, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 
@@ -31,7 +31,7 @@ export class ValueMapService {
 
   async update(userId: string, entry: UpdateValueMap): Promise<ValueMap> {
     const model = await this.valueMapModel.findOne({ _id: entry._id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     model.set(entry);
     await model.save();
     return model;
@@ -39,7 +39,7 @@ export class ValueMapService {
 
   async delete(userId: string, entityId: string): Promise<void> {
     const model = await this.valueMapModel.findOne({ entityId, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     await model.delete();
   }
 

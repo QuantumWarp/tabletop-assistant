@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -6,7 +6,6 @@ import {
   CreateTabletop,
   UpdateTabletop,
 } from 'tabletop-assistant-common';
-import { ResourceNotFound } from '../setup/error';
 import { TabletopDocument } from './tabletop.schema';
 
 @Injectable()
@@ -21,7 +20,7 @@ export class TabletopService {
 
   async get(userId: string, _id: string): Promise<Tabletop> {
     const model = await this.tabletopModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 
@@ -36,7 +35,7 @@ export class TabletopService {
       _id: tabletop._id,
       userId,
     });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     model.set(tabletop);
     await model.save();
     return model;
@@ -44,7 +43,7 @@ export class TabletopService {
 
   async delete(userId: string, _id: string): Promise<void> {
     const model = await this.tabletopModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     await model.delete();
   }
 }

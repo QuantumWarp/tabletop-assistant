@@ -1,7 +1,7 @@
+import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Layout, CreateLayout, UpdateLayout } from 'tabletop-assistant-common';
-import { ResourceNotFound } from '../setup/error';
 
 export class LayoutService {
   constructor(@InjectModel('Layout') private layoutModel: Model<Layout>) {}
@@ -12,7 +12,7 @@ export class LayoutService {
 
   async get(userId: string, _id: string): Promise<Layout> {
     const model = await this.layoutModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 
@@ -24,7 +24,7 @@ export class LayoutService {
 
   async update(userId: string, layout: UpdateLayout): Promise<Layout> {
     const model = await this.layoutModel.findOne({ _id: layout._id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     model.set(layout);
     await model.save();
     return model;
@@ -32,7 +32,7 @@ export class LayoutService {
 
   async delete(userId: string, _id: string): Promise<void> {
     const model = await this.layoutModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     await model.delete();
   }
 

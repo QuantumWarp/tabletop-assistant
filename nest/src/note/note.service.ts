@@ -1,7 +1,7 @@
+import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Note, CreateNote, UpdateNote } from 'tabletop-assistant-common';
-import { ResourceNotFound } from '../setup/error';
 
 export class NoteService {
   constructor(@InjectModel('Note') private noteModel: Model<Note>) {}
@@ -12,7 +12,7 @@ export class NoteService {
 
   async get(userId: string, _id: string): Promise<Note> {
     const model = await this.noteModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 
@@ -24,7 +24,7 @@ export class NoteService {
 
   async update(userId: string, tabletop: UpdateNote): Promise<Note> {
     const model = await this.noteModel.findOne({ _id: tabletop._id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     model.set(tabletop);
     await model.save();
     return model;
@@ -32,7 +32,7 @@ export class NoteService {
 
   async delete(userId: string, _id: string): Promise<void> {
     const model = await this.noteModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     await model.delete();
   }
 }

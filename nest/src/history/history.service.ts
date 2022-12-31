@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -5,7 +6,6 @@ import {
   CreateHistoryEntry,
   UpdateHistoryEntry,
 } from 'tabletop-assistant-common';
-import { ResourceNotFound } from '../setup/error';
 
 export class HistoryService {
   constructor(
@@ -18,7 +18,7 @@ export class HistoryService {
 
   async get(userId: string, _id: string): Promise<HistoryEntry> {
     const model = await this.historyModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     return model;
   }
 
@@ -36,7 +36,7 @@ export class HistoryService {
     entry: UpdateHistoryEntry,
   ): Promise<HistoryEntry> {
     const model = await this.historyModel.findOne({ _id: entry._id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     model.set(entry);
     await model.save();
     return model;
@@ -44,7 +44,7 @@ export class HistoryService {
 
   async delete(userId: string, _id: string): Promise<void> {
     const model = await this.historyModel.findOne({ _id, userId });
-    if (!model) throw new ResourceNotFound();
+    if (!model) throw new NotFoundException();
     await model.delete();
   }
 }
