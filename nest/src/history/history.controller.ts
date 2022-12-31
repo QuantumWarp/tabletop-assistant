@@ -6,49 +6,53 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
-  CreateTabletop,
-  Tabletop,
-  UpdateTabletop,
+  CreateEntity,
+  HistoryEntry,
+  UpdateEntity,
 } from 'tabletop-assistant-common';
 import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
 import { UserId } from 'src/setup/user.decorator';
-import { TabletopService } from './tabletop.service';
+import { HistoryService } from './history.service';
 
 @UseGuards(MicrosoftGuard)
-@Controller('tabletops')
-export class TabletopController {
-  constructor(private service: TabletopService) {}
+@Controller('history')
+export class HistoryController {
+  constructor(private service: HistoryService) {}
 
   @Get()
-  async getAll(@UserId() userId: string): Promise<Tabletop[]> {
-    return this.service.getAll(userId);
+  async getAll(
+    @UserId() userId: string,
+    @Query('tabletopId') tabletopId: string,
+  ): Promise<HistoryEntry[]> {
+    return this.service.getAll(userId, tabletopId);
   }
 
   @Get(':id')
   async get(
     @UserId() userId: string,
     @Param('id') id: string,
-  ): Promise<Tabletop> {
+  ): Promise<HistoryEntry> {
     return this.service.get(userId, id);
   }
 
   @Post()
   async create(
     @UserId() userId: string,
-    @Body() tabletop: CreateTabletop,
-  ): Promise<Tabletop> {
-    return this.service.create(userId, tabletop);
+    @Body() entity: CreateEntity,
+  ): Promise<HistoryEntry> {
+    return this.service.create(userId, entity);
   }
 
   @Put()
   async update(
     @UserId() userId: string,
-    @Body() tabletop: UpdateTabletop,
-  ): Promise<Tabletop> {
-    return this.service.update(userId, tabletop);
+    @Body() entity: UpdateEntity,
+  ): Promise<HistoryEntry> {
+    return this.service.update(userId, entity);
   }
 
   @Delete(':id')

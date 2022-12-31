@@ -7,10 +7,10 @@ import {
   UpdateTabletop,
 } from 'tabletop-assistant-common';
 import { ResourceNotFound } from '../setup/error';
-import { TabletopDocument } from './tabletop.model';
+import { TabletopDocument } from './tabletop.schema';
 
 @Injectable()
-export default class TabletopRepository {
+export class TabletopService {
   constructor(
     @InjectModel('Tabletop') private tabletopModel: Model<TabletopDocument>,
   ) {}

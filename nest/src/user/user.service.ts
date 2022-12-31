@@ -1,8 +1,8 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UpsertUser, UserDocument } from './user.models';
+import { User, UpsertUser, UserDocument } from './user.schema';
 
-export default class UserRepository {
+export class UserService {
   constructor(@InjectModel('User') private userModel: Model<UserDocument>) {}
 
   async getAndUpsert(user: UpsertUser): Promise<User> {

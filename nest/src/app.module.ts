@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TabletopController } from './tabletop/tabletop.controller';
-import { tabletopSchema } from './tabletop/tabletop.model';
-import TabletopRepository from './tabletop/tabletop.repository';
-import { userSchema } from './user/user.models';
-import UserRepository from './user/user.repository';
 import { MicrosoftStrategy } from './setup/microsoft.strategy';
+import { EntityModule } from './entity/entity.module';
+import { HistoryModule } from './history/history.module';
+import { LayoutModule } from './layout/layout.module';
+import { NoteModule } from './note/note.module';
+import { TabletopModule } from './tabletop/tabletop.module';
+import { UserModule } from './user/user.module';
+import { ValueMapModule } from './value-map/value-map.module';
 
 @Module({
   imports: [
@@ -19,13 +21,17 @@ import { MicrosoftStrategy } from './setup/microsoft.strategy';
         uri: configService.get('DB_CONNECTION'),
       }),
     }),
-    MongooseModule.forFeature([
-      { name: 'Tabletop', schema: tabletopSchema },
-      { name: 'User', schema: userSchema },
-    ]),
     PassportModule,
+
+    // Features
+    EntityModule,
+    HistoryModule,
+    LayoutModule,
+    NoteModule,
+    TabletopModule,
+    UserModule,
+    ValueMapModule,
   ],
-  controllers: [TabletopController],
-  providers: [TabletopRepository, UserRepository, MicrosoftStrategy],
+  providers: [MicrosoftStrategy],
 })
 export class AppModule {}

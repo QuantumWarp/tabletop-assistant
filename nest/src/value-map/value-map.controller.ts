@@ -1,0 +1,65 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  CreateValueMap,
+  UpdateValueMap,
+  ValueMap,
+} from 'tabletop-assistant-common';
+import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
+import { UserId } from 'src/setup/user.decorator';
+import { ValueMapService } from './value-map.service';
+
+@UseGuards(MicrosoftGuard)
+@Controller('value-maps')
+export class ValueMapController {
+  constructor(private service: ValueMapService) {}
+
+  @Get()
+  async getAll(
+    @UserId() userId: string,
+    @Query('tabletopId') tabletopId: string,
+  ): Promise<ValueMap[]> {
+    return this.service.getAll(userId, tabletopId);
+  }
+
+  @Get(':entityId')
+  async get(
+    @UserId() userId: string,
+    @Param('entityId') entityId: string,
+  ): Promise<ValueMap> {
+    return this.service.get(userId, entityId);
+  }
+
+  @Post()
+  async create(
+    @UserId() userId: string,
+    @Body() note: CreateValueMap,
+  ): Promise<ValueMap> {
+    return this.service.create(userId, note);
+  }
+
+  @Put()
+  async update(
+    @UserId() userId: string,
+    @Body() note: UpdateValueMap,
+  ): Promise<ValueMap> {
+    return this.service.update(userId, note);
+  }
+
+  @Delete(':entityId')
+  async delete(
+    @UserId() userId: string,
+    @Param('entityId') entityId: string,
+  ): Promise<void> {
+    this.service.delete(userId, entityId);
+  }
+}
