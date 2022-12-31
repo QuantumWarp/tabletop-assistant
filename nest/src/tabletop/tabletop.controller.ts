@@ -6,40 +6,57 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { MicrosoftGuard } from 'src/setup/auth';
 import {
   CreateTabletop,
   Tabletop,
   UpdateTabletop,
 } from 'tabletop-assistant-common';
 import TabletopRepository from './tabletop.repository';
+import { UserId } from 'src/setup/user.decorator';
 
-@Controller('tabletop')
+@UseGuards(MicrosoftGuard)
+@Controller('tabletops')
 export class TabletopController {
   constructor(private repository: TabletopRepository) {}
 
   @Get()
-  async getAll(): Promise<Tabletop[]> {
-    return this.repository.getAll();
+  async getAll(@UserId() userId: string): Promise<Tabletop[]> {
+    console.log(userId);
+    return this.repository.getAll(userId);
   }
 
   @Get(':id')
-  async get(@Param('id') id: string): Promise<Tabletop> {
-    return this.repository.get(id);
+  async get(
+    @UserId() userId: string,
+    @Param('id') id: string,
+  ): Promise<Tabletop> {
+    return this.repository.get(userId, id);
   }
 
   @Post()
-  async create(@Body() tabletop: CreateTabletop): Promise<Tabletop> {
-    return this.repository.create(tabletop);
+  async create(
+    @UserId() userId: string,
+    @Body() tabletop: CreateTabletop,
+  ): Promise<Tabletop> {
+    return this.repository.create(userId, tabletop);
   }
 
   @Put()
-  async update(@Body() tabletop: UpdateTabletop): Promise<Tabletop> {
-    return this.repository.update(tabletop);
+  async update(
+    @UserId() userId: string,
+    @Body() tabletop: UpdateTabletop,
+  ): Promise<Tabletop> {
+    return this.repository.update(userId, tabletop);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
-    return this.repository.delete(id);
+  async delete(
+    @UserId() userId: string,
+    @Param('id') id: string,
+  ): Promise<void> {
+    return this.repository.delete(userId, id);
   }
 }

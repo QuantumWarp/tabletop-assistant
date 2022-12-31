@@ -4,20 +4,30 @@ export class ResourceNotFound extends Error {}
 
 const statusCode = (err: Error): number => {
   switch (err.constructor) {
-    case ResourceNotFound: return 404;
-    default: return 500;
+    case ResourceNotFound:
+      return 404;
+    default:
+      return 500;
   }
 };
 
 const friendlyMessage = (err: Error): string => {
   switch (err.constructor) {
-    case ResourceNotFound: return 'Resource not found';
-    default: return 'Internal server error';
+    case ResourceNotFound:
+      return 'Resource not found';
+    default:
+      return 'Internal server error';
   }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async (err: Error, req: Request, res: Response, _next: NextFunction) => {
+export default async (
+  err: Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _next: NextFunction,
+) => {
   // console.log(err.stack);
   res.status(statusCode(err)).send(friendlyMessage(err));
 };
