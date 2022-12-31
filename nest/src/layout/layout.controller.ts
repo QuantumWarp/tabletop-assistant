@@ -56,11 +56,11 @@ export class LayoutController {
     @UserId() userId: string,
     @Param('id') id: string,
   ): Promise<void> {
-    this.service.delete(userId, id);
+    await this.service.delete(userId, id);
   }
 
   @Post()
   async order(@UserId() userId: string, @Body() ids: string[]): Promise<void> {
-    this.service.order(userId, ids);
+    await this.service.order(userId, ids);
   }
 }

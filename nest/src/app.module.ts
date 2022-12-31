@@ -10,6 +10,7 @@ import { NoteModule } from './note/note.module';
 import { TabletopModule } from './tabletop/tabletop.module';
 import { UserModule } from './user/user.module';
 import { ValueMapModule } from './value-map/value-map.module';
+import { TemplateModule } from './template/template.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ValueMapModule } from './value-map/value-map.module';
     LayoutModule,
     NoteModule,
     TabletopModule,
+    TemplateModule,
     UserModule,
     ValueMapModule,
   ],

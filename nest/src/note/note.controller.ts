@@ -53,6 +53,6 @@ export class NoteController {
     @UserId() userId: string,
     @Param('id') id: string,
   ): Promise<void> {
-    this.service.delete(userId, id);
+    await this.service.delete(userId, id);
   }
 }
