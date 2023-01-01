@@ -1,12 +1,16 @@
 import 'dotenv/config';
-import { connect, disconnect } from 'tabletop-assistant-server/src/setup/db';
-import TemplateModel from 'tabletop-assistant-server/src/template/template.model';
-import TemplatedLayoutModel from 'tabletop-assistant-server/src/template/templated-layout.model';
-import TemplatedEntityModel from 'tabletop-assistant-server/src/template/templated-entity.model';
-import ReferencedIdHelper from 'tabletop-assistant-server/src/template/referenced-id.helper';
+import mongoose from 'mongoose';
+import { templateSchema } from 'tabletop-assistant-server/src/template/template.schema';
+import { templatedEntitySchema } from 'tabletop-assistant-server/src/template/templated-entity.schema';
+import { templatedLayoutSchema } from 'tabletop-assistant-server/src/template/templated-layout.schema';
+import { ReferencedIdHelper } from 'tabletop-assistant-server/src/template/referenced-id.helper';
 
 import collections from './collections';
 import { Collection } from './utils/templated.types';
+
+const TemplateModel = mongoose.model('Entity', templateSchema);
+const TemplatedEntityModel = mongoose.model('Layout', templatedEntitySchema);
+const TemplatedLayoutModel = mongoose.model('ValueMap', templatedLayoutSchema);
 
 const saveCollection = async (collection: Collection) => {
   const entityPromises = collection.entities
@@ -29,7 +33,7 @@ const saveCollection = async (collection: Collection) => {
 };
 
 const run = async () => {
-  await connect(process.env.DB_CONNECTION ?? '');
+  mongoose.connect(process.env.DB_CONNECTION ?? '');
 
   await TemplateModel.deleteMany();
   await TemplatedLayoutModel.deleteMany();
@@ -40,7 +44,7 @@ const run = async () => {
 
   await Promise.all(savePromises);
 
-  await disconnect();
+  await mongoose.disconnect();
 };
 
 run();

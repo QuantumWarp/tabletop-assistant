@@ -1,17 +1,22 @@
 import 'dotenv/config';
-import { connect, disconnect } from 'tabletop-assistant-server/src/setup/db';
-import EntityModel from 'tabletop-assistant-server/src/entity/entity.model';
-import LayoutModel from 'tabletop-assistant-server/src/layout/layout.model';
-import ValueMapModel from 'tabletop-assistant-server/src/value-map/value-map.model';
+import mongoose from 'mongoose';
+
+import { entitySchema } from 'tabletop-assistant-server/src/entity/entity.schema';
+import { layoutSchema } from 'tabletop-assistant-server/src/layout/layout.schema';
+import { valueMapSchema } from 'tabletop-assistant-server/src/value-map/value-map.schema';
+
+const EntityModel = mongoose.model('Entity', entitySchema);
+const LayoutModel = mongoose.model('Layout', layoutSchema);
+const ValueMapModel = mongoose.model('ValueMap', valueMapSchema);
 
 const run = async () => {
-  await connect(process.env.DB_CONNECTION ?? '');
+  mongoose.connect(process.env.DB_CONNECTION ?? '');
 
   await EntityModel.deleteMany();
   await LayoutModel.deleteMany();
   await ValueMapModel.deleteMany();
 
-  await disconnect();
+  await mongoose.disconnect();
 };
 
 run();

@@ -18,7 +18,7 @@
       "cwd": "${workspaceFolder}/server",
       "runtimeArgs": [
         "run-script",
-        "serve"
+        "start:dev"
       ],
       "runtimeExecutable": "npm",
       "skipFiles": [

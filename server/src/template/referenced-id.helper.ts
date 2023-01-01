@@ -2,6 +2,7 @@ import {
   CreateEntity,
   CreateLayout,
   Expression,
+  ExpressionVariable,
   Macro,
   RollCombo,
 } from 'tabletop-assistant-common';
@@ -17,8 +18,8 @@ export class ReferencedIdHelper {
     const computedFields = entity.fields
       .map((x) => x.computed)
       .filter((x) => Boolean(x))
-      .map((x) => x.variables)
-      .map((x) => Object.values(x))
+      .map((x) => x?.variables)
+      .map((x) => Object.values(x as ExpressionVariable[]))
       .reduce((arr, x) => arr.concat(x), []);
 
     const actionTriggers = entity.actions
@@ -34,8 +35,8 @@ export class ReferencedIdHelper {
         [] as (Expression | undefined)[],
       )
       .filter((x) => Boolean(x))
-      .map((x) => x.variables)
-      .map((x) => Object.values(x))
+      .map((x) => x?.variables)
+      .map((x) => Object.values(x as ExpressionVariable[]))
       .reduce((arr, x) => arr.concat(x), []);
 
     const actionMacroTargets = entity.actions
@@ -49,7 +50,7 @@ export class ReferencedIdHelper {
       .filter((x): x is Macro[] => Boolean(x))
       .reduce((arr, x) => arr.concat(x), [])
       .map((x) => x.expression.variables)
-      .map((x) => Object.values(x))
+      .map((x) => Object.values(x as ExpressionVariable[]))
       .reduce((arr, x) => arr.concat(x), []);
 
     return [
