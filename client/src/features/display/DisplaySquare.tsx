@@ -50,7 +50,10 @@ const DisplaySquare = ({
           {value}
         </div>
 
-        <div className="name">
+        <div
+          className="name"
+          onClick={() => onOperation(FixedActions.Detail)}
+        >
           {name}
         </div>
 

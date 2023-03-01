@@ -102,8 +102,9 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
       {layout.entries.map((entry) => {
         const entity = entities?.find((x) => entry.entityId === x._id);
         const display = entity?.displays.find((x) => x.key === entry.displayKey);
+        const originalEntityValues = valuesList?.find((x) => x.entityId === entry.entityId);
         const entityValues = valuesComputedList?.find((x) => x.entityId === entry.entityId);
-        const invalidEntry = !entity || !display || !entityValues;
+        const invalidEntry = !entity || !display || !entityValues || !originalEntityValues;
 
         return (
           <div
@@ -123,7 +124,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
                 fieldMappings={entityValues.mappings}
                 onSlot={(slot) => slotClickHandler(slot, entity, display)}
                 onUpdateValues={(updatedMappings) => updateValueHandler(
-                  updatedMappings, entityValues,
+                  updatedMappings, originalEntityValues,
                 )}
               />
             )}

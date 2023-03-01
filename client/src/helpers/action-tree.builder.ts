@@ -75,7 +75,6 @@ export default class ActionTreeBuilder {
 
     const action = entity.actions.find((x) => x.key === eaId.actionKey);
     if (!action) throw new Error('No action on entity with key');
-
     return {
       level: parent ? parent.level + 1 : 0,
       entity,

@@ -88,7 +88,9 @@ const EntitySummaryDialog = ({
                 open={Boolean(editField)}
                 field={editField}
                 value={fieldMappings.find((x) => x.fieldKey === editField.key)?.value}
-                onSave={(value) => setUpdates({ ...updates, [editField.key]: value })}
+                onSave={(value) => setUpdates(updates
+                  .filter((x) => x.fieldKey === editField.key)
+                  .concat({ fieldKey: editField.key, value }))}
                 onClose={() => setEditField(undefined)}
               />
             )}

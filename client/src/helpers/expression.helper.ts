@@ -79,13 +79,14 @@ export default class ExpressionHelper {
     const mapping = entityValues.mappings.find((x) => x.fieldKey === field.key);
 
     if (mapping) {
-      mapping.value = newValue;
-    } else {
-      entityValues.mappings.push({
-        fieldKey: field.key,
-        value: newValue,
-      });
+      // eslint-disable-next-line no-param-reassign
+      entityValues.mappings = entityValues.mappings.filter((x) => x !== mapping);
     }
+
+    entityValues.mappings.push({
+      fieldKey: field.key,
+      value: newValue,
+    });
   }
 
   static calculateExpression(

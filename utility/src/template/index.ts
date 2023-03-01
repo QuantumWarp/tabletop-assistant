@@ -8,9 +8,9 @@ import { ReferencedIdHelper } from 'tabletop-assistant-server/src/template/refer
 import collections from './collections';
 import { Collection } from './utils/templated.types';
 
-const TemplateModel = mongoose.model('Entity', templateSchema);
-const TemplatedEntityModel = mongoose.model('Layout', templatedEntitySchema);
-const TemplatedLayoutModel = mongoose.model('ValueMap', templatedLayoutSchema);
+const TemplateModel = mongoose.model('Template', templateSchema);
+const TemplatedEntityModel = mongoose.model('TemplatedEntity', templatedEntitySchema);
+const TemplatedLayoutModel = mongoose.model('TemplatedLayout', templatedLayoutSchema);
 
 const saveCollection = async (collection: Collection) => {
   const entityPromises = collection.entities
