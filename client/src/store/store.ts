@@ -6,9 +6,11 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { api } from './api';
 import mainReducer from './main-slice';
+import mappingReducer from './mapping-slice';
 
 const reducers = combineReducers({
   main: mainReducer,
+  mapping: mappingReducer,
   [api.reducerPath]: api.reducer,
 });
 

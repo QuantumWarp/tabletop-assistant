@@ -8,6 +8,7 @@ import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
 import FieldHelper from './field.helper';
 import { SlotFieldValue } from '../models/slot-field-value';
+import { SlotMapping } from '../models/slot-mapping.js';
 
 interface DisplaySlot {
   name: string;
@@ -18,13 +19,13 @@ interface DisplaySlot {
 }
 
 export default class DisplayHelper {
-  static isDisabled(slotValues: { [field: string]: any }) {
-    if (slotValues.enabled !== undefined) {
-      return !slotValues.enabled;
-    }
-    if (slotValues.disabled !== undefined) {
-      return slotValues.disabled;
-    }
+  static isDisabled(mappings: SlotMapping[]) {
+    const enabledMapping = mappings.find((x) => x.slotKey === 'enabled');
+    const disabledMapping = mappings.find((x) => x.slotKey === 'disabled');
+
+    if (enabledMapping) return !enabledMapping.value;
+    if (disabledMapping) return disabledMapping.value;
+
     return false;
   }
 

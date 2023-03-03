@@ -23,6 +23,8 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   const [updatedValueMapsList, setUpdatedValueMapsList] = useState<ValueMap[]>([]);
 
+  const [mapping, updateMapping] = getEntityMapping(entityId);
+
   const valuesList = valueMaps
     ?.map((x) => updatedValueMapsList.find((val) => x._id === val._id) || x);
   const valuesComputedList = valuesList && entities
@@ -73,6 +75,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     updatedMappings: FieldValueMapping[],
     entityValues: ValueMap,
   ) => {
+    console.log(updatedMappings);
     const updatedFieldKeys = updatedMappings.map((x) => x.fieldKey);
     const newValues = {
       ...entityValues,
@@ -83,6 +86,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     const newList = updatedValueMapsList
       .filter((x) => x._id !== newValues._id)
       .concat(newValues);
+    console.log(newList);
     setUpdatedValueMapsList(newList);
     debouncedUpdate();
   };

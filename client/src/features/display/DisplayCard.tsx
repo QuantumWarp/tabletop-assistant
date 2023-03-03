@@ -4,29 +4,29 @@ import React from 'react';
 import './DisplayCard.css';
 import FixedActions, { FixedActionArg } from '../../helpers/action.helper';
 import DisplayHelper from '../../helpers/display.helper';
-import { SlotFieldValue } from '../../models/slot-field-value';
+import { SlotMapping } from '../../models/slot-mapping.js';
 
 interface DisplayCardProps {
   preview: boolean,
-  slots: SlotFieldValue[],
+  mappings: SlotMapping[],
   onSlot: (slot: string) => void,
   onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
 }
 
 const DisplayCard = ({
-  preview, slots, onSlot, onOperation,
+  preview, mappings, onSlot, onOperation,
 }: DisplayCardProps) => {
-  const name = slots.find((x) => x.slotKey === 'name')?.value;
-  const description = slots.find((x) => x.slotKey === 'description')?.value;
-  const icon = slots.find((x) => x.slotKey === 'icon')?.value;
-  const current = slots.find((x) => x.slotKey === 'current')?.value;
-  const maximum = slots.find((x) => x.slotKey === 'maximum')?.value;
-  const action = slots.find((x) => x.slotKey === 'action')?.value;
+  const name = mappings.find((x) => x.slotKey === 'name')?.value;
+  const description = mappings.find((x) => x.slotKey === 'description')?.value;
+  const icon = mappings.find((x) => x.slotKey === 'icon')?.value;
+  const current = mappings.find((x) => x.slotKey === 'current')?.value;
+  const maximum = mappings.find((x) => x.slotKey === 'maximum')?.value;
+  const action = mappings.find((x) => x.slotKey === 'action')?.value;
 
   return (
     <div className={`display-card ${preview ? 'preview' : ''}`}>
       <Box
-        className={`container ${DisplayHelper.isDisabled(slots) ? 'disabled' : ''}`}
+        className={`container ${DisplayHelper.isDisabled(mappings) ? 'disabled' : ''}`}
         sx={{
           border: 1,
           borderColor: 'custom.layout.border',
