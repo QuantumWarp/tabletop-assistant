@@ -1,122 +1,47 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import {
-  Entity, EntityDisplay, FieldValueMapping, Layout, ValueMap,
+  Entity, Layout,
 } from 'tabletop-assistant-common';
-import { useDebouncedCallback } from 'use-debounce';
 import { useHistory, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import './LayoutContainer.css';
-import { useGetValueMapsQuery, useGetEntitiesQuery, useUpdateValueMapMutation } from '../../store/api';
+import { useGetEntitiesQuery } from '../../store/api';
 import LayoutDisplay from '../display/LayoutDisplay';
-import ExpressionHelper from '../../helpers/expression.helper';
+import useMappingHelper from '../../helpers/hooks/use-mappings';
+import useElementWidth from '../../helpers/hooks/use-element-width';
 
 interface LayoutContainerProps {
   layout: Layout,
 }
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
+  const history = useHistory();
+  const mappingHelper = useMappingHelper();
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
+  const { elementRef, width } = useElementWidth();
 
-  const [updateValues] = useUpdateValueMapMutation();
-
-  const [updatedValueMapsList, setUpdatedValueMapsList] = useState<ValueMap[]>([]);
-
-  const [mapping, updateMapping] = getEntityMapping(entityId);
-
-  const valuesList = valueMaps
-    ?.map((x) => updatedValueMapsList.find((val) => x._id === val._id) || x);
-  const valuesComputedList = valuesList && entities
-    && ExpressionHelper.calculateComputedValues(valuesList, entities);
-
-  const history = useHistory();
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
-
-  useEffect(() => {
-    setUpdatedValueMapsList([]);
-  }, [entities]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (!containerRef.current) return;
-      setContainerWidth(containerRef.current.offsetWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const debouncedUpdate = useDebouncedCallback(
-    async () => {
-      updatedValueMapsList.map((x) => updateValues(x));
-      await Promise.all(updatedValueMapsList);
-    },
-    1500,
-  );
-
-  const valueRef = useRef<ValueMap[]>([]);
-
-  useEffect(() => {
-    valueRef.current = updatedValueMapsList;
-  }, [updatedValueMapsList]);
-
-  useEffect(() => () => {
-    debouncedUpdate.cancel();
-    const promises = valueRef.current.map((x) => updateValues(x));
-    Promise.all(promises);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [valueRef]);
-
-  const updateValueHandler = (
-    updatedMappings: FieldValueMapping[],
-    entityValues: ValueMap,
-  ) => {
-    console.log(updatedMappings);
-    const updatedFieldKeys = updatedMappings.map((x) => x.fieldKey);
-    const newValues = {
-      ...entityValues,
-      mappings: entityValues.mappings
-        .filter((x) => !updatedFieldKeys.includes(x.fieldKey))
-        .concat(updatedMappings),
-    };
-    const newList = updatedValueMapsList
-      .filter((x) => x._id !== newValues._id)
-      .concat(newValues);
-    console.log(newList);
-    setUpdatedValueMapsList(newList);
-    debouncedUpdate();
-  };
-
-  const slotClickHandler = (slot: string, entity: Entity, display: EntityDisplay) => {
-    const mapping = display.mappings.find((x) => x.slotKey === slot);
-    const action = entity.actions.find((x) => x.key === mapping?.fieldKey);
-    if (!action) return;
+  const actionHandler = (entity: Entity, actionKey: string) => {
     history.push({
       pathname: './action',
-      search: `?entity=${entity._id}&action=${action.key}`,
+      search: `?entity=${entity._id}&action=${actionKey}`,
     });
   };
 
   return (
-    <div className="layout-container" ref={containerRef}>
+    <div className="layout-container" ref={elementRef}>
       {layout.entries.map((entry) => {
         const entity = entities?.find((x) => entry.entityId === x._id);
         const display = entity?.displays.find((x) => x.key === entry.displayKey);
-        const originalEntityValues = valuesList?.find((x) => x.entityId === entry.entityId);
-        const entityValues = valuesComputedList?.find((x) => x.entityId === entry.entityId);
-        const invalidEntry = !entity || !display || !entityValues || !originalEntityValues;
+        const invalidEntry = !entity || !display;
 
         return (
           <div
             key={`${entry.displayKey}-${entry.entityId}`}
             className="entry"
             style={{
-              ...LayoutPositionHelper.getPositionStyle(entry.position, containerWidth),
-              ...LayoutPositionHelper.getSizeStyle(entry.size, containerWidth),
+              ...LayoutPositionHelper.getPositionStyle(entry.position, width),
+              ...LayoutPositionHelper.getSizeStyle(entry.size, width),
             }}
           >
             {invalidEntry && <div>Invalid entry</div>}
@@ -125,11 +50,9 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               <LayoutDisplay
                 display={display}
                 entity={entity}
-                fieldMappings={entityValues.mappings}
-                onSlot={(slot) => slotClickHandler(slot, entity, display)}
-                onUpdateValues={(updatedMappings) => updateValueHandler(
-                  updatedMappings, originalEntityValues,
-                )}
+                mappings={mappingHelper.getForEntity(entity._id)}
+                onUpdateMappings={(mappings) => mappingHelper.update(mappings)}
+                onAction={(actionKey) => actionHandler(entity, actionKey)}
               />
             )}
           </div>

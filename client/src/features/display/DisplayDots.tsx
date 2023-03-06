@@ -1,34 +1,35 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import FixedActions, { FixedActionArg } from '../../helpers/action.helper';
-import { SlotFieldValue } from '../../models/slot-field-value';
+import FixedActions from '../../helpers/operation.helper';
+import { fakeMapping, SlotMapping } from '../../models/slot-mapping';
 import './DisplayDots.css';
 
 interface DisplayDotsProps {
   preview: boolean,
-  slots: SlotFieldValue[],
-  onSlot: (slot: string) => void,
-  onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
+  mappings: SlotMapping[],
+  onAction: (slot: SlotMapping) => void,
+  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
 }
 
 const DisplayDots = ({
-  preview, slots, onSlot, onOperation,
+  preview, mappings, onAction, onOperation,
 }: DisplayDotsProps) => {
-  const name = slots.find((x) => x.slotKey === 'name')?.value;
-  const value = slots.find((x) => x.slotKey === 'value')?.value;
-  const maximum = slots.find((x) => x.slotKey === 'maximum')?.value;
+  const name = mappings.find((x) => x.slotKey === 'name');
+  const value = mappings.find((x) => x.slotKey === 'value');
+  const maximum = mappings.find((x) => x.slotKey === 'maximum')?.value;
+  const action = mappings.find((x) => x.slotKey === 'action');
 
   return (
     <div className={`display-dots ${preview ? 'preview' : ''}`}>
       <span
         className="name"
-        onClick={() => onSlot('action')}
+        onClick={() => action && onAction(action)}
       >
-        {name}
+        {name?.value}
       </span>
 
-      {maximum && Array(Number(maximum)).fill(0).map((_x, index) => {
-        const filled = index < (value || 0);
+      {maximum && Array(Number(maximum?.value)).fill(0).map((_x, index) => {
+        const filled = index < (value?.value || 0);
 
         return (
           <Box
@@ -40,10 +41,10 @@ const DisplayDots = ({
               borderColor: 'custom.dot.border',
               backgroundColor: filled ? 'custom.dot.background' : 'none',
             }}
-            onClick={() => onOperation(
+            onClick={() => value && onOperation(
               FixedActions.SetValue,
-              { slot: 'current' },
-              { value: index === 0 && value === 1 ? 0 : index + 1 },
+              value,
+              fakeMapping(index === 0 && value?.value === 1 ? 0 : index + 1),
             )}
           />
         );

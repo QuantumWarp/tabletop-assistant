@@ -9,39 +9,39 @@ interface EntityFieldValue {
 }
 
 interface MappingState {
-  entries: EntityFieldValue[],
+  mappings: EntityFieldValue[],
 }
 
 const initialState: MappingState = {
-  entries: [],
+  mappings: [],
 };
 
 export const mappingSlice = createSlice({
   name: 'mapping',
   initialState,
   reducers: {
-    setEntries(state, action: PayloadAction<EntityFieldValue[]>) {
-      state.entries = action.payload;
+    setMappings(state, action: PayloadAction<EntityFieldValue[]>) {
+      state.mappings = action.payload;
     },
   },
 });
 
 export const {
-  setEntries,
+  setMappings,
 } = mappingSlice.actions;
 
-export const selectEntries = (state: RootState) => state.mapping.entries;
+export const selectMappings = (state: RootState) => state.mapping.mappings;
 
-export const selectEntityEntries = (entityId: string) => (
+export const selectEntityMappings = (entityId: string) => (
   state: RootState,
-) => selectEntries(state).filter((x) => x.entityId === entityId);
+) => selectMappings(state).filter((x) => x.entityId === entityId);
 
-export const selectEntry = (entityId: string, fieldKey: string) => (
+export const selectMapping = (entityId: string, fieldKey: string) => (
   state: RootState,
-) => selectEntityEntries(entityId)(state).find((x) => x.fieldKey === fieldKey);
+) => selectEntityMappings(entityId)(state).find((x) => x.fieldKey === fieldKey);
 
 export const selectValue = (state: RootState) => (
   entityId: string, fieldKey: string,
-) => selectEntry(entityId, fieldKey)(state)?.value;
+) => selectMapping(entityId, fieldKey)(state)?.value;
 
 export default mappingSlice.reducer;

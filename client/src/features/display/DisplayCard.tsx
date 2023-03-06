@@ -2,26 +2,28 @@ import { Box, Button, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
 import React from 'react';
 import './DisplayCard.css';
-import FixedActions, { FixedActionArg } from '../../helpers/action.helper';
+import FixedActions from '../../helpers/operation.helper';
 import DisplayHelper from '../../helpers/display.helper';
-import { SlotMapping } from '../../models/slot-mapping.js';
+import { SlotMapping } from '../../models/slot-mapping';
 
 interface DisplayCardProps {
   preview: boolean,
   mappings: SlotMapping[],
-  onSlot: (slot: string) => void,
-  onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
+  onAction: (slot: SlotMapping) => void,
+  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
 }
 
 const DisplayCard = ({
-  preview, mappings, onSlot, onOperation,
+  preview, mappings, onAction, onOperation,
 }: DisplayCardProps) => {
-  const name = mappings.find((x) => x.slotKey === 'name')?.value;
-  const description = mappings.find((x) => x.slotKey === 'description')?.value;
-  const icon = mappings.find((x) => x.slotKey === 'icon')?.value;
-  const current = mappings.find((x) => x.slotKey === 'current')?.value;
-  const maximum = mappings.find((x) => x.slotKey === 'maximum')?.value;
-  const action = mappings.find((x) => x.slotKey === 'action')?.value;
+  const enabled = mappings.find((x) => x.slotKey === 'enabled');
+  const disabled = mappings.find((x) => x.slotKey === 'disabled');
+  const name = mappings.find((x) => x.slotKey === 'name');
+  const description = mappings.find((x) => x.slotKey === 'description');
+  const icon = mappings.find((x) => x.slotKey === 'icon');
+  const current = mappings.find((x) => x.slotKey === 'current');
+  const maximum = mappings.find((x) => x.slotKey === 'maximum');
+  const action = mappings.find((x) => x.slotKey === 'action');
 
   return (
     <div className={`display-card ${preview ? 'preview' : ''}`}>
@@ -38,9 +40,12 @@ const DisplayCard = ({
             <Button
               className="icon"
               type="button"
-              onClick={() => onOperation(FixedActions.Toggle, { slot: 'enabled' }, { slot: 'disabled' })}
+              onClick={() => onOperation(
+                FixedActions.Toggle,
+                ...[enabled, disabled].filter((x): x is SlotMapping => Boolean(x)),
+              )}
             >
-              <Icon icon={icon} />
+              <Icon icon={icon?.value} />
             </Button>
 
             <Divider orientation="vertical" />
@@ -57,7 +62,7 @@ const DisplayCard = ({
 
             {maximum && (
               <div className="dots">
-                {Array(maximum).fill(0).map((_x, index) => (
+                {Array(maximum?.value).fill(0).map((_x, index) => (
                   <Box
                     // eslint-disable-next-line react/no-array-index-key
                     key={index}
@@ -65,17 +70,17 @@ const DisplayCard = ({
                     sx={{
                       border: 1,
                       borderColor: 'custom.dot.border',
-                      backgroundColor: index < (current || 0) ? 'custom.dot.background' : 'none',
+                      backgroundColor: index < (current?.value || 0) ? 'custom.dot.background' : 'none',
                     }}
                   />
                 ))}
               </div>
             )}
 
-            {!maximum && current}
+            {!maximum && current?.value}
           </div>
 
-          <div>{description}</div>
+          <div>{description?.value}</div>
         </Button>
 
         {action && (
@@ -85,7 +90,7 @@ const DisplayCard = ({
             <Button
               className="action"
               type="button"
-              onClick={() => onSlot('action')}
+              onClick={() => onAction(action)}
             >
               {action}
             </Button>

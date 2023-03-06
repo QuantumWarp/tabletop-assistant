@@ -16,22 +16,26 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
-import { CreateEntity, EntityField, FieldValueMapping } from 'tabletop-assistant-common';
+import { CreateEntity, EntityField } from 'tabletop-assistant-common';
 import EntityValueUpdateDialog from './EntityValueUpdateDialog';
+import { SlotMapping } from '../../models/slot-mapping';
+import { Mapping } from '../../models/mapping';
 
 interface EntitySummaryDialogProps {
   entity: CreateEntity;
-  fieldMappings: FieldValueMapping[];
+  mappings: SlotMapping[];
   open: boolean;
-  onSave?: (values: FieldValueMapping[]) => void;
+  onSave?: (updates: Mapping[]) => void;
   onClose: () => void;
 }
 
 const EntitySummaryDialog = ({
-  entity, fieldMappings, open, onSave, onClose,
+  entity, mappings, open, onSave, onClose,
 }: EntitySummaryDialogProps) => {
   const [editField, setEditField] = useState<EntityField>();
-  const [updates, setUpdates] = useState<FieldValueMapping[]>([]);
+  const [updates, setUpdates] = useState<Mapping[]>([]);
+
+  const editMapping = editField && mappings.find((x) => x.fieldKey === editField.key);
 
   return (
     <Dialog open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
@@ -60,16 +64,7 @@ const EntitySummaryDialog = ({
 
           <Grid item xs>
             {entity.fields.map((field) => {
-              const mapping = fieldMappings.find((x) => Boolean(x.fieldKey));
-              const value = mapping ? mapping.value : field.initial;
-              const text = field.name;
-
-              const updatedMapping = updates.find((x) => x.fieldKey === field.key);
-              const currentValue = updatedMapping?.value !== undefined
-                ? updatedMapping.value : value;
-              const fullValue = (field?.prefix ? field?.prefix : '')
-                + currentValue
-                + (field?.postfix ? field?.postfix : '');
+              const mapping = mappings.find((x) => x.fieldKey === field.key);
 
               return (
                 <ListItem
@@ -77,20 +72,23 @@ const EntitySummaryDialog = ({
                   key={field.key}
                 >
                   <ListItemButton onClick={() => setEditField(field)} disabled={!onSave}>
-                    <ListItemText primary={text} secondary={fullValue.toString()} />
+                    <ListItemText
+                      primary={field.name}
+                      secondary={mapping?.formattedValue || 'No value found'}
+                    />
                   </ListItemButton>
                 </ListItem>
               );
             })}
 
-            {editField && (
+            {editField && editMapping && (
               <EntityValueUpdateDialog
                 open={Boolean(editField)}
                 field={editField}
-                value={fieldMappings.find((x) => x.fieldKey === editField.key)?.value}
+                value={editMapping.value}
                 onSave={(value) => setUpdates(updates
                   .filter((x) => x.fieldKey === editField.key)
-                  .concat({ fieldKey: editField.key, value }))}
+                  .concat({ ...editMapping, value }))}
                 onClose={() => setEditField(undefined)}
               />
             )}

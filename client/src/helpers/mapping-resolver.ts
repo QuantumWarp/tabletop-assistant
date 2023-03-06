@@ -1,22 +1,29 @@
 import { Entity, EntityField, ValueMap } from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
+import { Mapping } from '../models/mapping';
 
-export default class MappingHelper {
-  constructor(
-    public entries: EntityFieldValue[],
-    private entities: Entity[],
-    private valueMaps: ValueMap[],
-  ) { }
+export default class MappingResolver {
+  private entities: Entity[] = [];
+
+  private valueMaps: ValueMap[] = [];
+
+  mappings: Mapping[] = [];
+
+  reset(mappings?: Mapping[], entities?: Entity[], valueMaps?: ValueMap[]) {
+    this.mappings = mappings || [];
+    this.entities = entities || [];
+    this.valueMaps = valueMaps || [];
+  }
 
   get(entityId: string, fieldKey: string): any {
-    let entry = this.entries.find((x) => x.entityId === entityId && x.fieldKey === fieldKey);
+    let entry = this.mappings.find((x) => x.entityId === entityId && x.fieldKey === fieldKey);
 
     if (!entry) {
       const value = this.determineValue(entityId, fieldKey);
       entry = { entityId, fieldKey, value };
 
       if (value !== undefined) {
-        this.entries.push(entry);
+        this.mappings.push(entry);
       }
     }
 
