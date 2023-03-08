@@ -215,7 +215,6 @@ const EditDisplayDialog = ({
                 mappings={[]}
                 display={display}
                 entity={entity}
-                slotMappings={mappings}
               />
             </Box>
           </Grid>

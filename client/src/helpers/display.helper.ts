@@ -1,12 +1,11 @@
 import {
   CreateEntity, EntityAction, EntityDisplay, EntityDisplayType,
-  EntityField, FieldValueMapping, SlotFieldMapping,
+  EntityField, SlotFieldMapping,
 } from 'tabletop-assistant-common';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
-import FieldHelper from './field.helper';
 import { actionMapping, SlotMapping } from '../models/slot-mapping';
 import { Mapping } from '../models/mapping';
 
@@ -83,25 +82,6 @@ export default class DisplayHelper {
         return { slotKey: slot.key, fieldKey: autoKey };
       })
       .filter((x): x is SlotFieldMapping => Boolean(x));
-  }
-
-  static getFieldMappings(
-    entity: CreateEntity,
-    optionalFieldMappings: FieldValueMapping[] = [],
-  ): FieldValueMapping[] {
-    const initialFieldMappings = FieldHelper.getFields(entity)
-      .map((field) => {
-        const optional = optionalFieldMappings.find((x) => x.fieldKey === field.key);
-        return {
-          fieldKey: field.key,
-          value: optional?.value !== undefined ? optional.value : field.initial,
-        };
-      });
-
-    return [
-      ...initialFieldMappings,
-      ...optionalFieldMappings,
-    ];
   }
 
   static maps(mappings: Mapping[], display: EntityDisplay, entity: CreateEntity): SlotMapping[] {

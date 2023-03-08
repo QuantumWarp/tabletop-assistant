@@ -7,7 +7,7 @@ import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import './LayoutContainer.css';
 import { useGetEntitiesQuery } from '../../store/api';
 import LayoutDisplay from '../display/LayoutDisplay';
-import useMappingHelper from '../../helpers/hooks/use-mappings';
+import useMappingHelper from '../../helpers/hooks/use-mapping-helper';
 import useElementWidth from '../../helpers/hooks/use-element-width';
 
 interface LayoutContainerProps {

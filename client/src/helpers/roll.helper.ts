@@ -1,14 +1,12 @@
 import {
-  Entity,
   ResolvedRollComboGroup,
   ResolvedRollCombo,
   RollResult,
   RollResultDie,
-  ValueMap,
   RollCombo,
   RollComboGroup,
+  Expression,
 } from 'tabletop-assistant-common';
-import ExpressionHelper from './expression.helper';
 
 export default class RollHelper {
   static roll(combo: ResolvedRollCombo): RollResult {
@@ -38,18 +36,13 @@ export default class RollHelper {
   }
 
   static resolveComputed(
-    combo: RollCombo, entities: Entity[], valueMaps: ValueMap[],
+    combo: RollCombo, calculate: (expression: Expression) => any,
   ): ResolvedRollCombo {
-    const computedValues: ValueMap[] = valueMaps.map((x) => ({ ...x, mappings: [...x.mappings] }));
     return combo
       .map((x) => ({
         ...x,
-        faces: x.facesComputed
-          ? ExpressionHelper.calculateExpression(x.facesComputed, computedValues, entities)
-          : x.faces,
-        number: x.numberComputed
-          ? ExpressionHelper.calculateExpression(x.numberComputed, computedValues, entities)
-          : x.number,
+        faces: x.facesComputed ? calculate(x.facesComputed) : x.faces,
+        number: x.numberComputed ? calculate(x.numberComputed) : x.number,
       }));
   }
 

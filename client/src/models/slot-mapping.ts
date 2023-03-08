@@ -7,6 +7,7 @@ export const fakeMapping = (value: any) => ({
   displayKey: '',
   slotKey: '',
   value,
+  formattedValue: value.toString(),
 });
 
 export const actionMapping = (mapping: SlotFieldMapping) => ({

@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { ResolvedMacro } from '../../../models/resolved-macro';
+import { Mapping } from '../../../models/mapping';
 import './ActionNodeMacro.css';
 
 interface ActionNodeMacroOutputProps {
   runCount: number;
-  lastResults?: ResolvedMacro[];
+  lastResults?: Mapping[];
 }
 
 const ActionNodeMacroOutput = ({

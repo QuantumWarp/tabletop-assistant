@@ -1,4 +1,6 @@
-import { Entity, EntityField, ValueMap } from 'tabletop-assistant-common';
+import {
+  Entity, EntityField, Expression, ValueMap,
+} from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
 import { Mapping } from '../models/mapping';
 
@@ -30,6 +32,21 @@ export default class MappingResolver {
     return entry;
   }
 
+  compute(expression: Expression): any {
+    const parse = parser();
+
+    expression.variables.forEach((variable) => {
+      const value = this.get(variable.entityId, variable.fieldKey) || 0;
+      parse.set(variable.key, value);
+    });
+
+    return parse.evaluate(expression.expression);
+  }
+
+  valueMapUpdates(): ValueMap[] {
+    return []; // TODO
+  }
+
   private determineValue(entityId: string, fieldKey: string): any {
     const { field, mapping } = this.resolveObjects(entityId, fieldKey);
 
@@ -38,7 +55,7 @@ export default class MappingResolver {
     }
 
     if (field.computed) {
-      return this.computeField(field);
+      return this.compute(field.computed);
     }
 
     if (mapping) {
@@ -50,17 +67,6 @@ export default class MappingResolver {
     }
 
     return this.defaultValue(field);
-  }
-
-  private computeField(field: EntityField): any {
-    const parse = parser();
-
-    field.computed!.variables.forEach((variable) => {
-      const value = this.get(variable.entityId, variable.fieldKey) || 0;
-      parse.set(variable.key, value);
-    });
-
-    return parse.evaluate(field.computed!.expression);
   }
 
   private resolveObjects(entityId: string, fieldKey: string) {

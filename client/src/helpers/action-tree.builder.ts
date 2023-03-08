@@ -1,4 +1,4 @@
-import { Entity, ValueMap } from 'tabletop-assistant-common';
+import { Entity, Expression } from 'tabletop-assistant-common';
 import ActionTree from '../models/action-tree';
 import ActionTreeNode from '../models/action-tree-node';
 import RollHelper from './roll.helper';
@@ -13,7 +13,7 @@ export default class ActionTreeBuilder {
 
   constructor(
     private entities: Entity[],
-    private valueMaps: ValueMap[],
+    private calculate: (expression: Expression) => any,
   ) {}
 
   build(entityId: string, actionKey: string): ActionTree {
@@ -79,11 +79,7 @@ export default class ActionTreeBuilder {
       level: parent ? parent.level + 1 : 0,
       entity,
       action,
-      resolvedRoll: action.roll && RollHelper.resolveComputed(
-        action.roll,
-        this.entities,
-        this.valueMaps,
-      ),
+      resolvedRoll: action.roll && RollHelper.resolveComputed(action.roll, this.calculate),
 
       parent,
       triggeredBy,

@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Expression } from 'tabletop-assistant-common';
 import { useDebouncedCallback } from 'use-debounce';
 import { Mapping } from '../../models/mapping';
 import { useGetValueMapsQuery, useGetEntitiesQuery, useUpdateValueMapMutation } from '../../store/api';
@@ -17,14 +18,14 @@ export default function useMappingHelper() {
   const [updateValues] = useUpdateValueMapMutation();
 
   const mappings = useSelector(selectMappings);
-  const helper = useMemo(() => new MappingResolver(), []);
+  const resolver = useMemo(() => new MappingResolver(), []);
 
   useEffect(() => {
-    helper.reset(mappings, entities, valueMaps);
-  }, [helper, mappings, entities, valueMaps]);
+    resolver.reset(mappings, entities, valueMaps);
+  }, [resolver, mappings, entities, valueMaps]);
 
   const debouncedUpdate = useDebouncedCallback(
-    async () => updateValues(helper.valueMapUpdates()),
+    async () => resolver.valueMapUpdates().map((x) => updateValues(x)),
     1500,
   );
 
@@ -32,18 +33,23 @@ export default function useMappingHelper() {
     getForEntity: (entityId: string) => {
       const entity = entities?.find((x) => x._id === entityId);
       if (!entity) return [];
-      const entityEntries = entity.fields.map((x) => helper.get(entityId, x.key));
-      dispatch(setMappings(helper.mappings));
+      const entityEntries = entity.fields.map((x) => resolver.get(entityId, x.key));
+      dispatch(setMappings(resolver.mappings));
       return entityEntries;
     },
+    calculate: (expression: Expression) => {
+      const result = resolver.compute(expression);
+      dispatch(setMappings(resolver.mappings));
+      return result;
+    },
     update: (updatedMappings: Mapping[]) => {
-      helper.mappings.map((mapping) => {
+      resolver.mappings.map((mapping) => {
         const update = updatedMappings
           .find((x) => x.entityId === mapping.entityId && x.fieldKey === mapping.fieldKey);
         return update ? { ...mapping, value: update.value } : mapping;
       });
       debouncedUpdate();
-      dispatch(setMappings(helper.mappings));
+      dispatch(setMappings(resolver.mappings));
     },
   };
 }
