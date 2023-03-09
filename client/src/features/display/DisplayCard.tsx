@@ -77,7 +77,7 @@ const DisplayCard = ({
               </div>
             )}
 
-            {!maximum && current?.value}
+            {!maximum && current?.formattedValue}
           </div>
 
           <div>{description?.value}</div>

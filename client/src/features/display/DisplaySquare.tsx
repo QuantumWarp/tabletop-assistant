@@ -41,13 +41,13 @@ const DisplaySquare = ({
               className="secondary-value"
               sx={{ borderColor: 'custom.layout.border' }}
             >
-              {secondaryValue?.value}
+              {secondaryValue?.formattedValue}
             </Box>
           )}
         </div>
 
         <div className="value">
-          {value}
+          {value?.formattedValue}
         </div>
 
         <div

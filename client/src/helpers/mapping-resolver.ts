@@ -17,27 +17,27 @@ export default class MappingResolver {
     this.valueMaps = valueMaps || [];
   }
 
-  get(entityId: string, fieldKey: string): any {
-    let entry = this.mappings.find((x) => x.entityId === entityId && x.fieldKey === fieldKey);
+  get(entityId: string, fieldKey: string): Mapping {
+    let mapping = this.mappings.find((x) => x.entityId === entityId && x.fieldKey === fieldKey);
 
-    if (!entry) {
+    if (!mapping) {
       const value = this.determineValue(entityId, fieldKey);
-      entry = { entityId, fieldKey, value };
+      mapping = { entityId, fieldKey, value };
 
       if (value !== undefined) {
-        this.mappings.push(entry);
+        this.mappings.push(mapping);
       }
     }
 
-    return entry;
+    return mapping;
   }
 
   compute(expression: Expression): any {
     const parse = parser();
 
     expression.variables.forEach((variable) => {
-      const value = this.get(variable.entityId, variable.fieldKey) || 0;
-      parse.set(variable.key, value);
+      const mapping = this.get(variable.entityId, variable.fieldKey);
+      parse.set(variable.key, mapping.value || 0);
     });
 
     return parse.evaluate(expression.expression);

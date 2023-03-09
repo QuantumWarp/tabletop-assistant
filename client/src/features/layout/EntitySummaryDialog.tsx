@@ -18,12 +18,11 @@ import {
 import { Icon } from '@iconify/react';
 import { CreateEntity, EntityField } from 'tabletop-assistant-common';
 import EntityValueUpdateDialog from './EntityValueUpdateDialog';
-import { SlotMapping } from '../../models/slot-mapping';
 import { Mapping } from '../../models/mapping';
 
 interface EntitySummaryDialogProps {
   entity: CreateEntity;
-  mappings: SlotMapping[];
+  mappings: Mapping[];
   open: boolean;
   onSave?: (updates: Mapping[]) => void;
   onClose: () => void;
@@ -74,7 +73,7 @@ const EntitySummaryDialog = ({
                   <ListItemButton onClick={() => setEditField(field)} disabled={!onSave}>
                     <ListItemText
                       primary={field.name}
-                      secondary={mapping?.formattedValue || 'No value found'}
+                      secondary={mapping?.value || 'No value found'}
                     />
                   </ListItemButton>
                 </ListItem>

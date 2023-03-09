@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Expression } from 'tabletop-assistant-common';
@@ -18,11 +18,14 @@ export default function useMappingHelper() {
   const [updateValues] = useUpdateValueMapMutation();
 
   const mappings = useSelector(selectMappings);
-  const resolver = useMemo(() => new MappingResolver(), []);
+  const [resolver, setResolver] = useState(new MappingResolver());
 
   useEffect(() => {
-    resolver.reset(mappings, entities, valueMaps);
-  }, [resolver, mappings, entities, valueMaps]);
+    if (!entities || !valueMaps) return;
+    const newResolver = new MappingResolver();
+    newResolver.reset(mappings, entities, valueMaps);
+    setResolver(newResolver);
+  }, [entities, valueMaps]);
 
   const debouncedUpdate = useDebouncedCallback(
     async () => resolver.valueMapUpdates().map((x) => updateValues(x)),
@@ -33,13 +36,17 @@ export default function useMappingHelper() {
     getForEntity: (entityId: string) => {
       const entity = entities?.find((x) => x._id === entityId);
       if (!entity) return [];
-      const entityEntries = entity.fields.map((x) => resolver.get(entityId, x.key));
-      dispatch(setMappings(resolver.mappings));
-      return entityEntries;
+      const entityMappings = entity.fields.map((x) => resolver.get(entityId, x.key));
+      if (resolver.mappings.length !== mappings.length) {
+        dispatch(setMappings(resolver.mappings));
+      }
+      return entityMappings;
     },
     calculate: (expression: Expression) => {
       const result = resolver.compute(expression);
-      dispatch(setMappings(resolver.mappings));
+      if (resolver.mappings.length !== mappings.length) {
+        dispatch(setMappings(resolver.mappings));
+      }
       return result;
     },
     update: (updatedMappings: Mapping[]) => {
