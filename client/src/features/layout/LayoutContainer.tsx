@@ -8,8 +8,8 @@ import './LayoutContainer.css';
 import { useGetEntitiesQuery } from '../../store/api';
 import LayoutDisplay from '../display/LayoutDisplay';
 import useElementWidth from '../../helpers/hooks/use-element-width';
-import useEntityMappings from '../../helpers/hooks/use-entity-mappings.js';
-import useMappingUpdate from '../../helpers/hooks/use-mapping-update.js';
+import { useMappingEntities } from '../../helpers/hooks/use-mapping-entities';
+import { useMappingUpdate } from '../../helpers/hooks/use-mapping-update';
 
 interface LayoutContainerProps {
   layout: Layout,
@@ -25,7 +25,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     .map((x) => x.entityId)
     .filter((x, index, self) => self.indexOf(x) === index);
 
-  const mappings = useEntityMappings(entityIds);
+  const entityMappings = useMappingEntities(entityIds);
   const mappingUpdate = useMappingUpdate();
 
   const actionHandler = (entity: Entity, actionKey: string) => {
@@ -57,7 +57,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               <LayoutDisplay
                 display={display}
                 entity={entity}
-                mappings={mappings.filter((x) => x.entityId === entity._id)}
+                mappings={entityMappings?.find((x) => x.entityId === entity._id)?.mappings || []}
                 onUpdateMappings={mappingUpdate}
                 onAction={(actionKey) => actionHandler(entity, actionKey)}
               />

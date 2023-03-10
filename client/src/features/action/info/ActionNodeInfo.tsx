@@ -6,7 +6,7 @@ import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import EntitySummaryDialog from '../../layout/EntitySummaryDialog';
 import ActionNodeOutput from '../common/ActionNodeOutput';
-import useMappingHelper from '../../../helpers/hooks/use-mapping-update';
+import { useMappingEntity } from '../../../helpers/hooks/use-mapping-entities';
 
 interface ActionNodeInfoProps {
   node: ActionTreeNode;
@@ -14,7 +14,7 @@ interface ActionNodeInfoProps {
 
 const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
   const [infoOpen, setInfoOpen] = useState(false);
-  const mappingHelper = useMappingHelper();
+  const entityMappings = useMappingEntity(node.entity._id);
 
   return (
     <>
@@ -31,11 +31,11 @@ const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
         <ActionNodeOutput node={node} />
       </Box>
 
-      {infoOpen && (
+      {infoOpen && entityMappings && (
         <EntitySummaryDialog
           open={infoOpen}
           entity={node.entity}
-          mappings={mappingHelper.getForEntity(node.entity._id)}
+          mappings={entityMappings}
           onClose={() => setInfoOpen(false)}
         />
       )}

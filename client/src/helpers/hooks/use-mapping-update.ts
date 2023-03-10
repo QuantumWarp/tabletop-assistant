@@ -6,7 +6,7 @@ import { Mapping } from '../../models/mapping';
 import { useGetValueMapsQuery, useUpdateValueMapMutation } from '../../store/api';
 import { addUpdates, selectUpdates } from '../../store/mapping-slice';
 
-export default function useMappingUpdate() {
+export function useMappingUpdate() {
   const dispatch = useDispatch();
 
   const { tabletopId } = useParams<{ tabletopId: string }>();

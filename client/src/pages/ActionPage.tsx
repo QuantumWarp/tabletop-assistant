@@ -5,14 +5,12 @@ import ActionNode from '../features/action/ActionNode';
 import TopBar from '../components/TopBar';
 import { useGetEntitiesQuery } from '../store/api';
 import ActionTreeBuilder from '../helpers/action-tree.builder';
-import useMappingHelper from '../helpers/hooks/use-mapping-update';
 
 const ActionPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const history = useHistory();
-  const mappingHelper = useMappingHelper();
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -20,7 +18,7 @@ const ActionPage = () => {
   const actionKey = params.get('action');
 
   const actionTree = entityId && actionKey && entities
-    && new ActionTreeBuilder(entities, mappingHelper.calculate)
+    && new ActionTreeBuilder(entities)
       .build(entityId, actionKey);
 
   return (

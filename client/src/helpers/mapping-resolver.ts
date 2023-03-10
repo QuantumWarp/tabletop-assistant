@@ -3,48 +3,43 @@ import {
 } from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
 import { Mapping } from '../models/mapping';
+import FieldHelper from './field.helper';
 
 export default class MappingResolver {
-  private entities: Entity[] = [];
+  private newMappings: Mapping[] = [];
 
-  private valueMaps: ValueMap[] = [];
+  constructor(
+    private mappings: Mapping[],
+    private valueMaps: ValueMap[],
+    private entities: Entity[],
+  ) {}
 
-  mappings: Mapping[] = [];
-
-  reset(mappings?: Mapping[], entities?: Entity[], valueMaps?: ValueMap[]) {
-    this.mappings = mappings || [];
-    this.entities = entities || [];
-    this.valueMaps = valueMaps || [];
+  resolve(emptyMappings: Mapping[]): Mapping[] {
+    emptyMappings.forEach((x) => this.resolveMapping(x.entityId, x.fieldKey));
+    return this.newMappings;
   }
 
-  get(entityId: string, fieldKey: string): Mapping {
+  private resolveMapping(entityId: string, fieldKey: string): Mapping {
     let mapping = this.mappings.find((x) => x.entityId === entityId && x.fieldKey === fieldKey);
 
     if (!mapping) {
       const value = this.determineValue(entityId, fieldKey);
       mapping = { entityId, fieldKey, value };
-
-      if (value !== undefined) {
-        this.mappings.push(mapping);
-      }
+      this.newMappings.push(mapping);
     }
 
     return mapping;
   }
 
-  compute(expression: Expression): any {
+  private compute(expression: Expression): any {
     const parse = parser();
 
     expression.variables.forEach((variable) => {
-      const mapping = this.get(variable.entityId, variable.fieldKey);
+      const mapping = this.resolveMapping(variable.entityId, variable.fieldKey);
       parse.set(variable.key, mapping.value || 0);
     });
 
     return parse.evaluate(expression.expression);
-  }
-
-  valueMapUpdates(): ValueMap[] {
-    return []; // TODO
   }
 
   private determineValue(entityId: string, fieldKey: string): any {
@@ -71,7 +66,7 @@ export default class MappingResolver {
 
   private resolveObjects(entityId: string, fieldKey: string) {
     const entity = this.entities.find((x) => x._id === entityId);
-    const field = entity?.fields.find((x) => x.key === fieldKey);
+    const field = entity && FieldHelper.getFields(entity).find((x) => x.key === fieldKey);
 
     const valueMap = this.valueMaps.find((x) => x.entityId === entityId);
     const mapping = valueMap?.mappings.find((x) => x.fieldKey === fieldKey);

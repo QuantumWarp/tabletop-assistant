@@ -8,6 +8,7 @@ import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
 import { actionMapping, SlotMapping } from '../models/slot-mapping';
 import { Mapping } from '../models/mapping';
+import FieldHelper from './field.helper';
 
 interface DisplaySlot {
   name: string;
@@ -88,7 +89,8 @@ export default class DisplayHelper {
     return display.mappings
       .map((displayMapping) => {
         const mapping = mappings.find((x) => x.fieldKey === displayMapping.fieldKey);
-        const entityField = entity.fields.find((x) => x.key === displayMapping.fieldKey);
+        const entityField = FieldHelper.getFields(entity)
+          .find((x) => x.key === displayMapping.fieldKey);
         if (!mapping || !entityField) return null;
 
         const formattedValue = (entityField?.prefix || '') + mapping?.value + (entityField?.postfix || '');
