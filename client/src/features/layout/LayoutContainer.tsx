@@ -7,8 +7,9 @@ import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import './LayoutContainer.css';
 import { useGetEntitiesQuery } from '../../store/api';
 import LayoutDisplay from '../display/LayoutDisplay';
-import useMappingHelper from '../../helpers/hooks/use-mapping-helper';
 import useElementWidth from '../../helpers/hooks/use-element-width';
+import useEntityMappings from '../../helpers/hooks/use-entity-mappings.js';
+import useMappingUpdate from '../../helpers/hooks/use-mapping-update.js';
 
 interface LayoutContainerProps {
   layout: Layout,
@@ -16,10 +17,16 @@ interface LayoutContainerProps {
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const history = useHistory();
-  const mappingHelper = useMappingHelper();
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { elementRef, width } = useElementWidth();
+
+  const entityIds = layout.entries
+    .map((x) => x.entityId)
+    .filter((x, index, self) => self.indexOf(x) === index);
+
+  const mappings = useEntityMappings(entityIds);
+  const mappingUpdate = useMappingUpdate();
 
   const actionHandler = (entity: Entity, actionKey: string) => {
     history.push({
@@ -50,8 +57,8 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               <LayoutDisplay
                 display={display}
                 entity={entity}
-                mappings={mappingHelper.getForEntity(entity._id)}
-                onUpdateMappings={(mappings) => mappingHelper.update(mappings)}
+                mappings={mappings.filter((x) => x.entityId === entity._id)}
+                onUpdateMappings={mappingUpdate}
                 onAction={(actionKey) => actionHandler(entity, actionKey)}
               />
             )}

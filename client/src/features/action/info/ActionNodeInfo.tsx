@@ -6,7 +6,7 @@ import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import EntitySummaryDialog from '../../layout/EntitySummaryDialog';
 import ActionNodeOutput from '../common/ActionNodeOutput';
-import useMappingHelper from '../../../helpers/hooks/use-mapping-helper';
+import useMappingHelper from '../../../helpers/hooks/use-mapping-update';
 
 interface ActionNodeInfoProps {
   node: ActionTreeNode;

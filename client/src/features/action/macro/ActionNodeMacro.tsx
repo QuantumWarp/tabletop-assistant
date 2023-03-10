@@ -12,7 +12,7 @@ import ActionNodeOutput from '../common/ActionNodeOutput';
 import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import './ActionNodeMacro.css';
-import useMappingHelper from '../../../helpers/hooks/use-mapping-helper';
+import useMappingHelper from '../../../helpers/hooks/use-mapping-update';
 import { Mapping } from '../../../models/mapping';
 
 interface ActionNodeMacroProps {

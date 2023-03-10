@@ -1,18 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Entity, Expression, ValueMap } from 'tabletop-assistant-common';
+import { Mapping } from '../models/mapping.js';
 import type { RootState } from './store';
 
-interface EntityFieldValue {
-  entityId: string;
-  fieldKey: string;
-  value: any;
-}
-
 interface MappingState {
-  mappings: EntityFieldValue[],
+  updates: Mapping[],
+  mappings: Mapping[],
 }
 
 const initialState: MappingState = {
+  updates: [],
   mappings: [],
 };
 
@@ -20,28 +18,40 @@ export const mappingSlice = createSlice({
   name: 'mapping',
   initialState,
   reducers: {
-    setMappings(state, action: PayloadAction<EntityFieldValue[]>) {
-      state.mappings = action.payload;
+    addUpdates(state, action: PayloadAction<Mapping[]>) {
+      state.updates = state.updates.concat(action.payload);
+    },
+    reset(state, action: PayloadAction<{ valueMaps: ValueMap[], entities: Entity[] }>) {
+      
+    },
+    determineMappings(state, action: PayloadAction<Mapping[]>) {
+
+    },
+    setMappings(state, action: PayloadAction<Mapping[]>) {
+      state.mappings = [...action.payload];
     },
   },
 });
 
 export const {
+  addUpdates,
+  reset,
+  determineMappings,
   setMappings,
 } = mappingSlice.actions;
 
-export const selectMappings = (state: RootState) => state.mapping.mappings;
+export const selectUpdates = (state: RootState) => state.mapping.updates;
 
-export const selectEntityMappings = (entityId: string) => (
+export const selectMappings = (emptyMappings: Mapping[]) => (
   state: RootState,
-) => selectMappings(state).filter((x) => x.entityId === entityId);
+) => emptyMappings.map((em) => state.mapping.mappings.find(
+  (x) => em.entityId === x.entityId && em.fieldKey === x.fieldKey,
+)).filter((x): x is Mapping => Boolean(x));
 
-export const selectMapping = (entityId: string, fieldKey: string) => (
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const selectExpressions = (expressions: Expression[]) => (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   state: RootState,
-) => selectEntityMappings(entityId)(state).find((x) => x.fieldKey === fieldKey);
-
-export const selectValue = (state: RootState) => (
-  entityId: string, fieldKey: string,
-) => selectMapping(entityId, fieldKey)(state)?.value;
+) => [];
 
 export default mappingSlice.reducer;

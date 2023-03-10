@@ -5,7 +5,7 @@ import ActionNode from '../features/action/ActionNode';
 import TopBar from '../components/TopBar';
 import { useGetEntitiesQuery } from '../store/api';
 import ActionTreeBuilder from '../helpers/action-tree.builder';
-import useMappingHelper from '../helpers/hooks/use-mapping-helper';
+import useMappingHelper from '../helpers/hooks/use-mapping-update';
 
 const ActionPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
