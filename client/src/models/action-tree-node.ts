@@ -1,10 +1,9 @@
-import { Entity, EntityAction, ResolvedRollCombo } from 'tabletop-assistant-common';
+import { Entity, EntityAction } from 'tabletop-assistant-common';
 
 export default interface ActionTreeNode {
   level: number;
   entity: Entity;
   action: EntityAction;
-  resolvedRoll?: ResolvedRollCombo;
 
   previous?: ActionTreeNode;
   next?: ActionTreeNode;

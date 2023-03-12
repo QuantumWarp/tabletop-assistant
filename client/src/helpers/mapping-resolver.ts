@@ -21,7 +21,9 @@ export default class MappingResolver {
   }
 
   private resolveMapping(emptyMapping: EmptyMapping): Mapping {
-    let mapping = this.mappings.find((x) => mappingsMatch(emptyMapping, x));
+    let mapping = this.mappings
+      .concat(this.newMappings)
+      .find((x) => mappingsMatch(emptyMapping, x));
 
     if (!mapping) {
       mapping = { ...emptyMapping, value: undefined };

@@ -26,11 +26,11 @@ export class OperationHelper {
   }
 
   static increment(arg: Mapping): Mapping {
-    return { ...arg, value: arg.value + 1 };
+    return { ...arg, value: Number(arg.value) + 1 };
   }
 
   static decrement(arg: Mapping): Mapping {
-    return { ...arg, value: arg.value - 1 };
+    return { ...arg, value: Number(arg.value) - 1 };
   }
 
   static setValue(to: Mapping, from: Mapping): Mapping {

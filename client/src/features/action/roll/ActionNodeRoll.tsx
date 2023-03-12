@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ResolvedRollCombo, RollResult } from 'tabletop-assistant-common';
+import { Expression, RollResult } from 'tabletop-assistant-common';
 import { Box } from '@mui/material';
 import {
   Casino as RollIcon,
@@ -15,6 +15,7 @@ import ActionNodeRollOutput from './ActionNodeRollOutput';
 import RollHelper from '../../../helpers/roll.helper';
 import ActionRollResultDialog from '../dialogs/ActionRollResultDialog';
 import '../common/ActionNode.css';
+import { useMappingExpressions } from '../../../helpers/hooks/use-mapping-expressions';
 
 interface ActionNodeRollProps {
   node: ActionTreeNode;
@@ -24,8 +25,25 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
   const [editRoll, setEditRoll] = useState(false);
   const [editResult, setEditResult] = useState<RollResult | null>(null);
 
-  const [roll, setRoll] = useState(node.resolvedRoll as ResolvedRollCombo);
+  const expressions = node.action.roll?.reduce(
+    (arr, x) => {
+      let newArr = arr;
+      if (x.facesComputed) newArr = arr.concat(x.facesComputed);
+      if (x.numberComputed) newArr = arr.concat(x.numberComputed);
+      return newArr;
+    },
+    [] as Expression[],
+  ) || [];
+
+  const expressionResults = useMappingExpressions(expressions, node.entity._id);
+
+  const [roll, setRoll] = useState(
+    node.action.roll && expressionResults
+      && RollHelper.resolveComputed(node.action.roll, expressionResults),
+  );
   const [results, setResults] = useState([] as RollResult[]);
+
+  if (!roll) return (<div>Invalid Roll</div>);
 
   const rollAction = () => {
     const result = RollHelper.roll(roll);

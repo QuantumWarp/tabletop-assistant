@@ -36,15 +36,19 @@ export const mappingSlice = createSlice({
       state.invalidators = [];
     },
     addUpdates(state, action: PayloadAction<Mapping[]>) {
-      const invalidators = state.invalidators.filter((x) => action.payload.includes(x.mapping));
+      const invalidators = state.invalidators.filter(
+        (a) => action.payload.find((b) => mappingsMatch(a.mapping, b)),
+      );
       const invalidate = invalidators.map((x) => x.invalidate);
 
       state.invalidators = state.invalidators.filter((x) => !invalidators.includes(x));
-      state.updates = state.updates.concat(action.payload);
+      state.updates = state.updates
+        .filter((a) => !action.payload.find((b) => mappingsMatch(a, b)))
+        .concat(action.payload);
 
       state.mappings = state.mappings
-        .filter((x) => !invalidate.includes(x))
-        .filter((a) => state.updates.find((b) => mappingsMatch(a, b)))
+        .filter((a) => !invalidate.find((b) => mappingsMatch(a, b)))
+        .filter((a) => !state.updates.find((b) => mappingsMatch(a, b)))
         .concat(state.updates);
     },
     determineMappings(state, action: PayloadAction<Mapping[]>) {

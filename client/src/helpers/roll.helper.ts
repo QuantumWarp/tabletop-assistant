@@ -36,13 +36,14 @@ export default class RollHelper {
   }
 
   static resolveComputed(
-    combo: RollCombo, calculate: (expression: Expression) => any,
+    combo: RollCombo,
+    results: { expression: Expression, result: any }[],
   ): ResolvedRollCombo {
     return combo
       .map((x) => ({
         ...x,
-        faces: x.facesComputed ? calculate(x.facesComputed) : x.faces,
-        number: x.numberComputed ? calculate(x.numberComputed) : x.number,
+        faces: results.find((er) => er.expression === x.facesComputed)?.result || x.faces,
+        number: results.find((er) => er.expression === x.numberComputed)?.result || x.number,
       }));
   }
 

@@ -25,12 +25,15 @@ export function useMappingUpdate() {
     const valueMapUpdates = valueMaps
       .filter((vm) => entityIds.includes(vm.entityId))
       .map((vm) => {
-        const entityMappings = mappings.filter((x) => x.entityId === vm.entityId);
+        const entityMappings = mappings
+          .filter((x) => x.entityId === vm.entityId)
+          .map((x) => ({ fieldKey: x.fieldKey, value: x.value }));
         const updatedFieldKeys = entityMappings.map((x) => x.fieldKey);
+
         return {
           ...vm,
           mappings: vm.mappings
-            .filter((x) => updatedFieldKeys.includes(x.fieldKey))
+            .filter((x) => !updatedFieldKeys.includes(x.fieldKey))
             .concat(entityMappings),
         };
       });
@@ -44,7 +47,11 @@ export function useMappingUpdate() {
   );
 
   return (mappings: Mapping[]) => {
-    dispatch(addUpdates(mappings));
+    dispatch(addUpdates(mappings.map((x) => ({
+      entityId: x.entityId,
+      fieldKey: x.fieldKey,
+      value: x.value,
+    }))));
     debouncedUpdate();
   };
 }
