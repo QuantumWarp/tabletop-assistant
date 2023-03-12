@@ -92,7 +92,7 @@ const DisplayCard = ({
               type="button"
               onClick={() => onAction(action)}
             >
-              {action}
+              {action.fieldKey}
             </Button>
           </>
         )}

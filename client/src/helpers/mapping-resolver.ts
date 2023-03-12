@@ -2,11 +2,13 @@ import {
   Entity, EntityField, Expression, ValueMap,
 } from 'tabletop-assistant-common';
 import { parser } from 'mathjs';
-import { Mapping } from '../models/mapping';
+import { EmptyMapping, Mapping, mappingsMatch } from '../models/mapping';
 import FieldHelper from './field.helper';
 
 export default class MappingResolver {
-  private newMappings: Mapping[] = [];
+  newMappings: Mapping[] = [];
+
+  newInvalidators: { mapping: Mapping, invalidate: Mapping }[] = [];
 
   constructor(
     private mappings: Mapping[],
@@ -14,47 +16,51 @@ export default class MappingResolver {
     private entities: Entity[],
   ) {}
 
-  resolve(emptyMappings: Mapping[]): Mapping[] {
-    emptyMappings.forEach((x) => this.resolveMapping(x.entityId, x.fieldKey));
-    return this.newMappings;
+  resolve(emptyMappings: EmptyMapping[]): void {
+    emptyMappings.forEach((x) => this.resolveMapping(x));
   }
 
-  private resolveMapping(entityId: string, fieldKey: string): Mapping {
-    let mapping = this.mappings.find((x) => x.entityId === entityId && x.fieldKey === fieldKey);
+  private resolveMapping(emptyMapping: EmptyMapping): Mapping {
+    let mapping = this.mappings.find((x) => mappingsMatch(emptyMapping, x));
 
     if (!mapping) {
-      const value = this.determineValue(entityId, fieldKey);
-      mapping = { entityId, fieldKey, value };
+      mapping = { ...emptyMapping, value: undefined };
+      mapping.value = this.determineValue(mapping);
       this.newMappings.push(mapping);
     }
 
     return mapping;
   }
 
-  private compute(expression: Expression): any {
+  private compute(expression: Expression, forMapping: Mapping): any {
     const parse = parser();
 
     expression.variables.forEach((variable) => {
-      const mapping = this.resolveMapping(variable.entityId, variable.fieldKey);
+      const entityId = variable.entityId === '-' ? forMapping.entityId : variable.entityId;
+      const { fieldKey } = variable;
+
+      const mapping = this.resolveMapping({ entityId, fieldKey });
       parse.set(variable.key, mapping.value || 0);
+
+      this.newInvalidators.push({ mapping, invalidate: forMapping });
     });
 
     return parse.evaluate(expression.expression);
   }
 
-  private determineValue(entityId: string, fieldKey: string): any {
-    const { field, mapping } = this.resolveObjects(entityId, fieldKey);
+  private determineValue(mapping: Mapping): any {
+    const { field, value } = this.resolveObjects(mapping);
 
     if (!field) {
       return undefined;
     }
 
     if (field.computed) {
-      return this.compute(field.computed);
+      return this.compute(field.computed, mapping);
     }
 
-    if (mapping) {
-      return mapping.value;
+    if (value) {
+      return value;
     }
 
     if (field.initial) {
@@ -64,14 +70,14 @@ export default class MappingResolver {
     return this.defaultValue(field);
   }
 
-  private resolveObjects(entityId: string, fieldKey: string) {
-    const entity = this.entities.find((x) => x._id === entityId);
-    const field = entity && FieldHelper.getFields(entity).find((x) => x.key === fieldKey);
+  private resolveObjects(mapping: EmptyMapping) {
+    const entity = this.entities.find((x) => x._id === mapping.entityId);
+    const field = entity && FieldHelper.getFields(entity).find((x) => x.key === mapping.fieldKey);
 
-    const valueMap = this.valueMaps.find((x) => x.entityId === entityId);
-    const mapping = valueMap?.mappings.find((x) => x.fieldKey === fieldKey);
+    const valueMap = this.valueMaps.find((x) => x.entityId === mapping.entityId);
+    const value = valueMap?.mappings.find((x) => x.fieldKey === mapping.fieldKey)?.value;
 
-    return { field, mapping };
+    return { field, value };
   }
 
   private defaultValue(field: EntityField) {

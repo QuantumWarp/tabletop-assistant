@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Entity, ValueMap } from 'tabletop-assistant-common';
 import MappingResolver from '../helpers/mapping-resolver';
-import { Mapping } from '../models/mapping';
+import { Mapping, mappingsMatch } from '../models/mapping';
 import type { RootState } from './store';
 
 interface MappingState {
@@ -11,6 +11,7 @@ interface MappingState {
 
   updates: Mapping[],
   mappings: Mapping[],
+  invalidators: { mapping: Mapping, invalidate: Mapping }[];
 }
 
 const initialState: MappingState = {
@@ -19,6 +20,7 @@ const initialState: MappingState = {
 
   updates: [],
   mappings: [],
+  invalidators: [],
 };
 
 export const mappingSlice = createSlice({
@@ -31,19 +33,26 @@ export const mappingSlice = createSlice({
 
       state.updates = [];
       state.mappings = [];
+      state.invalidators = [];
     },
     addUpdates(state, action: PayloadAction<Mapping[]>) {
+      const invalidators = state.invalidators.filter((x) => action.payload.includes(x.mapping));
+      const invalidate = invalidators.map((x) => x.invalidate);
+
+      state.invalidators = state.invalidators.filter((x) => !invalidators.includes(x));
       state.updates = state.updates.concat(action.payload);
+
+      state.mappings = state.mappings
+        .filter((x) => !invalidate.includes(x))
+        .filter((a) => state.updates.find((b) => mappingsMatch(a, b)))
+        .concat(state.updates);
     },
     determineMappings(state, action: PayloadAction<Mapping[]>) {
       const resolver = new MappingResolver(state.mappings, state.valueMaps, state.entities);
-      const newMappings = resolver.resolve(action.payload);
+      resolver.resolve(action.payload);
 
-      state.mappings = state.mappings
-        .filter((mapping) => !newMappings.find(
-          (x) => x.entityId === mapping.entityId && x.fieldKey === mapping.fieldKey,
-        ))
-        .concat(newMappings);
+      state.mappings = state.mappings.concat(resolver.newMappings);
+      state.invalidators = state.invalidators.concat(resolver.newInvalidators);
     },
   },
 });
@@ -58,8 +67,8 @@ export const selectUpdates = (state: RootState) => state.mapping.updates;
 
 export const selectMappings = (emptyMappings: Mapping[]) => (
   state: RootState,
-) => emptyMappings.map((em) => state.mapping.mappings.find(
-  (x) => em.entityId === x.entityId && em.fieldKey === x.fieldKey,
-)).filter((x): x is Mapping => Boolean(x));
+) => emptyMappings
+  .map((em) => state.mapping.mappings.find((x) => mappingsMatch(em, x)))
+  .filter((x): x is Mapping => Boolean(x));
 
 export default mappingSlice.reducer;

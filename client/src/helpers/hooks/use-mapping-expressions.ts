@@ -3,13 +3,14 @@ import { Expression, ExpressionVariable } from 'tabletop-assistant-common';
 import { Mapping } from '../../models/mapping';
 import { useMappings } from './use-mappings';
 
-const compute = (expression: Expression, mappings: Mapping[]): any => {
+const compute = (expression: Expression, selfEntityId: string, mappings: Mapping[]): any => {
   const parse = parser();
 
   // eslint-disable-next-line no-restricted-syntax
   for (const variable of expression.variables) {
+    const variableEntityId = variable.entityId === '-' ? selfEntityId : variable.entityId;
     const mapping = mappings.find(
-      (x) => x.entityId === variable.entityId && x.fieldKey === variable.fieldKey,
+      (x) => x.entityId === variableEntityId && x.fieldKey === variable.fieldKey,
     );
     if (mapping?.value === undefined) return undefined;
     parse.set(variable.key, mapping.value || 0);
@@ -18,7 +19,7 @@ const compute = (expression: Expression, mappings: Mapping[]): any => {
   return parse.evaluate(expression.expression);
 };
 
-export function useMappingExpressions(expressions: Expression[]) {
+export function useMappingExpressions(expressions: Expression[], selfEntityId: string) {
   const allVariables = expressions.reduce(
     (arr, x) => ([...arr, ...x.variables]),
     ([] as ExpressionVariable[]),
@@ -30,7 +31,7 @@ export function useMappingExpressions(expressions: Expression[]) {
 
   const results = expressions.map((x) => ({
     expression: x,
-    result: compute(x, mappings),
+    result: compute(x, selfEntityId, mappings),
   }));
 
   return results;
