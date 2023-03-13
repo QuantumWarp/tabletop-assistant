@@ -1,13 +1,14 @@
 import {
   CreateEntity, EntityAction, EntityDisplay, EntityDisplayType,
-  EntityField, FieldValueMapping, SlotFieldMapping,
+  EntityField, SlotFieldMapping,
 } from 'tabletop-assistant-common';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
+import { actionMapping, SlotMapping } from '../models/slot-mapping';
+import { Mapping } from '../models/mapping';
 import FieldHelper from './field.helper';
-import { SlotFieldValue } from '../models/slot-field-value';
 
 interface DisplaySlot {
   name: string;
@@ -18,13 +19,13 @@ interface DisplaySlot {
 }
 
 export default class DisplayHelper {
-  static isDisabled(slotValues: { [field: string]: any }) {
-    if (slotValues.enabled !== undefined) {
-      return !slotValues.enabled;
-    }
-    if (slotValues.disabled !== undefined) {
-      return slotValues.disabled;
-    }
+  static isDisabled(mappings: SlotMapping[]) {
+    const enabledMapping = mappings.find((x) => x.slotKey === 'enabled');
+    const disabledMapping = mappings.find((x) => x.slotKey === 'disabled');
+
+    if (enabledMapping) return !enabledMapping.value;
+    if (disabledMapping) return disabledMapping.value;
+
     return false;
   }
 
@@ -84,54 +85,36 @@ export default class DisplayHelper {
       .filter((x): x is SlotFieldMapping => Boolean(x));
   }
 
-  static getFieldMappings(
-    entity: CreateEntity,
-    optionalFieldMappings: FieldValueMapping[] = [],
-  ): FieldValueMapping[] {
-    const initialFieldMappings = FieldHelper.getFields(entity)
-      .map((field) => {
-        const optional = optionalFieldMappings.find((x) => x.fieldKey === field.key);
-        return {
-          fieldKey: field.key,
-          value: optional?.value !== undefined ? optional.value : field.initial,
-        };
-      });
+  static maps(mappings: Mapping[], display: EntityDisplay, entity: CreateEntity): SlotMapping[] {
+    return display.mappings
+      .map((displayMapping) => {
+        const mapping = mappings.find((x) => x.fieldKey === displayMapping.fieldKey);
+        const entityField = FieldHelper.getFields(entity)
+          .find((x) => x.key === displayMapping.fieldKey);
+        if (!mapping || !entityField) return null;
 
-    return [
-      ...initialFieldMappings,
-      ...optionalFieldMappings,
-    ];
+        const formattedValue = (entityField?.prefix || '') + mapping?.value + (entityField?.postfix || '');
+
+        return {
+          ...mapping,
+          displayKey: display.key,
+          slotKey: displayMapping?.slotKey,
+          formattedValue,
+        } as SlotMapping;
+      })
+      .filter((x): x is SlotMapping => x !== null);
   }
 
-  static map(
-    display: EntityDisplay,
-    entity: CreateEntity,
-    optionalSlotMappings?: SlotFieldMapping[],
-    optionalFieldMappings: FieldValueMapping[] = [],
-  ): SlotFieldValue[] {
+  static actionMaps(display: EntityDisplay): SlotMapping[] {
     const slots = DisplayHelper.slots(display.type);
-
-    const slotMappings = optionalSlotMappings || display?.mappings || [];
-    const fieldMappings = DisplayHelper.getFieldMappings(entity, optionalFieldMappings);
-
-    const slotValueMappings: SlotFieldValue[] = slotMappings.map((sfMapping) => {
-      const slot = slots.find((x) => x.key === sfMapping.slotKey);
-
-      if (slot?.type === 'action') {
-        const action = entity.actions.find((x) => x.key === sfMapping.fieldKey);
-        return { ...sfMapping, value: action?.key };
-      }
-
-      const fvMapping = fieldMappings.find((x) => x.fieldKey === sfMapping.fieldKey);
-
-      const entityField = entity.fields.find((x) => x.key === fvMapping?.fieldKey);
-      const fullValue = (entityField?.prefix ? entityField?.prefix : '')
-        + fvMapping?.value
-        + (entityField?.postfix ? entityField?.postfix : '');
-      return { ...sfMapping, value: fullValue };
-    });
-
-    return slotValueMappings;
+    return slots
+      .filter((slot) => slot.type === 'action')
+      .map((slot) => {
+        const displayMapping = display.mappings.find((x) => x.slotKey === slot.key);
+        if (!displayMapping) return null;
+        return actionMapping(displayMapping);
+      })
+      .filter((x): x is SlotMapping => x !== null);
   }
 
   static list(): EntityDisplayType[] {

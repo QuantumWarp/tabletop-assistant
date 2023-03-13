@@ -105,7 +105,7 @@ export const api = createApi({
     }),
     updateValueMap: build.mutation<ValueMap, UpdateValueMap>({
       query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
-      invalidatesTags: ['Values'],
+      invalidatesTags: [],
     }),
     deleteValueMap: build.mutation<void, string>({
       query: (entityId) => ({ url: `/value-maps/${entityId}`, method: 'DELETE' }),

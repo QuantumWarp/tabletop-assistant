@@ -3,13 +3,13 @@ import React from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import ActionNode from '../features/action/ActionNode';
 import TopBar from '../components/TopBar';
-import { useGetValueMapsQuery, useGetEntitiesQuery } from '../store/api';
+import { useGetEntitiesQuery } from '../store/api';
 import ActionTreeBuilder from '../helpers/action-tree.builder';
 
 const ActionPage = () => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
+
   const history = useHistory();
 
   const location = useLocation();
@@ -17,8 +17,8 @@ const ActionPage = () => {
   const entityId = params.get('entity');
   const actionKey = params.get('action');
 
-  const actionTree = entityId && actionKey && entities && valueMaps
-    && new ActionTreeBuilder(entities, valueMaps)
+  const actionTree = entityId && actionKey && entities
+    && new ActionTreeBuilder(entities)
       .build(entityId, actionKey);
 
   return (
@@ -46,7 +46,7 @@ const ActionPage = () => {
           }}
           maxWidth="lg"
         >
-          {actionTree && valueMaps && actionTree.map((x) => (
+          {actionTree && actionTree.map((x) => (
             <ActionNode
               key={`${x.entity._id}-${x.action.key}`}
               node={x}

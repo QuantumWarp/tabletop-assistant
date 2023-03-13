@@ -1,21 +1,22 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import './DisplayToggle.css';
-import FixedActions, { FixedActionArg } from '../../helpers/action.helper';
-import { SlotFieldValue } from '../../models/slot-field-value';
+import FixedActions from '../../helpers/operation.helper';
+import { SlotMapping } from '../../models/slot-mapping';
 
 interface DisplayToggleProps {
   preview: boolean,
-  slots: SlotFieldValue[],
-  onSlot: (slot: string) => void,
-  onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
+  mappings: SlotMapping[],
+  onAction: (slot: SlotMapping) => void,
+  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
 }
 
 const DisplayToggle = ({
-  preview, slots, onSlot, onOperation,
+  preview, mappings, onAction, onOperation,
 }: DisplayToggleProps) => {
-  const name = slots.find((x) => x.slotKey === 'name')?.value;
-  const toggle = slots.find((x) => x.slotKey === 'toggle')?.value;
+  const name = mappings.find((x) => x.slotKey === 'name');
+  const toggle = mappings.find((x) => x.slotKey === 'toggle');
+  const action = mappings.find((x) => x.slotKey === 'action');
 
   return (
     <div className={`display-toggle ${preview ? 'preview' : ''}`}>
@@ -24,16 +25,16 @@ const DisplayToggle = ({
         sx={{
           border: 1,
           borderColor: 'custom.dot.border',
-          backgroundColor: toggle ? 'custom.dot.background' : 'none',
+          backgroundColor: toggle?.value ? 'custom.dot.background' : 'none',
         }}
-        onClick={() => onOperation(FixedActions.Toggle, { slot: 'toggle' })}
+        onClick={() => toggle && onOperation(FixedActions.Toggle, toggle)}
       />
 
       <div
         className="title"
-        onClick={() => onSlot('action')}
+        onClick={() => action && onAction(action)}
       >
-        {name}
+        {name?.value}
       </div>
     </div>
   );

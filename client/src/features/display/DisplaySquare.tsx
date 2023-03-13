@@ -2,28 +2,28 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import './DisplaySquare.css';
-import FixedActions, { FixedActionArg } from '../../helpers/action.helper';
-import { SlotFieldValue } from '../../models/slot-field-value';
+import FixedActions from '../../helpers/operation.helper';
+import { SlotMapping } from '../../models/slot-mapping';
+import DisplayHelper from '../../helpers/display.helper';
 
 interface DisplaySquareProps {
   preview: boolean,
-  slots: SlotFieldValue[],
-  onOperation: (operation: FixedActions, ...args: FixedActionArg[]) => void,
+  mappings: SlotMapping[],
+  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
 }
 
 const DisplaySquare = ({
-  preview, slots, onOperation,
+  preview, mappings, onOperation,
 }: DisplaySquareProps) => {
-  const name = slots.find((x) => x.slotKey === 'name')?.value;
-  const icon = slots.find((x) => x.slotKey === 'icon')?.value;
-  const disabled = slots.find((x) => x.slotKey === 'disabled')?.value;
-  const value = slots.find((x) => x.slotKey === 'value')?.value;
-  const secondaryValue = slots.find((x) => x.slotKey === 'secondaryValue')?.value;
+  const name = mappings.find((x) => x.slotKey === 'name');
+  const icon = mappings.find((x) => x.slotKey === 'icon');
+  const value = mappings.find((x) => x.slotKey === 'value');
+  const secondaryValue = mappings.find((x) => x.slotKey === 'secondaryValue');
 
   return (
     <div className={`display-square ${preview ? 'preview' : ''}`}>
       <Box
-        className={`container ${disabled ? 'disabled' : ''}`}
+        className={`container ${DisplayHelper.isDisabled(mappings) ? 'disabled' : ''}`}
         sx={{ borderColor: 'custom.layout.border', backgroundColor: 'custom.layout.background' }}
       >
         <div className="header">
@@ -32,7 +32,7 @@ const DisplaySquare = ({
               className="icon"
               sx={{ borderColor: 'custom.layout.border' }}
             >
-              {icon && <Icon icon={icon} />}
+              {icon && <Icon icon={icon?.value} />}
             </Box>
           )}
 
@@ -41,33 +41,33 @@ const DisplaySquare = ({
               className="secondary-value"
               sx={{ borderColor: 'custom.layout.border' }}
             >
-              {secondaryValue}
+              {secondaryValue?.formattedValue}
             </Box>
           )}
         </div>
 
         <div className="value">
-          {value}
+          {value?.formattedValue}
         </div>
 
         <div
           className="name"
           onClick={() => onOperation(FixedActions.Detail)}
         >
-          {name}
+          {name?.value}
         </div>
 
-        {!disabled && (
+        {!DisplayHelper.isDisabled(mappings) && (
           <>
             <Button
               type="button"
               className="click-left"
-              onClick={() => onOperation(FixedActions.Decrement, { slot: 'value' })}
+              onClick={() => value && onOperation(FixedActions.Decrement, value)}
             />
             <Button
               type="button"
               className="click-right"
-              onClick={() => onOperation(FixedActions.Increment, { slot: 'value' })}
+              onClick={() => value && onOperation(FixedActions.Increment, value)}
             />
           </>
         )}

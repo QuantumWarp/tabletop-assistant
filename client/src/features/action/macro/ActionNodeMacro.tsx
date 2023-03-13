@@ -4,7 +4,6 @@ import {
   Computer as RunIcon,
 } from '@mui/icons-material';
 import { Macro } from 'tabletop-assistant-common';
-import { useParams } from 'react-router-dom';
 import ActionNodeMacroInput from './ActionNodeMacroInput';
 import ActionNodeMacroOutput from './ActionNodeMacroOutput';
 import ActionNodeInput from '../common/ActionNodeInput';
@@ -13,32 +12,31 @@ import ActionNodeOutput from '../common/ActionNodeOutput';
 import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import './ActionNodeMacro.css';
-import ExpressionHelper from '../../../helpers/expression.helper';
-import { useGetValueMapsQuery, useGetEntitiesQuery, useUpdateValueMapMutation } from '../../../store/api';
-import { ResolvedMacro } from '../../../models/resolved-macro';
+import { useMappingUpdate } from '../../../helpers/hooks/use-mapping-update';
+import { useMappingExpressions } from '../../../helpers/hooks/use-mapping-expressions';
+import { Mapping } from '../../../models/mapping';
 
 interface ActionNodeMacroProps {
   node: ActionTreeNode;
 }
 
 const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
-  const { data: entities } = useGetEntitiesQuery(tabletopId);
-  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
-
-  const [updateValues] = useUpdateValueMapMutation();
-
-  const [lastResults, setLastResults] = useState<ResolvedMacro[]>();
+  const [lastResults, setLastResults] = useState<Mapping[]>();
   const [runCount, setRunCount] = useState(0);
 
   const macros = node.action.macros as Macro[];
 
+  const expressionResults = useMappingExpressions(macros.map((x) => x.expression), node.entity._id);
+  const mappingUpdate = useMappingUpdate();
+
   const runMacros = () => {
-    if (!entities || !valueMaps) return;
-    const resolvedMacros = ExpressionHelper.resolveMacros(macros, valueMaps, entities);
-    const updatedValuesList = ExpressionHelper.updateMacroValues(resolvedMacros, valueMaps);
-    updatedValuesList.map((x) => updateValues(x));
-    setLastResults(resolvedMacros);
+    if (!expressionResults) return;
+    const updatedMappings = macros.map((macro, index) => ({
+      ...macro.target,
+      value: expressionResults[index],
+    }));
+    mappingUpdate(updatedMappings);
+    setLastResults(updatedMappings);
     setRunCount(runCount + 1);
   };
 
