@@ -11,6 +11,7 @@ import { TabletopModule } from './tabletop/tabletop.module';
 import { UserModule } from './user/user.module';
 import { ValueMapModule } from './value-map/value-map.module';
 import { TemplateModule } from './template/template.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { TemplateModule } from './template/template.module';
     // Features
     EntityModule,
     HistoryModule,
+    ImageModule,
     LayoutModule,
     NoteModule,
     TabletopModule,

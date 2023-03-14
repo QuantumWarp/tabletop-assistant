@@ -191,6 +191,14 @@ export const api = createApi({
       query: (body) => ({ url: '/templates/import', method: 'POST', body }),
       invalidatesTags: ['Entity', 'Values', 'Layout'],
     }),
+
+    // Images
+    uploadImage: build.mutation<{ filename: string }, FormData>({
+      query: (body) => ({ url: '/images', method: 'POST', body }),
+    }),
+    deleteImage: build.mutation<void, string>({
+      query: (filename) => ({ url: `/images/${filename}`, method: 'DELETE' }),
+    }),
   }),
 });
 
@@ -234,4 +242,7 @@ export const {
 
   useGetTemplateSummariesQuery,
   useImportTemplateMutation,
+
+  useUploadImageMutation,
+  useDeleteImageMutation,
 } = api;
