@@ -10,6 +10,7 @@ export const entitySchema = new Schema<Entity>(
     tags: [{ type: String }],
     description: { type: String },
     icon: { type: String },
+    imageUrl: { type: String },
 
     fields: [
       {

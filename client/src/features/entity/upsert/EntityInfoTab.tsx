@@ -4,6 +4,7 @@ import {
 import React from 'react';
 import { Entity } from 'tabletop-assistant-common';
 import IconifyDropdown from '../../../components/IconifyDropdown';
+import ImageInput from '../../../components/form-controls/ImageInput';
 
 interface ObjectInfoTabProps {
   entity: Partial<Entity>,
@@ -31,6 +32,13 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
         <IconifyDropdown
           value={entity.icon}
           onChange={(newValue) => entityChange({ icon: newValue })}
+        />
+      </Grid>
+
+      <Grid item xs={6}>
+        <ImageInput
+          value={entity.imageUrl || ''}
+          onChange={(value) => entityChange({ imageUrl: value })}
         />
       </Grid>
 
