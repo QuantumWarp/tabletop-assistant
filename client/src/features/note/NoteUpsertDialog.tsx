@@ -5,18 +5,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
   TextField,
   CircularProgress,
   Alert,
 } from '@mui/material';
 import {
-  OpenInNew as OpenInNewIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
@@ -27,6 +21,7 @@ import {
   useDeleteNoteMutation,
   useUpdateNoteMutation,
 } from '../../store/api';
+import ImageInput from '../../components/form-controls/ImageInput';
 
 interface NoteUpsertDialogProps {
   initial?: Note;
@@ -119,28 +114,11 @@ const NoteUpsertDialog = ({
           </Grid>
 
           <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Image URL</InputLabel>
-              <OutlinedInput
-                fullWidth
-                label="Image URL"
-                disabled={loading}
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                endAdornment={(
-                  <InputAdornment position="end">
-                    <IconButton
-                      title="Open in new tab"
-                      edge="end"
-                      disabled={loading}
-                      onClick={() => window.open(imageUrl, '_blank')}
-                    >
-                      <OpenInNewIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )}
-              />
-            </FormControl>
+            <ImageInput
+              disabled={loading}
+              value={imageUrl}
+              onChange={(value) => setImageUrl(value)}
+            />
           </Grid>
 
           <Grid item xs={12}>

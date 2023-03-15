@@ -6,17 +6,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
   TextField,
   CircularProgress,
 } from '@mui/material';
 import {
-  OpenInNew as OpenInNewIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
@@ -27,6 +21,7 @@ import {
   useDeleteTabletopMutation,
   useUpdateTabletopMutation,
 } from '../../store/api';
+import ImageInput from '../../components/form-controls/ImageInput';
 
 interface TabletopUpdateDialogProps {
   initial?: Tabletop;
@@ -119,28 +114,11 @@ const TabletopUpdateDialog = ({
           </Grid>
 
           <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputLabel>Image URL</InputLabel>
-              <OutlinedInput
-                fullWidth
-                label="Image URL"
-                disabled={loading}
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                endAdornment={(
-                  <InputAdornment position="end">
-                    <IconButton
-                      title="Open in new tab"
-                      edge="end"
-                      disabled={loading}
-                      onClick={() => window.open(imageUrl, '_blank')}
-                    >
-                      <OpenInNewIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )}
-              />
-            </FormControl>
+            <ImageInput
+              disabled={loading}
+              value={imageUrl}
+              onChange={(value) => setImageUrl(value)}
+            />
           </Grid>
 
           <Grid item xs={12}>

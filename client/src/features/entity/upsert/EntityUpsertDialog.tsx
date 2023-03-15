@@ -66,6 +66,7 @@ const ObjectUpsertDialog = ({
     name: initial?.name || '',
     description: initial?.description || '',
     icon: initial?.icon,
+    imageUrl: initial?.imageUrl,
     tags: initial?.tags || [],
     fields: initial?.fields || [],
     actions: initial?.actions || [],

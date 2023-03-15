@@ -55,6 +55,14 @@ const EntitySummaryDialog = ({
             <Typography sx={{ whiteSpace: 'pre-line' }}>
               {entity.description}
             </Typography>
+
+            {entity.imageUrl && (
+              <img
+                className="top-item-image"
+                src={entity.imageUrl}
+                alt={entity.name}
+              />
+            )}
           </Grid>
 
           <Grid item>
