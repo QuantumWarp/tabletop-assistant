@@ -4,11 +4,12 @@ import {
 import { parser } from 'mathjs';
 import { EmptyMapping, Mapping, mappingsMatch } from '../models/mapping';
 import FieldHelper from './field.helper';
+import { MappingInvalidator } from '../models/mapping-invalidator';
 
 export default class MappingResolver {
   newMappings: Mapping[] = [];
 
-  newInvalidators: { mapping: Mapping, invalidate: Mapping }[] = [];
+  newInvalidators: MappingInvalidator[] = [];
 
   constructor(
     private mappings: Mapping[],
