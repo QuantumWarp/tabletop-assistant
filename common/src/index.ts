@@ -65,23 +65,29 @@ export type {
 } from './template/template-import';
 
 export type {
-  TemplateSummaries,
-} from './template/template-summaries';
+  TemplateSummary,
+} from './template/template-summary';
 
 export type {
-  Template,
-  CreateTemplate,
-  UpdateTemplate,
-} from './template/template';
+  TemplateRoot,
+  CreateTemplateRoot,
+  UpdateTemplateRoot,
+} from './template/template-root';
 
 export type {
-  TemplatedEntity,
-  CreateTemplatedEntity,
-  UpdateTemplatedEntity,
-} from './template/templated-entity';
+  TemplateGroup,
+  CreateTemplateGroup,
+  UpdateTemplateGroup,
+} from './template/template-group';
 
 export type {
-  TemplatedLayout,
-  CreateTemplatedLayout,
-  UpdateTemplatedLayout,
-} from './template/templated-layout';
+  TemplateEntity,
+  CreateTemplateEntity,
+  UpdateTemplateEntity,
+} from './template/template-entity';
+
+export type {
+  TemplateLayout,
+  CreateTemplateLayout,
+  UpdateTemplateLayout,
+} from './template/template-layout';

@@ -1,24 +1,22 @@
 import { Types } from 'mongoose';
 import FieldHelper from 'tabletop-assistant-client/src/helpers/field.helper';
-import { Expression, ExpressionVariable, SlotFieldMapping } from 'tabletop-assistant-common';
-import { Templated, TemplatedEntity, TemplatedLayout } from './templated.types';
+import {
+  Expression,
+  ExpressionVariable,
+  SlotFieldMapping,
+  CreateTemplateLayout,
+  CreateTemplateRoot,
+  CreateTemplateGroup,
+  CreateTemplateEntity,
+} from 'tabletop-assistant-common';
+
+type TemplateType = CreateTemplateRoot
+| CreateTemplateGroup
+| CreateTemplateLayout
+| CreateTemplateEntity;
 
 export default class TemplateHelper {
-  static create(template: Omit<Templated, '_id'>): Templated {
-    return {
-      _id: new Types.ObjectId().toString(),
-      ...template,
-    };
-  }
-
-  static createLayout(template: Omit<TemplatedLayout, '_id'>): TemplatedLayout {
-    return {
-      _id: new Types.ObjectId().toString(),
-      ...template,
-    };
-  }
-
-  static createEntity(template: Omit<TemplatedEntity, '_id'>): TemplatedEntity {
+  static create<T extends TemplateType>(template: Omit<T, 'referencedEntityIds'>): Omit<T, 'referencedEntityIds'> & { _id: string } {
     return {
       _id: new Types.ObjectId().toString(),
       ...template,
@@ -32,7 +30,7 @@ export default class TemplateHelper {
     };
   }
 
-  static variable(key: string, entity: TemplatedEntity, fieldKey: string): ExpressionVariable {
+  static variable(key: string, entity: Omit<CreateTemplateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): ExpressionVariable {
     return {
       key,
       entityId: entity._id,
@@ -48,7 +46,7 @@ export default class TemplateHelper {
     };
   }
 
-  static singleVariable(key: string, entity: TemplatedEntity, fieldKey: string): Expression {
+  static singleVariable(key: string, entity: Omit<CreateTemplateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): Expression {
     return {
       expression: key,
       variables: [TemplateHelper.variable(key, entity, fieldKey)],

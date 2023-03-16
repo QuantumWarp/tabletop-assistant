@@ -2,15 +2,16 @@ import { Model, Types } from 'mongoose';
 import {
   CreateEntity,
   CreateLayout,
-  Template,
+  TemplateRoot,
   TemplateImport,
-  TemplateSummaries,
+  TemplateSummary,
 } from 'tabletop-assistant-common';
 import { ReferencedIdHelper } from './referenced-id.helper';
 import { EntityService } from '../entity/entity.service';
 import { LayoutService } from '../layout/layout.service';
-import { TemplatedEntityService } from './templated-entity.service';
-import { TemplatedLayoutService } from './templated-layout.service';
+import { TemplateGroupService } from './template-group.service';
+import { TemplateEntityService } from './template-entity.service';
+import { TemplateLayoutService } from './template-layout.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { NotFoundException } from '@nestjs/common';
 
@@ -18,14 +19,15 @@ type CreateEntityWithId = CreateEntity & { _id: string };
 
 export class TemplateService {
   constructor(
-    @InjectModel('Template') private templateModel: Model<Template>,
+    @InjectModel('TemplateRoot') private templateModel: Model<TemplateRoot>,
     private entityRepository: EntityService,
     private layoutRepository: LayoutService,
-    private templatedLayoutService: TemplatedLayoutService,
-    private templatedEntityService: TemplatedEntityService,
+    private templateGroupService: TemplateGroupService,
+    private templateLayoutService: TemplateLayoutService,
+    private templateEntityService: TemplateEntityService,
   ) {}
 
-  async getAll(ids?: string[]): Promise<Template[]> {
+  async getAll(ids?: string[]): Promise<TemplateRoot[]> {
     if (ids) {
       return this.templateModel.find().where('_id').in(ids).exec();
     }
@@ -33,25 +35,34 @@ export class TemplateService {
     return this.templateModel.find();
   }
 
-  async get(_id: string): Promise<Template> {
+  async get(_id: string): Promise<TemplateRoot> {
     const model = await this.templateModel.findOne({ _id });
     if (!model) throw new NotFoundException();
     return model;
   }
 
-  async summaries(): Promise<TemplateSummaries> {
+  async summaries(templateRootId?: string): Promise<TemplateSummary> {
+    let templateRoot: TemplateRoot | null = null;
+    if (templateRootId) templateRoot = await this.get(templateRootId);
+
     return {
-      templates: await this.getAll(),
-      layouts: await this.templatedLayoutService.getAll(),
-      entities: await this.templatedEntityService.getAll(),
+      groups: await this.templateGroupService.getAll(
+        templateRoot?.templateGroupIds,
+      ),
+      layouts: await this.templateLayoutService.getAll(
+        templateRoot?.templateLayoutIds,
+      ),
+      entities: await this.templateEntityService.getAll(
+        templateRoot?.templateEntityIds,
+      ),
     };
   }
 
   async import(userId: string, model: TemplateImport) {
-    const layoutsToImport = await this.templatedLayoutService.getAll(
+    const layoutsToImport = await this.templateLayoutService.getAll(
       model.layoutIds,
     );
-    const entitiesToImport = await this.templatedEntityService.getAll(
+    const entitiesToImport = await this.templateEntityService.getAll(
       model.entityIds,
     );
 

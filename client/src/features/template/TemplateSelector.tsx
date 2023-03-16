@@ -3,7 +3,7 @@ import {
   Button, Grid,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { Template, TemplatedEntity, TemplatedLayout } from 'tabletop-assistant-common';
+import { TemplateRoot, TemplateEntity, TemplateLayout } from 'tabletop-assistant-common';
 import { useGetTemplateSummariesQuery } from '../../store/api';
 import TemplateImportDialog from './TemplateImportDialog';
 import TemplateList from './TempateList';
@@ -23,7 +23,7 @@ const TemplateSelector = ({ filter }: TemplateListProps) => {
   const [layoutIds, setLayoutIds] = useState<string[]>([]);
   const [entityIds, setEntityIds] = useState<string[]>([]);
 
-  const templateHandler = (template: Template, selected: boolean) => {
+  const templateHandler = (template: TemplateRoot, selected: boolean) => {
     const newIdList = selected
       ? templateIds.concat([template._id])
       : templateIds.filter((x) => x !== template._id);
@@ -36,14 +36,14 @@ const TemplateSelector = ({ filter }: TemplateListProps) => {
     setTemplateIds(newIdList);
   };
 
-  const layoutHandler = (layout: TemplatedLayout, selected: boolean) => {
+  const layoutHandler = (layout: TemplateLayout, selected: boolean) => {
     const newIdList = selected
       ? layoutIds.concat([layout._id])
       : layoutIds.filter((x) => x !== layout._id);
     setLayoutIds(newIdList);
   };
 
-  const entityHandler = (entity: TemplatedEntity, selected: boolean) => {
+  const entityHandler = (entity: TemplateEntity, selected: boolean) => {
     const newIdList = selected
       ? entityIds.concat([entity._id])
       : entityIds.filter((x) => x !== entity._id);
@@ -70,7 +70,7 @@ const TemplateSelector = ({ filter }: TemplateListProps) => {
 
       <Grid item xs={4}>
         <TemplateList
-          templates={summaries?.templates || []}
+          templates={summaries?.roots || []}
           selectedIds={templateIds}
           filter={filter}
           onChange={templateHandler}
