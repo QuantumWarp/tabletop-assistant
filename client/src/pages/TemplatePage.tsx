@@ -1,34 +1,42 @@
 import {
-  Box, Container, TextField,
+  Box, Button, Container,
 } from '@mui/material';
 import React, { useState } from 'react';
 import TopBar from '../components/TopBar';
-import TemplateSelector from '../features/template/TemplateSelector';
+import TemplateGroupList from '../features/template/TemplateGroupList';
+import TemplateRootList from '../features/template/TemplateRootList';
 
-const NotePage = () => {
-  const [filter, setFilter] = useState('');
+const TemplateRootPage = () => {
+  const [templateRootId, setTemplateRootId] = useState('');
 
   return (
     <>
       <TopBar title="Templates">
-        <TextField
-          sx={{ minWidth: 400 }}
-          label="Search"
-          variant="standard"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        />
+        <Button
+          variant="outlined"
+          onClick={() => setTemplateRootId('')}
+        >
+          Clear
+        </Button>
       </TopBar>
 
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
-          <TemplateSelector
-            filter={filter}
-          />
+          {!templateRootId && (
+            <TemplateRootList
+              onChange={(selected) => setTemplateRootId(selected._id)}
+            />
+          )}
+
+          {templateRootId && (
+            <TemplateGroupList
+              templateRootId={templateRootId}
+            />
+          )}
         </Container>
       </Box>
     </>
   );
 };
 
-export default NotePage;
+export default TemplateRootPage;

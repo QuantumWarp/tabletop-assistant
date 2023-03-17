@@ -20,7 +20,8 @@ import {
   UpdateLayout,
   UpdateValueMap,
   TemplateImport,
-  TemplateSummaries,
+  TemplateSummary,
+  TemplateRoot,
 } from 'tabletop-assistant-common';
 
 export const msalInstance = new PublicClientApplication({
@@ -105,7 +106,7 @@ export const api = createApi({
     }),
     updateValueMap: build.mutation<ValueMap, UpdateValueMap>({
       query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
-      invalidatesTags: [],
+      invalidatesTags: [], // Invalidating Value Maps here would be very chatty
     }),
     deleteValueMap: build.mutation<void, string>({
       query: (entityId) => ({ url: `/value-maps/${entityId}`, method: 'DELETE' }),
@@ -183,9 +184,11 @@ export const api = createApi({
     }),
 
     // Templates
-    getTemplateSummaries: build.query<TemplateSummaries, void>({
-      query: () => '/templates/summaries',
-      providesTags: ['Template'],
+    getTemplateRoots: build.query<TemplateRoot[], void>({
+      query: () => '/templates',
+    }),
+    getTemplateSummary: build.query<TemplateSummary, string>({
+      query: (templateRootId) => `/templates/summary?templateRootId=${templateRootId}`,
     }),
     importTemplate: build.mutation<void, TemplateImport>({
       query: (body) => ({ url: '/templates/import', method: 'POST', body }),
@@ -240,7 +243,8 @@ export const {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 
-  useGetTemplateSummariesQuery,
+  useGetTemplateRootsQuery,
+  useGetTemplateSummaryQuery,
   useImportTemplateMutation,
 
   useUploadImageMutation,

@@ -26,16 +26,16 @@ export class TemplateController {
     return this.service.getAll();
   }
 
-  @Get(':id')
-  async get(@Param('id') id: string): Promise<TemplateRoot> {
-    return this.service.get(id);
-  }
-
   @Get('summary')
   async getSummary(
     @Query('templateRootId') templateRootId?: string,
   ): Promise<TemplateSummary> {
     return this.service.summaries(templateRootId);
+  }
+
+  @Get(':id')
+  async get(@Param('id') id: string): Promise<TemplateRoot> {
+    return this.service.get(id);
   }
 
   @Post('import')
