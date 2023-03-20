@@ -4,7 +4,7 @@ export interface TemplateRoot {
   name: string;
   description: string;
   imageUrl: string;
-  tags: string[];
+  tag: string;
 
   templateGroupIds: string[];
   templateLayoutIds: string[];

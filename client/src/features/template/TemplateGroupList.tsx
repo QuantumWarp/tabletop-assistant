@@ -1,29 +1,37 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Grid } from '@mui/material';
-import { useGetTemplateSummaryQuery } from '../../store/api';
-import TemplateGroupCard from './TemplateGroupCard';
+import {
+  Checkbox, FormControlLabel, FormGroup,
+} from '@mui/material';
+import { TemplateGroup } from 'tabletop-assistant-common';
 
-interface TemplateGroupListProps {
-  templateRootId: string;
+interface TemplateEntityListProps {
+  groups: TemplateGroup[];
+  selectedIds: string[];
+  filter: string;
+  onChange: (group: TemplateGroup, selected: boolean) => void;
 }
 
-const TemplateGroupList = ({ templateRootId }: TemplateGroupListProps) => {
-  const history = useHistory();
-  const { data: summary } = useGetTemplateSummaryQuery(templateRootId);
+const TemplateEntityList = ({
+  groups, selectedIds, filter, onChange,
+}: TemplateEntityListProps) => {
+  const filtered = groups.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
+  const sorted = filtered.sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <Grid container spacing={6}>
-      {summary && summary.groups.map((group) => (
-        <Grid key={group._id} item xs={4}>
-          <TemplateGroupCard
-            templateGroup={group}
-            onClick={() => history.push(`/templates?templateGroup=${group._id}`)}
-          />
-        </Grid>
+    <FormGroup>
+      {sorted.map((group) => (
+        <FormControlLabel
+          control={(
+            <Checkbox
+              checked={selectedIds.includes(group._id)}
+              onChange={(event) => onChange(group, event.target.checked)}
+            />
+          )}
+          label={group.name}
+        />
       ))}
-    </Grid>
+    </FormGroup>
   );
 };
 
-export default TemplateGroupList;
+export default TemplateEntityList;

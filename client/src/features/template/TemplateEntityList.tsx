@@ -4,16 +4,16 @@ import {
 } from '@mui/material';
 import { TemplateEntity } from 'tabletop-assistant-common';
 
-interface TemplatedEntityListProps {
+interface TemplateEntityListProps {
   entities: TemplateEntity[];
   selectedIds: string[];
   filter: string;
   onChange: (entity: TemplateEntity, selected: boolean) => void;
 }
 
-const TemplatedEntityList = ({
+const TemplateEntityList = ({
   entities, selectedIds, filter, onChange,
-}: TemplatedEntityListProps) => {
+}: TemplateEntityListProps) => {
   const filtered = entities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
   const sorted = filtered.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -34,4 +34,4 @@ const TemplatedEntityList = ({
   );
 };
 
-export default TemplatedEntityList;
+export default TemplateEntityList;

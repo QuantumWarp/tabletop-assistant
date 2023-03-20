@@ -6,7 +6,7 @@ export const templateRootSchema = new Schema<TemplateRoot>(
     name: { type: String, required: true },
     description: { type: String },
     imageUrl: { type: String, required: true },
-    tags: [{ type: String, required: true }],
+    tag: { type: String, required: true },
 
     templateGroupIds: [{ type: String }],
     templateEntityIds: [{ type: String }],

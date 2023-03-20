@@ -5,6 +5,7 @@ import { layoutSchema } from '../layout/layout.schema';
 const templateLayoutSchema = new Schema<TemplateLayout>(
   {
     ...layoutSchema.obj,
+    referencedEntityIds: [{ type: String }],
   },
   {
     timestamps: true,

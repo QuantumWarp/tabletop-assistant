@@ -1,83 +1,60 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Button, Grid,
+  Grid,
 } from '@mui/material';
-import { useParams } from 'react-router-dom';
-import { TemplateEntity, TemplateLayout } from 'tabletop-assistant-common';
+import { TemplateEntity, TemplateGroup, TemplateLayout } from 'tabletop-assistant-common';
 import { useGetTemplateSummaryQuery } from '../../store/api';
-import TemplateImportDialog from './TemplateImportDialog';
-import TemplatedLayoutList from './TemplatedLayoutList';
-import TemplatedEntityList from './TemplatedEntityList';
+import TemplateGroupList from './TemplateGroupList';
+import TemplateLayoutList from './TemplateLayoutList';
+import TemplateEntityList from './TemplateEntityList';
 
 interface TemplateListProps {
   filter: string;
+
+  groupIds: string[];
+  layoutIds: string[];
+  entityIds: string[];
+
+  onGroupClick: (group: TemplateGroup, selected: boolean) => void;
+  onLayoutClick: (layout: TemplateLayout, selected: boolean) => void;
+  onEntityClick: (entity: TemplateEntity, selected: boolean) => void;
 }
 
-const TemplateSelector = ({ filter }: TemplateListProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+const TemplateSelector = ({
+  filter,
+  groupIds, layoutIds, entityIds,
+  onGroupClick, onLayoutClick, onEntityClick,
+}: TemplateListProps) => {
   const { data: summary } = useGetTemplateSummaryQuery('');
-  const [templateImportDialog, setTemplateImportDialog] = useState(false);
-
-  const [layoutIds, setLayoutIds] = useState<string[]>([]);
-  const [entityIds, setEntityIds] = useState<string[]>([]);
-
-  const layoutHandler = (layout: TemplateLayout, selected: boolean) => {
-    const newIdList = selected
-      ? layoutIds.concat([layout._id])
-      : layoutIds.filter((x) => x !== layout._id);
-    setLayoutIds(newIdList);
-  };
-
-  const entityHandler = (entity: TemplateEntity, selected: boolean) => {
-    const newIdList = selected
-      ? entityIds.concat([entity._id])
-      : entityIds.filter((x) => x !== entity._id);
-    setEntityIds(newIdList);
-  };
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Button
-          variant="outlined"
-          onClick={() => { setLayoutIds([]); setEntityIds([]); }}
-        >
-          Clear
-        </Button>
-
-        <Button
-          variant="outlined"
-          onClick={() => setTemplateImportDialog(true)}
-        >
-          Import
-        </Button>
+      <Grid item xs={4}>
+        <TemplateGroupList
+          groups={summary?.groups || []}
+          selectedIds={groupIds}
+          filter={filter}
+          onChange={(group, selected) => onGroupClick(group, selected)}
+        />
       </Grid>
 
       <Grid item xs={4}>
-        <TemplatedLayoutList
+        <TemplateLayoutList
           layouts={summary?.layouts || []}
           selectedIds={layoutIds}
           filter={filter}
-          onChange={layoutHandler}
+          onChange={(layout, selected) => onLayoutClick(layout, selected)}
         />
       </Grid>
 
       <Grid item xs={4}>
-        <TemplatedEntityList
+        <TemplateEntityList
           entities={summary?.entities || []}
           selectedIds={entityIds}
           filter={filter}
-          onChange={entityHandler}
+          onChange={(entity, selected) => onEntityClick(entity, selected)}
         />
       </Grid>
-
-      {templateImportDialog && (
-        <TemplateImportDialog
-          templateImport={{ tabletopId, layoutIds, entityIds }}
-          open={templateImportDialog}
-          onClose={() => setTemplateImportDialog(false)}
-        />
-      )}
     </Grid>
   );
 };

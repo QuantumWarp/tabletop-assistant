@@ -4,16 +4,16 @@ import {
 } from '@mui/material';
 import { TemplateLayout } from 'tabletop-assistant-common';
 
-interface TemplatedLayoutListProps {
+interface TemplateLayoutListProps {
   layouts: TemplateLayout[];
   selectedIds: string[];
   filter: string;
   onChange: (layout: TemplateLayout, selected: boolean) => void;
 }
 
-const TemplatedLayoutList = ({
+const TemplateLayoutList = ({
   layouts, selectedIds, filter, onChange,
-}: TemplatedLayoutListProps) => {
+}: TemplateLayoutListProps) => {
   const filtered = layouts.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase()));
   const sorted = filtered.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -34,4 +34,4 @@ const TemplatedLayoutList = ({
   );
 };
 
-export default TemplatedLayoutList;
+export default TemplateLayoutList;

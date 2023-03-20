@@ -4,11 +4,11 @@ import { Grid } from '@mui/material';
 import { useGetTemplateRootsQuery } from '../../store/api';
 import TemplateRootCard from './TemplateRootCard';
 
-interface TemplateRootListProps {
+interface TemplateRootTilesProps {
   onChange: (templateRoot: TemplateRoot) => void;
 }
 
-const TemplateRootList = ({ onChange }: TemplateRootListProps) => {
+const TemplateRootTiles = ({ onChange }: TemplateRootTilesProps) => {
   const { data: templateRoots } = useGetTemplateRootsQuery();
 
   return (
@@ -25,4 +25,4 @@ const TemplateRootList = ({ onChange }: TemplateRootListProps) => {
   );
 };
 
-export default TemplateRootList;
+export default TemplateRootTiles;
