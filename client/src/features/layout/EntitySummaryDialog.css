@@ -1,0 +1,10 @@
+.entity-summary-dialog p {
+  margin: 0;
+}
+
+.entity-summary-dialog img {
+  margin-top: 20px;
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 5px;
+}

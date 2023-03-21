@@ -10,12 +10,13 @@ export const fakeMapping = (value: any) => ({
   formattedValue: value.toString(),
 });
 
-export const actionMapping = (mapping: SlotFieldMapping) => ({
+export const actionMapping = (mapping: SlotFieldMapping, value: string | undefined) => ({
   entityId: '',
   fieldKey: mapping.fieldKey,
   displayKey: '',
   slotKey: mapping.slotKey,
-  value: '',
+  value,
+  formattedValue: value?.toString(),
 });
 
 export interface SlotMapping extends Mapping {

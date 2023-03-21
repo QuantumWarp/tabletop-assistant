@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -16,9 +17,11 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
+import ReactMarkdown from 'react-markdown';
 import { CreateEntity, EntityField } from 'tabletop-assistant-common';
 import EntityValueUpdateDialog from './EntityValueUpdateDialog';
 import { Mapping } from '../../models/mapping';
+import './EntitySummaryDialog.css';
 
 interface EntitySummaryDialogProps {
   entity: CreateEntity;
@@ -37,7 +40,7 @@ const EntitySummaryDialog = ({
   const editMapping = editField && mappings.find((x) => x.fieldKey === editField.key);
 
   return (
-    <Dialog open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
+    <Dialog className="entity-summary-dialog" open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
       <DialogTitle>
         <Grid container>
           {entity.icon && (
@@ -53,15 +56,18 @@ const EntitySummaryDialog = ({
         <Grid container spacing={2} sx={{ py: 2, height: '100%' }}>
           <Grid item xs={7}>
             <Typography sx={{ whiteSpace: 'pre-line' }}>
-              {entity.description}
+              {entity.description && (
+                <ReactMarkdown>{entity.description}</ReactMarkdown>
+              )}
             </Typography>
 
             {entity.imageUrl && (
-              <img
-                className="top-item-image"
-                src={entity.imageUrl}
-                alt={entity.name}
-              />
+              <Box display="flex" justifyContent="center">
+                <img
+                  src={entity.imageUrl}
+                  alt={entity.name}
+                />
+              </Box>
             )}
           </Grid>
 

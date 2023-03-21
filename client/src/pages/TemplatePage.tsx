@@ -111,6 +111,7 @@ const TemplatePage = () => {
           {!isLoading && templateRootId && !showLists && (
             <TemplateGroupTiles
               templateRootId={templateRootId}
+              onChange={groupHandler}
             />
           )}
 

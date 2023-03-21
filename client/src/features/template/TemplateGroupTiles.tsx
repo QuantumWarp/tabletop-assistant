@@ -1,15 +1,15 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { TemplateGroup } from 'tabletop-assistant-common';
 import { Grid } from '@mui/material';
 import { useGetTemplateSummaryQuery } from '../../store/api';
 import TemplateGroupCard from './TemplateGroupCard';
 
 interface TemplateGroupTilesProps {
   templateRootId: string;
+  onChange: (group: TemplateGroup, selected: boolean) => void;
 }
 
-const TemplateGroupTiles = ({ templateRootId }: TemplateGroupTilesProps) => {
-  const history = useHistory();
+const TemplateGroupTiles = ({ templateRootId, onChange }: TemplateGroupTilesProps) => {
   const { data: summary } = useGetTemplateSummaryQuery(templateRootId);
 
   return (
@@ -18,7 +18,7 @@ const TemplateGroupTiles = ({ templateRootId }: TemplateGroupTilesProps) => {
         <Grid key={group._id} item xs={4}>
           <TemplateGroupCard
             templateGroup={group}
-            onClick={() => history.push(`/templates?templateGroup=${group._id}`)}
+            onClick={() => onChange(group, true)}
           />
         </Grid>
       ))}

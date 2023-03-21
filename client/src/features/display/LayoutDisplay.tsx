@@ -29,7 +29,7 @@ const LayoutDisplay = ({
 
   const slotMappings = [
     ...DisplayHelper.maps(mappings, display, entity),
-    ...DisplayHelper.actionMaps(display),
+    ...DisplayHelper.actionMaps(display, entity),
   ];
 
   const actionHandler = (mapping: SlotMapping) => {
@@ -85,7 +85,7 @@ const LayoutDisplay = ({
       {entitySummaryOpen && (
         <EntitySummaryDialog
           entity={entity}
-          mappings={slotMappings}
+          mappings={mappings}
           open={entitySummaryOpen}
           onSave={onUpdateMappings}
           onClose={() => setEntitySummaryOpen(false)}

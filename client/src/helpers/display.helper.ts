@@ -105,14 +105,15 @@ export default class DisplayHelper {
       .filter((x): x is SlotMapping => x !== null);
   }
 
-  static actionMaps(display: EntityDisplay): SlotMapping[] {
+  static actionMaps(display: EntityDisplay, entity: CreateEntity): SlotMapping[] {
     const slots = DisplayHelper.slots(display.type);
     return slots
       .filter((slot) => slot.type === 'action')
       .map((slot) => {
         const displayMapping = display.mappings.find((x) => x.slotKey === slot.key);
+        const entityField = entity.actions.find((x) => x.key === displayMapping?.fieldKey);
         if (!displayMapping) return null;
-        return actionMapping(displayMapping);
+        return actionMapping(displayMapping, entityField?.name);
       })
       .filter((x): x is SlotMapping => x !== null);
   }

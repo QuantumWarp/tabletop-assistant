@@ -19,6 +19,7 @@ const saveCollection = async (collection: Collection) => {
     .map((entity) => new TemplateEntityModel({
       ...entity,
       referencedEntityIds: ReferencedIdHelper.forEntity(entity).map((x) => x.entityId),
+      imageUrl: entity.imageUrl ? `${process.env.API_URL}/images/${entity.imageUrl}` : undefined,
     }))
     .map((x) => x.save());
 
@@ -30,10 +31,16 @@ const saveCollection = async (collection: Collection) => {
     .map((x) => x.save());
 
   const groupPromises = collection.groups
-    .map((x) => new TemplateGroupModel(x))
+    .map((group) => new TemplateGroupModel({
+      ...group,
+      imageUrl: group.imageUrl ? `${process.env.API_URL}/images/${group.imageUrl}` : undefined,
+    }))
     .map((x) => x.save());
 
-  const templateRootPromise = new TemplateRootModel(collection.root).save();
+  const templateRootPromise = new TemplateRootModel({
+    ...collection.root,
+    imageUrl: collection.root.imageUrl ? `${process.env.API_URL}/images/${collection.root.imageUrl}` : undefined,
+  }).save();
 
   await Promise.all([
     ...entityPromises,
