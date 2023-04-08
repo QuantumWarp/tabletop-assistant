@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Grid,
 } from '@mui/material';
-import { TemplateEntity, TemplateGroup, TemplateLayout } from 'tabletop-assistant-common';
+import { Entity, TemplateGroup, Layout } from 'tabletop-assistant-common';
 import { useGetTemplateSummaryQuery } from '../../store/api';
 import TemplateGroupList from './TemplateGroupList';
 import TemplateLayoutList from './TemplateLayoutList';
@@ -16,8 +16,8 @@ interface TemplateListProps {
   entityIds: string[];
 
   onGroupClick: (group: TemplateGroup, selected: boolean) => void;
-  onLayoutClick: (layout: TemplateLayout, selected: boolean) => void;
-  onEntityClick: (entity: TemplateEntity, selected: boolean) => void;
+  onLayoutClick: (layout: Layout, selected: boolean) => void;
+  onEntityClick: (entity: Entity, selected: boolean) => void;
 }
 
 const TemplateSelector = ({

@@ -5,7 +5,6 @@ import {
   ValueMap,
   CreateValueMap,
   UpdateValueMap,
-  Entity,
 } from 'tabletop-assistant-common';
 
 export class ValueMapService {
@@ -41,15 +40,5 @@ export class ValueMapService {
     const model = await this.valueMapModel.findOne({ entityId, userId });
     if (!model) throw new NotFoundException();
     await model.delete();
-  }
-
-  async createEmptyValues(userId: string, entity: Entity): Promise<void> {
-    const valuesModel = new this.valueMapModel({
-      userId,
-      entityId: entity._id,
-      tabletopId: entity.tabletopId,
-      mappings: [],
-    });
-    await valuesModel.save();
   }
 }

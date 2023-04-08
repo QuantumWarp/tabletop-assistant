@@ -5,7 +5,7 @@ import {
 import Operations, { OperationHelper } from '../../helpers/operation.helper';
 import DisplayHelper from '../../helpers/display.helper';
 import { Mapping } from '../../models/mapping';
-import EntitySummaryDialog from '../layout/EntitySummaryDialog';
+import EntitySummaryDialog from '../entity-instance/EntityInstanceDialog';
 import DisplayCard from './DisplayCard';
 import DisplayDots from './DisplayDots';
 import DisplaySquare from './DisplaySquare';

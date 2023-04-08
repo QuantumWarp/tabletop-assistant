@@ -8,9 +8,9 @@ export const templateRootSchema = new Schema<TemplateRoot>(
     imageUrl: { type: String, required: true },
     tag: { type: String, required: true },
 
-    templateGroupIds: [{ type: String }],
-    templateEntityIds: [{ type: String }],
-    templateLayoutIds: [{ type: String }],
+    groupIds: [{ type: String }],
+    entityIds: [{ type: String }],
+    layoutIds: [{ type: String }],
   },
   {
     timestamps: true,

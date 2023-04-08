@@ -4,7 +4,7 @@ import {
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  TemplateEntity, TemplateGroup, TemplateLayout, TemplateRoot,
+  Entity, TemplateGroup, Layout, TemplateRoot,
 } from 'tabletop-assistant-common';
 import { useTemplateRoot } from '../helpers/hooks/use-template-root';
 import TopBar from '../components/TopBar';
@@ -43,12 +43,12 @@ const TemplatePage = () => {
     updateIdsList(group.templateEntityIds, selected, entityIds, setEntityIds);
   };
 
-  const layoutHandler = (layout: TemplateLayout, selected: boolean) => {
+  const layoutHandler = (layout: Layout, selected: boolean) => {
     updateIdsList([layout._id], selected, layoutIds, setLayoutIds);
-    updateIdsList(layout.referencedEntityIds, selected, entityIds, setEntityIds);
+    // updateIdsList(layout.referencedEntityIds, selected, entityIds, setEntityIds);
   };
 
-  const entityHandler = (entity: TemplateEntity, selected: boolean) => {
+  const entityHandler = (entity: Entity, selected: boolean) => {
     updateIdsList([entity._id], selected, entityIds, setEntityIds);
   };
 

@@ -2,13 +2,13 @@ import React from 'react';
 import {
   Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
-import { TemplateEntity } from 'tabletop-assistant-common';
+import { Entity } from 'tabletop-assistant-common';
 
 interface TemplateEntityListProps {
-  entities: TemplateEntity[];
+  entities: Entity[];
   selectedIds: string[];
   filter: string;
-  onChange: (entity: TemplateEntity, selected: boolean) => void;
+  onChange: (entity: Entity, selected: boolean) => void;
 }
 
 const TemplateEntityList = ({

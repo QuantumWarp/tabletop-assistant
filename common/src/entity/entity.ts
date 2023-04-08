@@ -3,9 +3,8 @@ import { RollCombo } from './roll';
 
 export interface Entity {
   readonly _id: string;
-  readonly userId: string;
-  readonly tabletopId: string;
-  readonly templateId?: string;
+  readonly userId?: string;
+  readonly isTemplate?: boolean;
 
   name: string;
   tags: string[];

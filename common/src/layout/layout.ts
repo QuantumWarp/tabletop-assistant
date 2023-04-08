@@ -1,8 +1,8 @@
 export interface Layout {
   readonly _id: string;
-  readonly userId: string;
-  readonly tabletopId: string;
-  readonly templateId?: string;
+  readonly userId?: string;
+  readonly tabletopId?: string;
+  readonly isTemplate?: boolean;
 
   order: number;
   name: string;

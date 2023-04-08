@@ -19,11 +19,11 @@ import {
 import { Icon } from '@iconify/react';
 import ReactMarkdown from 'react-markdown';
 import { CreateEntity, EntityField } from 'tabletop-assistant-common';
-import EntityValueUpdateDialog from './EntityValueUpdateDialog';
+import EntityInstanceValueUpdateDialog from './EntityInstanceValueUpdateDialog';
 import { Mapping } from '../../models/mapping';
-import './EntitySummaryDialog.css';
+import './EntityInstanceDialog.css';
 
-interface EntitySummaryDialogProps {
+interface EntityInstanceDialogProps {
   entity: CreateEntity;
   mappings: Mapping[];
   open: boolean;
@@ -31,16 +31,16 @@ interface EntitySummaryDialogProps {
   onClose: () => void;
 }
 
-const EntitySummaryDialog = ({
+const EntityInstanceDialog = ({
   entity, mappings, open, onSave, onClose,
-}: EntitySummaryDialogProps) => {
+}: EntityInstanceDialogProps) => {
   const [editField, setEditField] = useState<EntityField>();
   const [updates, setUpdates] = useState<Mapping[]>([]);
 
   const editMapping = editField && mappings.find((x) => x.fieldKey === editField.key);
 
   return (
-    <Dialog className="entity-summary-dialog" open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
+    <Dialog className="entity-instance-dialog" open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
       <DialogTitle>
         <Grid container>
           {entity.icon && (
@@ -95,7 +95,7 @@ const EntitySummaryDialog = ({
             })}
 
             {editField && editMapping && (
-              <EntityValueUpdateDialog
+              <EntityInstanceValueUpdateDialog
                 open={Boolean(editField)}
                 field={editField}
                 value={editMapping.value}
@@ -131,8 +131,8 @@ const EntitySummaryDialog = ({
   );
 };
 
-EntitySummaryDialog.defaultProps = {
+EntityInstanceDialog.defaultProps = {
   onSave: undefined,
 };
 
-export default EntitySummaryDialog;
+export default EntityInstanceDialog;

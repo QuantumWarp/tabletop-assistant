@@ -4,18 +4,19 @@ import {
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Entity } from 'tabletop-assistant-common';
-import EntityUpsertDialog from './upsert/EntityUpsertDialog';
-import { useGetEntitiesQuery } from '../../store/api';
-import EntityCard from './EntityCard';
+import { useGetEntitiesQuery, useGetValueMapsQuery } from '../../store/api';
+import ValueMapCard from './EntityInstanceCard';
+import EntityInstanceDialog from './EntityInstanceDialog';
 
-interface EntityListProps {
+interface EntityInstanceListProps {
   filter: string;
 }
 
-const EntityList = ({ filter }: EntityListProps) => {
+const EntityInstanceList = ({ filter }: EntityInstanceListProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
   const [editEntity, setEditEntity] = useState<Entity | undefined>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
+  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
 
   const filteredEntities = entities
     ? entities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())
@@ -25,20 +26,23 @@ const EntityList = ({ filter }: EntityListProps) => {
     (a, b) => (a.name > b.name ? 1 : -1),
   );
 
+  const editValueMap = valueMaps?.find((x) => x.entityId === editEntity?._id);
+
   return (
     <Grid container spacing={6}>
       {sortedEntities.map((entity) => (
         <Grid key={entity._id} item xs={4}>
-          <EntityCard
+          <ValueMapCard
             entity={entity}
             onClick={() => setEditEntity(entity)}
           />
         </Grid>
       ))}
 
-      {editEntity && (
-        <EntityUpsertDialog
-          initial={editEntity}
+      {editEntity && editValueMap && (
+        <EntityInstanceDialog
+          entity={editEntity}
+          mappings={editValueMap.mappings.map((x) => ({ entityId: editEntity._id, ...x }))}
           open={Boolean(editEntity)}
           onClose={() => setEditEntity(undefined)}
         />
@@ -47,4 +51,4 @@ const EntityList = ({ filter }: EntityListProps) => {
   );
 };
 
-export default EntityList;
+export default EntityInstanceList;

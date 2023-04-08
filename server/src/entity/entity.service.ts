@@ -11,19 +11,13 @@ export class EntityService {
   ) {}
 
   async getAll(userId: string, tabletopId: string): Promise<Entity[]> {
-    return this.entityModel.find({ tabletopId, userId });
+    const valueMaps = await this.valueMapService.getAll(userId, tabletopId);
+    const entityIds = valueMaps.map((x) => x.entityId);
+    return this.entityModel.where('_id').in(entityIds).exec();
   }
 
-  async getTemplated(
-    userId: string,
-    tabletopId: string,
-    templateIds: string[],
-  ): Promise<Entity[]> {
-    const models = await this.entityModel
-      .find({ tabletopId, userId })
-      .where('templateId')
-      .in(templateIds)
-      .exec();
+  async getTemplates(ids: string[]): Promise<Entity[]> {
+    const models = await this.entityModel.where('_id').in(ids).exec();
     return models.map((x) => x.toObject());
   }
 
@@ -36,8 +30,7 @@ export class EntityService {
   async create(userId: string, entry: CreateEntity): Promise<Entity> {
     const model = new this.entityModel({ ...entry, userId });
     await model.save();
-    await this.valueMapService.createEmptyValues(userId, model.toObject());
-    return model.toObject();
+    return model;
   }
 
   async update(userId: string, entry: UpdateEntity): Promise<Entity> {
@@ -45,13 +38,7 @@ export class EntityService {
     if (!model) throw new NotFoundException();
     model.set(entry);
     await model.save();
-
-    const valuesModel = await this.valueMapService.get(userId, entry._id);
-    if (!valuesModel) {
-      await this.valueMapService.createEmptyValues(userId, model.toObject());
-    }
-
-    return model.toObject();
+    return model;
   }
 
   async delete(userId: string, _id: string): Promise<void> {

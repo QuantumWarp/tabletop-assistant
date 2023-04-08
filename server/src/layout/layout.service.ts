@@ -10,6 +10,11 @@ export class LayoutService {
     return this.layoutModel.find({ tabletopId, userId });
   }
 
+  async getTemplates(ids: string[]): Promise<Layout[]> {
+    const models = await this.layoutModel.where('_id').in(ids).exec();
+    return models.map((x) => x.toObject());
+  }
+
   async get(userId: string, _id: string): Promise<Layout> {
     const model = await this.layoutModel.findOne({ _id, userId });
     if (!model) throw new NotFoundException();

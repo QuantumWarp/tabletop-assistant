@@ -79,15 +79,3 @@ export type {
   CreateTemplateGroup,
   UpdateTemplateGroup,
 } from './template/template-group';
-
-export type {
-  TemplateEntity,
-  CreateTemplateEntity,
-  UpdateTemplateEntity,
-} from './template/template-entity';
-
-export type {
-  TemplateLayout,
-  CreateTemplateLayout,
-  UpdateTemplateLayout,
-} from './template/template-layout';

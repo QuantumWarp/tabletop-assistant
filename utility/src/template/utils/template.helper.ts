@@ -4,16 +4,16 @@ import {
   Expression,
   ExpressionVariable,
   SlotFieldMapping,
-  CreateTemplateLayout,
+  CreateLayout,
   CreateTemplateRoot,
   CreateTemplateGroup,
-  CreateTemplateEntity,
+  CreateEntity,
 } from 'tabletop-assistant-common';
 
 type TemplateType = CreateTemplateRoot
 | CreateTemplateGroup
-| CreateTemplateLayout
-| CreateTemplateEntity;
+| CreateLayout
+| CreateEntity;
 
 export default class TemplateHelper {
   static create<T extends TemplateType>(template: Omit<T, 'referencedEntityIds'>): Omit<T, 'referencedEntityIds'> & { _id: string } {
@@ -30,7 +30,7 @@ export default class TemplateHelper {
     };
   }
 
-  static variable(key: string, entity: Omit<CreateTemplateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): ExpressionVariable {
+  static variable(key: string, entity: Omit<CreateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): ExpressionVariable {
     return {
       key,
       entityId: entity._id,
@@ -46,7 +46,7 @@ export default class TemplateHelper {
     };
   }
 
-  static singleVariable(key: string, entity: Omit<CreateTemplateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): Expression {
+  static singleVariable(key: string, entity: Omit<CreateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): Expression {
     return {
       expression: key,
       variables: [TemplateHelper.variable(key, entity, fieldKey)],

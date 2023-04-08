@@ -28,13 +28,12 @@ import { useCreateEntityMutation, useDeleteEntityMutation, useUpdateEntityMutati
 
 interface ObjectUpsertDialogProps {
   initial?: Entity;
-  tabletopId: string;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
 const ObjectUpsertDialog = ({
-  initial, tabletopId, open, onClose,
+  initial, open, onClose,
 }: ObjectUpsertDialogProps) => {
   const [createEntity, {
     isLoading: creating,
@@ -62,7 +61,6 @@ const ObjectUpsertDialog = ({
   const [selectedTab, setSelectedTab] = useState(0);
 
   const [entity, setEntity] = useState<CreateEntity>({
-    tabletopId,
     name: initial?.name || '',
     description: initial?.description || '',
     icon: initial?.icon,

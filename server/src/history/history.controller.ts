@@ -10,9 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  CreateEntity,
+  CreateHistoryEntry,
   HistoryEntry,
-  UpdateEntity,
+  UpdateHistoryEntry,
 } from 'tabletop-assistant-common';
 import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
 import { UserId } from 'src/setup/user.decorator';
@@ -42,7 +42,7 @@ export class HistoryController {
   @Post()
   async create(
     @UserId() userId: string,
-    @Body() entity: CreateEntity,
+    @Body() entity: CreateHistoryEntry,
   ): Promise<HistoryEntry> {
     return this.service.create(userId, entity);
   }
@@ -50,7 +50,7 @@ export class HistoryController {
   @Put()
   async update(
     @UserId() userId: string,
-    @Body() entity: UpdateEntity,
+    @Body() entity: UpdateHistoryEntry,
   ): Promise<HistoryEntry> {
     return this.service.update(userId, entity);
   }

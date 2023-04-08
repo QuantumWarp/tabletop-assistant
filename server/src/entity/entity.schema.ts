@@ -3,9 +3,9 @@ import { Entity } from 'tabletop-assistant-common';
 
 export const entitySchema = new Schema<Entity>(
   {
-    userId: { type: String, required: true, immutable: true },
-    tabletopId: { type: String, required: true, immutable: true },
-    templateId: { type: String, immutable: true },
+    userId: { type: String, immutable: true },
+    isTemplate: { type: Boolean, immutable: true },
+
     name: { type: String, required: true },
     tags: [{ type: String }],
     description: { type: String },

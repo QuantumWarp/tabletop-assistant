@@ -2,31 +2,28 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import { templateRootSchema } from 'tabletop-assistant-server/src/template/template-root.schema';
 import { templateGroupSchema } from 'tabletop-assistant-server/src/template/template-group.schema';
-import { templateEntitySchema } from 'tabletop-assistant-server/src/template/template-entity.schema';
-import { templateLayoutSchema } from 'tabletop-assistant-server/src/template/template-layout.schema';
-import { ReferencedIdHelper } from 'tabletop-assistant-server/src/template/referenced-id.helper';
+import { entitySchema } from 'tabletop-assistant-server/src/entity/entity.schema';
+import { layoutSchema } from 'tabletop-assistant-server/src/layout/layout.schema';
 
 import { Collection } from './utils/templated.types';
 import collections from './collections';
 
 const TemplateRootModel = mongoose.model('TemplateRoot', templateRootSchema);
 const TemplateGroupModel = mongoose.model('TemplateGroup', templateGroupSchema);
-const TemplateEntityModel = mongoose.model('TemplateEntity', templateEntitySchema);
-const TemplateLayoutModel = mongoose.model('TemplateLayout', templateLayoutSchema);
+const EntityModel = mongoose.model('Entity', entitySchema);
+const LayoutModel = mongoose.model('Layout', layoutSchema);
 
 const saveCollection = async (collection: Collection) => {
   const entityPromises = collection.entities
-    .map((entity) => new TemplateEntityModel({
+    .map((entity) => new EntityModel({
       ...entity,
-      referencedEntityIds: ReferencedIdHelper.forEntity(entity).map((x) => x.entityId),
       imageUrl: entity.imageUrl ? `${process.env.API_URL}/images/${entity.imageUrl}` : undefined,
     }))
     .map((x) => x.save());
 
   const layoutPromises = collection.layouts
-    .map((layout) => new TemplateLayoutModel({
+    .map((layout) => new LayoutModel({
       ...layout,
-      referencedEntityIds: ReferencedIdHelper.forLayout(layout).map((x) => x.entityId),
     }))
     .map((x) => x.save());
 
@@ -55,8 +52,8 @@ const run = async () => {
 
   await TemplateRootModel.deleteMany();
   await TemplateGroupModel.deleteMany();
-  await TemplateLayoutModel.deleteMany();
-  await TemplateEntityModel.deleteMany();
+  await LayoutModel.deleteMany();
+  await EntityModel.deleteMany();
 
   const savePromises = collections
     .map((x) => saveCollection(x));

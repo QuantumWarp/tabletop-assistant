@@ -6,9 +6,9 @@ export interface TemplateRoot {
   imageUrl: string;
   tag: string;
 
-  templateGroupIds: string[];
-  templateLayoutIds: string[];
-  templateEntityIds: string[];
+  groupIds: string[];
+  layoutIds: string[];
+  entityIds: string[];
 
   readonly createdAt: Date;
   readonly updatedAt: Date;

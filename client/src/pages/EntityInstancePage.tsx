@@ -6,7 +6,7 @@ import TopBar from '../components/TopBar';
 import ObjectUpsertDialog from '../features/entity/upsert/EntityUpsertDialog';
 import EntityList from '../features/entity/EntityList';
 
-const EntityPage = () => {
+const EntityInstancePage = () => {
   const [filter, setFilter] = useState('');
   const [newEntityDialogOpen, setNewEntityDialogOpen] = useState(false);
 
@@ -47,4 +47,4 @@ const EntityPage = () => {
   );
 };
 
-export default EntityPage;
+export default EntityInstancePage;
