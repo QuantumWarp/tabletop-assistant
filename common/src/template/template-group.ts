@@ -5,8 +5,8 @@ export interface TemplateGroup {
   description: string;
   imageUrl: string;
 
-  templateLayoutIds: string[];
-  templateEntityIds: string[];
+  layoutIds: string[];
+  entityIds: string[];
 
   readonly createdAt: Date;
   readonly updatedAt: Date;

@@ -7,8 +7,8 @@ export const templateGroupSchema = new Schema<TemplateGroup>(
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
 
-    templateEntityIds: [{ type: String }],
-    templateLayoutIds: [{ type: String }],
+    entityIds: [{ type: String }],
+    layoutIds: [{ type: String }],
   },
   {
     timestamps: true,

@@ -100,7 +100,7 @@ const ObjectUpsertDialog = ({
         </b>
       </DialogTitle>
 
-      <DialogContent sx={{ minHeight: '600px' }}>
+      <DialogContent sx={{ minHeight: '600px', maxHeight: '600px' }}>
         <Tabs value={selectedTab} onChange={(_, newVal) => setSelectedTab(newVal)}>
           <Tab label="Info" />
           <Tab label="Fields" />

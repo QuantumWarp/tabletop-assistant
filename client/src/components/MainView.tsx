@@ -8,7 +8,6 @@ import ActionPage from '../pages/ActionPage';
 import HistoryView from '../pages/HistoryPage';
 import LayoutPage from '../pages/LayoutPage';
 import NotesPage from '../pages/NotePage';
-import TemplatePage from '../pages/TemplatePage';
 import LayoutConfigPage from '../pages/LayoutConfigPage';
 import EntityPage from '../pages/EntityPage';
 import EntityInstancePage from '../pages/EntityInstancePage';
@@ -45,10 +44,6 @@ const MainView = () => {
 
           <Route path={`${path}/history`}>
             <HistoryView />
-          </Route>
-
-          <Route path={`${path}/templates`}>
-            <TemplatePage />
           </Route>
 
           <Route path={`${path}/layout-config`}>

@@ -23,9 +23,12 @@ export class ValueMapService {
   }
 
   async create(userId: string, entries: CreateValueMap[]): Promise<ValueMap[]> {
-    return await this.valueMapModel.create(
-      entries.map((x) => ({ ...x, userId })),
-    );
+    const promises = entries.map(async (x) => {
+      const model = new this.valueMapModel({ ...x, userId });
+      await model.save();
+      return model;
+    });
+    return await Promise.all(promises);
   }
 
   async update(userId: string, entries: UpdateValueMap[]): Promise<ValueMap[]> {

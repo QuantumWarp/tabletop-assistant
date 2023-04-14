@@ -14,7 +14,7 @@ import {
 import TabletopUpsertDialog from './TabletopUpsertDialog';
 import { useGetTabletopsQuery } from '../../store/api';
 
-const HomePage = () => {
+const TabletopList = () => {
   const history = useHistory();
   const { data: tabletops } = useGetTabletopsQuery();
 
@@ -72,4 +72,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default TabletopList;

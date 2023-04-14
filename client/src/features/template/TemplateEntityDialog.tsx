@@ -18,7 +18,7 @@ import {
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { Entity } from 'tabletop-assistant-common';
-import { useCreateValueMapsMutation, useGetEntityTemplatesQuery } from '../../store/api';
+import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetEntityTemplatesQuery } from '../../store/api';
 
 interface TemplateEntityDialogProps {
   tag: string;
@@ -30,9 +30,16 @@ const TemplateEntityDialog = ({
   tag, open, onClose,
 }: TemplateEntityDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
+
   const { data: templates } = useGetEntityTemplatesQuery(tag);
+  const { data: entities } = useGetEntitiesQuery(tabletopId);
+
   const [createValues] = useCreateValueMapsMutation();
+
   const [selectedEntityIds, setSelectedEntityIds] = useState<Set<string>>(new Set());
+
+  const entityIds = entities?.map((x) => x._id);
+  const availableTemplates = templates?.filter((x) => !entityIds?.includes(x._id));
 
   const handleToggle = (entity: Entity) => {
     const newSet = new Set(selectedEntityIds);
@@ -54,9 +61,9 @@ const TemplateEntityDialog = ({
         <b>Add Templates</b>
       </DialogTitle>
 
-      <DialogContent>
+      <DialogContent sx={{ maxHeight: '600px' }}>
         <List dense>
-          {templates?.map((entity) => (
+          {availableTemplates?.map((entity) => (
             <ListItem
               key={entity._id}
               disablePadding

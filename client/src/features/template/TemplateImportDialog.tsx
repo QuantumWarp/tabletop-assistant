@@ -8,17 +8,19 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { TemplateImport } from 'tabletop-assistant-common';
+import { TemplateGroup, TemplateRoot } from 'tabletop-assistant-common';
 import { useImportTemplateMutation } from '../../store/api';
 
 interface TemplateImportDialogProps {
-  templateImport: TemplateImport;
+  tabletopId: string;
+  templateRoot: TemplateRoot;
+  templateGroup: TemplateGroup;
   open: boolean;
   onClose: () => void;
 }
 
 const TemplateImportDialog = ({
-  templateImport, open, onClose,
+  tabletopId, templateRoot, templateGroup, open, onClose,
 }: TemplateImportDialogProps) => {
   const [importTemplate, {
     isLoading,
@@ -38,12 +40,24 @@ const TemplateImportDialog = ({
 
       <DialogContent>
         <Typography sx={{ whiteSpace: 'pre-line' }}>
-          {'Import '}
-          <b>{templateImport.layoutIds.length}</b>
+          {'This template will include '}
+          <b>{templateGroup.layoutIds.length}</b>
           {' Layouts and '}
-          <b>{templateImport.entityIds.length}</b>
-          {' Objects?'}
+          <b>{templateGroup.entityIds.length}</b>
+          {' Objects.'}
         </Typography>
+
+        <Typography pt={2}>
+          <b>{templateRoot.name}</b>
+        </Typography>
+
+        <Typography>{templateRoot.description}</Typography>
+
+        <Typography pt={2}>
+          <b>{templateGroup.name}</b>
+        </Typography>
+
+        <Typography>{templateGroup.description}</Typography>
 
         {isError && (
           <Alert severity="error">An error occured</Alert>
@@ -61,7 +75,11 @@ const TemplateImportDialog = ({
 
         <Button
           disabled={isLoading}
-          onClick={() => importTemplate(templateImport)}
+          onClick={() => importTemplate({
+            tabletopId,
+            layoutIds: templateGroup.layoutIds,
+            entityIds: templateGroup.entityIds,
+          })}
           variant="outlined"
         >
           Import

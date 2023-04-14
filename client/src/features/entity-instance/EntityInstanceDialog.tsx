@@ -114,6 +114,21 @@ const EntityInstanceDialog = ({
           onClick={() => onClose()}
           variant="outlined"
         >
+          Edit Object
+        </Button>
+
+        <Button
+          onClick={() => onClose()}
+          variant="outlined"
+          color="error"
+        >
+          Remove
+        </Button>
+
+        <Button
+          onClick={() => onClose()}
+          variant="outlined"
+        >
           {Object.keys(updates).length === 0 ? 'Close' : 'Cancel'}
         </Button>
 

@@ -102,7 +102,7 @@ export const api = createApi({
     }),
     createValueMaps: build.mutation<ValueMap, CreateValueMap[]>({
       query: (body) => ({ url: '/value-maps', method: 'POST', body }),
-      invalidatesTags: ['Values'],
+      invalidatesTags: ['Values', 'Entity'],
     }),
     updateValueMaps: build.mutation<ValueMap, UpdateValueMap[]>({
       query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
@@ -110,7 +110,7 @@ export const api = createApi({
     }),
     deleteValueMap: build.mutation<void, string>({
       query: (entityId) => ({ url: `/value-maps/${entityId}`, method: 'DELETE' }),
-      invalidatesTags: ['Values'],
+      invalidatesTags: ['Values', 'Entity'],
     }),
 
     // Layouts
@@ -185,7 +185,7 @@ export const api = createApi({
 
     // Templates
     getEntityTemplates: build.query<Entity[], string>({
-      query: (tag) => ({ url: `/entities/templates?tags=${tag}` }),
+      query: (tag) => ({ url: `/entities/templates?tags=${encodeURIComponent(tag)}` }),
       providesTags: ['TemplateEntity'],
     }),
     getTemplateRoots: build.query<TemplateRoot[], void>({

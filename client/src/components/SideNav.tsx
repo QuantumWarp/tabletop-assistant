@@ -120,19 +120,6 @@ const SideNav = () => {
           className="thin-button"
           activeClassName="Mui-selected"
           component={NavLink}
-          to="./templates"
-        >
-          <ListItemIcon>
-            <ConfigureIcon />
-          </ListItemIcon>
-          <ListItemText primary="Templates" />
-        </ListItem>
-
-        <ListItem
-          button
-          className="thin-button"
-          activeClassName="Mui-selected"
-          component={NavLink}
           to="./layout-config"
         >
           <ListItemIcon>
