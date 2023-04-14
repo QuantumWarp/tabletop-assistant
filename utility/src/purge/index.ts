@@ -12,8 +12,8 @@ const ValueMapModel = mongoose.model('ValueMap', valueMapSchema);
 const run = async () => {
   mongoose.connect(process.env.DB_CONNECTION ?? '');
 
-  await EntityModel.deleteMany();
-  await LayoutModel.deleteMany();
+  await EntityModel.find().exists('userId', true).deleteMany();
+  await LayoutModel.find().exists('userId', true).deleteMany();
   await ValueMapModel.deleteMany();
 
   await mongoose.disconnect();

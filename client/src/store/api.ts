@@ -33,7 +33,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Template'],
+  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Template', 'TemplateEntity'],
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
@@ -100,11 +100,11 @@ export const api = createApi({
       query: (entityId) => ({ url: `/value-maps/${entityId}` }),
       providesTags: ['Values'],
     }),
-    createValueMap: build.mutation<ValueMap, CreateValueMap>({
+    createValueMaps: build.mutation<ValueMap, CreateValueMap[]>({
       query: (body) => ({ url: '/value-maps', method: 'POST', body }),
       invalidatesTags: ['Values'],
     }),
-    updateValueMap: build.mutation<ValueMap, UpdateValueMap>({
+    updateValueMaps: build.mutation<ValueMap, UpdateValueMap[]>({
       query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
       invalidatesTags: [], // Invalidating Value Maps here would be very chatty
     }),
@@ -184,6 +184,10 @@ export const api = createApi({
     }),
 
     // Templates
+    getEntityTemplates: build.query<Entity[], string>({
+      query: (tag) => ({ url: `/entities/templates?tags=${tag}` }),
+      providesTags: ['TemplateEntity'],
+    }),
     getTemplateRoots: build.query<TemplateRoot[], void>({
       query: () => '/templates',
     }),
@@ -220,8 +224,8 @@ export const {
 
   useGetValueMapsQuery,
   useGetValueMapQuery,
-  useCreateValueMapMutation,
-  useUpdateValueMapMutation,
+  useCreateValueMapsMutation,
+  useUpdateValueMapsMutation,
   useDeleteValueMapMutation,
 
   useGetLayoutsQuery,
@@ -243,6 +247,7 @@ export const {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 
+  useGetEntityTemplatesQuery,
   useGetTemplateRootsQuery,
   useGetTemplateSummaryQuery,
   useImportTemplateMutation,

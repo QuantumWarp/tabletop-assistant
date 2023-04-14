@@ -16,8 +16,16 @@ export class EntityService {
     return this.entityModel.where('_id').in(entityIds).exec();
   }
 
-  async getTemplates(ids: string[]): Promise<Entity[]> {
-    const models = await this.entityModel.where('_id').in(ids).exec();
+  async getTemplates(
+    ids: string[] = [],
+    tags: string[] = [],
+  ): Promise<Entity[]> {
+    const models = await this.entityModel
+      .find({
+        ...(ids && ids.length ? { _id: { $in: ids } } : {}),
+        ...(ids && tags.length ? { tags: { $in: tags } } : {}),
+      })
+      .exec();
     return models.map((x) => x.toObject());
   }
 

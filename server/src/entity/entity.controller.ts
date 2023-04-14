@@ -27,6 +27,11 @@ export class EntityController {
     return this.service.getAll(userId, tabletopId);
   }
 
+  @Get('templates')
+  async getTemplates(@Query('tags') tags: string[]): Promise<Entity[]> {
+    return this.service.getTemplates([], tags);
+  }
+
   @Get(':id')
   async get(
     @UserId() userId: string,

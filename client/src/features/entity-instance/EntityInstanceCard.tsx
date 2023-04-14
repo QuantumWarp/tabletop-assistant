@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { Entity } from 'tabletop-assistant-common';
-import './Entity.css';
+import './EntityInstance.css';
 
 interface EntityInstanceCardProps {
   entity: Entity;

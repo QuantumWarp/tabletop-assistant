@@ -62,14 +62,12 @@ export class TemplateService {
 
     const entityIdsToImport = model.entityIds;
 
-    const saveValueMaps = entityIdsToImport
-      .map((x) => ({
-        entityId: x,
-        tabletopId: model.tabletopId,
-        mappings: [],
-      }))
-      .map((x) => this.valueMapService.create(userId, x));
+    const valueMaps = entityIdsToImport.map((x) => ({
+      entityId: x,
+      tabletopId: model.tabletopId,
+      mappings: [],
+    }));
 
-    await Promise.all(saveValueMaps);
+    await this.valueMapService.create(userId, valueMaps);
   }
 }

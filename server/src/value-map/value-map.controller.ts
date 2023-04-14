@@ -42,17 +42,17 @@ export class ValueMapController {
   @Post()
   async create(
     @UserId() userId: string,
-    @Body() note: CreateValueMap,
-  ): Promise<ValueMap> {
-    return this.service.create(userId, note);
+    @Body() valueMaps: CreateValueMap[],
+  ): Promise<ValueMap[]> {
+    return this.service.create(userId, valueMaps);
   }
 
   @Put()
   async update(
     @UserId() userId: string,
-    @Body() note: UpdateValueMap,
-  ): Promise<ValueMap> {
-    return this.service.update(userId, note);
+    @Body() valueMaps: UpdateValueMap[],
+  ): Promise<ValueMap[]> {
+    return this.service.update(userId, valueMaps);
   }
 
   @Delete(':entityId')

@@ -4,11 +4,14 @@ import {
 } from '@mui/material';
 import TopBar from '../components/TopBar';
 import ObjectUpsertDialog from '../features/entity/upsert/EntityUpsertDialog';
-import EntityList from '../features/entity/EntityList';
+import EntityInstanceList from '../features/entity-instance/EntityInstanceList';
+import TemplateEntityDialog from '../features/template/TemplateEntityDialog';
 
 const EntityInstancePage = () => {
   const [filter, setFilter] = useState('');
   const [newEntityDialogOpen, setNewEntityDialogOpen] = useState(false);
+  const [existingEntityDialogOpen, setExistingEntityDialogOpen] = useState(false);
+  const [templateEntityDialogOpen, setTemplateEntityDialogOpen] = useState(false);
 
   return (
     <>
@@ -25,7 +28,21 @@ const EntityInstancePage = () => {
           variant="outlined"
           onClick={() => setNewEntityDialogOpen(true)}
         >
-          New Object
+          New
+        </Button>
+
+        <Button
+          variant="outlined"
+          onClick={() => setExistingEntityDialogOpen(true)}
+        >
+          Existing
+        </Button>
+
+        <Button
+          variant="outlined"
+          onClick={() => setTemplateEntityDialogOpen(true)}
+        >
+          Templates
         </Button>
 
         {newEntityDialogOpen && (
@@ -34,11 +51,26 @@ const EntityInstancePage = () => {
             onClose={() => setNewEntityDialogOpen(false)}
           />
         )}
+
+        {existingEntityDialogOpen && (
+          <ObjectUpsertDialog
+            open={newEntityDialogOpen}
+            onClose={() => setExistingEntityDialogOpen(false)}
+          />
+        )}
+
+        {templateEntityDialogOpen && (
+          <TemplateEntityDialog
+            tag=""
+            open={templateEntityDialogOpen}
+            onClose={() => setTemplateEntityDialogOpen(false)}
+          />
+        )}
       </TopBar>
 
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
-          <EntityList
+          <EntityInstanceList
             filter={filter}
           />
         </Container>

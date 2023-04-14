@@ -22,18 +22,21 @@ export class ValueMapService {
     return model;
   }
 
-  async create(userId: string, entry: CreateValueMap): Promise<ValueMap> {
-    const model = new this.valueMapModel({ ...entry, userId });
-    await model.save();
-    return model;
+  async create(userId: string, entries: CreateValueMap[]): Promise<ValueMap[]> {
+    return await this.valueMapModel.create(
+      entries.map((x) => ({ ...x, userId })),
+    );
   }
 
-  async update(userId: string, entry: UpdateValueMap): Promise<ValueMap> {
-    const model = await this.valueMapModel.findOne({ _id: entry._id, userId });
-    if (!model) throw new NotFoundException();
-    model.set(entry);
-    await model.save();
-    return model;
+  async update(userId: string, entries: UpdateValueMap[]): Promise<ValueMap[]> {
+    const promises = entries.map(async (x) => {
+      const model = await this.valueMapModel.findOne({ _id: x._id, userId });
+      if (!model) return;
+      model.set(x);
+      await model.save();
+      return model;
+    });
+    return await Promise.all(promises);
   }
 
   async delete(userId: string, entityId: string): Promise<void> {
