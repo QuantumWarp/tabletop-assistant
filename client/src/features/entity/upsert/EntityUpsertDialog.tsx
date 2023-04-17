@@ -61,6 +61,7 @@ const ObjectUpsertDialog = ({
   const [selectedTab, setSelectedTab] = useState(0);
 
   const [entity, setEntity] = useState<CreateEntity>({
+    isTemplate: initial?.isTemplate,
     name: initial?.name || '',
     description: initial?.description || '',
     icon: initial?.icon,
@@ -95,12 +96,12 @@ const ObjectUpsertDialog = ({
     <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <b>
-          {initial?._id ? 'Update ' : 'Create '}
-          Object
+          { initial?.isTemplate && 'Edit a Copy of a Template' }
+          { !initial?.isTemplate && (initial?._id ? 'Update Object' : 'Create Object') }
         </b>
       </DialogTitle>
 
-      <DialogContent sx={{ minHeight: '600px', maxHeight: '600px' }}>
+      <DialogContent sx={{ minHeight: '650px', maxHeight: '650px' }}>
         <Tabs value={selectedTab} onChange={(_, newVal) => setSelectedTab(newVal)}>
           <Tab label="Info" />
           <Tab label="Fields" />
@@ -166,18 +167,20 @@ const ObjectUpsertDialog = ({
               Export
             </Button>
 
-            <Button
-              variant="outlined"
-              color="error"
-              disabled={loading}
-              endIcon={deleting ? <CircularProgress size="20px" /> : <DeleteIcon />}
-              onClick={() => setDeleteOpen(true)}
-            >
-              Delete
-            </Button>
+            {!entity.isTemplate && (
+              <Button
+                variant="outlined"
+                color="error"
+                disabled={loading}
+                endIcon={deleting ? <CircularProgress size="20px" /> : <DeleteIcon />}
+                onClick={() => setDeleteOpen(true)}
+              >
+                Delete
+              </Button>
+            )}
 
             <DeleteConfirmDialog
-              objType="Note"
+              objType="Object"
               objName={initial.name}
               open={deleteOpen}
               onDelete={() => { deleteEntity(initial._id); }}
@@ -194,14 +197,16 @@ const ObjectUpsertDialog = ({
           Cancel
         </Button>
 
-        <Button
-          variant="outlined"
-          disabled={loading}
-          endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
-          onClick={saveEntity}
-        >
-          Save
-        </Button>
+        {!entity.isTemplate && (
+          <Button
+            variant="outlined"
+            disabled={loading}
+            endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
+            onClick={saveEntity}
+          >
+            Save
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

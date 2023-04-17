@@ -17,6 +17,7 @@ const saveCollection = async (collection: Collection) => {
   const entityPromises = collection.entities
     .map((entity) => new EntityModel({
       ...entity,
+      isTemplate: true,
       imageUrl: entity.imageUrl ? `${process.env.API_URL}/images/${entity.imageUrl}` : undefined,
     }))
     .map((x) => x.save());
@@ -24,6 +25,7 @@ const saveCollection = async (collection: Collection) => {
   const layoutPromises = collection.layouts
     .map((layout) => new LayoutModel({
       ...layout,
+      isTemplate: true,
     }))
     .map((x) => x.save());
 

@@ -45,7 +45,7 @@ const EntityInstancePage = () => {
           variant="outlined"
           onClick={() => setTemplateEntityDialogOpen(true)}
         >
-          Templates
+          Template
         </Button>
 
         {newEntityDialogOpen && (
@@ -74,6 +74,7 @@ const EntityInstancePage = () => {
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
           <EntityInstanceList
+            tag={templateRoot?.tag || ''}
             filter={filter}
           />
         </Container>

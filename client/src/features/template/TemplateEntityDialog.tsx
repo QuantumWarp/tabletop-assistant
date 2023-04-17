@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -64,23 +65,26 @@ const TemplateEntityDialog = ({
       <DialogContent sx={{ maxHeight: '600px' }}>
         <List dense>
           {availableTemplates?.map((entity) => (
-            <ListItem
-              key={entity._id}
-              disablePadding
-            >
-              <ListItemButton role={undefined} onClick={() => handleToggle(entity)}>
-                <ListItemIcon>
-                  {entity.icon && <Icon icon={entity.icon} />}
-                </ListItemIcon>
-                <ListItemText primary={entity.name} secondary={entity.tags.filter((x) => x !== tag).join(', ')} />
-                <Checkbox
-                  edge="start"
-                  checked={selectedEntityIds.has(entity._id)}
-                  tabIndex={-1}
-                  disableRipple
-                />
-              </ListItemButton>
-            </ListItem>
+            <>
+              <ListItem
+                key={entity._id}
+                disablePadding
+              >
+                <ListItemButton role={undefined} onClick={() => handleToggle(entity)}>
+                  <ListItemIcon>
+                    {entity.icon && <Icon icon={entity.icon} height={30} />}
+                  </ListItemIcon>
+                  <ListItemText primary={entity.name} secondary={entity.tags.filter((x) => x !== tag).join(', ')} />
+                  <Checkbox
+                    edge="start"
+                    checked={selectedEntityIds.has(entity._id)}
+                    tabIndex={-1}
+                    disableRipple
+                  />
+                </ListItemButton>
+              </ListItem>
+              <Divider component="li" />
+            </>
           ))}
         </List>
       </DialogContent>

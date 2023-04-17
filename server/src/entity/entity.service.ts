@@ -24,6 +24,7 @@ export class EntityService {
       .find({
         ...(ids && ids.length ? { _id: { $in: ids } } : {}),
         ...(ids && tags.length ? { tags: { $in: tags } } : {}),
+        isTemplate: true,
       })
       .exec();
     return models.map((x) => x.toObject());
