@@ -70,6 +70,10 @@ export const api = createApi({
     }),
 
     // Entities
+    getUserCreatedEntities: build.query<Entity[], void>({
+      query: () => '/entities',
+      providesTags: ['Entity'],
+    }),
     getEntities: build.query<Entity[], string>({
       query: (tabletopId) => `/entities?tabletopId=${tabletopId}`,
       providesTags: ['Entity'],
@@ -216,6 +220,7 @@ export const {
   useUpdateTabletopMutation,
   useDeleteTabletopMutation,
 
+  useGetUserCreatedEntitiesQuery,
   useGetEntitiesQuery,
   useGetEntityQuery,
   useCreateEntityMutation,

@@ -24,7 +24,11 @@ export class EntityController {
     @UserId() userId: string,
     @Query('tabletopId') tabletopId: string,
   ): Promise<Entity[]> {
-    return this.service.getAll(userId, tabletopId);
+    if (tabletopId) {
+      return this.service.getAllForTabletop(userId, tabletopId);
+    } else {
+      return this.service.getAllUserCreated(userId);
+    }
   }
 
   @Get('templates')

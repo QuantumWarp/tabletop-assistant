@@ -12,6 +12,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  TextField,
 } from '@mui/material';
 import {
   Save as SaveIcon,
@@ -19,28 +20,37 @@ import {
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { Entity } from 'tabletop-assistant-common';
-import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetEntityTemplatesQuery } from '../../store/api';
+import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
 
-interface TemplateEntityDialogProps {
+interface ExistingEntityDialogProps {
   tag: string;
   open: boolean;
   onClose: () => void;
 }
 
-const TemplateEntityDialog = ({
+const ExistingEntityDialog = ({
   tag, open, onClose,
-}: TemplateEntityDialogProps) => {
+}: ExistingEntityDialogProps) => {
   const { tabletopId } = useParams<{ tabletopId: string }>();
 
-  const { data: templates } = useGetEntityTemplatesQuery(tag);
+  const { data: allEntities } = useGetUserCreatedEntitiesQuery();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const [createValues] = useCreateValueMapsMutation();
 
+  const [filter, setFilter] = useState('');
   const [selectedEntityIds, setSelectedEntityIds] = useState<Set<string>>(new Set());
 
   const entityIds = entities?.map((x) => x._id);
-  const availableTemplates = templates?.filter((x) => !entityIds?.includes(x._id));
+  const availableEntities = allEntities?.filter((x) => !entityIds?.includes(x._id));
+
+  const filteredEntities = availableEntities
+    ? availableEntities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())
+      || x.tags.find((t) => t.toLowerCase() === filter.toLowerCase()))
+    : [];
+  const sortedEntities = filteredEntities.sort(
+    (a, b) => (a.name > b.name ? 1 : -1),
+  );
 
   const handleToggle = (entity: Entity) => {
     const newSet = new Set(selectedEntityIds);
@@ -59,12 +69,20 @@ const TemplateEntityDialog = ({
   return (
     <Dialog className="entity-instance-dialog" open={open} onClose={() => onClose()} maxWidth="xs" fullWidth>
       <DialogTitle>
-        <b>Add Templates</b>
+        <b>Add Existing Object</b>
       </DialogTitle>
 
       <DialogContent sx={{ maxHeight: '600px' }}>
+        <TextField
+          sx={{ minWidth: 400 }}
+          label="Search"
+          variant="standard"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
+
         <List dense>
-          {availableTemplates?.map((entity) => (
+          {sortedEntities?.map((entity) => (
             <>
               <ListItem
                 key={entity._id}
@@ -109,4 +127,4 @@ const TemplateEntityDialog = ({
   );
 };
 
-export default TemplateEntityDialog;
+export default ExistingEntityDialog;

@@ -10,7 +10,14 @@ export class EntityService {
     private valueMapService: ValueMapService,
   ) {}
 
-  async getAll(userId: string, tabletopId: string): Promise<Entity[]> {
+  async getAllUserCreated(userId: string): Promise<Entity[]> {
+    return this.entityModel.find({ userId });
+  }
+
+  async getAllForTabletop(
+    userId: string,
+    tabletopId: string,
+  ): Promise<Entity[]> {
     const valueMaps = await this.valueMapService.getAll(userId, tabletopId);
     const entityIds = valueMaps.map((x) => x.entityId);
     return this.entityModel.where('_id').in(entityIds).exec();
@@ -37,7 +44,7 @@ export class EntityService {
   }
 
   async create(userId: string, entry: CreateEntity): Promise<Entity> {
-    const model = new this.entityModel({ ...entry, userId });
+    const model = new this.entityModel({ ...entry, userId, isTemplate: false });
     await model.save();
     return model;
   }
@@ -45,7 +52,7 @@ export class EntityService {
   async update(userId: string, entry: UpdateEntity): Promise<Entity> {
     const model = await this.entityModel.findOne({ _id: entry._id, userId });
     if (!model) throw new NotFoundException();
-    model.set(entry);
+    model.set({ ...entry, isTemplate: false });
     await model.save();
     return model;
   }

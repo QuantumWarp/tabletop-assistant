@@ -5,7 +5,8 @@ import {
 import TopBar from '../components/TopBar';
 import ObjectUpsertDialog from '../features/entity/upsert/EntityUpsertDialog';
 import EntityInstanceList from '../features/entity-instance/EntityInstanceList';
-import TemplateEntityDialog from '../features/template/TemplateEntityDialog';
+import TemplateEntityDialog from '../features/entity-instance/TemplateEntityDialog';
+import ExistingEntityDialog from '../features/entity-instance/ExistingEntityDialog';
 import { useTemplateRoot } from '../helpers/hooks/use-template-root';
 
 const EntityInstancePage = () => {
@@ -58,6 +59,14 @@ const EntityInstancePage = () => {
         {existingEntityDialogOpen && (
           <ObjectUpsertDialog
             open={newEntityDialogOpen}
+            onClose={() => setExistingEntityDialogOpen(false)}
+          />
+        )}
+
+        {existingEntityDialogOpen && !isLoading && (
+          <ExistingEntityDialog
+            tag={templateRoot?.tag || ''}
+            open={existingEntityDialogOpen}
             onClose={() => setExistingEntityDialogOpen(false)}
           />
         )}
