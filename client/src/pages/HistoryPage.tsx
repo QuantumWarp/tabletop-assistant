@@ -12,7 +12,7 @@ import HistoryUpdateDialog from '../features/history/HistoryUpsertDialog';
 import { useGetHistoryQuery } from '../store/api';
 
 const HistoryPage = () => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const [filter, setFilter] = useState('');
   const [newHistoryDialogOpen, setNewHistoryDialogOpen] = useState(false);
   const { data: entries } = useGetHistoryQuery(tabletopId);

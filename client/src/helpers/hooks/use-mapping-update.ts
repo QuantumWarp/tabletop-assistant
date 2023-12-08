@@ -9,7 +9,7 @@ import { addUpdates, selectUpdates } from '../../store/mapping-slice';
 export function useMappingUpdate() {
   const dispatch = useDispatch();
 
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
   const [updateValues] = useUpdateValueMapsMutation();
 

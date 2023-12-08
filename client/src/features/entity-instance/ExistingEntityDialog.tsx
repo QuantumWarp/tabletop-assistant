@@ -31,7 +31,7 @@ interface ExistingEntityDialogProps {
 const ExistingEntityDialog = ({
   tag, open, onClose,
 }: ExistingEntityDialogProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
 
   const { data: allEntities } = useGetUserCreatedEntitiesQuery();
   const { data: entities } = useGetEntitiesQuery(tabletopId);

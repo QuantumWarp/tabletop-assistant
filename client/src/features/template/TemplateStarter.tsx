@@ -9,7 +9,7 @@ import TemplateRootTiles from './TemplateRootTiles';
 import TemplateImportDialog from './TemplateImportDialog';
 
 const TemplatePage = () => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
 
   const [templateRoot, setTemplateRoot] = useState<TemplateRoot>();
   const [templateGroup, setTemplateGroup] = useState<TemplateGroup>();

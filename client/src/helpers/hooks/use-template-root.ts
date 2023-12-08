@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery, useGetTemplateRootsQuery } from '../../store/api';
 
 export function useTemplateRoot() {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const {
     data: templateRoots,
     isLoading: templateRootsLoading,

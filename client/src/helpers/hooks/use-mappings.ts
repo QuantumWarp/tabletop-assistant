@@ -10,7 +10,7 @@ export function useMappings(emptyMappings: Mapping[]) {
   const dispatch = useAppDispatch();
   const mappings = useSelector(selectMappings(emptyMappings));
 
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
 

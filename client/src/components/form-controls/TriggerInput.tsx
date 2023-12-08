@@ -23,7 +23,7 @@ const TriggerInput = ({
   value, entity, onChange,
 }: TriggerInputProps) => {
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   CardMedia,
@@ -15,7 +15,7 @@ import TabletopUpsertDialog from './TabletopUpsertDialog';
 import { useGetTabletopsQuery } from '../../store/api';
 
 const TabletopList = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data: tabletops } = useGetTabletopsQuery();
 
   const [newTabletopDialogOpen, setNewTabletopDialogOpen] = useState(false);
@@ -38,7 +38,7 @@ const TabletopList = () => {
           {tabletops && tabletops.map((tabletop) => (
             <Grid item xs={4} key={tabletop._id}>
               <Card>
-                <CardActionArea onClick={() => history.push(`/tabletop/${tabletop._id}/layout`)}>
+                <CardActionArea onClick={() => navigate(`/tabletop/${tabletop._id}/layout`)}>
                   <CardMedia
                     component="img"
                     height="200"

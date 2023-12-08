@@ -60,7 +60,7 @@ export class EntityService {
   async delete(userId: string, _id: string): Promise<void> {
     const model = await this.entityModel.findOne({ _id, userId });
     if (!model) throw new NotFoundException();
-    await model.delete();
+    await model.deleteOne();
 
     const valuesModel = await this.valueMapService.get(userId, _id);
     if (valuesModel) await this.valueMapService.delete(userId, _id);

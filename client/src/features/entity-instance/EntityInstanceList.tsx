@@ -28,7 +28,7 @@ interface EntityInstanceListProps {
 }
 
 const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
   const [deleteValue] = useDeleteValueMapMutation();

@@ -13,7 +13,7 @@ interface HistoryRowProps {
 }
 
 const HistoryRow = ({ entry }: HistoryRowProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const [editHistory, setEditHistory] = useState<HistoryEntry | undefined>();
 
   return (

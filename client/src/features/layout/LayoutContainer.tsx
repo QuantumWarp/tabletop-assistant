@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Entity, Layout,
 } from 'tabletop-assistant-common';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import './LayoutContainer.css';
 import { useGetEntitiesQuery } from '../../store/api';
@@ -16,8 +16,8 @@ interface LayoutContainerProps {
 }
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
-  const history = useHistory();
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const navigate = useNavigate();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { elementRef, width } = useElementWidth();
 
@@ -29,7 +29,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const mappingUpdate = useMappingUpdate();
 
   const actionHandler = (entity: Entity, actionKey: string) => {
-    history.push({
+    navigate({
       pathname: './action',
       search: `?entity=${entity._id}&action=${actionKey}`,
     });

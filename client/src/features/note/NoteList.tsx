@@ -11,7 +11,7 @@ interface NotesListProps {
 }
 
 const NoteList = ({ filter }: NotesListProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const [editNote, setEditNote] = useState<Note | undefined>();
   const { data: notes } = useGetNotesQuery(tabletopId);
 

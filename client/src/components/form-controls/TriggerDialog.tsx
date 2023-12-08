@@ -35,7 +35,7 @@ interface TriggerDialogProps {
 const TriggerDialog = ({
   initial, entity, open, onSave, onDelete, onClose,
 }: TriggerDialogProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const [manual, setManual] = useState(initial?.manual || false);

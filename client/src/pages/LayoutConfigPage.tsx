@@ -17,7 +17,7 @@ import LayoutUpsertDialog from '../features/layout-config/LayoutUpsertDialog';
 import { useGetLayoutsQuery, useUpdateLayoutMutation, useUpdateLayoutOrderMutation } from '../store/api';
 
 const LayoutConfigPage = () => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
   const [editLayout, setEditLayout] = useState<Layout | undefined>(undefined);

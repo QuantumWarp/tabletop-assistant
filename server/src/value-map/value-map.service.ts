@@ -45,6 +45,6 @@ export class ValueMapService {
   async delete(userId: string, entityId: string): Promise<void> {
     const model = await this.valueMapModel.findOne({ entityId, userId });
     if (!model) throw new NotFoundException();
-    await model.delete();
+    await model.deleteOne();
   }
 }

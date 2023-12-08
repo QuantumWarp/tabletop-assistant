@@ -1,18 +1,20 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MainView from './components/MainView';
 
 const RouterSwitch = () => (
-  <Switch>
-    <Route exact path="/">
-      <HomePage />
-    </Route>
+  <Routes>
+    <Route
+      path="/"
+      element={<HomePage />}
+    />
 
-    <Route path="/tabletop/:tabletopId">
-      <MainView />
-    </Route>
-  </Switch>
+    <Route
+      path="/tabletop/:tabletopId"
+      element={<MainView />}
+    />
+  </Routes>
 );
 
 export default RouterSwitch;

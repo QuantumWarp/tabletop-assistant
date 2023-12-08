@@ -18,7 +18,7 @@ interface MacroInputProps {
 const MacroInput = ({
   value, onChange,
 }: MacroInputProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const [editMacro, setEditMacro] = useState<Partial<Macro>>();

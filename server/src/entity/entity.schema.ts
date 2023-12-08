@@ -14,7 +14,6 @@ export const entitySchema = new Schema<Entity>(
 
     fields: [
       {
-        _id: { id: false },
         key: { type: String, required: true },
         name: { type: String, required: true },
         type: { type: String, required: true },
@@ -26,14 +25,12 @@ export const entitySchema = new Schema<Entity>(
 
     actions: [
       {
-        _id: { id: false },
         key: { type: String, required: true },
         name: { type: String, required: true },
         roll: {},
         macros: {},
         triggers: [
           {
-            _id: { id: false },
             manual: { type: Boolean },
             sibling: { type: Boolean },
             entityId: { type: String },
@@ -45,14 +42,12 @@ export const entitySchema = new Schema<Entity>(
 
     displays: [
       {
-        _id: { id: false },
         name: { type: String, required: true },
         key: { type: String, required: true },
         type: { type: String, required: true },
         default: { type: Boolean, required: true },
         mappings: [
           {
-            _id: { id: false },
             slotKey: { type: String, required: true },
             fieldKey: { type: String, required: true },
           },

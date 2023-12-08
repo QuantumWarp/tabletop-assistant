@@ -20,7 +20,7 @@ interface LayoutConfigBoxProps {
 const LayoutConfigBox = ({
   containerWidth, entry, onChange, onDelete,
 }: LayoutConfigBoxProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const [dialogOpen, setDialogOpen] = useState(false);

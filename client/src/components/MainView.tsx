@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Route, Switch, useRouteMatch,
+  Route, Routes, useMatch,
 } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SideNav from './SideNav';
@@ -13,7 +13,7 @@ import EntityPage from '../pages/EntityPage';
 import EntityInstancePage from '../pages/EntityInstancePage';
 
 const MainView = () => {
-  const { path } = useRouteMatch();
+  const path = useMatch('');
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -29,35 +29,42 @@ const MainView = () => {
           minWidth: 0,
         }}
       >
-        <Switch>
-          <Route path={`${path}/layout`}>
-            <LayoutPage />
-          </Route>
+        <Routes>
+          <Route
+            path={`${path}/layout`}
+            element={<LayoutPage />}
+          />
 
-          <Route path={`${path}/notes`}>
-            <NotesPage />
-          </Route>
+          <Route
+            path={`${path}/notes`}
+            element={<NotesPage />}
+          />
 
-          <Route path={`${path}/action`}>
-            <ActionPage />
-          </Route>
+          <Route
+            path={`${path}/action`}
+            element={<ActionPage />}
+          />
 
-          <Route path={`${path}/history`}>
-            <HistoryView />
-          </Route>
+          <Route
+            path={`${path}/history`}
+            element={<HistoryView />}
+          />
 
-          <Route path={`${path}/layout-config`}>
-            <LayoutConfigPage />
-          </Route>
+          <Route
+            path={`${path}/layout-config`}
+            element={<LayoutConfigPage />}
+          />
 
-          <Route path={`${path}/objects`}>
-            <EntityInstancePage />
-          </Route>
+          <Route
+            path={`${path}/objects`}
+            element={<EntityInstancePage />}
+          />
 
-          <Route path={`${path}/custom-objects`}>
-            <EntityPage />
-          </Route>
-        </Switch>
+          <Route
+            path={`${path}/custom-objects`}
+            element={<EntityPage />}
+          />
+        </Routes>
       </Box>
     </Box>
   );

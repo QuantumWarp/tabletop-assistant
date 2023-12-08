@@ -8,7 +8,6 @@ export const valueMapSchema = new Schema<ValueMap>(
     entityId: { type: String, required: true, immutable: true },
     mappings: [
       {
-        _id: { id: false },
         fieldKey: { type: String, required: true },
         value: { type: String, required: true },
       },

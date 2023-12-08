@@ -8,7 +8,7 @@ import NoteList from '../features/note/NoteList';
 import NoteUpsertDialog from '../features/note/NoteUpsertDialog';
 
 const NotePage = () => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const [filter, setFilter] = useState('');
   const [newNoteDialogOpen, setNewNoteDialogOpen] = useState(false);
 

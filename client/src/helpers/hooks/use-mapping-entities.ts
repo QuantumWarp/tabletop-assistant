@@ -5,7 +5,7 @@ import FieldHelper from '../field.helper';
 import { useMappings } from './use-mappings';
 
 export function useMappingEntities(entityIds: string[]) {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const filteredEntities = (entities || [])

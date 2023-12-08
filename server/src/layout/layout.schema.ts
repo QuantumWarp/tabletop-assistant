@@ -14,16 +14,13 @@ export const layoutSchema = new Schema<Layout>(
 
     entries: [
       {
-        _id: { id: false },
         entityId: { type: String, required: true },
         displayKey: { type: String, required: true },
         position: {
-          _id: { id: false },
           left: { type: Number, required: true },
           top: { type: Number, required: true },
         },
         size: {
-          _id: { id: false },
           width: { type: Number, required: true },
           height: { type: Number, required: true },
         },

@@ -32,7 +32,7 @@ interface EditLayoutEntryDialogProps {
 const EditLayoutEntryDialog = ({
   initial, position, open, onSave, onDelete, onClose,
 }: EditLayoutEntryDialogProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const [entityId, setEntityId] = useState(initial?.entityId || '');

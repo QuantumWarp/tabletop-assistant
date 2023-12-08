@@ -12,7 +12,7 @@ import LayoutContainer from '../features/layout/LayoutContainer';
 import TemplateStarter from '../features/template/TemplateStarter';
 
 const LayoutPage = () => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
   const [layoutId, setLayoutId] = useState<string | false>();

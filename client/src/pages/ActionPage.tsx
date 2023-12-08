@@ -1,16 +1,16 @@
 import { Box, Button, Container } from '@mui/material';
 import React from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ActionNode from '../features/action/ActionNode';
 import TopBar from '../components/TopBar';
 import { useGetEntitiesQuery } from '../store/api';
 import ActionTreeBuilder from '../helpers/action-tree.builder';
 
 const ActionPage = () => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -29,7 +29,7 @@ const ActionPage = () => {
           <Button
             variant="outlined"
             sx={{ float: 'right' }}
-            onClick={() => history.push('./layout')}
+            onClick={() => navigate('./layout')}
           >
             Finish
           </Button>

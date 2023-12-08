@@ -31,7 +31,7 @@ interface TemplateEntityDialogProps {
 const TemplateEntityDialog = ({
   tag, open, onClose,
 }: TemplateEntityDialogProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
 
   const { data: templates } = useGetEntityTemplatesQuery(tag);
   const { data: entities } = useGetEntitiesQuery(tabletopId);

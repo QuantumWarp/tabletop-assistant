@@ -13,7 +13,7 @@ interface EntityListProps {
 }
 
 const EntityList = ({ filter }: EntityListProps) => {
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const [editEntity, setEditEntity] = useState<Entity | undefined>();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 

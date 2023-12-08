@@ -14,16 +14,16 @@ import {
   Note as NotesIcon,
   Settings as ConfigureIcon,
 } from '@mui/icons-material';
-import { NavLink, useHistory, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { Tabletop } from 'tabletop-assistant-common';
 import './SideNav.css';
 import TabletopUpsertDialog from '../features/tabletop/TabletopUpsertDialog';
 import { useGetTabletopQuery } from '../store/api';
 
 const SideNav = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const { tabletopId } = useParams<{ tabletopId: string }>();
+  const { tabletopId } = useParams() as { tabletopId: string };
   const { data: tabletop } = useGetTabletopQuery(tabletopId);
 
   const [editTabletop, setEditTabletop] = useState<Tabletop | undefined>();
@@ -55,14 +55,12 @@ const SideNav = () => {
           <TabletopUpsertDialog
             initial={editTabletop}
             open={Boolean(editTabletop)}
-            onClose={(deleted) => (deleted ? history.push('/') : setEditTabletop(undefined))}
+            onClose={(deleted) => (deleted ? navigate('/') : setEditTabletop(undefined))}
           />
         )}
 
         <ListItem
-          button
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./layout"
         >
@@ -73,9 +71,7 @@ const SideNav = () => {
         <Divider />
 
         <ListItem
-          button
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./action"
         >
@@ -86,9 +82,7 @@ const SideNav = () => {
         <Divider />
 
         <ListItem
-          button
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./notes"
         >
@@ -99,9 +93,7 @@ const SideNav = () => {
         <Divider />
 
         <ListItem
-          button
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./history"
         >
@@ -116,9 +108,7 @@ const SideNav = () => {
         <Divider />
 
         <ListItem
-          button
           className="thin-button"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./layout-config"
         >
@@ -129,9 +119,7 @@ const SideNav = () => {
         </ListItem>
 
         <ListItem
-          button
           className="thin-button"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./objects"
         >
@@ -142,9 +130,8 @@ const SideNav = () => {
         </ListItem>
 
         <ListItem
-          button
           className="thin-button"
-          onClick={() => history.push('/')}
+          onClick={() => navigate('/')}
         >
           <ListItemIcon>
             <SwitchIcon />

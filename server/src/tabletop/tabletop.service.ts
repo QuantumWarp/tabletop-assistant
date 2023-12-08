@@ -44,6 +44,6 @@ export class TabletopService {
   async delete(userId: string, _id: string): Promise<void> {
     const model = await this.tabletopModel.findOne({ _id, userId });
     if (!model) throw new NotFoundException();
-    await model.delete();
+    await model.deleteOne();
   }
 }
