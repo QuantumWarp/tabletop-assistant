@@ -14,7 +14,7 @@ import {
 } from '@mui/icons-material';
 import { useDeleteImageMutation, useUploadImageMutation } from '../../store/api';
 
-const uploadedImagePrefix = `${process.env.REACT_APP_API_URL}/images/`;
+const uploadedImagePrefix = `${import.meta.env.VITE_APP_API_URL}/images/`;
 
 interface ImageInputProps {
   disabled?: boolean;

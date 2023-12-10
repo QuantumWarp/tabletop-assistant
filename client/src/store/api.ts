@@ -26,16 +26,16 @@ import {
 
 export const msalInstance = new PublicClientApplication({
   auth: {
-    clientId: process.env.REACT_APP_AUTH_CLIENT_ID ?? '',
-    authority: process.env.REACT_APP_AUTH_AUTHORITY ?? '',
-    redirectUri: process.env.REACT_APP_AUTH_REDIRECT_URI ?? '',
+    clientId: import.meta.env.VITE_APP_AUTH_CLIENT_ID ?? '',
+    authority: import.meta.env.VITE_APP_AUTH_AUTHORITY ?? '',
+    redirectUri: import.meta.env.VITE_APP_AUTH_REDIRECT_URI ?? '',
   },
 });
 
 export const api = createApi({
   tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Template', 'TemplateEntity'],
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL ?? '',
+    baseUrl: import.meta.env.VITE_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
       const account = msalInstance.getAllAccounts()[0];
       const response = await msalInstance.acquireTokenSilent({
