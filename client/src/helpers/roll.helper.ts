@@ -6,7 +6,7 @@ import {
   RollCombo,
   RollComboGroup,
   Expression,
-} from 'tabletop-assistant-common';
+} from '@/common';
 
 export default class RollHelper {
   static roll(combo: ResolvedRollCombo): RollResult {
@@ -37,13 +37,13 @@ export default class RollHelper {
 
   static resolveComputed(
     combo: RollCombo,
-    results: { expression: Expression, result: any }[],
+    results: { expression: Expression, result: number }[],
   ): ResolvedRollCombo {
     return combo
       .map((x) => ({
         ...x,
-        faces: results.find((er) => er.expression === x.facesComputed)?.result || x.faces,
-        number: results.find((er) => er.expression === x.numberComputed)?.result || x.number,
+        faces: results.find((er) => er.expression === x.facesComputed)?.result || x.faces || 0,
+        number: results.find((er) => er.expression === x.numberComputed)?.result || x.number || 0,
       }));
   }
 
@@ -123,7 +123,7 @@ export default class RollHelper {
     return newCombo;
   }
 
-  static mergeComboGroups(a: RollComboGroup, b: RollComboGroup): RollComboGroup | Boolean {
+  static mergeComboGroups(a: RollComboGroup, b: RollComboGroup): RollComboGroup | boolean {
     if (Boolean(a.static) !== Boolean(b.static)) return false;
     if (a.facesComputed || b.facesComputed) return false;
     if (a.numberComputed || b.numberComputed) return false;

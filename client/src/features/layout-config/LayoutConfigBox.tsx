@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import {
   DraggableData, ResizableDelta, Rnd,
 } from 'react-rnd';
-import { LayoutEntry } from 'tabletop-assistant-common';
+import { LayoutEntry } from '@/common';
 import { useParams } from 'react-router-dom';
 import LayoutConfigDialog from './EditLayoutEntryDialog';
 import './LayoutConfigBox.css';

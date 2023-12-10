@@ -5,7 +5,7 @@ import {
   Tabletop,
   CreateTabletop,
   UpdateTabletop,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import { TabletopDocument } from './tabletop.schema';
 
 @Injectable()

@@ -2,7 +2,7 @@ import {
   Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { CreateEntity, EntityDisplay, EntityDisplayType } from 'tabletop-assistant-common';
+import { CreateEntity, EntityDisplay, EntityDisplayType } from '@/common';
 import DisplayHelper from '../../../helpers/display.helper';
 import EditDisplayDialog from './EditDisplayDialog';
 

@@ -1,5 +1,5 @@
 import { HydratedDocument, Schema } from 'mongoose';
-import { HistoryEntry } from 'tabletop-assistant-common';
+import { HistoryEntry } from '@/common';
 
 export const historySchema = new Schema<HistoryEntry>(
   {

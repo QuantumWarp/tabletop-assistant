@@ -9,7 +9,6 @@ const App = () => {
   const themeString = useAppSelector(selectTheme);
   const preferDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const currentMode = themeString || (preferDarkMode ? 'dark' : 'light');
-
   const theme = currentMode === 'dark' ? dark : light;
 
   return (

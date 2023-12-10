@@ -8,7 +8,7 @@ import {
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import { CreateEntity, EntityActionTrigger, UpdateEntity } from 'tabletop-assistant-common';
+import { CreateEntity, EntityActionTrigger, UpdateEntity } from '@/common';
 import TriggerDialog from './TriggerDialog';
 import ActionTreeHelper from '../../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../../store/api';
@@ -38,6 +38,7 @@ const TriggerInput = ({
           <TextField {...params} label="Triggers" onClick={() => setEditTrigger({})} />
         )}
         renderTags={(triggers, getTagProps) => triggers.map((trigger, index) => (
+          // eslint-disable-next-line react/jsx-key
           <Chip
             {...getTagProps({ index })}
             variant="filled"

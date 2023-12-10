@@ -11,15 +11,15 @@ import {
 } from '@mui/icons-material';
 import {
   EntityField,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import ValueInput from '../../components/form-controls/ValueInput';
 import FieldType from '../../models/field.type';
 
 interface EntityValueUpdateDialogProps {
   open: boolean;
   field: EntityField;
-  value: any;
-  onSave: (value: any) => void;
+  value: string | number | boolean | undefined;
+  onSave: (value: string | number | boolean | undefined) => void;
   onClose: () => void;
 }
 
@@ -41,7 +41,7 @@ const EntityValueUpdateDialog = ({
       <DialogContent>
         <ValueInput
           label="Value"
-          value={newValue}
+          value={newValue || ''}
           type={field.type as FieldType}
           onChange={setNewValue}
         />

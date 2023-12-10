@@ -1,4 +1,4 @@
-import { Entity } from 'tabletop-assistant-common';
+import { Entity } from '@/common';
 import ActionTree from '../models/action-tree';
 import ActionTreeNode from '../models/action-tree-node';
 

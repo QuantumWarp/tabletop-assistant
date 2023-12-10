@@ -1,5 +1,5 @@
 import React from 'react';
-import { Macro } from 'tabletop-assistant-common';
+import { Macro } from '@/common';
 import './ActionNodeMacro.css';
 
 interface ActionNodeMacroInputProps {

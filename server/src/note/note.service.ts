@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Note, CreateNote, UpdateNote } from 'tabletop-assistant-common';
+import { Note, CreateNote, UpdateNote } from '@/common';
 
 export class NoteService {
   constructor(@InjectModel('Note') private noteModel: Model<Note>) {}

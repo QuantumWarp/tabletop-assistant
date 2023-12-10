@@ -15,7 +15,7 @@ import {
   Settings as ConfigureIcon,
 } from '@mui/icons-material';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
-import { Tabletop } from 'tabletop-assistant-common';
+import { Tabletop } from '@/common';
 import './SideNav.css';
 import TabletopUpsertDialog from '../features/tabletop/TabletopUpsertDialog';
 import { useGetTabletopQuery } from '../store/api';

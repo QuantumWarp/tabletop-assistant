@@ -7,7 +7,7 @@ import {
   Select,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { ExpressionVariable } from 'tabletop-assistant-common';
+import { ExpressionVariable } from '@/common';
 import { useGetEntitiesQuery } from '../../store/api';
 
 interface ComputedInputRowProps {

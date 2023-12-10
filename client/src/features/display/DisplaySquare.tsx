@@ -32,7 +32,7 @@ const DisplaySquare = ({
               className="icon"
               sx={{ borderColor: 'custom.layout.border' }}
             >
-              {icon && <Icon icon={icon?.value} />}
+              {icon.value && <Icon icon={icon.value.toString()} />}
             </Box>
           )}
 

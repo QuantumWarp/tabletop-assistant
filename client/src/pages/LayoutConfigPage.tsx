@@ -8,7 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { Layout } from 'tabletop-assistant-common';
+import { Layout } from '@/common';
 import { useParams } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
 import LayoutConfigContainer from '../features/layout-config/LayoutConfigContainer';
@@ -163,7 +163,7 @@ const LayoutConfigPage = () => {
             <LayoutUpsertDialog
               tabletopId={tabletopId}
               open={newLayout}
-              nextOrder={Math.max(...layoutList?.map((x) => x.order)) + 1}
+              nextOrder={Math.max(...layoutList.map((x) => x.order)) + 1}
               onClose={() => setNewLayout(false)}
             />
           )}

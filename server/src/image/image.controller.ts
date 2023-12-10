@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Express } from 'express';
-import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
+import { MicrosoftGuard } from '@/setup/microsoft.strategy';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage, MulterError } from 'multer';
 import { randomUUID } from 'crypto';

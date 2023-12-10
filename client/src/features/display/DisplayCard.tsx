@@ -45,7 +45,7 @@ const DisplayCard = ({
                 ...[enabled, disabled].filter((x): x is SlotMapping => Boolean(x)),
               )}
             >
-              <Icon icon={icon?.value} />
+              {icon.value && <Icon icon={icon.value.toString()} />}
             </Button>
 
             <Divider orientation="vertical" />
@@ -64,13 +64,12 @@ const DisplayCard = ({
               <div className="dots">
                 {Array(maximum?.value).fill(0).map((_x, index) => (
                   <Box
-                    // eslint-disable-next-line react/no-array-index-key
                     key={index}
                     className="dot"
                     sx={{
                       border: 1,
                       borderColor: 'custom.dot.border',
-                      backgroundColor: index < (current?.value || 0) ? 'custom.dot.background' : 'none',
+                      backgroundColor: index < Number(current?.value || 0) ? 'custom.dot.background' : 'none',
                     }}
                   />
                 ))}

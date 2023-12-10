@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Expression, RollResult } from 'tabletop-assistant-common';
+import { Expression, RollResult } from '@/common';
 import { Box } from '@mui/material';
 import {
   Casino as RollIcon,
@@ -39,7 +39,10 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
 
   const [roll, setRoll] = useState(
     node.action.roll && expressionResults
-      && RollHelper.resolveComputed(node.action.roll, expressionResults),
+      && RollHelper.resolveComputed(node.action.roll, expressionResults as {
+        expression: Expression;
+        result: number;
+    }[]),
   );
   const [results, setResults] = useState([] as RollResult[]);
 

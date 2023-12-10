@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { ValueMap } from 'tabletop-assistant-common';
+import { ValueMap } from '@/common';
 import { useDebouncedCallback } from 'use-debounce';
 import { Mapping } from '../../models/mapping';
 import { useGetValueMapsQuery, useUpdateValueMapsMutation } from '../../store/api';

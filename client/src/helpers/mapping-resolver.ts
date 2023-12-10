@@ -1,6 +1,6 @@
 import {
   Entity, EntityField, Expression, ValueMap,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import { parser } from 'mathjs';
 import { EmptyMapping, Mapping, mappingsMatch } from '../models/mapping';
 import FieldHelper from './field.helper';
@@ -35,7 +35,7 @@ export default class MappingResolver {
     return mapping;
   }
 
-  private compute(expression: Expression, forMapping: Mapping): any {
+  private compute(expression: Expression, forMapping: Mapping): string | number | boolean {
     const parse = parser();
 
     expression.variables.forEach((variable) => {
@@ -51,7 +51,7 @@ export default class MappingResolver {
     return parse.evaluate(expression.expression);
   }
 
-  private determineValue(mapping: Mapping): any {
+  private determineValue(mapping: Mapping): string | number | boolean | undefined {
     const { field, value } = this.resolveObjects(mapping);
 
     if (!field) {

@@ -19,7 +19,7 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
-import { Entity } from 'tabletop-assistant-common';
+import { Entity } from '@/common';
 import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
 
 interface ExistingEntityDialogProps {

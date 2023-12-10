@@ -6,7 +6,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { TemplateRoot } from 'tabletop-assistant-common';
+import { TemplateRoot } from '@/common';
 
 interface TemplateRootCardProps {
   templateRoot: TemplateRoot;

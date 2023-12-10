@@ -6,7 +6,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { TemplateGroup } from 'tabletop-assistant-common';
+import { TemplateGroup } from '@/common';
 
 interface TemplateGroupCardProps {
   templateGroup: TemplateGroup;

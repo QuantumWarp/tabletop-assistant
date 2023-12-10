@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { Entity } from 'tabletop-assistant-common';
+import { Entity } from '@/common';
 import './EntityInstance.css';
 
 interface EntityInstanceCardProps {

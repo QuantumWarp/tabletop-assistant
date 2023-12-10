@@ -3,7 +3,7 @@ import {
   CreateLayout,
   CreateTemplateGroup,
   CreateTemplateRoot,
-} from 'tabletop-assistant-common';
+} from '@/common';
 
 export interface Collection {
   root: CreateTemplateRoot;

@@ -13,7 +13,7 @@ export interface ValueMap {
 
 export interface FieldValueMapping {
   fieldKey: string;
-  value: any;
+  value: string | number | boolean | undefined;
 }
 
 export type UpdateValueMap = Omit<ValueMap, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;

@@ -14,7 +14,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Tabletop } from 'tabletop-assistant-common';
+import { Tabletop } from '@/common';
 import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
 import {
   useCreateTabletopMutation,

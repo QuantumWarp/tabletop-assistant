@@ -1,4 +1,4 @@
-import { CreateEntity } from 'tabletop-assistant-common';
+import { CreateEntity } from '@/common';
 
 export default class ExportHelper {
   static export(entity: CreateEntity) {

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Macro } from 'tabletop-assistant-common';
+import { Macro } from '@/common';
 import { useGetEntitiesQuery } from '../../store/api';
 import ComputedDialog from './ComputedDialog';
 
@@ -35,6 +35,7 @@ const MacroInput = ({
           <TextField {...params} label="Macros" onClick={() => setEditMacro({})} />
         )}
         renderTags={(macros, getTagProps) => macros.map((macro, index) => (
+          // eslint-disable-next-line react/jsx-key
           <Chip
             {...getTagProps({ index })}
             variant="filled"

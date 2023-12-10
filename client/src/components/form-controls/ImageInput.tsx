@@ -38,7 +38,7 @@ const ImageInput = ({
     formData.append('file', e.target.files[0]);
     const result = await uploadImage(formData);
 
-    onChange(uploadedImagePrefix + (result as any).data.filename);
+    onChange(uploadedImagePrefix + (result as { data: { filename: string } }).data.filename);
   };
 
   const handleDelete = async () => {

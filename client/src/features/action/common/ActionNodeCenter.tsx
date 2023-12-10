@@ -7,7 +7,7 @@ import './ActionNode.css';
 
 interface ActionNodeCenterProps {
   children?: React.ReactNode;
-  noOutput?: Boolean;
+  noOutput?: boolean;
   onClick?: () => void;
 }
 

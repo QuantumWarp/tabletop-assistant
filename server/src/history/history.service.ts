@@ -5,7 +5,7 @@ import {
   HistoryEntry,
   CreateHistoryEntry,
   UpdateHistoryEntry,
-} from 'tabletop-assistant-common';
+} from '@/common';
 
 export class HistoryService {
   constructor(

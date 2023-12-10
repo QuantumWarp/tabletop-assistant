@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import {
   CreateEntity, EntityAction,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import FieldHelper from '../../../helpers/field.helper';
 import RollInput from '../../../components/form-controls/RollInput';
 import TriggerInput from '../../../components/form-controls/TriggerInput';

@@ -1,4 +1,5 @@
 /dist
-/images
 /node_modules
+/src/common
+/images
 .env

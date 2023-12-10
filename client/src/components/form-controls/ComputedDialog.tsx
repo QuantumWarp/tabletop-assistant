@@ -13,7 +13,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { parse, SymbolNode } from 'mathjs';
-import { Expression, ExpressionVariable } from 'tabletop-assistant-common';
+import { Expression, ExpressionVariable } from '@/common';
 import ComputedInputRow from './ComputedInputRow';
 
 interface ComputedDialogProps {
@@ -79,6 +79,7 @@ const ComputedDialog = ({
 
           {expressionSymbols.map((variable) => (
             <ComputedInputRow
+              key={variable}
               name={variable}
               value={variables.find((x) => x.key === variable)}
               onChange={(newExpression) => setVariables(variables

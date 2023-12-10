@@ -9,9 +9,9 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateLayout, Layout, UpdateLayout } from 'tabletop-assistant-common';
-import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
-import { UserId } from 'src/setup/user.decorator';
+import { CreateLayout, Layout, UpdateLayout } from '@/common';
+import { MicrosoftGuard } from '@/setup/microsoft.strategy';
+import { UserId } from '@/setup/user.decorator';
 import { LayoutService } from './layout.service';
 
 @UseGuards(MicrosoftGuard)

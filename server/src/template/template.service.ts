@@ -3,7 +3,7 @@ import {
   TemplateRoot,
   TemplateImport,
   TemplateSummary,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import { EntityService } from '../entity/entity.service';
 import { LayoutService } from '../layout/layout.service';
 import { TemplateGroupService } from './template-group.service';

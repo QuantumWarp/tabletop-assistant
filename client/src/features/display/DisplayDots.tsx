@@ -16,7 +16,7 @@ const DisplayDots = ({
 }: DisplayDotsProps) => {
   const name = mappings.find((x) => x.slotKey === 'name');
   const value = mappings.find((x) => x.slotKey === 'value');
-  const maximum = mappings.find((x) => x.slotKey === 'maximum')?.value;
+  const maximum = mappings.find((x) => x.slotKey === 'maximum');
   const action = mappings.find((x) => x.slotKey === 'action');
 
   return (
@@ -29,7 +29,7 @@ const DisplayDots = ({
       </span>
 
       {maximum && Array(Number(maximum?.value)).fill(0).map((_x, index) => {
-        const filled = index < (value?.value || 0);
+        const filled = index < Number(value?.value || 0);
 
         return (
           <Box

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Divider } from '@mui/material';
-import { RollResult } from 'tabletop-assistant-common';
+import { RollResult } from '@/common';
 import './ActionNodeRoll.css';
 import RollHelper from '../../../helpers/roll.helper';
 

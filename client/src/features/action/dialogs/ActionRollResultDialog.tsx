@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Redo } from '@mui/icons-material';
 import './ActionRollResultDialog.css';
-import { RollResult, RollResultDie } from 'tabletop-assistant-common';
+import { RollResult, RollResultDie } from '@/common';
 import RollHelper from '../../../helpers/roll.helper';
 
 interface ActionRollResultDialogProps {

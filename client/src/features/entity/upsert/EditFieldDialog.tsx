@@ -16,7 +16,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityField, EntityFieldType, Expression } from 'tabletop-assistant-common';
+import { EntityField, EntityFieldType, Expression } from '@/common';
 import FieldHelper from '../../../helpers/field.helper';
 import ValueInput from '../../../components/form-controls/ValueInput';
 import FieldType from '../../../models/field.type';
@@ -36,7 +36,7 @@ const EditFieldDialog = ({
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState(initial?.type || FieldType.String);
   const [computed, setComputed] = useState(initial?.computed || {});
-  const [initialValue, setInitialValue] = useState(initial?.initial || '');
+  const [initialValue, setInitialValue] = useState(initial?.initial);
   const [prefix, setPrefix] = useState(initial?.prefix || '');
   const [postfix, setPostfix] = useState(initial?.postfix || '');
 
@@ -97,9 +97,9 @@ const EditFieldDialog = ({
           <Grid item xs={12}>
             <ValueInput
               label="Initial Value"
-              value={initialValue}
+              value={initialValue || ''}
               type={type as FieldType}
-              onChange={setInitialValue}
+              onChange={(x) => setInitialValue(x)}
             />
 
             {type === FieldType.Computed && (

@@ -1,7 +1,7 @@
 import {
   CreateEntity, EntityAction, EntityDisplay, EntityDisplayType,
   EntityField, SlotFieldMapping,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';

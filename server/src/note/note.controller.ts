@@ -9,9 +9,9 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateNote, Note, UpdateNote } from 'tabletop-assistant-common';
-import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
-import { UserId } from 'src/setup/user.decorator';
+import { CreateNote, Note, UpdateNote } from '@/common';
+import { MicrosoftGuard } from '@/setup/microsoft.strategy';
+import { UserId } from '@/setup/user.decorator';
 import { NoteService } from './note.service';
 
 @UseGuards(MicrosoftGuard)

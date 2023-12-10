@@ -1,5 +1,5 @@
 import { HydratedDocument, Schema } from 'mongoose';
-import { Tabletop } from 'tabletop-assistant-common';
+import { Tabletop } from '@/common';
 
 export const tabletopSchema = new Schema<Tabletop>(
   {

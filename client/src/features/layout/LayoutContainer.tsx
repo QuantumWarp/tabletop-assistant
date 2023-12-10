@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Entity, Layout,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import { useNavigate, useParams } from 'react-router-dom';
 import LayoutPositionHelper from '../../helpers/layout-position.helper';
 import './LayoutContainer.css';

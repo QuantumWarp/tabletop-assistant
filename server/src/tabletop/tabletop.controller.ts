@@ -12,9 +12,9 @@ import {
   CreateTabletop,
   Tabletop,
   UpdateTabletop,
-} from 'tabletop-assistant-common';
-import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
-import { UserId } from 'src/setup/user.decorator';
+} from '@/common';
+import { MicrosoftGuard } from '@/setup/microsoft.strategy';
+import { UserId } from '@/setup/user.decorator';
 import { TabletopService } from './tabletop.service';
 
 @UseGuards(MicrosoftGuard)

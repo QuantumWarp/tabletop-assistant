@@ -8,7 +8,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { TemplateGroup, TemplateRoot } from 'tabletop-assistant-common';
+import { TemplateGroup, TemplateRoot } from '@/common';
 import { useImportTemplateMutation } from '../../store/api';
 
 interface TemplateImportDialogProps {

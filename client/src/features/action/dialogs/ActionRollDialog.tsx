@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { ResolvedRollCombo } from 'tabletop-assistant-common';
+import { ResolvedRollCombo } from '@/common';
 import ActionNodeRollInput from '../roll/ActionNodeRollInput';
 import './ActionRollDialog.css';
 

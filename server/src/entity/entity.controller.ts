@@ -9,9 +9,9 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateEntity, Entity, UpdateEntity } from 'tabletop-assistant-common';
-import { MicrosoftGuard } from 'src/setup/microsoft.strategy';
-import { UserId } from 'src/setup/user.decorator';
+import { CreateEntity, Entity, UpdateEntity } from '@/common';
+import { MicrosoftGuard } from '@/setup/microsoft.strategy';
+import { UserId } from '@/setup/user.decorator';
 import { EntityService } from './entity.service';
 
 @UseGuards(MicrosoftGuard)

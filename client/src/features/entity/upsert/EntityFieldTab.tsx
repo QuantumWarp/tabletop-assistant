@@ -2,7 +2,7 @@ import {
   Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { EntityField } from 'tabletop-assistant-common';
+import { EntityField } from '@/common';
 import FieldHelper from '../../../helpers/field.helper';
 import FieldType from '../../../models/field.type';
 import EditFieldDialog from './EditFieldDialog';

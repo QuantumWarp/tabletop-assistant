@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
-import { Layout, LayoutPosition } from 'tabletop-assistant-common';
+import { Layout, LayoutPosition } from '@/common';
 import LayoutConfigBox from './LayoutConfigBox';
 import './LayoutConfigContainer.css';
 import EditLayoutEntryDialog from './EditLayoutEntryDialog';
@@ -43,7 +43,7 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
         <div
           className="click-area"
           onClick={(e) => {
-            const rect = (e.target as any).getBoundingClientRect();
+            const rect = (e.target as HTMLElement).getBoundingClientRect();
             const newPos = {
               left: ((e.clientX - rect.left) / containerWidth) * 100,
               top: ((e.clientY - rect.top) / containerWidth) * 100,

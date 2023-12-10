@@ -17,7 +17,7 @@ import {
 import { Icon } from '@iconify/react';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Entity } from 'tabletop-assistant-common';
+import { Entity } from '@/common';
 import { useDeleteValueMapMutation, useGetEntitiesQuery, useGetValueMapsQuery } from '../../store/api';
 import EntityInstanceDialog from './EntityInstanceDialog';
 import EntityUpsertDialog from '../entity/upsert/EntityUpsertDialog';

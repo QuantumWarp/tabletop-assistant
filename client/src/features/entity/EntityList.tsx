@@ -3,7 +3,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Entity } from 'tabletop-assistant-common';
+import { Entity } from '@/common';
 import EntityUpsertDialog from './upsert/EntityUpsertDialog';
 import { useGetEntitiesQuery } from '../../store/api';
 import EntityCard from './EntityCard';

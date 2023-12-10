@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
-import { TemplateGroup } from 'tabletop-assistant-common';
+import { TemplateGroup } from '@/common';
 
 interface TemplateEntityListProps {
   groups: TemplateGroup[];
@@ -21,6 +21,7 @@ const TemplateEntityList = ({
     <FormGroup>
       {sorted.map((group) => (
         <FormControlLabel
+          key={group._id}
           control={(
             <Checkbox
               checked={selectedIds.includes(group._id)}

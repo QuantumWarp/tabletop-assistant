@@ -4,7 +4,7 @@ export interface EmptyMapping {
 }
 
 export interface Mapping extends EmptyMapping {
-  value: any;
+  value: string | number | boolean | undefined;
 }
 
 export const mappingsMatch = (a: EmptyMapping, b: EmptyMapping) => {

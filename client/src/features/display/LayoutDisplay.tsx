@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   CreateEntity, EntityDisplay,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import Operations, { OperationHelper } from '../../helpers/operation.helper';
 import DisplayHelper from '../../helpers/display.helper';
 import { Mapping } from '../../models/mapping';

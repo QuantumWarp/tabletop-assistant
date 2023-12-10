@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
-import { Layout } from 'tabletop-assistant-common';
+import { Layout } from '@/common';
 
 interface TemplateLayoutListProps {
   layouts: Layout[];
@@ -21,6 +21,7 @@ const TemplateLayoutList = ({
     <FormGroup>
       {sorted.map((layout) => (
         <FormControlLabel
+          key={layout._id}
           control={(
             <Checkbox
               checked={selectedIds.includes(layout._id)}

@@ -14,7 +14,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Layout } from 'tabletop-assistant-common';
+import { Layout } from '@/common';
 import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
 import { useCreateLayoutMutation, useDeleteLayoutMutation, useUpdateLayoutMutation } from '../../store/api';
 

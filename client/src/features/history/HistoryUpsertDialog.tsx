@@ -14,7 +14,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { HistoryEntry } from 'tabletop-assistant-common';
+import { HistoryEntry } from '@/common';
 import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
 import { useCreateHistoryEntryMutation, useDeleteHistoryEntryMutation, useUpdateHistoryEntryMutation } from '../../store/api';
 

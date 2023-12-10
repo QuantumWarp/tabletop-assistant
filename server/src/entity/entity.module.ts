@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ValueMapModule } from 'src/value-map/value-map.module';
+import { ValueMapModule } from '@/value-map/value-map.module';
 import { EntityController } from './entity.controller';
 import { entitySchema } from './entity.schema';
 import { EntityService } from './entity.service';

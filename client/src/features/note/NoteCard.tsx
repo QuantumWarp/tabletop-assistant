@@ -6,7 +6,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { Note } from 'tabletop-assistant-common';
+import { Note } from '@/common';
 
 interface NoteCardProps {
   note: Note;

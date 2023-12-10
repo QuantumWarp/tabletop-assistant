@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import {
   Computer as RunIcon,
 } from '@mui/icons-material';
-import { Macro } from 'tabletop-assistant-common';
+import { Macro } from '@/common';
 import ActionNodeMacroInput from './ActionNodeMacroInput';
 import ActionNodeMacroOutput from './ActionNodeMacroOutput';
 import ActionNodeInput from '../common/ActionNodeInput';
@@ -33,7 +33,7 @@ const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
     if (!expressionResults) return;
     const updatedMappings = macros.map((macro, index) => ({
       ...macro.target,
-      value: expressionResults[index],
+      value: expressionResults[index].result,
     }));
     mappingUpdate(updatedMappings);
     setLastResults(updatedMappings);

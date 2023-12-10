@@ -2,7 +2,7 @@ import {
   Autocomplete, Grid, TextField,
 } from '@mui/material';
 import React from 'react';
-import { Entity } from 'tabletop-assistant-common';
+import { Entity } from '@/common';
 import IconifyDropdown from '../../../components/IconifyDropdown';
 import ImageInput from '../../../components/form-controls/ImageInput';
 

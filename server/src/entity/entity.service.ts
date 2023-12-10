@@ -1,8 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Entity, CreateEntity, UpdateEntity } from 'tabletop-assistant-common';
-import { ValueMapService } from 'src/value-map/value-map.service';
+import { Entity, CreateEntity, UpdateEntity } from '@/common';
+import { ValueMapService } from '@/value-map/value-map.service';
 
 export class EntityService {
   constructor(

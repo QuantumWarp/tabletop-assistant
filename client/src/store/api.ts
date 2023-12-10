@@ -22,7 +22,7 @@ import {
   TemplateImport,
   TemplateSummary,
   TemplateRoot,
-} from 'tabletop-assistant-common';
+} from '@/common';
 
 export const msalInstance = new PublicClientApplication({
   auth: {

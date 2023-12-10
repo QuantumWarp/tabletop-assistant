@@ -17,7 +17,7 @@ export function useMappingEntities(entityIds: string[]) {
       ...FieldHelper.getFields(x).map((field) => ({
         entityId: x._id,
         fieldKey: field.key,
-        value: null,
+        value: undefined,
       })),
     ]), [] as Mapping[]);
 

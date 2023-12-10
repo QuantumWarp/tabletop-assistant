@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { RollCombo, RollComboGroup } from 'tabletop-assistant-common';
+import { RollCombo, RollComboGroup } from '@/common';
 import RollHelper from '../../../helpers/roll.helper';
 import './ActionNodeRoll.css';
 
@@ -21,6 +21,7 @@ const ActionNodeRollInput = ({
       {sorted.length === 0 && (<span>0</span>)}
       {sorted.map((x, index) => (
         <Box
+          key={RollHelper.stringRepresentation([x])}
           className="face-combo"
           onClick={() => onGroupClick && onGroupClick(x)}
           sx={{

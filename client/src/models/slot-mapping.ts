@@ -1,7 +1,7 @@
-import { SlotFieldMapping } from 'tabletop-assistant-common';
+import { SlotFieldMapping } from '@/common';
 import { Mapping } from './mapping';
 
-export const fakeMapping = (value: any) => ({
+export const fakeMapping = (value: string | number | boolean) => ({
   entityId: '',
   fieldKey: '',
   displayKey: '',
@@ -10,7 +10,7 @@ export const fakeMapping = (value: any) => ({
   formattedValue: value.toString(),
 });
 
-export const actionMapping = (mapping: SlotFieldMapping, value: string | undefined) => ({
+export const actionMapping = (mapping: SlotFieldMapping, value: string | number | boolean | undefined) => ({
   entityId: '',
   fieldKey: mapping.fieldKey,
   displayKey: '',
@@ -26,6 +26,6 @@ export interface SlotMapping extends Mapping {
   displayKey: string;
   slotKey: string;
 
-  value: any;
+  value: string | number | boolean | undefined;
   formattedValue: string;
 }

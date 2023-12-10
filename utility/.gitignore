@@ -1,5 +1,6 @@
-node_modules
-dist
+/node_modules
+/dist
+/src/common
+/src/template/collections
 .env
 
-src/template/collections

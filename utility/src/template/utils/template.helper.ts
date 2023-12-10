@@ -8,7 +8,7 @@ import {
   CreateTemplateRoot,
   CreateTemplateGroup,
   CreateEntity,
-} from 'tabletop-assistant-common';
+} from '@/common';
 
 type TemplateType = CreateTemplateRoot
 | CreateTemplateGroup

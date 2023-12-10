@@ -5,5 +5,5 @@ export default interface DisplaySlot {
   inverse?: string;
   auto?: string[];
   field?: string;
-  value?: any;
+  value?: string | number | boolean;
 }

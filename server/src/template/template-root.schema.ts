@@ -1,5 +1,5 @@
 import { HydratedDocument, Schema } from 'mongoose';
-import { TemplateRoot } from 'tabletop-assistant-common';
+import { TemplateRoot } from '@/common';
 
 export const templateRootSchema = new Schema<TemplateRoot>(
   {

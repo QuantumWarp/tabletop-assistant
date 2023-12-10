@@ -5,7 +5,7 @@ import {
   ValueMap,
   CreateValueMap,
   UpdateValueMap,
-} from 'tabletop-assistant-common';
+} from '@/common';
 
 export class ValueMapService {
   constructor(

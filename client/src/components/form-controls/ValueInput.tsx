@@ -7,9 +7,9 @@ import useIsFirstRender from '../../utils/is-first-render';
 
 interface ValueInputProps {
   label: string;
-  value: any;
+  value: string | number | boolean;
   type: FieldType;
-  onChange: (value: any) => void;
+  onChange: (value: string | number | boolean | undefined) => void;
 }
 
 const ValueInput = ({

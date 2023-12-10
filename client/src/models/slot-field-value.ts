@@ -1,5 +1,5 @@
 export interface SlotFieldValue {
   slotKey: string;
   fieldKey: string;
-  value?: any;
+  value?: string | number | boolean;
 }

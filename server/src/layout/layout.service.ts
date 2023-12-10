@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Layout, CreateLayout, UpdateLayout } from 'tabletop-assistant-common';
+import { Layout, CreateLayout, UpdateLayout } from '@/common';
 
 export class LayoutService {
   constructor(@InjectModel('Layout') private layoutModel: Model<Layout>) {}

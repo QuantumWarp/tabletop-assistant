@@ -1,4 +1,4 @@
-import { LayoutPosition, LayoutSize } from 'tabletop-assistant-common';
+import { LayoutPosition, LayoutSize } from '@/common';
 import LayoutPositionUpdate from '../models/layout-position-update';
 
 export default class LayoutPositionHelper {

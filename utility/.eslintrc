@@ -1,13 +1,11 @@
-{
+{ 
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parserOptions": {
     "project": "./tsconfig.json"
-  },
-  "rules": {
-    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-    "no-multi-str": "off"
   }
 }

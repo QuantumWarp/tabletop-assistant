@@ -2,7 +2,7 @@ import {
   Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
-import { CreateEntity, EntityAction } from 'tabletop-assistant-common';
+import { CreateEntity, EntityAction } from '@/common';
 import EditActionDialog from './EditActionDialog';
 
 interface EntityActionTabProps {

@@ -1,5 +1,5 @@
 import { HydratedDocument, Schema } from 'mongoose';
-import { ValueMap } from 'tabletop-assistant-common';
+import { ValueMap } from '@/common';
 
 export const valueMapSchema = new Schema<ValueMap>(
   {

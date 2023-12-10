@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import {
   CreateEntity, EntityDisplay, EntityDisplayType, SlotFieldMapping,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 import DisplayHelper from '../../../helpers/display.helper';

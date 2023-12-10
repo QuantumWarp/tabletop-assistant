@@ -19,7 +19,7 @@ import {
 } from '@mui/icons-material';
 import {
   CreateEntity, EntityActionTrigger, UpdateEntity,
-} from 'tabletop-assistant-common';
+} from '@/common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
 

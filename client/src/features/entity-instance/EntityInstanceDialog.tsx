@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import ReactMarkdown from 'react-markdown';
-import { CreateEntity, EntityField } from 'tabletop-assistant-common';
+import { CreateEntity, EntityField } from '@/common';
 import EntityInstanceValueUpdateDialog from './EntityInstanceValueUpdateDialog';
 import { Mapping } from '../../models/mapping';
 import './EntityInstanceDialog.css';

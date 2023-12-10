@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EntityModule } from 'src/entity/entity.module';
-import { LayoutModule } from 'src/layout/layout.module';
+import { EntityModule } from '@/entity/entity.module';
+import { LayoutModule } from '@/layout/layout.module';
 import { TemplateController } from './template.controller';
 import { templateRootSchema } from './template-root.schema';
 import { TemplateService } from './template.service';
