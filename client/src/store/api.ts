@@ -37,6 +37,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_APP_API_URL ?? '',
     prepareHeaders: async (headers) => {
+      await msalInstance.initialize();
       const account = msalInstance.getAllAccounts()[0];
       const response = await msalInstance.acquireTokenSilent({
         account,

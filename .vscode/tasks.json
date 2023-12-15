@@ -23,13 +23,6 @@
              "endsPattern": "Compiled .*"
            }
         }
-     },
-     {
-        "label": "docker",
-        "type": "shell",
-        "windows": {
-          "command": "(docker context use default) -and ((docker start mongodb) -or (docker run --name mongodb -d -p 27017:27017 mongo))"
-        }
      }
   ]
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Route, Routes, useMatch,
+  Route, Routes,
 } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SideNav from './SideNav';
@@ -13,8 +13,6 @@ import EntityPage from '../pages/EntityPage';
 import EntityInstancePage from '../pages/EntityInstancePage';
 
 const MainView = () => {
-  const path = useMatch('');
-
   return (
     <Box sx={{ display: 'flex' }}>
       <SideNav />
@@ -31,37 +29,37 @@ const MainView = () => {
       >
         <Routes>
           <Route
-            path={`${path}/layout`}
+            path="/layout"
             element={<LayoutPage />}
           />
 
           <Route
-            path={`${path}/notes`}
+            path="/notes"
             element={<NotesPage />}
           />
 
           <Route
-            path={`${path}/action`}
+            path="/action"
             element={<ActionPage />}
           />
 
           <Route
-            path={`${path}/history`}
+            path="/history"
             element={<HistoryView />}
           />
 
           <Route
-            path={`${path}/layout-config`}
+            path="/layout-config"
             element={<LayoutConfigPage />}
           />
 
           <Route
-            path={`${path}/objects`}
+            path="/objects"
             element={<EntityInstancePage />}
           />
 
           <Route
-            path={`${path}/custom-objects`}
+            path="/custom-objects"
             element={<EntityPage />}
           />
         </Routes>

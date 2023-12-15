@@ -11,7 +11,7 @@ const RouterSwitch = () => (
     />
 
     <Route
-      path="/tabletop/:tabletopId"
+      path="/tabletop/:tabletopId/*"
       element={<MainView />}
     />
   </Routes>
