@@ -1,3 +1,6 @@
-/node_modules
-/build
+node_modules
+build
 /examples
+/utility
+/client
+/server
