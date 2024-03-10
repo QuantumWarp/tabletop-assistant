@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import GameObject from '../../models/objects/game-object';
 import { selectActions, setAction, upsertObject } from '../../store/config-slice';
@@ -12,7 +12,7 @@ interface DisplaySimpleToggleProps {
 
 const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const actions = useAppSelector(selectActions);
   const objActions = actions.filter((x) => x.objectId === obj.id);
 
@@ -20,7 +20,7 @@ const DisplaySimpleToggle = ({ obj }: DisplaySimpleToggleProps) => {
     const firstAction = objActions?.find((action) => action.triggers.find((x) => x.manual));
     if (!firstAction) return;
     dispatch(setAction(firstAction));
-    history.push('./action');
+    navigate('../action');
   };
 
   const toggle = () => {

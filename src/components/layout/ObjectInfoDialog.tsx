@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import GameObject from '../../models/objects/game-object';
 import { selectActions, setAction } from '../../store/config-slice';
@@ -20,7 +20,7 @@ interface ObjectInfoDialogProps {
 
 const ObjectInfoDialog = ({ obj, open, onClose }: ObjectInfoDialogProps) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const actions = useAppSelector(selectActions);
   const objActions = actions.filter((x) => x.objectId === obj.id);
   const firstAction = objActions?.find((action) => action.triggers.find((x) => x.manual));
@@ -43,7 +43,7 @@ const ObjectInfoDialog = ({ obj, open, onClose }: ObjectInfoDialogProps) => {
         </Button>
 
         {firstAction && (
-          <Button onClick={() => { dispatch(setAction(firstAction)); history.push('./action'); }} variant="outlined">
+          <Button onClick={() => { dispatch(setAction(firstAction)); navigate('../action'); }} variant="outlined">
             {firstAction.name}
           </Button>
         )}

@@ -1,13 +1,13 @@
 import { Box, Button, Container } from '@mui/material';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ActionNode from '../../components/action/ActionNode';
 import TopBar from '../../components/common/TopBar';
 import { clearAction, selectActionTree } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 
 const ActionPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const actionTree = useAppSelector(selectActionTree);
 
@@ -20,7 +20,7 @@ const ActionPage = () => {
           <Button
             variant="outlined"
             sx={{ float: 'right' }}
-            onClick={() => { dispatch(clearAction()); history.push('./layout'); }}
+            onClick={() => { dispatch(clearAction()); navigate('../layout'); }}
           >
             Finish
           </Button>

@@ -15,7 +15,7 @@ import {
   TextField,
 } from '@mui/material';
 import { OpenInNew } from '@mui/icons-material';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store/store';
 import { deleteConfig, upsertConfig } from '../../store/main-slice';
 import DeleteConfirmDialog from '../common/DeleteConfirmDialog';
@@ -35,7 +35,7 @@ const ConfigUpdateDialog = ({
   info = {}, configId, open, onClose,
 }: ConfigUpdateDialogProps) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
@@ -149,7 +149,7 @@ const ConfigUpdateDialog = ({
               objType="Config"
               objName={info.shortName}
               open={deleteOpen}
-              onDelete={() => { dispatch(deleteConfig(configId)); dispatch(loadConfig(defaultConfiguration())); onClose(); history.push('/'); }}
+              onDelete={() => { dispatch(deleteConfig(configId)); dispatch(loadConfig(defaultConfiguration())); onClose(); navigate('/'); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Card,
   CardMedia,
@@ -19,7 +19,7 @@ import ConfigImportDialog from '../components/export/ConfigImportDialog';
 import DarkModeToggle from '../components/singleton/DarkModeToggle';
 
 const HomePage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const configs = useAppSelector(selectConfigs);
 
   const [newConfigDialogOpen, setNewConfigDialogOpen] = useState(false);
@@ -62,7 +62,7 @@ const HomePage = () => {
           {configs.map((con) => (
             <Grid item xs={4} key={con.id}>
               <Card>
-                <CardActionArea onClick={() => history.push(`/configuration/${con.id}/layout`)}>
+                <CardActionArea onClick={() => navigate(`/configuration/${con.id}/layout`)}>
                   <CardMedia
                     component="img"
                     height="200"

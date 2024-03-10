@@ -3,6 +3,7 @@ import {
   Divider,
   Drawer,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
@@ -14,7 +15,7 @@ import {
   Note as NotesIcon,
   Settings as ConfigureIcon,
 } from '@mui/icons-material';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './SideNav.css';
 import { useAppSelector } from '../../store/store';
 import { selectConfigId, selectInfo } from '../../store/config-slice';
@@ -22,7 +23,7 @@ import ConfigUpdateDialog from '../config-info/ConfigUpdateDialog';
 import ConfigInfo from '../../models/config-info';
 
 const SideNav = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const configId = useAppSelector(selectConfigId);
   const info = useAppSelector(selectInfo);
   const [editInfo, setEditInfo] = useState<ConfigInfo | null>(null);
@@ -57,55 +58,47 @@ const SideNav = () => {
           />
         )}
 
-        <ListItem
-          button
+        <ListItemButton
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./layout"
         >
           <LayoutsIcon className="icon" />
           <span className="name">Layouts</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
 
-        <ListItem
-          button
+        <ListItemButton
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./notes"
         >
           <NotesIcon className="icon" />
           <span className="name">Notes</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
 
-        <ListItem
-          button
+        <ListItemButton
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./action"
         >
           <ActionIcon className="icon" />
           <span className="name">Action</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
 
-        <ListItem
-          button
+        <ListItemButton
           className="menu-item"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./history"
         >
           <HistoryIcon className="icon" />
           <span className="name">History</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
       </div>
@@ -113,10 +106,8 @@ const SideNav = () => {
       <div className="bottom">
         <Divider />
 
-        <ListItem
-          button
+        <ListItemButton
           className="thin-button"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./layout-config"
         >
@@ -124,12 +115,10 @@ const SideNav = () => {
             <ConfigureIcon />
           </ListItemIcon>
           <ListItemText primary="Layout Config" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem
-          button
+        <ListItemButton
           className="thin-button"
-          activeClassName="Mui-selected"
           component={NavLink}
           to="./object-config"
         >
@@ -137,18 +126,17 @@ const SideNav = () => {
             <ConfigureIcon />
           </ListItemIcon>
           <ListItemText primary="Object Config" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem
-          button
+        <ListItemButton
           className="thin-button"
-          onClick={() => history.push('/')}
+          onClick={() => navigate('/')}
         >
           <ListItemIcon>
             <SwitchIcon />
           </ListItemIcon>
           <ListItemText primary="Switch" />
-        </ListItem>
+        </ListItemButton>
       </div>
     </Drawer>
   );

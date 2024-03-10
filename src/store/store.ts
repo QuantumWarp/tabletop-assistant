@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import {
   FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE,
@@ -7,20 +7,19 @@ import storage from 'redux-persist/lib/storage';
 import configurationReducer from './config-slice';
 import mainReducer from './main-slice';
 
-const reducers = combineReducers({
-  main: mainReducer,
-  config: configurationReducer,
-});
-
 const persistConfig = {
   key: 'root',
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
+const persistedMainReducer = persistReducer({ key: "main", storage }, mainReducer);
+const persistedConfigReducer = persistReducer({ key: "main", storage }, configurationReducer);
 
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    main: persistedMainReducer,
+    config: persistedConfigReducer,
+  },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

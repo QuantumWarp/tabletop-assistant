@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Route, Switch, useHistory, useParams, useRouteMatch,
+  Route, Routes, useNavigate, useParams,
 } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SideNav from '../components/singleton/SideNav';
@@ -15,9 +15,8 @@ import LayoutConfigPage from './pages/LayoutConfigPage';
 import ObjectConfigPage from './pages/ObjectConfigPage';
 
 const MainView = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { path } = useRouteMatch();
 
   const currentConfig = useAppSelector(selectConfig);
   const configs = useAppSelector(selectConfigs);
@@ -30,7 +29,7 @@ const MainView = () => {
       if (currentConfig.id !== '') dispatch(upsertConfig(currentConfig));
       dispatch(loadConfig(newConfig));
     } else {
-      history.push('/');
+      navigate('/');
     }
   }, [configId, configs, dispatch, history, currentConfig]);
 
@@ -47,31 +46,37 @@ const MainView = () => {
           flexDirection: 'column',
         }}
       >
-        <Switch>
-          <Route path={`${path}/layout`}>
-            <LayoutPage />
-          </Route>
+        <Routes>
+          <Route
+            path="/layout"
+            element={<LayoutPage />}
+          />
 
-          <Route path={`${path}/notes`}>
-            <NotesPage />
-          </Route>
+          <Route
+            path="/notes"
+            element={<NotesPage />}
+          />
 
-          <Route path={`${path}/action`}>
-            <ActionPage />
-          </Route>
+          <Route
+            path="/action"
+            element={<ActionPage />}
+          />
 
-          <Route path={`${path}/history`}>
-            <HistoryView />
-          </Route>
+          <Route
+            path="/history"
+            element={<HistoryView />}
+          />
 
-          <Route path={`${path}/layout-config`}>
-            <LayoutConfigPage />
-          </Route>
+          <Route
+            path="/layout-config"
+            element={<LayoutConfigPage />}
+          />
 
-          <Route path={`${path}/object-config`}>
-            <ObjectConfigPage />
-          </Route>
-        </Switch>
+          <Route
+            path={`/object-config`}
+            element={<ObjectConfigPage />}
+          />
+        </Routes>
       </Box>
     </Box>
   );

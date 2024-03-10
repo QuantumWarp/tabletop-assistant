@@ -1,6 +1,6 @@
 import { Box, Button, Divider } from '@mui/material';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GameObject from '../../models/objects/game-object';
 import { selectActions, setAction, upsertObject } from '../../store/config-slice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -15,7 +15,7 @@ interface DisplaySimpleCardProps {
 const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
   const dispatch = useAppDispatch();
   const [objectInfoOpen, setObjectInfoOpen] = useState<boolean>(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const actions = useAppSelector(selectActions);
   const objActions = actions.filter((x) => x.objectId === obj.id);
   const firstAction = objActions?.find((action) => action.triggers.find((x) => x.manual));
@@ -97,7 +97,7 @@ const DisplaySimpleCard = ({ obj }: DisplaySimpleCardProps) => {
               disabled={obj.disabled}
               className="action"
               type="button"
-              onClick={() => { dispatch(setAction(firstAction)); history.push('./action'); }}
+              onClick={() => { dispatch(setAction(firstAction)); navigate('../action'); }}
             >
               {firstAction.name}
             </Button>
