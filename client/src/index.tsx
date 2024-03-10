@@ -1,6 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { MsalProvider } from '@azure/msal-react';
 
 import App from './App';
@@ -15,9 +14,7 @@ root.render(
   <React.StrictMode>
     <MsalProvider instance={msalInstance}>
       <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <App />
       </Provider>
     </MsalProvider>
   </React.StrictMode>
