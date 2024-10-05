@@ -37,7 +37,7 @@ const HomePage = () => {
       </Container>
 
       <Box sx={{ flex: 1 }}>
-        <UnauthenticatedTemplate>
+        {/* <UnauthenticatedTemplate>
           <Stack
             sx={{ pt: 3 }}
             direction="row"
@@ -55,9 +55,9 @@ const HomePage = () => {
           </Stack>
         </UnauthenticatedTemplate>
 
-        <AuthenticatedTemplate>
+        <AuthenticatedTemplate> */}
           <TabletopList />
-        </AuthenticatedTemplate>
+        {/* </AuthenticatedTemplate> */}
       </Box>
 
       <Container maxWidth="sm" component="footer">

@@ -1,5 +1,5 @@
 import { PublicClientApplication } from '@azure/msal-browser';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import {
   Tabletop,
   CreateTabletop,
@@ -23,6 +23,7 @@ import {
   TemplateSummary,
   TemplateRoot,
 } from '@/common';
+import { localFetch } from './local-fetch';
 
 export const msalInstance = new PublicClientApplication({
   auth: {
@@ -34,19 +35,8 @@ export const msalInstance = new PublicClientApplication({
 
 export const api = createApi({
   tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Template', 'TemplateEntity'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_APP_API_URL ?? '',
-    prepareHeaders: async (headers) => {
-      await msalInstance.initialize();
-      const account = msalInstance.getAllAccounts()[0];
-      const response = await msalInstance.acquireTokenSilent({
-        account,
-        scopes: ['User.Read'],
-      });
-      headers.set('authorization', `Bearer ${response.idToken}`);
-      return headers;
-    },
-  }),
+
+  baseQuery: localFetch,
   endpoints: (build) => ({
     // Tabletops
     getTabletops: build.query<Tabletop[], void>({
