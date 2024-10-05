@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -25,7 +25,7 @@ import {
 } from '@mui/icons-material';
 import {
   CreateEntity, EntityDisplay, EntityDisplayType, SlotFieldMapping,
-} from '@/common';
+} from '@tabletop-assistant/common';
 import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
 import EditDisplayMappingDialog from './EditDisplayMappingDialog';
 import DisplayHelper from '../../../helpers/display.helper';

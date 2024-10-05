@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -18,7 +18,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { RollComboGroup } from '@/common';
+import { RollComboGroup } from '@tabletop-assistant/common';
 import ComputedInput from './ComputedInput';
 
 interface RollGroupDialogProps {

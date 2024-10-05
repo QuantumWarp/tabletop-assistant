@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography } from '@mui/material';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 interface TopBarProps {
   title: string;

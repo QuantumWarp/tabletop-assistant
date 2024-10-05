@@ -1,4 +1,3 @@
-import React from 'react';
 import ActionTreeNode from '../../models/action-tree-node';
 import ActionNodeInfo from './info/ActionNodeInfo';
 import ActionNodeMacro from './macro/ActionNodeMacro';

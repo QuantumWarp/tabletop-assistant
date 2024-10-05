@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Expression, RollResult } from '@/common';
+import { useState } from 'react';
+import { Expression, RollResult } from '@tabletop-assistant/common';
 import { Box } from '@mui/material';
 import {
   Casino as RollIcon,

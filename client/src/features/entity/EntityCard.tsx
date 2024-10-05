@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Card,
   CardActionArea,
@@ -8,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { Entity } from '@/common';
+import { Entity } from '@tabletop-assistant/common';
 import './Entity.css';
 
 interface EntityCardProps {

@@ -1,4 +1,4 @@
-import { EntityActionTrigger, CreateEntity, Entity } from '@/common';
+import { EntityActionTrigger, CreateEntity, Entity } from '@tabletop-assistant/common';
 import ActionTree from '../models/action-tree';
 import ActionTreeNode from '../models/action-tree-node';
 

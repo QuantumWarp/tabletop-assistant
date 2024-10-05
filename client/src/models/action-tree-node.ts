@@ -1,4 +1,4 @@
-import { Entity, EntityAction } from '@/common';
+import { Entity, EntityAction } from '@tabletop-assistant/common';
 
 export default interface ActionTreeNode {
   level: number;

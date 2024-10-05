@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Redo } from '@mui/icons-material';
 import './ActionRollResultDialog.css';
-import { RollResult, RollResultDie } from '@/common';
+import { RollResult, RollResultDie } from '@tabletop-assistant/common';
 import RollHelper from '../../../helpers/roll.helper';
 
 interface ActionRollResultDialogProps {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Checkbox,
@@ -19,7 +19,7 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
-import { Entity } from '@/common';
+import { Entity } from '@tabletop-assistant/common';
 import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
 
 interface ExistingEntityDialogProps {

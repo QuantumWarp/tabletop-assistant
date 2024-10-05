@@ -1,10 +1,10 @@
 import TimeAgo from 'react-timeago';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Card, CardActionArea, CardContent, Grid, Typography,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { HistoryEntry } from '@/common';
+import { HistoryEntry } from '@tabletop-assistant/common';
 import HistoryUpsertDialog from './HistoryUpsertDialog';
 import './HistoryRow.css';
 

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import React from 'react';
 import { Mapping } from '../../../models/mapping';
 import './ActionNodeMacro.css';
 

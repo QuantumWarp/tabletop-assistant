@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, IconButton, useMediaQuery } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { selectTheme, setTheme } from '../store/main-slice';

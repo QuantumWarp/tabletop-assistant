@@ -1,8 +1,7 @@
-import React from 'react';
 import {
   Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
-import { Entity } from '@/common';
+import { Entity } from '@tabletop-assistant/common';
 
 interface TemplateEntityListProps {
   entities: Entity[];

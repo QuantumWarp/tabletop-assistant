@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
 import ActionTreeNode from '../../../models/action-tree-node';

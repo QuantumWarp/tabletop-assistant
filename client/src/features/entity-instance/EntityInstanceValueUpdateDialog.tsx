@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -11,7 +11,7 @@ import {
 } from '@mui/icons-material';
 import {
   EntityField,
-} from '@/common';
+} from '@tabletop-assistant/common';
 import ValueInput from '../../components/form-controls/ValueInput';
 import FieldType from '../../models/field.type';
 

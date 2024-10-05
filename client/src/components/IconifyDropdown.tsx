@@ -5,7 +5,7 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import iconifyMappings from './iconify-mappings';
 
 interface IconifyDropdownProps {
@@ -36,7 +36,7 @@ const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
       options={Object.keys(iconifyMappings)}
       onInputChange={(_e, text) => onInputChange(text)}
       renderOption={(props, option: string) => (
-        // eslint-disable-next-line react/jsx-props-no-spreading
+         
         <Box {...props} component="li" key={iconifyMappings[option]}>
           <Icon style={{ marginRight: '18px' }} icon={iconifyMappings[option]} width={30} />
           {option}
@@ -44,7 +44,7 @@ const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
       )}
       renderInput={(params) => (
         <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
+           
           {...params}
           label="Icon"
           InputProps={{

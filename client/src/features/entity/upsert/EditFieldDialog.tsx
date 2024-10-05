@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -16,7 +16,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityField, EntityFieldType, Expression } from '@/common';
+import { EntityField, EntityFieldType, Expression } from '@tabletop-assistant/common';
 import FieldHelper from '../../../helpers/field.helper';
 import ValueInput from '../../../components/form-controls/ValueInput';
 import FieldType from '../../../models/field.type';

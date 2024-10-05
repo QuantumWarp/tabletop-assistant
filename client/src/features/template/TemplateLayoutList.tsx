@@ -1,8 +1,7 @@
-import React from 'react';
 import {
   Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
-import { Layout } from '@/common';
+import { Layout } from '@tabletop-assistant/common';
 
 interface TemplateLayoutListProps {
   layouts: Layout[];

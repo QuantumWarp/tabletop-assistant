@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import {
   CreateEntity, EntityAction,
-} from '@/common';
+} from '@tabletop-assistant/common';
 import FieldHelper from '../../../helpers/field.helper';
 import RollInput from '../../../components/form-controls/RollInput';
 import TriggerInput from '../../../components/form-controls/TriggerInput';

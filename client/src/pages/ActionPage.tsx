@@ -1,5 +1,4 @@
 import { Box, Button, Container } from '@mui/material';
-import React from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ActionNode from '../features/action/ActionNode';
 import TopBar from '../components/TopBar';

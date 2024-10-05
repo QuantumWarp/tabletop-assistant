@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -15,7 +15,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { EntityDisplayType, LayoutEntry, LayoutPosition } from '@/common';
+import { EntityDisplayType, LayoutEntry, LayoutPosition } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
 import DisplayHelper from '../../helpers/display.helper';

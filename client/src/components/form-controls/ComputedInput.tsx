@@ -1,8 +1,8 @@
 import {
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { Expression } from '@/common';
+import { useState } from 'react';
+import { Expression } from '@tabletop-assistant/common';
 import ComputedDialog from './ComputedDialog';
 
 interface ComputedInputProps {

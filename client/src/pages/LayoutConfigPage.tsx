@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Tabs,
   Tab,
@@ -8,7 +8,7 @@ import {
   Box,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { Layout } from '@/common';
+import { Layout } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
 import LayoutConfigContainer from '../features/layout-config/LayoutConfigContainer';

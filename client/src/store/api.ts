@@ -22,7 +22,7 @@ import {
   TemplateImport,
   TemplateSummary,
   TemplateRoot,
-} from '@/common';
+} from '@tabletop-assistant/common';
 import { localFetch } from './local-fetch';
 
 export const msalInstance = new PublicClientApplication({

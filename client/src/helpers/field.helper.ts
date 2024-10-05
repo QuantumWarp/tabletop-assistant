@@ -1,4 +1,4 @@
-import { CreateEntity, EntityField } from '@/common';
+import { CreateEntity, EntityField } from '@tabletop-assistant/common';
 import FieldType from '../models/field.type';
 
 export default class FieldHelper {

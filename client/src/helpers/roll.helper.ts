@@ -6,7 +6,7 @@ import {
   RollCombo,
   RollComboGroup,
   Expression,
-} from '@/common';
+} from '@tabletop-assistant/common';
 
 export default class RollHelper {
   static roll(combo: ResolvedRollCombo): RollResult {

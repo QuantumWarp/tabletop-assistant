@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
-import { ResolvedRollCombo } from '@/common';
+import { ResolvedRollCombo } from '@tabletop-assistant/common';
 import ActionNodeRollInput from '../roll/ActionNodeRollInput';
 import './ActionRollDialog.css';
 

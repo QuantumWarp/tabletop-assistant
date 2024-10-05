@@ -1,0 +1,6 @@
+{
+  "name": "tabletop-assistant",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": ["client", "common", "utility"]
+}

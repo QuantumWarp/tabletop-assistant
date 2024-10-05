@@ -1,6 +1,5 @@
 import { Box, Button, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
-import React from 'react';
 import './DisplayCard.css';
 import FixedActions from '../../helpers/operation.helper';
 import DisplayHelper from '../../helpers/display.helper';

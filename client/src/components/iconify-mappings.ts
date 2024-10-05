@@ -1,4 +1,4 @@
-/* eslint-disable quote-props */
+ 
 export default {
   'Anchor': 'mdi:anchor',
   'Apple': 'fluent:food-apple-20-filled',

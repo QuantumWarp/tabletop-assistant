@@ -1,4 +1,3 @@
-import React from 'react';
 import { CssBaseline, useMediaQuery, ThemeProvider } from '@mui/material';
 import { useAppSelector } from './store/store';
 import { selectTheme } from './store/main-slice';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -18,7 +18,7 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import ReactMarkdown from 'react-markdown';
-import { CreateEntity, EntityField } from '@/common';
+import { CreateEntity, EntityField } from '@tabletop-assistant/common';
 import EntityInstanceValueUpdateDialog from './EntityInstanceValueUpdateDialog';
 import { Mapping } from '../../models/mapping';
 import './EntityInstanceDialog.css';

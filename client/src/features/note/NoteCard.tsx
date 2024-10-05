@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Card,
   CardActionArea,
@@ -6,7 +5,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { Note } from '@/common';
+import { Note } from '@tabletop-assistant/common';
 
 interface NoteCardProps {
   note: Note;

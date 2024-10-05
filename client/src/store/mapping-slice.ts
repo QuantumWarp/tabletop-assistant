@@ -1,6 +1,6 @@
-/* eslint-disable no-param-reassign */
+ 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Entity, ValueMap } from '@/common';
+import { Entity, ValueMap } from '@tabletop-assistant/common';
 import MappingResolver from '../helpers/mapping-resolver';
 import { Mapping, mappingsMatch } from '../models/mapping';
 import { MappingInvalidator } from '../models/mapping-invalidator';

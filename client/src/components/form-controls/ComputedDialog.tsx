@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -13,7 +13,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { parse, SymbolNode } from 'mathjs';
-import { Expression, ExpressionVariable } from '@/common';
+import { Expression, ExpressionVariable } from '@tabletop-assistant/common';
 import ComputedInputRow from './ComputedInputRow';
 
 interface ComputedDialogProps {
@@ -41,6 +41,7 @@ const ComputedDialog = ({
     const rootNode = parse(expression);
     const symbols = rootNode.filter((node) => node.type === 'SymbolNode') as SymbolNode[];
     expressionSymbols.push(...symbols.map((x) => x.name));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     expressionValid = false;
   }

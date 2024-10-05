@@ -1,8 +1,7 @@
 import {
   Autocomplete, Grid, TextField,
 } from '@mui/material';
-import React from 'react';
-import { Entity } from '@/common';
+import { Entity } from '@tabletop-assistant/common';
 import IconifyDropdown from '../../../components/IconifyDropdown';
 import ImageInput from '../../../components/form-controls/ImageInput';
 
@@ -53,7 +52,7 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
           onChange={(_, newValue) => entityChange({ tags: (newValue as string[]).sort() })}
           renderInput={(params) => (
             <TextField
-              // eslint-disable-next-line react/jsx-props-no-spreading
+               
               {...params}
               label="Tags"
             />

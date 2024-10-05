@@ -1,14 +1,14 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import {
   Autocomplete,
   Box,
   Chip,
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import { CreateEntity, EntityActionTrigger, UpdateEntity } from '@/common';
+import { CreateEntity, EntityActionTrigger, UpdateEntity } from '@tabletop-assistant/common';
 import TriggerDialog from './TriggerDialog';
 import ActionTreeHelper from '../../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../../store/api';

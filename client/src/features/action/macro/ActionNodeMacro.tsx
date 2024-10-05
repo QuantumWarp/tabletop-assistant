@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import {
   Computer as RunIcon,
 } from '@mui/icons-material';
-import { Macro } from '@/common';
+import { Macro } from '@tabletop-assistant/common';
 import ActionNodeMacroInput from './ActionNodeMacroInput';
 import ActionNodeMacroOutput from './ActionNodeMacroOutput';
 import ActionNodeInput from '../common/ActionNodeInput';

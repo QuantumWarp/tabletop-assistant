@@ -1,8 +1,7 @@
-import React from 'react';
 import {
   Checkbox, FormControlLabel, FormGroup,
 } from '@mui/material';
-import { TemplateGroup } from '@/common';
+import { TemplateGroup } from '@tabletop-assistant/common';
 
 interface TemplateEntityListProps {
   groups: TemplateGroup[];

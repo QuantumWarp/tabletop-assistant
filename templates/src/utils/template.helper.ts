@@ -1,5 +1,3 @@
-import { Types } from 'mongoose';
-import FieldHelper from 'tabletop-assistant-client/src/helpers/field.helper';
 import {
   Expression,
   ExpressionVariable,
@@ -8,7 +6,7 @@ import {
   CreateTemplateRoot,
   CreateTemplateGroup,
   CreateEntity,
-} from '@/common';
+} from '@tabletop-assistant/common';
 
 type TemplateType = CreateTemplateRoot
 | CreateTemplateGroup
@@ -18,14 +16,18 @@ type TemplateType = CreateTemplateRoot
 export default class TemplateHelper {
   static create<T extends TemplateType>(template: Omit<T, 'referencedEntityIds'>): Omit<T, 'referencedEntityIds'> & { _id: string } {
     return {
-      _id: new Types.ObjectId().toString(),
+      _id: Math.random().toString(),
       ...template,
     };
   }
 
   static keyName(name: string) {
+    const replacedName = name
+      .replace(/[^a-zA-Z0-9]/g, '');
+    const lcName = replacedName.charAt(0).toLowerCase() + replacedName.slice(1);
+    const key = (lcName.match(/^\d/) ? '_' : '') + lcName;
     return {
-      key: FieldHelper.createKey(name),
+      key,
       name,
     };
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { MsalProvider } from '@azure/msal-react';
 
@@ -11,11 +11,11 @@ const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <MsalProvider instance={msalInstance}>
       <Provider store={store}>
         <App />
       </Provider>
     </MsalProvider>
-  </React.StrictMode>
+  </StrictMode>
 );

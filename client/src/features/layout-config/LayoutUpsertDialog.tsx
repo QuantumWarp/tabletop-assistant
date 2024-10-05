@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   Button,
@@ -14,7 +14,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Layout } from '@/common';
+import { Layout } from '@tabletop-assistant/common';
 import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
 import { useCreateLayoutMutation, useDeleteLayoutMutation, useUpdateLayoutMutation } from '../../store/api';
 

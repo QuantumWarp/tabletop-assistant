@@ -1,6 +1,6 @@
 import {
   Entity, EntityField, Expression, ValueMap,
-} from '@/common';
+} from '@tabletop-assistant/common';
 import { parser } from 'mathjs';
 import { EmptyMapping, Mapping, mappingsMatch } from '../models/mapping';
 import FieldHelper from './field.helper';

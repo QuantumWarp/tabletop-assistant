@@ -1,7 +1,7 @@
 import {
   Box, Button, Container, TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TopBar from '../components/TopBar';
 import NoteList from '../features/note/NoteList';

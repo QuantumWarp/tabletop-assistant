@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Card,
   CardActionArea,
@@ -6,7 +5,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { TemplateGroup } from '@/common';
+import { TemplateGroup } from '@tabletop-assistant/common';
 
 interface TemplateGroupCardProps {
   templateGroup: TemplateGroup;

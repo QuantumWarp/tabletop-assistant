@@ -1,12 +1,12 @@
 import { parser } from 'mathjs';
-import { Expression, ExpressionVariable } from '@/common';
+import { Expression, ExpressionVariable } from '@tabletop-assistant/common';
 import { Mapping } from '../../models/mapping';
 import { useMappings } from './use-mappings';
 
 const compute = (expression: Expression, selfEntityId: string, mappings: Mapping[]): string | number | boolean | undefined => {
   const parse = parser();
 
-  // eslint-disable-next-line no-restricted-syntax
+   
   for (const variable of expression.variables) {
     const variableEntityId = variable.entityId === '-' ? selfEntityId : variable.entityId;
     const mapping = mappings.find(

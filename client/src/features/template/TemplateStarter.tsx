@@ -1,9 +1,9 @@
 import {
   Box, Button, Container, Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { TemplateGroup, TemplateRoot } from '@/common';
+import { TemplateGroup, TemplateRoot } from '@tabletop-assistant/common';
 import TemplateGroupTiles from './TemplateGroupTiles';
 import TemplateRootTiles from './TemplateRootTiles';
 import TemplateImportDialog from './TemplateImportDialog';

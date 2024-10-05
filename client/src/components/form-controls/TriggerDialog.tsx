@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Checkbox,
@@ -19,7 +19,7 @@ import {
 } from '@mui/icons-material';
 import {
   CreateEntity, EntityActionTrigger, UpdateEntity,
-} from '@/common';
+} from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
 

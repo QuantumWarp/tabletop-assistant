@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -17,7 +17,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { CreateEntity, Entity } from '@/common';
+import { CreateEntity, Entity } from '@tabletop-assistant/common';
 import ExportHelper from '../../../helpers/export.helper';
 import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
 import EntityInfoTab from './EntityInfoTab';

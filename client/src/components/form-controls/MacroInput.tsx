@@ -1,12 +1,12 @@
-/* eslint-disable react/jsx-props-no-spreading */
+ 
 import {
   Autocomplete,
   Chip,
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Macro } from '@/common';
+import { Macro } from '@tabletop-assistant/common';
 import { useGetEntitiesQuery } from '../../store/api';
 import ComputedDialog from './ComputedDialog';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   FormControl,
   Grid,
@@ -7,7 +7,7 @@ import {
   Select,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { ExpressionVariable } from '@/common';
+import { ExpressionVariable } from '@tabletop-assistant/common';
 import { useGetEntitiesQuery } from '../../store/api';
 
 interface ComputedInputRowProps {

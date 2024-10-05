@@ -1,6 +1,5 @@
 import { Box } from '@mui/material';
-import React from 'react';
-import { RollCombo, RollComboGroup } from '@/common';
+import { RollCombo, RollComboGroup } from '@tabletop-assistant/common';
 import RollHelper from '../../../helpers/roll.helper';
 import './ActionNodeRoll.css';
 

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box } from '@mui/material';
 import {
   DraggableData, ResizableDelta, Rnd,
 } from 'react-rnd';
-import { LayoutEntry } from '@/common';
+import { LayoutEntry } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import LayoutConfigDialog from './EditLayoutEntryDialog';
 import './LayoutConfigBox.css';

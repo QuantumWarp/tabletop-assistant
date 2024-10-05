@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Grid } from '@mui/material';
-import { Note } from '@/common';
+import { Note } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import NoteCard from './NoteCard';
 import NoteUpsertDialog from './NoteUpsertDialog';

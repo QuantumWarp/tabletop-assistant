@@ -1,5 +1,4 @@
-import React from 'react';
-import { TemplateRoot } from '@/common';
+import { TemplateRoot } from '@tabletop-assistant/common';
 import { Grid } from '@mui/material';
 import { useGetTemplateRootsQuery } from '../../store/api';
 import TemplateRootCard from './TemplateRootCard';

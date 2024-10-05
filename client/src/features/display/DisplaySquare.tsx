@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import './DisplaySquare.css';

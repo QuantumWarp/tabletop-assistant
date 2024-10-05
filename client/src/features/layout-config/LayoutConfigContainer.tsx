@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { Layout, LayoutPosition } from '@/common';
+import { useEffect, useRef, useState } from 'react';
+import { Layout, LayoutPosition } from '@tabletop-assistant/common';
 import LayoutConfigBox from './LayoutConfigBox';
 import './LayoutConfigContainer.css';
 import EditLayoutEntryDialog from './EditLayoutEntryDialog';
@@ -55,7 +55,7 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
         {entries.map((entry, index) => (
           <LayoutConfigBox
             containerWidth={containerWidth}
-            // eslint-disable-next-line react/no-array-index-key
+             
             key={index}
             entry={entry}
             // TODO: Don't save so often

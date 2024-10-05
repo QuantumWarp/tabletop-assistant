@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import React from 'react';
 import FixedActions from '../../helpers/operation.helper';
 import { fakeMapping, SlotMapping } from '../../models/slot-mapping';
 import './DisplayDots.css';
@@ -33,7 +32,7 @@ const DisplayDots = ({
 
         return (
           <Box
-            // eslint-disable-next-line react/no-array-index-key
+             
             key={`${index}-${filled}`}
             className="dot"
             sx={{

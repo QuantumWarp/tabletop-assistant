@@ -1,4 +1,4 @@
-import { SlotFieldMapping } from '@/common';
+import { SlotFieldMapping } from '@tabletop-assistant/common';
 import { Mapping } from './mapping';
 
 export const fakeMapping = (value: string | number | boolean) => ({

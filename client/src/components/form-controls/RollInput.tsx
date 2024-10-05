@@ -1,8 +1,8 @@
 import {
   TextField,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { RollCombo } from '@/common';
+import { useState } from 'react';
+import { RollCombo } from '@tabletop-assistant/common';
 import RollHelper from '../../helpers/roll.helper';
 import RollDialog from './RollDialog';
 

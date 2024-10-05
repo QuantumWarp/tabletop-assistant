@@ -1,7 +1,7 @@
 import {
   FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FieldType from '../../models/field.type';
 import useIsFirstRender from '../../utils/is-first-render';
 
@@ -32,7 +32,6 @@ const ValueInput = ({
     } else {
       onChange('');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type, onChange]);
 
   return (

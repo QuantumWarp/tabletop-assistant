@@ -1,5 +1,4 @@
-import React from 'react';
-import { TemplateGroup, TemplateRoot } from '@/common';
+import { TemplateGroup, TemplateRoot } from '@tabletop-assistant/common';
 import { Grid } from '@mui/material';
 import { useGetTemplateSummaryQuery } from '../../store/api';
 import TemplateGroupCard from './TemplateGroupCard';

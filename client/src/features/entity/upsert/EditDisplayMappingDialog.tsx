@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -15,7 +15,7 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { CreateEntity, EntityDisplayType, SlotFieldMapping } from '@/common';
+import { CreateEntity, EntityDisplayType, SlotFieldMapping } from '@tabletop-assistant/common';
 import DisplayHelper from '../../../helpers/display.helper';
 import FieldHelper from '../../../helpers/field.helper';
 
