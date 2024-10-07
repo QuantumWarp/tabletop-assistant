@@ -9,7 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import { TemplateGroup, TemplateRoot } from '@tabletop-assistant/common';
-import { useImportTemplateMutation } from '../../store/api';
 
 interface TemplateImportDialogProps {
   tabletopId: string;

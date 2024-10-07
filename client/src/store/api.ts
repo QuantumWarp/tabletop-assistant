@@ -19,11 +19,9 @@ import {
   CreateValueMap,
   UpdateLayout,
   UpdateValueMap,
-  TemplateImport,
-  TemplateSummary,
-  TemplateRoot,
 } from '@tabletop-assistant/common';
 import { localFetch } from './local-fetch';
+import { TemplateCollection } from '@tabletop-assistant/templates';
 
 export const msalInstance = new PublicClientApplication({
   auth: {
@@ -130,7 +128,7 @@ export const api = createApi({
       invalidatesTags: ['Layout'],
     }),
     updateLayoutOrder: build.mutation<Layout, string[]>({
-      query: (body) => ({ url: '/layouts/order', method: 'POST', body }),
+      query: (body) => ({ url: '/layout-order', method: 'POST', body }),
       invalidatesTags: ['Layout'],
     }),
 
@@ -179,19 +177,11 @@ export const api = createApi({
     }),
 
     // Templates
-    getEntityTemplates: build.query<Entity[], string>({
-      query: (tag) => ({ url: `/entities/templates?tags=${encodeURIComponent(tag)}` }),
-      providesTags: ['TemplateEntity'],
-    }),
-    getTemplateRoots: build.query<TemplateRoot[], void>({
+    getTemplates: build.query<TemplateCollection[], void>({
       query: () => '/templates',
     }),
-    getTemplateSummary: build.query<TemplateSummary, string>({
-      query: (templateRootId) => `/templates/summary?templateRootId=${templateRootId}`,
-    }),
-    importTemplate: build.mutation<void, TemplateImport>({
-      query: (body) => ({ url: '/templates/import', method: 'POST', body }),
-      invalidatesTags: ['Entity', 'Values', 'Layout'],
+    getTemplate: build.query<TemplateCollection, string>({
+      query: (templateRootId) => `/templates/${templateRootId}`,
     }),
 
     // Images
@@ -243,10 +233,8 @@ export const {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 
-  useGetEntityTemplatesQuery,
-  useGetTemplateRootsQuery,
-  useGetTemplateSummaryQuery,
-  useImportTemplateMutation,
+  useGetTemplatesQuery,
+  useGetTemplateQuery,
 
   useUploadImageMutation,
   useDeleteImageMutation,

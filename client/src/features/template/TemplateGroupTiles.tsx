@@ -1,6 +1,6 @@
 import { TemplateGroup, TemplateRoot } from '@tabletop-assistant/common';
 import { Grid } from '@mui/material';
-import { useGetTemplateSummaryQuery } from '../../store/api';
+import { useGetTemplateQuery } from '../../store/api';
 import TemplateGroupCard from './TemplateGroupCard';
 
 interface TemplateGroupTilesProps {
@@ -9,11 +9,11 @@ interface TemplateGroupTilesProps {
 }
 
 const TemplateGroupTiles = ({ templateRoot, onChange }: TemplateGroupTilesProps) => {
-  const { data: summary } = useGetTemplateSummaryQuery(templateRoot._id);
+  const { data: collection } = useGetTemplateQuery(templateRoot._id);
 
   return (
     <Grid container spacing={6}>
-      {summary && summary.groups.map((group) => (
+      {collection && collection.groups.map((group) => (
         <Grid key={group._id} item xs={4}>
           <TemplateGroupCard
             templateGroup={group}

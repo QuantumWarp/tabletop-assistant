@@ -1,6 +1,6 @@
 import { TemplateRoot } from '@tabletop-assistant/common';
 import { Grid } from '@mui/material';
-import { useGetTemplateRootsQuery } from '../../store/api';
+import { useGetTemplatesQuery } from '../../store/api';
 import TemplateRootCard from './TemplateRootCard';
 
 interface TemplateRootTilesProps {
@@ -8,7 +8,8 @@ interface TemplateRootTilesProps {
 }
 
 const TemplateRootTiles = ({ onChange }: TemplateRootTilesProps) => {
-  const { data: templateRoots } = useGetTemplateRootsQuery();
+  const { data: templates } = useGetTemplatesQuery();
+  const templateRoots = templates?.map((x) => x.root);
 
   return (
     <Grid container spacing={6}>

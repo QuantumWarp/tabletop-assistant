@@ -1,5 +1,6 @@
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { v4 as uuid } from 'uuid';
+import { collections } from "@tabletop-assistant/templates";
 
 export const localFetch: BaseQueryFn = async (args, api) => {
   if (api.type === 'query') {
@@ -23,6 +24,9 @@ const getData = async (url: string) => {
   const { model, id } = parseUrl(url);
 
   if (!id) {
+    if (model === "templates") {
+      return getTemplates();
+    }
     const key = `${model}-`;
     const data = Object.keys(localStorage)
       .filter(x => x.startsWith(key))
@@ -62,11 +66,14 @@ const deleteData = async ({ url }: { url: string; body: unknown }) => {
 
 
 const parseUrl = (url: string) => {
-  console.log(url)
   const [pathname, search] = url.split('?');
   const pathSegments = pathname.split('/').filter(segment => segment);
   const model = pathSegments[0];
   const id = pathSegments[1];
   const filter = search?.split("tabletopId=")[1];
   return { model, id, filter };
+}
+
+const getTemplates = () => {
+  return { data: collections.map((x) => x.root) };
 }

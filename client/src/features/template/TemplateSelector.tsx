@@ -2,7 +2,6 @@ import {
   Grid,
 } from '@mui/material';
 import { Entity, TemplateGroup, Layout } from '@tabletop-assistant/common';
-import { useGetTemplateSummaryQuery } from '../../store/api';
 import TemplateGroupList from './TemplateGroupList';
 import TemplateLayoutList from './TemplateLayoutList';
 import TemplateEntityList from './TemplateEntityList';

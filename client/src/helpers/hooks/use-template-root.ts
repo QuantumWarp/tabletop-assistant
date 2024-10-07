@@ -1,12 +1,13 @@
 import { useParams } from 'react-router-dom';
-import { useGetEntitiesQuery, useGetTemplateRootsQuery } from '../../store/api';
+import { useGetEntitiesQuery, useGetTemplatesQuery } from '../../store/api';
 
 export function useTemplateRoot() {
   const { tabletopId } = useParams() as { tabletopId: string };
   const {
-    data: templateRoots,
+    data: collections,
     isLoading: templateRootsLoading,
-  } = useGetTemplateRootsQuery();
+  } = useGetTemplatesQuery();
+  const templateRoots = collections?.map((x) => x.root)
   const {
     data: entities,
     isLoading: entitiesLoading,

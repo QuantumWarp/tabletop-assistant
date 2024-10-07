@@ -20,7 +20,7 @@ import {
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { Entity } from '@tabletop-assistant/common';
-import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetEntityTemplatesQuery } from '../../store/api';
+import { useCreateValueMapsMutation, useGetEntitiesQuery } from '../../store/api';
 
 interface TemplateEntityDialogProps {
   tag: string;

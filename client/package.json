@@ -18,6 +18,7 @@
     "@mui/material": "^6.1.2",
     "@reduxjs/toolkit": "^2.2.7",
     "@tabletop-assistant/common": "^1.0.0",
+    "@tabletop-assistant/templates": "^1.0.0",
     "@vitejs/plugin-react": "^4.3.2",
     "immer": "^10.1.1",
     "mathjs": "^13.2.0",

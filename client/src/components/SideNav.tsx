@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Divider,
   Drawer,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
@@ -32,9 +32,8 @@ const SideNav = () => {
     <Drawer variant="permanent" className="side-nav">
       <div className="top">
         {tabletop && (
-          <ListItem
+          <ListItemButton
             className="top-item"
-            button
             onClick={() => setEditTabletop(tabletop)}
           >
             <img
@@ -46,7 +45,7 @@ const SideNav = () => {
             <span className="top-item-text">
               {tabletop.shortName}
             </span>
-          </ListItem>
+          </ListItemButton>
         )}
 
         <Divider />
@@ -59,47 +58,47 @@ const SideNav = () => {
           />
         )}
 
-        <ListItem
+        <ListItemButton
           className="menu-item"
           component={NavLink}
           to="./layout"
         >
           <LayoutsIcon className="icon" />
           <span className="name">Layouts</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
 
-        <ListItem
+        <ListItemButton
           className="menu-item"
           component={NavLink}
           to="./action"
         >
           <ActionIcon className="icon" />
           <span className="name">Action</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
 
-        <ListItem
+        <ListItemButton
           className="menu-item"
           component={NavLink}
           to="./notes"
         >
           <NotesIcon className="icon" />
           <span className="name">Notes</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
 
-        <ListItem
+        <ListItemButton
           className="menu-item"
           component={NavLink}
           to="./history"
         >
           <HistoryIcon className="icon" />
           <span className="name">History</span>
-        </ListItem>
+        </ListItemButton>
 
         <Divider />
       </div>
@@ -107,7 +106,7 @@ const SideNav = () => {
       <div className="bottom">
         <Divider />
 
-        <ListItem
+        <ListItemButton
           className="thin-button"
           component={NavLink}
           to="./layout-config"
@@ -116,9 +115,9 @@ const SideNav = () => {
             <ConfigureIcon />
           </ListItemIcon>
           <ListItemText primary="Configure" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem
+        <ListItemButton
           className="thin-button"
           component={NavLink}
           to="./objects"
@@ -127,9 +126,9 @@ const SideNav = () => {
             <ConfigureIcon />
           </ListItemIcon>
           <ListItemText primary="Objects" />
-        </ListItem>
+        </ListItemButton>
 
-        <ListItem
+        <ListItemButton
           className="thin-button"
           onClick={() => navigate('/')}
         >
@@ -137,7 +136,7 @@ const SideNav = () => {
             <SwitchIcon />
           </ListItemIcon>
           <ListItemText primary="Switch" />
-        </ListItem>
+        </ListItemButton>
       </div>
     </Drawer>
   );
