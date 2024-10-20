@@ -23,7 +23,7 @@ export default class ActionTreeHelper {
 
     const triggerEntity = trigger.entityId === '-'
       ? current
-      : entities?.find((x) => x._id === trigger.entityId);
+      : entities?.find((x) => x.id === trigger.entityId);
     text += triggerEntity ? `${triggerEntity.name}` : '';
     text += trigger.entityId === '-' ? ' (Current)' : '';
 

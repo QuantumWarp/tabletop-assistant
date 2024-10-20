@@ -1,6 +1,5 @@
 export interface Note {
-  readonly _id: string;
-  readonly userId: string;
+  readonly id: string;
   readonly tabletopId: string;
 
   name: string;
@@ -10,8 +9,7 @@ export interface Note {
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
-  readonly __v: number;
 }
 
-export type UpdateNote = Omit<Note, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateNote = Omit<UpdateNote, '_id'>;
+export type UpdateNote = Omit<Note, 'createdAt' | 'updatedAt'>;
+export type CreateNote = Omit<UpdateNote, 'id'>;

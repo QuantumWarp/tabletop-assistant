@@ -1,6 +1,5 @@
 export interface ValueMap {
-  readonly _id: string;
-  readonly userId: string;
+  readonly id: string;
   readonly tabletopId: string;
   readonly entityId: string;
 
@@ -8,7 +7,6 @@ export interface ValueMap {
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
-  readonly __v: number;
 }
 
 export interface FieldValueMapping {
@@ -16,5 +14,5 @@ export interface FieldValueMapping {
   value: string | number | boolean | undefined;
 }
 
-export type UpdateValueMap = Omit<ValueMap, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateValueMap = Omit<UpdateValueMap, '_id'>;
+export type UpdateValueMap = Omit<ValueMap, 'createdAt' | 'updatedAt'>;
+export type CreateValueMap = Omit<UpdateValueMap, 'id'>;

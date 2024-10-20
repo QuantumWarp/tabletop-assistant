@@ -47,7 +47,7 @@ const ActionPage = () => {
         >
           {actionTree && actionTree.map((x) => (
             <ActionNode
-              key={`${x.entity._id}-${x.action.key}`}
+              key={`${x.entity.id}-${x.action.key}`}
               node={x}
             />
           ))}

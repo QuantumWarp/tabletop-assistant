@@ -26,7 +26,7 @@ const LayoutConfigBox = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
 
-  const selectedEntity = entities?.find((x) => x._id === entry.entityId);
+  const selectedEntity = entities?.find((x) => x.id === entry.entityId);
 
   const updatePosition = (data: DraggableData) => {
     const { position, size } = LayoutPositionHelper.updatePositionAndSize(

@@ -28,7 +28,7 @@ const EntityList = ({ filter }: EntityListProps) => {
   return (
     <Grid container spacing={6}>
       {sortedEntities.map((entity) => (
-        <Grid key={entity._id} item xs={4}>
+        <Grid key={entity.id} item xs={4}>
           <EntityCard
             entity={entity}
             onClick={() => setEditEntity(entity)}

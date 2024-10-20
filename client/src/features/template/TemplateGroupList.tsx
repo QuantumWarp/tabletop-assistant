@@ -20,10 +20,10 @@ const TemplateEntityList = ({
     <FormGroup>
       {sorted.map((group) => (
         <FormControlLabel
-          key={group._id}
+          key={group.id}
           control={(
             <Checkbox
-              checked={selectedIds.includes(group._id)}
+              checked={selectedIds.includes(group.id)}
               onChange={(event) => onChange(group, event.target.checked)}
             />
           )}

@@ -25,7 +25,7 @@ const ComputedInputRow = ({
   const [entityId, setEntityId] = useState(value?.entityId);
   const [fieldKey, setFieldKey] = useState(value?.fieldKey);
 
-  const entity = entities?.find((x) => x._id === entityId);
+  const entity = entities?.find((x) => x.id === entityId);
 
   if (entityId && fieldKey && entityId !== value?.entityId && fieldKey !== value?.fieldKey) {
     onChange({ key: name, entityId, fieldKey });
@@ -47,7 +47,7 @@ const ComputedInputRow = ({
             onChange={(e) => setEntityId(e.target.value)}
           >
             {entities?.map((x) => (
-              <MenuItem key={x._id} value={x._id}>
+              <MenuItem key={x.id} value={x.id}>
                 {x.name}
               </MenuItem>
             ))}

@@ -16,7 +16,7 @@ const LayoutPage = () => {
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
   const [layoutId, setLayoutId] = useState<string | false>();
-  const currentLayout = layouts?.find((x) => x._id === layoutId);
+  const currentLayout = layouts?.find((x) => x.id === layoutId);
 
   const layoutList = layouts
     ?.filter((x) => !x.hidden)
@@ -24,9 +24,9 @@ const LayoutPage = () => {
 
   useEffect(() => {
     if (!layoutList) return;
-    if (layoutList.find((x) => x._id === layoutId)) return;
+    if (layoutList.find((x) => x.id === layoutId)) return;
     if (layoutList.length === 0) return;
-    setLayoutId(layoutList[0]._id);
+    setLayoutId(layoutList[0].id);
   }, [layoutList, layoutId]);
 
   return (
@@ -34,14 +34,14 @@ const LayoutPage = () => {
       <TopBar title={currentLayout ? currentLayout.name : 'Layout'}>
         <Tabs
           variant="scrollable"
-          value={currentLayout?._id || false}
+          value={currentLayout?.id || false}
           onChange={(_e, val) => setLayoutId(val)}
         >
           {layoutList?.map((layout) => (
             <Tab
-              key={layout._id}
+              key={layout.id}
               label={layout.name}
-              value={layout._id}
+              value={layout.id}
             />
           ))}
         </Tabs>

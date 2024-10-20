@@ -26,7 +26,7 @@ const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
 
   const macros = node.action.macros as Macro[];
 
-  const expressionResults = useMappingExpressions(macros.map((x) => x.expression), node.entity._id);
+  const expressionResults = useMappingExpressions(macros.map((x) => x.expression), node.entity.id);
   const mappingUpdate = useMappingUpdate();
 
   const runMacros = () => {

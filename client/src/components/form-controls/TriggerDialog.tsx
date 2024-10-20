@@ -43,13 +43,13 @@ const TriggerDialog = ({
   const [entityId, setEntityId] = useState(initial?.entityId);
   const [actionKey, setActionKey] = useState(initial?.actionKey);
 
-  const currentEntity = { ...entity, _id: '-', name: `${entity.name} (Current)` };
+  const currentEntity = { ...entity, id: '-', name: `${entity.name} (Current)` };
   const sortedEntities = entities
-    ?.filter((x) => x._id !== (entity as UpdateEntity)._id)
+    ?.filter((x) => x.id !== (entity as UpdateEntity).id)
     .sort((a, b) => a.name.localeCompare(b.name));
   const entitySelection = [currentEntity].concat(sortedEntities || []);
 
-  const selectedEntity = entitySelection.find((x) => x._id === entityId);
+  const selectedEntity = entitySelection.find((x) => x.id === entityId);
 
   const actionSelection = selectedEntity?.actions;
 
@@ -129,8 +129,8 @@ const TriggerDialog = ({
                 </MenuItem>
                 {entitySelection.map((x) => (
                   <MenuItem
-                    key={x._id}
-                    value={x._id}
+                    key={x.id}
+                    value={x.id}
                   >
                     {x.name}
                   </MenuItem>

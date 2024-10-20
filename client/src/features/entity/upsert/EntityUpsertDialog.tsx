@@ -81,7 +81,7 @@ const ObjectUpsertDialog = ({
   };
 
   const saveEntity = () => {
-    if (initial?._id !== undefined) {
+    if (initial?.id !== undefined) {
       updateEntity({ ...initial, ...entity });
     } else {
       createEntity({ ...entity });
@@ -97,7 +97,7 @@ const ObjectUpsertDialog = ({
       <DialogTitle>
         <b>
           { initial?.isTemplate && 'Edit a Copy of a Template' }
-          { !initial?.isTemplate && (initial?._id ? 'Update Object' : 'Create Object') }
+          { !initial?.isTemplate && (initial?.id ? 'Update Object' : 'Create Object') }
         </b>
       </DialogTitle>
 
@@ -149,7 +149,7 @@ const ObjectUpsertDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {initial?._id && (
+        {initial?.id && (
           <>
             <Button
               variant="outlined"
@@ -183,7 +183,7 @@ const ObjectUpsertDialog = ({
               objType="Object"
               objName={initial.name}
               open={deleteOpen}
-              onDelete={() => { deleteEntity(initial._id); }}
+              onDelete={() => { deleteEntity(initial.id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

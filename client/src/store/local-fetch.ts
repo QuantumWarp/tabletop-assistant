@@ -1,6 +1,6 @@
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { v4 as uuid } from 'uuid';
-import { collections } from "@tabletop-assistant/templates";
+import { templateRoots } from "@tabletop-assistant/templates";
 
 export const localFetch: BaseQueryFn = async (args, api) => {
   if (api.type === 'query') {
@@ -22,11 +22,12 @@ export const localFetch: BaseQueryFn = async (args, api) => {
 
 const getData = async (url: string) => {
   const { model, id } = parseUrl(url);
+  
+  if (model === "templates") {
+    return getTemplates(id);
+  }
 
   if (!id) {
-    if (model === "templates") {
-      return getTemplates();
-    }
     const key = `${model}-`;
     const data = Object.keys(localStorage)
       .filter(x => x.startsWith(key))
@@ -44,20 +45,21 @@ const postData = async ({ url, body }: { url: string; body: object }) => {
   const { model } = parseUrl(url);
   const id = uuid();
   const key = `${model}-${id}`;
-  localStorage.setItem(key, JSON.stringify({ _id: id, ...body }));
+  const date = new Date();
+  localStorage.setItem(key, JSON.stringify({ id: id, ...body, createdAt: date, updatedAt: date }));
   return { data: id };
 }
 
-const putData = async ({ url, body }: { url: string; body: { _id: string } }) => {
+const putData = async ({ url, body }: { url: string; body: { id: string } }) => {
   const { model } = parseUrl(url);
-  const id = body._id;
+  const id = body.id;
   const key = `${model}-${id}`;
-  localStorage.setItem(key, JSON.stringify(body));
+  localStorage.setItem(key, JSON.stringify({ ...body, updatedAt: new Date() }));
   return { data: id };
 
 }
 
-const deleteData = async ({ url }: { url: string; body: unknown }) => {
+const deleteData = async ({ url }: { url: string }) => {
   const { model, id } = parseUrl(url);
   const key = `${model}-${id}`;
   localStorage.removeItem(key);
@@ -74,6 +76,10 @@ const parseUrl = (url: string) => {
   return { model, id, filter };
 }
 
-const getTemplates = () => {
-  return { data: collections.map((x) => x.root) };
+const getTemplates = (id?: string) => {
+  if (id) {
+    return { data: templateRoots.find(x => x.id === id) };
+  } else {
+    return { data: templateRoots };
+  }
 }

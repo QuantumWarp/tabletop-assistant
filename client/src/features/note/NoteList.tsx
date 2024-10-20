@@ -27,7 +27,7 @@ const NoteList = ({ filter }: NotesListProps) => {
   return (
     <Grid container spacing={6}>
       {sortedNotes.map((note) => (
-        <Grid key={note._id} item xs={4}>
+        <Grid key={note.id} item xs={4}>
           <NoteCard
             note={note}
             onClick={() => setEditNote(note)}

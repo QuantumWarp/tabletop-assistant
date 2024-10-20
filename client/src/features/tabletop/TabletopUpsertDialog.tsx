@@ -73,7 +73,7 @@ const TabletopUpdateDialog = ({
       description,
     };
 
-    if (initial?._id !== undefined) {
+    if (initial?.id !== undefined) {
       updateTabletop({ ...initial, ...updatedProps });
     } else {
       createTabletop(updatedProps);
@@ -84,7 +84,7 @@ const TabletopUpdateDialog = ({
     <Dialog open={open}>
       <DialogTitle>
         <b>
-          {initial?._id ? 'Update ' : 'Create '}
+          {initial?.id ? 'Update ' : 'Create '}
           Tabletop
         </b>
       </DialogTitle>
@@ -142,7 +142,7 @@ const TabletopUpdateDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {initial?._id && (
+        {initial?.id && (
           <>
             <Button
               variant="outlined"
@@ -158,7 +158,7 @@ const TabletopUpdateDialog = ({
               objType="Config"
               objName={initial.shortName}
               open={deleteOpen}
-              onDelete={() => { deleteTabletop(initial._id); }}
+              onDelete={() => { deleteTabletop(initial.id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

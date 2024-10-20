@@ -30,14 +30,14 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
   const actionHandler = (entity: Entity, actionKey: string) => {
     navigate({
       pathname: './action',
-      search: `?entity=${entity._id}&action=${actionKey}`,
+      search: `?entity=${entity.id}&action=${actionKey}`,
     });
   };
 
   return (
     <div className="layout-container" ref={elementRef}>
       {layout.entries.map((entry) => {
-        const entity = entities?.find((x) => entry.entityId === x._id);
+        const entity = entities?.find((x) => entry.entityId === x.id);
         const display = entity?.displays.find((x) => x.key === entry.displayKey);
         const invalidEntry = !entity || !display;
 
@@ -56,7 +56,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
               <LayoutDisplay
                 display={display}
                 entity={entity}
-                mappings={entityMappings?.find((x) => x.entityId === entity._id)?.mappings || []}
+                mappings={entityMappings?.find((x) => x.entityId === entity.id)?.mappings || []}
                 onUpdateMappings={mappingUpdate}
                 onAction={(actionKey) => actionHandler(entity, actionKey)}
               />

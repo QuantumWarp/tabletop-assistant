@@ -1,6 +1,5 @@
 export interface Tabletop {
-  readonly _id: string;
-  readonly userId: string;
+  readonly id: string;
 
   name: string;
   shortName: string;
@@ -9,8 +8,7 @@ export interface Tabletop {
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
-  readonly __v: number;
 }
 
-export type UpdateTabletop = Omit<Tabletop, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateTabletop = Omit<UpdateTabletop, '_id'>;
+export type UpdateTabletop = Omit<Tabletop, 'createdAt' | 'updatedAt'>;
+export type CreateTabletop = Omit<UpdateTabletop, 'id'>;

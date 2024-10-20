@@ -36,9 +36,9 @@ const TabletopList = () => {
       <Container sx={{ py: 8 }} maxWidth="lg">
         <Grid container spacing={4}>
           {tabletops && tabletops.map((tabletop) => (
-            <Grid item xs={4} key={tabletop._id}>
+            <Grid item xs={4} key={tabletop.id}>
               <Card>
-                <CardActionArea onClick={() => navigate(`/tabletop/${tabletop._id}/layout`)}>
+                <CardActionArea onClick={() => navigate(`/tabletop/${tabletop.id}/layout`)}>
                   <CardMedia
                     component="img"
                     height="200"

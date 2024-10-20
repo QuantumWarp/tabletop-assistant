@@ -9,13 +9,13 @@ export function useMappingEntities(entityIds: string[]) {
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
   const filteredEntities = (entities || [])
-    .filter((x) => entityIds.includes(x._id));
+    .filter((x) => entityIds.includes(x.id));
 
   const emptyMappings = filteredEntities
     .reduce((arr, x) => ([
       ...arr,
       ...FieldHelper.getFields(x).map((field) => ({
-        entityId: x._id,
+        entityId: x.id,
         fieldKey: field.key,
         value: undefined,
       })),

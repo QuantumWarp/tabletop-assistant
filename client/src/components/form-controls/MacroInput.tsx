@@ -39,7 +39,7 @@ const MacroInput = ({
           <Chip
             {...getTagProps({ index })}
             variant="filled"
-            label={entities?.find((x) => x._id === macro.target.entityId)?.name}
+            label={entities?.find((x) => x.id === macro.target.entityId)?.name}
             size="medium"
             onClick={(e) => { e.stopPropagation(); setEditMacro(macro); }}
             onDelete={() => onChange(value.filter((x) => x !== macro))}

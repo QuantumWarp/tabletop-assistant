@@ -2,8 +2,7 @@ import { Expression, Macro } from './expression';
 import { RollCombo } from './roll';
 
 export interface Entity {
-  readonly _id: string;
-  readonly userId?: string;
+  readonly id: string;
   readonly isTemplate?: boolean;
 
   name: string;
@@ -18,11 +17,10 @@ export interface Entity {
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
-  readonly __v: number;
 }
 
-export type UpdateEntity = Omit<Entity, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateEntity = Omit<UpdateEntity, '_id'>;
+export type UpdateEntity = Omit<Entity, 'createdAt' | 'updatedAt'>;
+export type CreateEntity = Omit<UpdateEntity, 'id'>;
 
 export interface EntityField {
   key: string;

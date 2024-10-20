@@ -35,7 +35,7 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
     [] as Expression[],
   ) || [];
 
-  const expressionResults = useMappingExpressions(expressions, node.entity._id);
+  const expressionResults = useMappingExpressions(expressions, node.entity.id);
 
   const [roll, setRoll] = useState(
     node.action.roll && expressionResults

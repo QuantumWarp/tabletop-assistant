@@ -65,7 +65,7 @@ const HistoryUpsertDialog = ({
       description,
     };
 
-    if (initial?._id !== undefined) {
+    if (initial?.id !== undefined) {
       updateHistoryEntry({ ...initial, ...updatedProps });
     } else {
       createHistoryEntry({ tabletopId, ...updatedProps });
@@ -76,7 +76,7 @@ const HistoryUpsertDialog = ({
     <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <b>
-          {initial?._id ? 'Update ' : 'Create '}
+          {initial?.id ? 'Update ' : 'Create '}
           History
         </b>
       </DialogTitle>
@@ -115,7 +115,7 @@ const HistoryUpsertDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {initial?._id && (
+        {initial?.id && (
           <>
             <Button
               variant="outlined"
@@ -131,7 +131,7 @@ const HistoryUpsertDialog = ({
               objType="History Entry"
               objName={initial.name}
               open={deleteOpen}
-              onDelete={() => { deleteHistoryEntry(initial._id); }}
+              onDelete={() => { deleteHistoryEntry(initial.id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

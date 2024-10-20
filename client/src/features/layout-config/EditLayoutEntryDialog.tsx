@@ -38,7 +38,7 @@ const EditLayoutEntryDialog = ({
   const [entityId, setEntityId] = useState(initial?.entityId || '');
   const [displayKey, setDisplayKey] = useState(initial?.displayKey || '');
 
-  const selectedEntity = entities?.find((x) => x._id === entityId);
+  const selectedEntity = entities?.find((x) => x.id === entityId);
   const selectedDisplay = selectedEntity?.displays?.find((x) => x.key === displayKey);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ const EditLayoutEntryDialog = ({
                 onChange={(e) => setEntityId(e.target.value)}
               >
                 {entities && entities.map((x) => (
-                  <MenuItem key={x._id} value={x._id}>
+                  <MenuItem key={x.id} value={x.id}>
                     {x.name}
                   </MenuItem>
                 ))}

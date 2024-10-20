@@ -74,7 +74,7 @@ export default class MappingResolver {
   }
 
   private resolveObjects(mapping: EmptyMapping) {
-    const entity = this.entities.find((x) => x._id === mapping.entityId);
+    const entity = this.entities.find((x) => x.id === mapping.entityId);
     const field = entity && FieldHelper.getFields(entity).find((x) => x.key === mapping.fieldKey);
 
     const valueMap = this.valueMaps.find((x) => x.entityId === mapping.entityId);

@@ -1,19 +1,16 @@
+import { Entity } from "../entity/entity";
+import { Layout } from "../layout/layout";
+import { TemplateGroup } from "./template-group";
+
 export interface TemplateRoot {
-  readonly _id: string;
+  readonly id: string;
 
-  name: string;
-  description: string;
-  imageUrl: string;
-  tag: string;
+  readonly name: string;
+  readonly description: string;
+  readonly imageUrl: string;
+  readonly tag: string;
 
-  groupIds: string[];
-  layoutIds: string[];
-  entityIds: string[];
-
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
-  readonly __v: number;
+  readonly groups: TemplateGroup[];
+  readonly layouts: Layout[];
+  readonly entities: Entity[];
 }
-
-export type UpdateTemplateRoot = Omit<TemplateRoot, | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateTemplateRoot = Omit<UpdateTemplateRoot, '_id'>;

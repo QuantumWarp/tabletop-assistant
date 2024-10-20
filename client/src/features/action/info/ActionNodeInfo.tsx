@@ -14,7 +14,7 @@ interface ActionNodeInfoProps {
 
 const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
   const [infoOpen, setInfoOpen] = useState(false);
-  const entityMappings = useMappingEntity(node.entity._id);
+  const entityMappings = useMappingEntity(node.entity.id);
 
   return (
     <>

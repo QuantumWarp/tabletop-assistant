@@ -41,8 +41,8 @@ const ExistingEntityDialog = ({
   const [filter, setFilter] = useState('');
   const [selectedEntityIds, setSelectedEntityIds] = useState<Set<string>>(new Set());
 
-  const entityIds = entities?.map((x) => x._id);
-  const availableEntities = allEntities?.filter((x) => !entityIds?.includes(x._id));
+  const entityIds = entities?.map((x) => x.id);
+  const availableEntities = allEntities?.filter((x) => !entityIds?.includes(x.id));
 
   const filteredEntities = availableEntities
     ? availableEntities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())
@@ -54,8 +54,8 @@ const ExistingEntityDialog = ({
 
   const handleToggle = (entity: Entity) => {
     const newSet = new Set(selectedEntityIds);
-    const removed = newSet.delete(entity._id);
-    if (!removed) newSet.add(entity._id);
+    const removed = newSet.delete(entity.id);
+    if (!removed) newSet.add(entity.id);
     setSelectedEntityIds(newSet);
   };
 
@@ -85,7 +85,7 @@ const ExistingEntityDialog = ({
           {sortedEntities?.map((entity) => (
             <>
               <ListItem
-                key={entity._id}
+                key={entity.id}
                 disablePadding
               >
                 <ListItemButton role={undefined} onClick={() => handleToggle(entity)}>
@@ -95,7 +95,7 @@ const ExistingEntityDialog = ({
                   <ListItemText primary={entity.name} secondary={entity.tags.filter((x) => x !== tag).join(', ')} />
                   <Checkbox
                     edge="start"
-                    checked={selectedEntityIds.has(entity._id)}
+                    checked={selectedEntityIds.has(entity.id)}
                     tabIndex={-1}
                     disableRipple
                   />

@@ -28,27 +28,27 @@ const LayoutConfigPage = () => {
   const [updatedLayout, setUpdatedLayout] = useState<Layout>();
   const [updatedLayoutOrder, setUpdatedLayoutOrder] = useState<Layout[]>();
 
-  const currentLayout = updatedLayout || layouts?.find((x) => x._id === layoutId);
+  const currentLayout = updatedLayout || layouts?.find((x) => x.id === layoutId);
   const orderedList = (layouts && [...layouts])
     ?.sort((a, b) => (a.order > b.order ? 1 : -1));
   const layoutList = (updatedLayoutOrder || orderedList)
-    ?.map((x) => (x._id === updatedLayout?._id ? updatedLayout : x));
+    ?.map((x) => (x.id === updatedLayout?.id ? updatedLayout : x));
 
   const [updateLayout] = useUpdateLayoutMutation();
   const [updateLayoutOrder] = useUpdateLayoutOrderMutation();
   const debouncedUpdate = useDebouncedCallback(
     () => {
       if (updatedLayout) updateLayout(updatedLayout);
-      if (updatedLayoutOrder) updateLayoutOrder(updatedLayoutOrder.map((x) => x._id));
+      if (updatedLayoutOrder) updateLayoutOrder(updatedLayoutOrder.map((x) => x.id));
     },
     1500,
   );
 
   useEffect(() => {
     if (!layoutList) return;
-    if (layoutList.find((x) => x._id === layoutId)) return;
+    if (layoutList.find((x) => x.id === layoutId)) return;
     if (layoutList.length === 0) return;
-    setLayoutId(layoutList[0]._id);
+    setLayoutId(layoutList[0].id);
   }, [layoutList, layoutId]);
 
   useEffect(() => {
@@ -91,14 +91,14 @@ const LayoutConfigPage = () => {
       <TopBar title="Configure">
         <Tabs
           variant="scrollable"
-          value={currentLayout?._id || false}
+          value={currentLayout?.id || false}
           onChange={(_e, val) => changeTab(val)}
         >
           {layoutList?.map((layout) => (
             <Tab
-              key={layout._id}
+              key={layout.id}
               label={layout.name}
-              value={layout._id}
+              value={layout.id}
               sx={{ textDecoration: layout.hidden ? 'line-through' : 'none' }}
             />
           ))}

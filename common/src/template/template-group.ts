@@ -1,17 +1,13 @@
+import { Entity } from "../entity/entity";
+import { Layout } from "../layout/layout";
+
 export interface TemplateGroup {
-  readonly _id: string;
+  readonly id: string;
 
-  name: string;
-  description: string;
-  imageUrl: string;
+  readonly name: string;
+  readonly description: string;
+  readonly imageUrl: string;
 
-  layoutIds: string[];
-  entityIds: string[];
-
-  readonly createdAt: Date;
-  readonly updatedAt: Date;
-  readonly __v: number;
+  readonly layouts: Layout[];
+  readonly entities: Entity[];
 }
-
-export type UpdateTemplateGroup = Omit<TemplateGroup, | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateTemplateGroup = Omit<UpdateTemplateGroup, '_id'>;

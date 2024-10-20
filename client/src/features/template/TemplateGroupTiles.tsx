@@ -9,12 +9,12 @@ interface TemplateGroupTilesProps {
 }
 
 const TemplateGroupTiles = ({ templateRoot, onChange }: TemplateGroupTilesProps) => {
-  const { data: collection } = useGetTemplateQuery(templateRoot._id);
+  const { data: template } = useGetTemplateQuery(templateRoot.id);
 
   return (
     <Grid container spacing={6}>
-      {collection && collection.groups.map((group) => (
-        <Grid key={group._id} item xs={4}>
+      {template && template.groups.map((group) => (
+        <Grid key={group.id} item xs={4}>
           <TemplateGroupCard
             templateGroup={group}
             onClick={() => onChange(group, true)}

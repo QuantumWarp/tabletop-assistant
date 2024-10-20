@@ -20,10 +20,10 @@ const TemplateLayoutList = ({
     <FormGroup>
       {sorted.map((layout) => (
         <FormControlLabel
-          key={layout._id}
+          key={layout.id}
           control={(
             <Checkbox
-              checked={selectedIds.includes(layout._id)}
+              checked={selectedIds.includes(layout.id)}
               onChange={(event) => onChange(layout, event.target.checked)}
             />
           )}

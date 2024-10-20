@@ -74,7 +74,7 @@ const NoteUpsertDialog = ({
       description,
     };
 
-    if (initial?._id !== undefined) {
+    if (initial?.id !== undefined) {
       updateNote({ ...initial, ...updatedProps });
     } else {
       createNote({ tabletopId, ...updatedProps });
@@ -85,7 +85,7 @@ const NoteUpsertDialog = ({
     <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <b>
-          {initial?._id ? 'Update ' : 'Create '}
+          {initial?.id ? 'Update ' : 'Create '}
           Note
         </b>
       </DialogTitle>
@@ -142,7 +142,7 @@ const NoteUpsertDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {initial?._id && (
+        {initial?.id && (
           <>
             <Button
               variant="outlined"
@@ -158,7 +158,7 @@ const NoteUpsertDialog = ({
               objType="Note"
               objName={initial.name}
               open={deleteOpen}
-              onDelete={() => { deleteNote(initial._id); }}
+              onDelete={() => { deleteNote(initial.id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

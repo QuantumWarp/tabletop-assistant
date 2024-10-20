@@ -15,7 +15,7 @@ const ActionNode = ({ node }: ActionNodeProps) => (
 
     {node.children.map((x) => (
       <ActionNode
-        key={`${x.entity._id}-${x.action.key}`}
+        key={`${x.entity.id}-${x.action.key}`}
         node={x}
       />
     ))}

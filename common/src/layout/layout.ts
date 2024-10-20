@@ -1,6 +1,5 @@
 export interface Layout {
-  readonly _id: string;
-  readonly userId?: string;
+  readonly id: string;
   readonly tabletopId?: string;
   readonly isTemplate?: boolean;
 
@@ -11,11 +10,10 @@ export interface Layout {
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
-  readonly __v: number;
 }
 
-export type UpdateLayout = Omit<Layout, 'userId' | 'createdAt' | 'updatedAt' | '__v'>;
-export type CreateLayout = Omit<UpdateLayout, '_id'>;
+export type UpdateLayout = Omit<Layout, 'createdAt' | 'updatedAt'>;
+export type CreateLayout = Omit<UpdateLayout, 'id'>;
 
 export interface LayoutEntry {
   entityId: string;

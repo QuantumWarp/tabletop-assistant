@@ -35,7 +35,7 @@ const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
 
   const [editEntity, setEditEntity] = useState<Entity | undefined>();
   const [editEntityValue, setEditEntityValue] = useState<Entity | undefined>();
-  const editValueMap = valueMaps?.find((x) => x.entityId === editEntityValue?._id);
+  const editValueMap = valueMaps?.find((x) => x.entityId === editEntityValue?.id);
 
   const filteredEntities = entities
     ? entities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())
@@ -51,7 +51,7 @@ const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
         {sortedEntities?.map((entity) => (
           <>
             <ListItem
-              key={entity._id}
+              key={entity.id}
               disablePadding
             >
               <ListItemButton onClick={() => setEditEntityValue(entity)}>
@@ -70,7 +70,7 @@ const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
                     <EditIcon />
                   </IconButton>
 
-                  <IconButton onClick={(e) => { deleteValue(entity._id); e.stopPropagation(); }}>
+                  <IconButton onClick={(e) => { deleteValue(entity.id); e.stopPropagation(); }}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -84,7 +84,7 @@ const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
       {editEntityValue && editValueMap && (
         <EntityInstanceDialog
           entity={editEntityValue}
-          mappings={editValueMap.mappings.map((x) => ({ entityId: editEntityValue._id, ...x }))}
+          mappings={editValueMap.mappings.map((x) => ({ entityId: editEntityValue.id, ...x }))}
           open={Boolean(editEntityValue)}
           onClose={() => setEditEntityValue(undefined)}
         />

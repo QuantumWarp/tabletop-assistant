@@ -64,18 +64,11 @@ export type {
   TemplateImport,
 } from './template/template-import';
 
-export type {
-  TemplateSummary,
-} from './template/template-summary';
 
 export type {
   TemplateRoot,
-  CreateTemplateRoot,
-  UpdateTemplateRoot,
 } from './template/template-root';
 
 export type {
   TemplateGroup,
-  CreateTemplateGroup,
-  UpdateTemplateGroup,
 } from './template/template-group';

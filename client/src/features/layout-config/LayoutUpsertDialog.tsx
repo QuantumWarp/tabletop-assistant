@@ -64,7 +64,7 @@ const LayoutUpsertDialog = ({
       name,
     };
 
-    if (initial?._id !== undefined) {
+    if (initial?.id !== undefined) {
       updateLayout({ ...initial, ...updatedProps });
     } else {
       createLayout({
@@ -81,7 +81,7 @@ const LayoutUpsertDialog = ({
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>
         <b>
-          {initial?._id ? 'Update ' : 'Create '}
+          {initial?.id ? 'Update ' : 'Create '}
           Layout
         </b>
       </DialogTitle>
@@ -106,7 +106,7 @@ const LayoutUpsertDialog = ({
       </DialogContent>
 
       <DialogActions>
-        {initial?._id && (
+        {initial?.id && (
           <>
             <Button
               variant="outlined"
@@ -133,7 +133,7 @@ const LayoutUpsertDialog = ({
               objType="Layout"
               objName={initial.name}
               open={deleteOpen}
-              onDelete={() => { deleteLayout(initial._id); }}
+              onDelete={() => { deleteLayout(initial.id); }}
               onClose={() => setDeleteOpen(false)}
             />
           </>

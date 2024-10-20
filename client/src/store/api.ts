@@ -19,6 +19,7 @@ import {
   CreateValueMap,
   UpdateLayout,
   UpdateValueMap,
+  TemplateRoot,
 } from '@tabletop-assistant/common';
 import { localFetch } from './local-fetch';
 import { TemplateCollection } from '@tabletop-assistant/templates';
@@ -177,10 +178,10 @@ export const api = createApi({
     }),
 
     // Templates
-    getTemplates: build.query<TemplateCollection[], void>({
+    getTemplates: build.query<TemplateRoot[], void>({
       query: () => '/templates',
     }),
-    getTemplate: build.query<TemplateCollection, string>({
+    getTemplate: build.query<TemplateRoot, string>({
       query: (templateRootId) => `/templates/${templateRootId}`,
     }),
 

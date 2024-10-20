@@ -3,20 +3,17 @@ import {
   ExpressionVariable,
   SlotFieldMapping,
   CreateLayout,
-  CreateTemplateRoot,
-  CreateTemplateGroup,
   CreateEntity,
 } from '@tabletop-assistant/common';
 
-type TemplateType = CreateTemplateRoot
-| CreateTemplateGroup
+type TemplateType =
 | CreateLayout
 | CreateEntity;
 
 export default class TemplateHelper {
-  static create<T extends TemplateType>(template: Omit<T, 'referencedEntityIds'>): Omit<T, 'referencedEntityIds'> & { _id: string } {
+  static create<T extends TemplateType>(template: Omit<T, 'referencedEntityIds'>): Omit<T, 'referencedEntityIds'> & { id: string } {
     return {
-      _id: Math.random().toString(),
+      id: Math.random().toString(),
       ...template,
     };
   }
@@ -32,10 +29,10 @@ export default class TemplateHelper {
     };
   }
 
-  static variable(key: string, entity: Omit<CreateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): ExpressionVariable {
+  static variable(key: string, entity: Omit<CreateEntity, 'referencedEntityIds'> & { id: string; }, fieldKey: string): ExpressionVariable {
     return {
       key,
-      entityId: entity._id,
+      entityId: entity.id,
       fieldKey,
     };
   }
@@ -48,7 +45,7 @@ export default class TemplateHelper {
     };
   }
 
-  static singleVariable(key: string, entity: Omit<CreateEntity, 'referencedEntityIds'> & { _id: string; }, fieldKey: string): Expression {
+  static singleVariable(key: string, entity: Omit<CreateEntity, 'referencedEntityIds'> & { id: string; }, fieldKey: string): Expression {
     return {
       expression: key,
       variables: [TemplateHelper.variable(key, entity, fieldKey)],

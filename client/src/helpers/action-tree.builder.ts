@@ -58,9 +58,9 @@ export default class ActionTreeBuilder {
         .filter((x) => x.triggers
           .find((trigger) => !trigger.manual
             && Boolean(trigger.sibling) === Boolean(sibling)
-            && trigger.entityId === (isCurrentEntity ? '-' : node.entity._id)
+            && trigger.entityId === (isCurrentEntity ? '-' : node.entity.id)
             && trigger.actionKey === node.action.key));
-      const eaIds = actions.map((x) => ({ entityId: entity._id, actionKey: x.key }));
+      const eaIds = actions.map((x) => ({ entityId: entity.id, actionKey: x.key }));
       return related.concat(eaIds);
     }, [] as EntityActionId[]);
   }
@@ -68,7 +68,7 @@ export default class ActionTreeBuilder {
   createNode(
     eaId: EntityActionId, triggeredBy?: ActionTreeNode, parent?: ActionTreeNode,
   ): ActionTreeNode {
-    const entity = this.entities.find((x) => x._id === eaId.entityId);
+    const entity = this.entities.find((x) => x.id === eaId.entityId);
     if (!entity) throw new Error('No entity found with that id');
 
     const action = entity.actions.find((x) => x.key === eaId.actionKey);

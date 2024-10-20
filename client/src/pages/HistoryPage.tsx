@@ -50,7 +50,7 @@ const HistoryPage = () => {
           maxWidth="lg"
         >
           {sortedEntries.map((x) => (
-            <HistoryRow key={x._id} entry={x} />
+            <HistoryRow key={x.id} entry={x} />
           ))}
         </Container>
       </Box>
