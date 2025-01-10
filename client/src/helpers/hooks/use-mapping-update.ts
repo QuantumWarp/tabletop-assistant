@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { ValueMap } from '@tabletop-assistant/common';
 import { useDebouncedCallback } from 'use-debounce';
 import { Mapping } from '../../models/mapping';
-import { useGetValueMapsQuery, useUpdateValueMapsMutation } from '../../store/api';
+import { useGetValueMapsQuery, useUpdateValueMapMutation } from '../../store/api';
 import { addUpdates, selectUpdates } from '../../store/mapping-slice';
 
 export function useMappingUpdate() {
@@ -11,7 +11,7 @@ export function useMappingUpdate() {
 
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
-  const [updateValues] = useUpdateValueMapsMutation();
+  const [updateValue] = useUpdateValueMapMutation();
 
   const updates = useSelector(selectUpdates);
 
@@ -42,7 +42,11 @@ export function useMappingUpdate() {
   };
 
   const debouncedUpdate = useDebouncedCallback(
-    async () => updateValues((createValueMapUpdates(updates))),
+    async () => {
+      for (const values of createValueMapUpdates(updates)) {
+        updateValue(values)
+      }
+    },
     1500,
   );
 

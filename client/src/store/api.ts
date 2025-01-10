@@ -19,10 +19,8 @@ import {
   CreateValueMap,
   UpdateLayout,
   UpdateValueMap,
-  TemplateRoot,
 } from '@tabletop-assistant/common';
 import { localFetch } from './local-fetch';
-import { TemplateCollection } from '@tabletop-assistant/templates';
 
 export const msalInstance = new PublicClientApplication({
   auth: {
@@ -33,7 +31,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Template', 'TemplateEntity'],
+  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note'],
 
   baseQuery: localFetch,
   endpoints: (build) => ({
@@ -94,11 +92,11 @@ export const api = createApi({
       query: (entityId) => ({ url: `/value-maps/${entityId}` }),
       providesTags: ['Values'],
     }),
-    createValueMaps: build.mutation<ValueMap, CreateValueMap[]>({
+    createValueMap: build.mutation<ValueMap, CreateValueMap>({
       query: (body) => ({ url: '/value-maps', method: 'POST', body }),
       invalidatesTags: ['Values', 'Entity'],
     }),
-    updateValueMaps: build.mutation<ValueMap, UpdateValueMap[]>({
+    updateValueMap: build.mutation<ValueMap, UpdateValueMap>({
       query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
       invalidatesTags: [], // Invalidating Value Maps here would be very chatty
     }),
@@ -177,14 +175,6 @@ export const api = createApi({
       invalidatesTags: ['Note'],
     }),
 
-    // Templates
-    getTemplates: build.query<TemplateRoot[], void>({
-      query: () => '/templates',
-    }),
-    getTemplate: build.query<TemplateRoot, string>({
-      query: (templateRootId) => `/templates/${templateRootId}`,
-    }),
-
     // Images
     uploadImage: build.mutation<{ filename: string }, FormData>({
       query: (body) => ({ url: '/images', method: 'POST', body }),
@@ -211,8 +201,8 @@ export const {
 
   useGetValueMapsQuery,
   useGetValueMapQuery,
-  useCreateValueMapsMutation,
-  useUpdateValueMapsMutation,
+  useCreateValueMapMutation,
+  useUpdateValueMapMutation,
   useDeleteValueMapMutation,
 
   useGetLayoutsQuery,
@@ -233,9 +223,6 @@ export const {
   useCreateNoteMutation,
   useUpdateNoteMutation,
   useDeleteNoteMutation,
-
-  useGetTemplatesQuery,
-  useGetTemplateQuery,
 
   useUploadImageMutation,
   useDeleteImageMutation,

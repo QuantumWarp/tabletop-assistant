@@ -20,23 +20,22 @@ import {
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { Entity } from '@tabletop-assistant/common';
-import { useCreateValueMapsMutation, useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
+import { useCreateValueMapMutation, useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
 
 interface ExistingEntityDialogProps {
-  tag: string;
   open: boolean;
   onClose: () => void;
 }
 
 const ExistingEntityDialog = ({
-  tag, open, onClose,
+  open, onClose,
 }: ExistingEntityDialogProps) => {
   const { tabletopId } = useParams() as { tabletopId: string };
 
   const { data: allEntities } = useGetUserCreatedEntitiesQuery();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
-  const [createValues] = useCreateValueMapsMutation();
+  const [createValue] = useCreateValueMapMutation();
 
   const [filter, setFilter] = useState('');
   const [selectedEntityIds, setSelectedEntityIds] = useState<Set<string>>(new Set());
@@ -62,7 +61,9 @@ const ExistingEntityDialog = ({
   const handleSave = async () => {
     const createValueMaps = Array.from(selectedEntityIds)
       .map((x) => ({ entityId: x, tabletopId, mappings: [] }));
-    await createValues(createValueMaps);
+    for (const values of createValueMaps) {
+      await createValue(values);
+    }
     onClose();
   };
 
@@ -92,7 +93,7 @@ const ExistingEntityDialog = ({
                   <ListItemIcon>
                     {entity.icon && <Icon icon={entity.icon} height={30} />}
                   </ListItemIcon>
-                  <ListItemText primary={entity.name} secondary={entity.tags.filter((x) => x !== tag).join(', ')} />
+                  <ListItemText primary={entity.name} secondary={entity.tags.join(', ')} />
                   <Checkbox
                     edge="start"
                     checked={selectedEntityIds.has(entity.id)}

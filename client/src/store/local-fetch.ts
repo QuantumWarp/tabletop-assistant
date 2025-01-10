@@ -6,7 +6,6 @@ export const localFetch: BaseQueryFn = async (args, api) => {
   if (api.type === 'query') {
     return getData(args.url ? args.url : args);
   }
-  console.log(args)
 
   switch (args.method) {
     case 'POST':
@@ -41,11 +40,11 @@ const getData = async (url: string) => {
   }
 }
 
-const postData = async ({ url, body }: { url: string; body: object }) => {
+const postData = async ({ url, body }: { url: string; body: object & { createdAt?: Date } }) => {
   const { model } = parseUrl(url);
   const id = uuid();
   const key = `${model}-${id}`;
-  const date = new Date();
+  const date = body.createdAt || new Date();
   localStorage.setItem(key, JSON.stringify({ id: id, ...body, createdAt: date, updatedAt: date }));
   return { data: id };
 }

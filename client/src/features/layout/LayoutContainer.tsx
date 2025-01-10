@@ -29,7 +29,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
 
   const actionHandler = (entity: Entity, actionKey: string) => {
     navigate({
-      pathname: './action',
+      pathname: '../action',
       search: `?entity=${entity.id}&action=${actionKey}`,
     });
   };

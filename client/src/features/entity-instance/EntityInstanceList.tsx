@@ -23,11 +23,10 @@ import EntityInstanceDialog from './EntityInstanceDialog';
 import EntityUpsertDialog from '../entity/upsert/EntityUpsertDialog';
 
 interface EntityInstanceListProps {
-  tag: string;
   filter: string;
 }
 
-const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
+const EntityInstanceList = ({ filter }: EntityInstanceListProps) => {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
@@ -59,7 +58,7 @@ const EntityInstanceList = ({ tag, filter }: EntityInstanceListProps) => {
                   {entity.icon && <Icon icon={entity.icon} height={30} />}
                 </ListItemIcon>
 
-                <ListItemText primary={entity.name} secondary={entity.tags.filter((x) => x !== tag).join(', ')} />
+                <ListItemText primary={entity.name} secondary={entity.tags.join(', ')} />
 
                 <ListItemSecondaryAction>
                   <IconButton onClick={(e) => { setEditEntityValue(entity); e.stopPropagation(); }}>

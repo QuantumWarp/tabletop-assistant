@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import TopBar from '../components/TopBar';
 import { useGetLayoutsQuery } from '../store/api';
 import LayoutContainer from '../features/layout/LayoutContainer';
-import TemplateStarter from '../features/template/TemplateStarter';
 
 const LayoutPage = () => {
   const { tabletopId } = useParams() as { tabletopId: string };
@@ -52,10 +51,6 @@ const LayoutPage = () => {
           <Container sx={{ py: 2 }} maxWidth="lg">
             {currentLayout && <LayoutContainer layout={currentLayout} />}
           </Container>
-        )}
-
-        {layouts && layouts.length === 0 && (
-          <TemplateStarter />
         )}
       </Box>
     </>

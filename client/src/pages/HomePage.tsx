@@ -1,17 +1,13 @@
 import {
   Typography,
-  Button,
   Container,
   Box,
-  Stack,
 } from '@mui/material';
-import WindowIcon from '@mui/icons-material/GridViewSharp';
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import DarkModeToggle from '../components/DarkModeToggle';
 import TabletopList from '../features/tabletop/TabletopList';
 
 const HomePage = () => {
-  const { instance } = useMsal();
+  // const { instance } = useMsal();
 
   return (
     <Box

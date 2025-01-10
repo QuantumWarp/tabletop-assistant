@@ -61,14 +61,13 @@ export type {
 } from './notes/note';
 
 export type {
-  TemplateImport,
-} from './template/template-import';
-
-
-export type {
   TemplateRoot,
 } from './template/template-root';
 
 export type {
   TemplateGroup,
 } from './template/template-group';
+
+export type {
+  ExportConfig,
+} from './export-config';
