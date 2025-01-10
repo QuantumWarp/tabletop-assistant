@@ -2,5 +2,9 @@
   "name": "tabletop-assistant",
   "private": true,
   "version": "1.0.0",
-  "workspaces": ["client", "common", "templates"]
+  "workspaces": ["client", "common", "templates"],
+  "scripts": {
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build"
+  }
 }

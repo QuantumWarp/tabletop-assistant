@@ -1,1 +1,4 @@
 
+[submodule "templates"]
+	path = templates
+	url = https://github.com/QuantumWarp/tabletop-assistant-templates
