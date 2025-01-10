@@ -1,1 +1,0 @@
-export { templateRoots } from "./collections";
