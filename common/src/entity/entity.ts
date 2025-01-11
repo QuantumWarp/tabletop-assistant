@@ -3,7 +3,7 @@ import { RollCombo } from './roll';
 
 export interface Entity {
   readonly id: string;
-  readonly isTemplate?: boolean;
+  readonly tabletopId: string;
 
   name: string;
   tags: string[];

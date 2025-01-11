@@ -28,13 +28,14 @@ import { useCreateEntityMutation, useDeleteEntityMutation, useUpdateEntityMutati
 
 interface ObjectUpsertDialogProps {
   initial?: Entity;
+  tabletopId: string;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
-const ObjectUpsertDialog = ({
-  initial, open, onClose,
-}: ObjectUpsertDialogProps) => {
+export function EntityUpsertDialog({
+  initial, tabletopId, open, onClose,
+}: ObjectUpsertDialogProps) {
   const [createEntity, {
     isLoading: creating,
     isSuccess: createSuccess,
@@ -61,7 +62,7 @@ const ObjectUpsertDialog = ({
   const [selectedTab, setSelectedTab] = useState(0);
 
   const [entity, setEntity] = useState<CreateEntity>({
-    isTemplate: initial?.isTemplate,
+    tabletopId: initial?.tabletopId || tabletopId,
     name: initial?.name || '',
     description: initial?.description || '',
     icon: initial?.icon,
@@ -96,8 +97,7 @@ const ObjectUpsertDialog = ({
     <Dialog open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <b>
-          { initial?.isTemplate && 'Edit a Copy of a Template' }
-          { !initial?.isTemplate && (initial?.id ? 'Update Object' : 'Create Object') }
+          {initial?.id ? 'Update Entity' : 'Create Entity'}
         </b>
       </DialogTitle>
 
@@ -167,17 +167,15 @@ const ObjectUpsertDialog = ({
               Export
             </Button>
 
-            {!entity.isTemplate && (
-              <Button
-                variant="outlined"
-                color="error"
-                disabled={loading}
-                endIcon={deleting ? <CircularProgress size="20px" /> : <DeleteIcon />}
-                onClick={() => setDeleteOpen(true)}
-              >
-                Delete
-              </Button>
-            )}
+            <Button
+              variant="outlined"
+              color="error"
+              disabled={loading}
+              endIcon={deleting ? <CircularProgress size="20px" /> : <DeleteIcon />}
+              onClick={() => setDeleteOpen(true)}
+            >
+              Delete
+            </Button>
 
             <DeleteConfirmDialog
               objType="Object"
@@ -197,19 +195,15 @@ const ObjectUpsertDialog = ({
           Cancel
         </Button>
 
-        {!entity.isTemplate && (
-          <Button
-            variant="outlined"
-            disabled={loading}
-            endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
-            onClick={saveEntity}
-          >
-            Save
-          </Button>
-        )}
+        <Button
+          variant="outlined"
+          disabled={loading}
+          endIcon={(creating || updating) ? <CircularProgress size="20px" /> : <SaveIcon />}
+          onClick={saveEntity}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );
 };
-
-export default ObjectUpsertDialog;

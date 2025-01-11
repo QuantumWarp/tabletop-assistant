@@ -1,18 +1,20 @@
 import { useState } from 'react';
 import {
-  Box, Button, Container, TextField,
+  Box, Button, Container, Grid2, TextField,
 } from '@mui/material';
 import TopBar from '../components/TopBar';
-import ObjectUpsertDialog from '../features/entity/upsert/EntityUpsertDialog';
-import EntityList from '../features/entity/EntityList';
+import { EntityUpsertDialog } from '../features/entity/upsert/EntityUpsertDialog';
+import { EntityList } from '../features/entity/EntityList';
+import { useParams } from 'react-router-dom';
 
-const EntityPage = () => {
+export function EntityPage() {
+  const { tabletopId } = useParams() as { tabletopId: string };
   const [filter, setFilter] = useState('');
   const [newEntityDialogOpen, setNewEntityDialogOpen] = useState(false);
 
   return (
     <>
-      <TopBar title="Objects">
+      <TopBar title="Entities">
         <TextField
           sx={{ minWidth: 400 }}
           label="Search"
@@ -21,15 +23,26 @@ const EntityPage = () => {
           onChange={(e) => setFilter(e.target.value)}
         />
 
-        <Button
-          variant="outlined"
-          onClick={() => setNewEntityDialogOpen(true)}
-        >
-          New Entity
-        </Button>
+        <Grid2 container spacing={2}>
+          <Button
+            variant="outlined"
+            onClick={() => setNewEntityDialogOpen(true)}
+          >
+            New
+          </Button>
+
+          <Button variant="outlined">
+            Existing (TODO)
+          </Button>
+
+          <Button variant="outlined">
+            Import (TODO)
+          </Button>
+        </Grid2>
 
         {newEntityDialogOpen && (
-          <ObjectUpsertDialog
+          <EntityUpsertDialog
+            tabletopId={tabletopId}
             open={newEntityDialogOpen}
             onClose={() => setNewEntityDialogOpen(false)}
           />
@@ -38,13 +51,9 @@ const EntityPage = () => {
 
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         <Container sx={{ py: 2 }} maxWidth="lg">
-          <EntityList
-            filter={filter}
-          />
+          <EntityList filter={filter} />
         </Container>
       </Box>
     </>
   );
 };
-
-export default EntityPage;

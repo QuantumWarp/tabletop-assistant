@@ -5,7 +5,7 @@ import TopBar from '../components/TopBar';
 import { useGetEntitiesQuery } from '../store/api';
 import ActionTreeBuilder from '../helpers/action-tree.builder';
 
-const ActionPage = () => {
+export function ActionPage() {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -56,5 +56,3 @@ const ActionPage = () => {
     </>
   );
 };
-
-export default ActionPage;

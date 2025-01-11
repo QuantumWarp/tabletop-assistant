@@ -11,7 +11,7 @@ import TopBar from '../components/TopBar';
 import HistoryUpdateDialog from '../features/history/HistoryUpsertDialog';
 import { useGetHistoryQuery } from '../store/api';
 
-const HistoryPage = () => {
+export function HistoryPage() {
   const { tabletopId } = useParams() as { tabletopId: string };
   const [filter, setFilter] = useState('');
   const [newHistoryDialogOpen, setNewHistoryDialogOpen] = useState(false);
@@ -65,5 +65,3 @@ const HistoryPage = () => {
     </>
   );
 };
-
-export default HistoryPage;

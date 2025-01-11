@@ -4,7 +4,7 @@ import {
 import { Box } from '@mui/material';
 import SideNav from './SideNav';
 
-const MainView = () => {
+export function MainView() {
   return (
     <Box sx={{ display: 'flex' }}>
       <SideNav />
@@ -24,5 +24,3 @@ const MainView = () => {
     </Box>
   );
 };
-
-export default MainView;

@@ -1,13 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import MainView from "./components/MainView";
-import LayoutPage from "./pages/LayoutPage";
-import LayoutConfigPage from "./pages/LayoutConfigPage";
-import ActionPage from "./pages/ActionPage";
-import NotesPage from "./pages/NotePage";
-import HistoryView from "./pages/HistoryPage";
-import EntityInstancePage from "./pages/EntityInstancePage";
-import EntityPage from "./pages/EntityPage";
+import { HomePage } from "./pages/HomePage";
+import { MainView } from "./components/MainView";
+import { LayoutPage } from "./pages/LayoutPage";
+import { LayoutConfigPage } from "./pages/LayoutConfigPage";
+import { ActionPage } from "./pages/ActionPage";
+import { NotePage } from "./pages/NotePage";
+import { HistoryPage } from "./pages/HistoryPage";
+import { EntityPage } from "./pages/EntityPage";
 
 const router = createBrowserRouter([
   {
@@ -32,18 +31,14 @@ const router = createBrowserRouter([
       },
       {
         path: "notes",
-        element: <NotesPage />,
+        element: <NotePage />,
       },
       {
         path: "history",
-        element: <HistoryView />,
+        element: <HistoryPage />,
       },
       {
-        path: "objects",
-        element: <EntityInstancePage />,
-      },
-      {
-        path: "custom-objects",
+        path: "entities",
         element: <EntityPage />,
       },
     ]

@@ -4,7 +4,7 @@ import ActionNodeInput from '../common/ActionNodeInput';
 import ActionNodeCenter from '../common/ActionNodeCenter';
 import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
-import EntitySummaryDialog from '../../entity-instance/EntityInstanceDialog';
+import { EntitySummaryDialog } from '../../entity/EntitySummaryDialog';
 import ActionNodeOutput from '../common/ActionNodeOutput';
 import { useMappingEntity } from '../../../helpers/hooks/use-mapping-entities';
 

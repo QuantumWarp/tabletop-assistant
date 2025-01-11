@@ -10,7 +10,7 @@ import TopBar from '../components/TopBar';
 import { useGetLayoutsQuery } from '../store/api';
 import LayoutContainer from '../features/layout/LayoutContainer';
 
-const LayoutPage = () => {
+export function LayoutPage() {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
@@ -56,5 +56,3 @@ const LayoutPage = () => {
     </>
   );
 };
-
-export default LayoutPage;

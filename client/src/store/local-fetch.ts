@@ -22,7 +22,7 @@ export const localFetch: BaseQueryFn = async (args, api) => {
 }
 
 const getData = async (url: string) => {
-  const { model, id } = parseUrl(url);
+  const { model, id, tabletopId } = parseUrl(url);
   
   if (model === "templates") {
     return getTemplates(id);
@@ -32,7 +32,8 @@ const getData = async (url: string) => {
     const key = `${prefix}-${model}-`;
     const data = Object.keys(localStorage)
       .filter(x => x.startsWith(key))
-      .map(x => JSON.parse(localStorage.getItem(x)!));
+      .map(x => JSON.parse(localStorage.getItem(x)!))
+      .filter(x => !tabletopId || x.tabletopId === tabletopId);
     return { data };
   } else {
     const key = `${prefix}-${model}-${id}`;
@@ -42,9 +43,9 @@ const getData = async (url: string) => {
   }
 }
 
-const postData = async ({ url, body }: { url: string; body: object & { createdAt?: Date } }) => {
+const postData = async ({ url, body }: { url: string; body: object & { id?: string, createdAt?: Date } }) => {
   const { model } = parseUrl(url);
-  const id = uuid();
+  const id = body.id || uuid();
   const key = `${prefix}-${model}-${id}`;
   const date = body.createdAt || Date.now();
   const data = { id: id, ...body, createdAt: date, updatedAt: date };
@@ -75,8 +76,8 @@ const parseUrl = (url: string) => {
   const pathSegments = pathname.split('/').filter(segment => segment);
   const model = pathSegments[0];
   const id = pathSegments[1];
-  const filter = search?.split("tabletopId=")[1];
-  return { model, id, filter };
+  const tabletopId = search?.split("tabletopId=")[1];
+  return { model, id, tabletopId };
 }
 
 const getTemplates = (id?: string) => {

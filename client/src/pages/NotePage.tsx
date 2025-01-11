@@ -7,7 +7,7 @@ import TopBar from '../components/TopBar';
 import NoteList from '../features/note/NoteList';
 import NoteUpsertDialog from '../features/note/NoteUpsertDialog';
 
-const NotePage = () => {
+export function NotePage() {
   const { tabletopId } = useParams() as { tabletopId: string };
   const [filter, setFilter] = useState('');
   const [newNoteDialogOpen, setNewNoteDialogOpen] = useState(false);
@@ -49,5 +49,3 @@ const NotePage = () => {
     </>
   );
 };
-
-export default NotePage;

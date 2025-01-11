@@ -25,7 +25,6 @@ const ImageInput = ({
     } else {
       const result = await createImage({ blob });
       if (!result.data) return;
-      console.log(result.data)
       onChange(result.data.id);
     }
   };

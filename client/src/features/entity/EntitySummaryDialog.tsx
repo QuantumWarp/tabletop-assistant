@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Grid,
+  Grid2,
   ListItem,
   ListItemButton,
   ListItemText,
@@ -19,12 +19,11 @@ import {
 import { Icon } from '@iconify/react';
 import ReactMarkdown from 'react-markdown';
 import { CreateEntity, EntityField } from '@tabletop-assistant/common';
-import EntityInstanceValueUpdateDialog from './EntityInstanceValueUpdateDialog';
+import { EntityValueMapUpdateDialog } from './EntityValueMapUpdateDialog';
 import { Mapping } from '../../models/mapping';
-import './EntityInstanceDialog.css';
 import { useGetImageQuery } from '../../store/api';
 
-interface EntityInstanceDialogProps {
+interface EntitySummaryDialogProps {
   entity: CreateEntity;
   mappings: Mapping[];
   open: boolean;
@@ -32,9 +31,9 @@ interface EntityInstanceDialogProps {
   onClose: () => void;
 }
 
-const EntityInstanceDialog = ({
+export function EntitySummaryDialog({
   entity, mappings, open, onSave, onClose,
-}: EntityInstanceDialogProps) => {
+}: EntitySummaryDialogProps) {
   const [editField, setEditField] = useState<EntityField>();
   const [updates, setUpdates] = useState<Mapping[]>([]);
 
@@ -44,23 +43,23 @@ const EntityInstanceDialog = ({
     entity.imageId!,
     { skip: !entity.imageId }
   );
-
+  
   return (
     <Dialog className="entity-instance-dialog" open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
       <DialogTitle>
-        <Grid container>
+        <Grid2 container>
           {entity.icon && (
-            <Grid item pr={2} alignItems="center">
+            <Grid2 pr={2} alignItems="center">
               <Icon width={30} icon={entity.icon} />
-            </Grid>
+            </Grid2>
           )}
           <b>{entity.name}</b>
-        </Grid>
+        </Grid2>
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} sx={{ py: 2, height: '100%' }}>
-          <Grid item xs={7}>
+        <Grid2 container spacing={2} sx={{ py: 2, height: '100%' }}>
+          <Grid2 size={7}>
             <Typography sx={{ whiteSpace: 'pre-line' }}>
               {entity.description && (
                 <ReactMarkdown>{entity.description}</ReactMarkdown>
@@ -72,16 +71,22 @@ const EntityInstanceDialog = ({
                 <img
                   src={image.blob}
                   alt={entity.name}
+                  style={{
+                    marginTop: "20px",
+                    maxWidth: "100%",
+                    maxHeight: "400px",
+                    borderRadius: "5px",
+                  }}
                 />
               </Box>
             )}
-          </Grid>
+          </Grid2>
 
-          <Grid item>
+          <Grid2>
             <Divider orientation="vertical" />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs>
+          <Grid2>
             {entity.fields.map((field) => {
               const mapping = mappings.find((x) => x.fieldKey === field.key);
 
@@ -101,7 +106,7 @@ const EntityInstanceDialog = ({
             })}
 
             {editField && editMapping && (
-              <EntityInstanceValueUpdateDialog
+              <EntityValueMapUpdateDialog
                 open={Boolean(editField)}
                 field={editField}
                 value={editMapping.value}
@@ -111,8 +116,8 @@ const EntityInstanceDialog = ({
                 onClose={() => setEditField(undefined)}
               />
             )}
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -136,5 +141,3 @@ const EntityInstanceDialog = ({
     </Dialog>
   );
 };
-
-export default EntityInstanceDialog;

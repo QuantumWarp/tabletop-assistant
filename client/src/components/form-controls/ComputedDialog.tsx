@@ -41,8 +41,7 @@ const ComputedDialog = ({
     const rootNode = parse(expression);
     const symbols = rootNode.filter((node) => node.type === 'SymbolNode') as SymbolNode[];
     expressionSymbols.push(...symbols.map((x) => x.name));
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err) {
+  } catch {
     expressionValid = false;
   }
 

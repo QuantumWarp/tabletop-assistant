@@ -33,7 +33,8 @@ const TabletopImportDialog = ({ open, onClose }: ConfigImportDialogProps) => {
 
     const tabletop = data.info;
     delete tabletop.image;
-    const { data: tabletopId } = await createTabletop(data.info);
+    const { data: newTabletop } = await createTabletop(data.info);
+    const tabletopId = newTabletop?.id;
 
     for (const note of data.notes) {
       delete note.image;
@@ -52,11 +53,11 @@ const TabletopImportDialog = ({ open, onClose }: ConfigImportDialogProps) => {
     }
 
     for (const entity of dnd.entities) {
-      await createEntity(entity);
+      await createEntity({ ...entity, tabletopId });
     }
     
     for (const layout of dnd.layouts) {
-      await createLayout(layout);
+      await createLayout({ ...layout, tabletopId });
     }
 
     onClose();

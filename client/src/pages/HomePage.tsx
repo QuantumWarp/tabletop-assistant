@@ -1,14 +1,8 @@
-import {
-  Typography,
-  Container,
-  Box,
-} from '@mui/material';
+import { Typography, Container, Box } from '@mui/material';
 import DarkModeToggle from '../components/DarkModeToggle';
 import TabletopList from '../features/tabletop/TabletopList';
 
-const HomePage = () => {
-  // const { instance } = useMsal();
-
+export function HomePage() {
   return (
     <Box
       sx={{
@@ -32,27 +26,7 @@ const HomePage = () => {
       </Container>
 
       <Box sx={{ flex: 1 }}>
-        {/* <UnauthenticatedTemplate>
-          <Stack
-            sx={{ pt: 3 }}
-            direction="row"
-            justifyContent="center"
-          >
-            <Button
-              variant="outlined"
-              startIcon={<WindowIcon />}
-              onClick={() => instance.loginPopup({
-                scopes: ['User.Read'],
-              })}
-            >
-              Login to begin
-            </Button>
-          </Stack>
-        </UnauthenticatedTemplate>
-
-        <AuthenticatedTemplate> */}
-          <TabletopList />
-        {/* </AuthenticatedTemplate> */}
+        <TabletopList />
       </Box>
 
       <Container maxWidth="sm" component="footer">
@@ -75,5 +49,3 @@ const HomePage = () => {
     </Box>
   );
 };
-
-export default HomePage;

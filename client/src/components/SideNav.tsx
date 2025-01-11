@@ -27,7 +27,8 @@ const SideNav = () => {
   const { data: tabletop } = useGetTabletopQuery(tabletopId);
 
   const { data: image } = useGetImageQuery(
-    tabletop!.imageId!,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    tabletop?.imageId!,
     { skip: !tabletop?.imageId }
   );
 
@@ -125,12 +126,12 @@ const SideNav = () => {
         <ListItemButton
           className="thin-button"
           component={NavLink}
-          to="./objects"
+          to="./entities"
         >
           <ListItemIcon>
             <ConfigureIcon />
           </ListItemIcon>
-          <ListItemText primary="Objects" />
+          <ListItemText primary="Entities" />
         </ListItemButton>
 
         <ListItemButton

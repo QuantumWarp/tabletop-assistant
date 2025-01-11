@@ -16,7 +16,7 @@ import TopBar from '../components/TopBar';
 import LayoutUpsertDialog from '../features/layout-config/LayoutUpsertDialog';
 import { useGetLayoutsQuery, useUpdateLayoutMutation, useUpdateLayoutOrderMutation } from '../store/api';
 
-const LayoutConfigPage = () => {
+export function LayoutConfigPage() {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: layouts } = useGetLayoutsQuery(tabletopId);
 
@@ -178,5 +178,3 @@ const LayoutConfigPage = () => {
     </>
   );
 };
-
-export default LayoutConfigPage;

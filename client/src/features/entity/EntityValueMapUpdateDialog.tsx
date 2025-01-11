@@ -15,7 +15,7 @@ import {
 import ValueInput from '../../components/form-controls/ValueInput';
 import FieldType from '../../models/field.type';
 
-interface EntityValueUpdateDialogProps {
+interface EntityValueMapUpdateDialogProps {
   open: boolean;
   field: EntityField;
   value: string | number | boolean | undefined;
@@ -23,9 +23,9 @@ interface EntityValueUpdateDialogProps {
   onClose: () => void;
 }
 
-const EntityValueUpdateDialog = ({
+export function EntityValueMapUpdateDialog ({
   open, field, value, onSave, onClose,
-}: EntityValueUpdateDialogProps) => {
+}: EntityValueMapUpdateDialogProps) {
   const [newValue, setNewValue] = useState(value !== undefined ? value : field.initial);
 
   return (
@@ -66,5 +66,3 @@ const EntityValueUpdateDialog = ({
     </Dialog>
   );
 };
-
-export default EntityValueUpdateDialog;

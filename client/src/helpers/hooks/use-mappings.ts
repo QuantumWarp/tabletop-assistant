@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Mapping } from '../../models/mapping';
 import { useGetValueMapsQuery, useGetEntitiesQuery } from '../../store/api';
@@ -8,7 +8,7 @@ import { useAppDispatch } from '../../store/store';
 
 export function useMappings(emptyMappings: Mapping[]) {
   const dispatch = useAppDispatch();
-  const mappings = useSelector(selectMappings(emptyMappings));
+  const mappings = useSelector(selectMappings(emptyMappings), shallowEqual);
 
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -19,9 +19,11 @@ export function useMappings(emptyMappings: Mapping[]) {
     dispatch(reset({ entities, valueMaps }));
   }, [dispatch, entities, valueMaps]);
 
-  if (mappings.length !== emptyMappings.length) {
-    dispatch(determineMappings(emptyMappings));
-  }
+  useEffect(() => {
+    if (mappings.length !== emptyMappings.length) {
+      dispatch(determineMappings(emptyMappings));
+    }
+  }, [dispatch, entities, valueMaps]);
 
   return mappings;
 }
