@@ -10,7 +10,7 @@ interface ActionNodeOutputProps {
 }
 
 const ActionNodeOutput = ({
-  node, children, onClick,
+  node, children = null, onClick = () => {},
 }: ActionNodeOutputProps) => (
   <>
     {!ActionTreeHelper.hasOutput(node) && <Box className="action-node-output-spacer" />}
@@ -33,10 +33,5 @@ const ActionNodeOutput = ({
     )}
   </>
 );
-
-ActionNodeOutput.defaultProps = {
-  children: null,
-  onClick: () => {},
-};
 
 export default ActionNodeOutput;

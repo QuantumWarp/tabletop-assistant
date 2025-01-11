@@ -46,9 +46,4 @@ const ActionNodeRollInput = ({
   );
 };
 
-ActionNodeRollInput.defaultProps = {
-  selected: undefined,
-  onGroupClick: undefined,
-};
-
 export default ActionNodeRollInput;

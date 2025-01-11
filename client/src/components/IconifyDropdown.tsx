@@ -63,8 +63,4 @@ const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
   );
 };
 
-IconifyDropdown.defaultProps = {
-  value: undefined,
-};
-
 export default IconifyDropdown;

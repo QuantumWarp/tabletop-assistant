@@ -58,7 +58,7 @@ const TabletopUpdateDialog = ({
 
   const [name, setName] = useState(initial?.name || '');
   const [shortName, setShortName] = useState(initial?.shortName || '');
-  const [imageUrl, setImageUrl] = useState(initial?.imageUrl || '');
+  const [imageId, setImageId] = useState(initial?.imageId || '');
   const [description, setDescription] = useState(initial?.description || '');
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const TabletopUpdateDialog = ({
     const updatedProps = {
       name,
       shortName,
-      imageUrl,
+      imageId,
       description,
     };
 
@@ -115,9 +115,8 @@ const TabletopUpdateDialog = ({
 
           <Grid item xs={6}>
             <ImageInput
-              disabled={loading}
-              value={imageUrl}
-              onChange={(value) => setImageUrl(value)}
+              value={imageId}
+              onChange={(value) => setImageId(value)}
             />
           </Grid>
 
@@ -183,10 +182,6 @@ const TabletopUpdateDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-TabletopUpdateDialog.defaultProps = {
-  initial: undefined,
 };
 
 export default TabletopUpdateDialog;

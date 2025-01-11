@@ -31,7 +31,7 @@ interface EditFieldDialogProps {
 }
 
 const EditFieldDialog = ({
-  initial, open, onSave, onDelete, onClose,
+  initial = {}, open, onSave, onDelete, onClose,
 }: EditFieldDialogProps) => {
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState(initial?.type || FieldType.String);
@@ -159,10 +159,6 @@ const EditFieldDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-EditFieldDialog.defaultProps = {
-  initial: {},
 };
 
 export default EditFieldDialog;

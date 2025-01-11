@@ -34,7 +34,7 @@ interface EditActionDialogProps {
 }
 
 const EditActionDialog = ({
-  initial, entity, open, onSave, onDelete, onClose,
+  initial = {}, entity, open, onSave, onDelete, onClose,
 }: EditActionDialogProps) => {
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState((initial?.roll && 'roll') || (initial?.macros && 'macros') || 'info');
@@ -149,10 +149,6 @@ const EditActionDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-EditActionDialog.defaultProps = {
-  initial: {},
 };
 
 export default EditActionDialog;

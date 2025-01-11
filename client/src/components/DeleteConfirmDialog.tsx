@@ -16,7 +16,7 @@ interface DeleteConfirmDialogProps {
 }
 
 const DeleteConfirmDialog = ({
-  objType, objName, open, onDelete, onClose,
+  objType, objName = '', open, onDelete, onClose,
 }: DeleteConfirmDialogProps) => (
   <Dialog open={open} onClose={() => onClose(false)}>
     <DialogTitle>
@@ -45,9 +45,5 @@ const DeleteConfirmDialog = ({
     </DialogActions>
   </Dialog>
 );
-
-DeleteConfirmDialog.defaultProps = {
-  objName: '',
-};
 
 export default DeleteConfirmDialog;

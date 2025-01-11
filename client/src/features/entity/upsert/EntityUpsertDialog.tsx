@@ -65,7 +65,7 @@ const ObjectUpsertDialog = ({
     name: initial?.name || '',
     description: initial?.description || '',
     icon: initial?.icon,
-    imageUrl: initial?.imageUrl,
+    imageId: initial?.imageId,
     tags: initial?.tags || [],
     fields: initial?.fields || [],
     actions: initial?.actions || [],
@@ -210,10 +210,6 @@ const ObjectUpsertDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-ObjectUpsertDialog.defaultProps = {
-  initial: undefined,
 };
 
 export default ObjectUpsertDialog;

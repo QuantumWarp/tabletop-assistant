@@ -11,7 +11,7 @@ interface ActionNodeCenterProps {
 }
 
 const ActionNodeCenter = ({
-  children, noOutput, onClick,
+  children = null, noOutput = false, onClick = () => {},
 }: ActionNodeCenterProps) => (
   <Box className="action-node-center">
     {!noOutput && (
@@ -25,11 +25,5 @@ const ActionNodeCenter = ({
     )}
   </Box>
 );
-
-ActionNodeCenter.defaultProps = {
-  children: null,
-  onClick: () => {},
-  noOutput: false,
-};
 
 export default ActionNodeCenter;

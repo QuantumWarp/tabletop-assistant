@@ -4,7 +4,7 @@ export interface Tabletop {
   name: string;
   shortName: string;
   description?: string;
-  imageUrl?: string;
+  imageId?: string;
 
   readonly createdAt: Date;
   readonly updatedAt: Date;

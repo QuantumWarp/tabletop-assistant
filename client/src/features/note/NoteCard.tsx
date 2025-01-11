@@ -6,35 +6,43 @@ import {
   Typography,
 } from '@mui/material';
 import { Note } from '@tabletop-assistant/common';
+import { useGetImageQuery } from '../../store/api';
 
 interface NoteCardProps {
   note: Note;
   onClick: () => void;
 }
 
-const NoteCard = ({ note, onClick }: NoteCardProps) => (
-  <Card>
-    <CardActionArea onClick={onClick}>
-      {note.imageUrl && (
-        <CardMedia
-          component="img"
-          height="180"
-          image={note.imageUrl}
-          alt="Image not available"
-        />
-      )}
+const NoteCard = ({ note, onClick }: NoteCardProps) => {
+  const { data: image } = useGetImageQuery(
+    note.imageId!,
+    { skip: !note.imageId }
+  );
 
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {note.name}
-        </Typography>
+  return (
+    <Card>
+      <CardActionArea onClick={onClick}>
+        {image && (
+          <CardMedia
+            component="img"
+            height="180"
+            image={image.blob}
+            alt="Image not available"
+          />
+        )}
 
-        <Typography variant="body2" color="text.secondary">
-          {note.subtitle}
-        </Typography>
-      </CardContent>
-    </CardActionArea>
-  </Card>
-);
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {note.name}
+          </Typography>
+
+          <Typography variant="body2" color="text.secondary">
+            {note.subtitle}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
+  )
+};
 
 export default NoteCard;

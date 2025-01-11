@@ -18,13 +18,18 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { Tabletop } from '@tabletop-assistant/common';
 import './SideNav.css';
 import TabletopUpsertDialog from '../features/tabletop/TabletopUpsertDialog';
-import { useGetTabletopQuery } from '../store/api';
+import { useGetImageQuery, useGetTabletopQuery } from '../store/api';
 
 const SideNav = () => {
   const navigate = useNavigate();
 
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: tabletop } = useGetTabletopQuery(tabletopId);
+
+  const { data: image } = useGetImageQuery(
+    tabletop!.imageId!,
+    { skip: !tabletop?.imageId }
+  );
 
   const [editTabletop, setEditTabletop] = useState<Tabletop | undefined>();
 
@@ -38,7 +43,7 @@ const SideNav = () => {
           >
             <img
               className="top-item-image"
-              src={tabletop.imageUrl}
+              src={image?.blob}
               alt={tabletop.name}
             />
 

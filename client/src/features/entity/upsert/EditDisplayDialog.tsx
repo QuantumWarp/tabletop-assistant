@@ -45,7 +45,7 @@ interface EditDisplayDialogProps {
 }
 
 const EditDisplayDialog = ({
-  initial, displays, entity, open, onSave, onDelete, onClose,
+  initial = {}, displays, entity, open, onSave, onDelete, onClose,
 }: EditDisplayDialogProps) => {
   const isFirstRender = useIsFirstRender();
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -260,10 +260,6 @@ const EditDisplayDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-EditDisplayDialog.defaultProps = {
-  initial: {},
 };
 
 export default EditDisplayDialog;

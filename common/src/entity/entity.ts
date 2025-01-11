@@ -9,7 +9,7 @@ export interface Entity {
   tags: string[];
   description?: string;
   icon?: string;
-  imageUrl?: string;
+  imageId?: string;
 
   fields: EntityField[];
   actions: EntityAction[];

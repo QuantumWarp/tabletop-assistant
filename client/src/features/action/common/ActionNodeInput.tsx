@@ -11,7 +11,7 @@ interface ActionNodeInputProps {
 }
 
 const ActionNodeInput = ({
-  node, children, onClick,
+  node, children, onClick = () => {},
 }: ActionNodeInputProps) => (
   <Box
     className={[
@@ -49,9 +49,5 @@ const ActionNodeInput = ({
     </div>
   </Box>
 );
-
-ActionNodeInput.defaultProps = {
-  onClick: () => {},
-};
 
 export default ActionNodeInput;

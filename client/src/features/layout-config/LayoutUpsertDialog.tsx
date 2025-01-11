@@ -160,9 +160,4 @@ const LayoutUpsertDialog = ({
   );
 };
 
-LayoutUpsertDialog.defaultProps = {
-  initial: undefined,
-  nextOrder: 0,
-};
-
 export default LayoutUpsertDialog;

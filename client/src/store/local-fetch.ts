@@ -2,6 +2,8 @@ import { BaseQueryFn } from "@reduxjs/toolkit/query";
 import { v4 as uuid } from 'uuid';
 import { templateRoots } from "@tabletop-assistant/templates";
 
+const prefix = "tabletop-assistant";
+
 export const localFetch: BaseQueryFn = async (args, api) => {
   if (api.type === 'query') {
     return getData(args.url ? args.url : args);
@@ -27,13 +29,13 @@ const getData = async (url: string) => {
   }
 
   if (!id) {
-    const key = `${model}-`;
+    const key = `${prefix}-${model}-`;
     const data = Object.keys(localStorage)
       .filter(x => x.startsWith(key))
       .map(x => JSON.parse(localStorage.getItem(x)!));
     return { data };
   } else {
-    const key = `${model}-${id}`;
+    const key = `${prefix}-${model}-${id}`;
     const rawData = localStorage.getItem(key);
     const data = rawData ? JSON.parse(rawData) : undefined;
     return { data };
@@ -43,24 +45,26 @@ const getData = async (url: string) => {
 const postData = async ({ url, body }: { url: string; body: object & { createdAt?: Date } }) => {
   const { model } = parseUrl(url);
   const id = uuid();
-  const key = `${model}-${id}`;
-  const date = body.createdAt || new Date();
-  localStorage.setItem(key, JSON.stringify({ id: id, ...body, createdAt: date, updatedAt: date }));
-  return { data: id };
+  const key = `${prefix}-${model}-${id}`;
+  const date = body.createdAt || Date.now();
+  const data = { id: id, ...body, createdAt: date, updatedAt: date };
+  localStorage.setItem(key, JSON.stringify(data));
+  return { data };
 }
 
 const putData = async ({ url, body }: { url: string; body: { id: string } }) => {
   const { model } = parseUrl(url);
   const id = body.id;
-  const key = `${model}-${id}`;
-  localStorage.setItem(key, JSON.stringify({ ...body, updatedAt: new Date() }));
-  return { data: id };
+  const key = `${prefix}-${model}-${id}`;
+  const data = { ...body, updatedAt: Date.now() };
+  localStorage.setItem(key, JSON.stringify(data));
+  return { data };
 
 }
 
 const deleteData = async ({ url }: { url: string }) => {
   const { model, id } = parseUrl(url);
-  const key = `${model}-${id}`;
+  const key = `${prefix}-${model}-${id}`;
   localStorage.removeItem(key);
   return { data: id };
 }

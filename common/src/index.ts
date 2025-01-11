@@ -46,6 +46,12 @@ export type {
 } from './history/history-entry';
 
 export type {
+  Image,
+  CreateImage,
+  UpdateImage,
+} from './image/image';
+
+export type {
   Layout,
   CreateLayout,
   UpdateLayout,

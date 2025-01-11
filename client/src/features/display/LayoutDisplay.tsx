@@ -95,10 +95,4 @@ const LayoutDisplay = ({
   );
 };
 
-LayoutDisplay.defaultProps = {
-  preview: undefined,
-  onAction: () => {},
-  onUpdateMappings: () => {},
-};
-
 export default LayoutDisplay;

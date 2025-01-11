@@ -18,8 +18,8 @@ const NoteList = ({ filter }: NotesListProps) => {
   const filteredNotes = notes
     ? notes.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())) : [];
   const sortedNotes = filteredNotes.sort((a, b) => {
-    const aImageSign = a.imageUrl ? -1 : 1;
-    const imageSort = Boolean(a.imageUrl) === Boolean(b.imageUrl) ? 0 : aImageSign;
+    const aImageSign = a.imageId ? -1 : 1;
+    const imageSort = Boolean(a.imageId) === Boolean(b.imageId) ? 0 : aImageSign;
     if (imageSort !== 0) return imageSort;
     return a.name.localeCompare(b.name);
   });

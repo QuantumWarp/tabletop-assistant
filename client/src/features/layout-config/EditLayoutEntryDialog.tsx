@@ -141,9 +141,4 @@ const EditLayoutEntryDialog = ({
   );
 };
 
-EditLayoutEntryDialog.defaultProps = {
-  initial: undefined,
-  position: undefined,
-};
-
 export default EditLayoutEntryDialog;

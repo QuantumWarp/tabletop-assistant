@@ -31,7 +31,7 @@ interface EditDisplayDialogProps {
 }
 
 const EditDisplayDialog = ({
-  initial, entity, usedSlotKeys, type, open, onClose, onDelete, onSave,
+  initial = {}, entity, usedSlotKeys, type, open, onClose, onDelete, onSave,
 }: EditDisplayDialogProps) => {
   const [slotKey, setSlotKey] = useState(initial?.slotKey || '');
   const [fieldKey, setFieldKey] = useState(initial?.fieldKey || '');
@@ -170,10 +170,6 @@ const EditDisplayDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-EditDisplayDialog.defaultProps = {
-  initial: {},
 };
 
 export default EditDisplayDialog;

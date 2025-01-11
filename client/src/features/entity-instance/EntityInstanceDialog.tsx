@@ -22,6 +22,7 @@ import { CreateEntity, EntityField } from '@tabletop-assistant/common';
 import EntityInstanceValueUpdateDialog from './EntityInstanceValueUpdateDialog';
 import { Mapping } from '../../models/mapping';
 import './EntityInstanceDialog.css';
+import { useGetImageQuery } from '../../store/api';
 
 interface EntityInstanceDialogProps {
   entity: CreateEntity;
@@ -38,6 +39,11 @@ const EntityInstanceDialog = ({
   const [updates, setUpdates] = useState<Mapping[]>([]);
 
   const editMapping = editField && mappings.find((x) => x.fieldKey === editField.key);
+
+  const { data: image } = useGetImageQuery(
+    entity.imageId!,
+    { skip: !entity.imageId }
+  );
 
   return (
     <Dialog className="entity-instance-dialog" open={open} onClose={() => onClose()} maxWidth="md" fullWidth>
@@ -61,10 +67,10 @@ const EntityInstanceDialog = ({
               )}
             </Typography>
 
-            {entity.imageUrl && (
+            {image && (
               <Box display="flex" justifyContent="center">
                 <img
-                  src={entity.imageUrl}
+                  src={image.blob}
                   alt={entity.name}
                 />
               </Box>
@@ -129,10 +135,6 @@ const EntityInstanceDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-EntityInstanceDialog.defaultProps = {
-  onSave: undefined,
 };
 
 export default EntityInstanceDialog;

@@ -59,7 +59,7 @@ const NoteUpsertDialog = ({
 
   const [name, setName] = useState(initial?.name || '');
   const [subtitle, setSubtitle] = useState(initial?.subtitle || '');
-  const [imageUrl, setImageUrl] = useState(initial?.imageUrl || '');
+  const [imageId, setImageId] = useState(initial?.imageId || '');
   const [description, setDescription] = useState(initial?.description || '');
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const NoteUpsertDialog = ({
     const updatedProps = {
       name,
       subtitle,
-      imageUrl,
+      imageId,
       description,
     };
 
@@ -115,9 +115,8 @@ const NoteUpsertDialog = ({
 
           <Grid item xs={12}>
             <ImageInput
-              disabled={loading}
-              value={imageUrl}
-              onChange={(value) => setImageUrl(value)}
+              value={imageId}
+              onChange={(value) => setImageId(value)}
             />
           </Grid>
 
@@ -183,10 +182,6 @@ const NoteUpsertDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-NoteUpsertDialog.defaultProps = {
-  initial: undefined,
 };
 
 export default NoteUpsertDialog;

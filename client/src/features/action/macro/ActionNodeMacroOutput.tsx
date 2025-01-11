@@ -17,8 +17,4 @@ const ActionNodeMacroOutput = ({
   </Box>
 );
 
-ActionNodeMacroOutput.defaultProps = {
-  lastResults: undefined,
-};
-
 export default ActionNodeMacroOutput;

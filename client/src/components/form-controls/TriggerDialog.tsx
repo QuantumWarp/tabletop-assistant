@@ -33,7 +33,7 @@ interface TriggerDialogProps {
 }
 
 const TriggerDialog = ({
-  initial, entity, open, onSave, onDelete, onClose,
+  initial = {}, entity, open, onSave, onDelete, onClose,
 }: TriggerDialogProps) => {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -197,10 +197,6 @@ const TriggerDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-TriggerDialog.defaultProps = {
-  initial: {},
 };
 
 export default TriggerDialog;

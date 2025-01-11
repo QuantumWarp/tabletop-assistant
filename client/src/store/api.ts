@@ -10,6 +10,9 @@ import {
   UpdateHistoryEntry,
   CreateHistoryEntry,
   HistoryEntry,
+  CreateImage,
+  Image,
+  UpdateImage,
   Entity,
   CreateEntity,
   UpdateEntity,
@@ -31,7 +34,7 @@ export const msalInstance = new PublicClientApplication({
 });
 
 export const api = createApi({
-  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note'],
+  tagTypes: ['Tabletop', 'Entity', 'Values', 'Layout', 'History', 'Note', 'Image'],
 
   baseQuery: localFetch,
   endpoints: (build) => ({
@@ -176,11 +179,21 @@ export const api = createApi({
     }),
 
     // Images
-    uploadImage: build.mutation<{ filename: string }, FormData>({
+    getImage: build.query<Image, string>({
+      query: (id) => ({ url: `/images/${id}` }),
+      providesTags: ['Image'],
+    }),
+    createImage: build.mutation<Image, CreateImage>({
       query: (body) => ({ url: '/images', method: 'POST', body }),
+      invalidatesTags: ['Image'],
+    }),
+    updateImage: build.mutation<Image, UpdateImage>({
+      query: (body) => ({ url: '/images', method: 'PUT', body }),
+      invalidatesTags: ['Image'],
     }),
     deleteImage: build.mutation<void, string>({
       query: (filename) => ({ url: `/images/${filename}`, method: 'DELETE' }),
+      invalidatesTags: ['Image'],
     }),
   }),
 });
@@ -224,6 +237,8 @@ export const {
   useUpdateNoteMutation,
   useDeleteNoteMutation,
 
-  useUploadImageMutation,
+  useGetImageQuery,
+  useCreateImageMutation,
+  useUpdateImageMutation,
   useDeleteImageMutation,
 } = api;

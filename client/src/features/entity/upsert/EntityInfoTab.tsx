@@ -36,8 +36,8 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
 
       <Grid item xs={6}>
         <ImageInput
-          value={entity.imageUrl || ''}
-          onChange={(value) => entityChange({ imageUrl: value })}
+          value={entity.imageId}
+          onChange={(value) => entityChange({ imageId: value })}
         />
       </Grid>
 

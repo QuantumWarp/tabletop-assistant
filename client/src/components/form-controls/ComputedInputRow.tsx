@@ -76,8 +76,4 @@ const ComputedInputRow = ({
   );
 };
 
-ComputedInputRow.defaultProps = {
-  value: undefined,
-};
-
 export default ComputedInputRow;

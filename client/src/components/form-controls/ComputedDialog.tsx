@@ -27,7 +27,7 @@ interface ComputedDialogProps {
 }
 
 const ComputedDialog = ({
-  includeTarget, initialTarget, initialExpression, open, onSave, onDelete, onClose,
+  includeTarget = false, initialTarget, initialExpression, open, onSave, onDelete, onClose,
 }: ComputedDialogProps) => {
   const [target, setTarget] = useState(initialTarget);
   const [expression, setExpression] = useState(initialExpression?.expression || '');
@@ -120,12 +120,6 @@ const ComputedDialog = ({
       </DialogActions>
     </Dialog>
   );
-};
-
-ComputedDialog.defaultProps = {
-  includeTarget: false,
-  initialTarget: undefined,
-  initialExpression: undefined,
 };
 
 export default ComputedDialog;

@@ -158,8 +158,4 @@ const HistoryUpsertDialog = ({
   );
 };
 
-HistoryUpsertDialog.defaultProps = {
-  initial: undefined,
-};
-
 export default HistoryUpsertDialog;
