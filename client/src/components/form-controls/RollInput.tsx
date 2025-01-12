@@ -1,19 +1,17 @@
-import {
-  TextField,
-} from '@mui/material';
+import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { RollCombo } from '@tabletop-assistant/common';
-import RollHelper from '../../helpers/roll.helper';
-import RollDialog from './RollDialog';
+import { RollHelper } from '../../helpers/roll.helper';
+import { RollDialog } from './RollDialog';
 
 interface RollInputProps {
   value: RollCombo;
   onChange: (roll: RollCombo) => void;
 }
 
-const RollInput = ({
+export function RollInput({
   value, onChange,
-}: RollInputProps) => {
+}: RollInputProps) {
   const [editOpen, setEditOpen] = useState(false);
 
   return (
@@ -34,5 +32,3 @@ const RollInput = ({
     </>
   );
 };
-
-export default RollInput;

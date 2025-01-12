@@ -33,7 +33,7 @@ export function EntityList({ filter }: EntityInstanceListProps) {
 
   const [editEntity, setEditEntity] = useState<Entity | undefined>();
   const [editEntityValue, setEditEntityValue] = useState<Entity | undefined>();
-  const editValueMap = valueMaps?.find((x) => x.entityId === editEntityValue?.id);
+  const editValueMap = valueMaps?.filter((x) => x.entityId === editEntityValue?.id) || [];
 
   const filteredEntities = entities
     ? entities.filter((x) => x.name.toLowerCase().includes(filter.toLowerCase())
@@ -83,7 +83,7 @@ export function EntityList({ filter }: EntityInstanceListProps) {
       {editEntityValue && editValueMap && (
         <EntitySummaryDialog
           entity={editEntityValue}
-          mappings={editValueMap.mappings.map((x) => ({ entityId: editEntityValue.id, ...x }))}
+          mappings={editValueMap.map((x) => ({ ...x, entityId: editEntityValue.id }))}
           open={Boolean(editEntityValue)}
           onClose={() => setEditEntityValue(undefined)}
         />

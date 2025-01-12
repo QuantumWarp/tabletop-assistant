@@ -15,7 +15,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { HistoryEntry } from '@tabletop-assistant/common';
-import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
+import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog';
 import { useCreateHistoryEntryMutation, useDeleteHistoryEntryMutation, useUpdateHistoryEntryMutation } from '../../store/api';
 
 interface HistoryUpsertDialogProps {
@@ -25,9 +25,9 @@ interface HistoryUpsertDialogProps {
   onClose: (deleted?: boolean) => void;
 }
 
-const HistoryUpsertDialog = ({
+export function HistoryUpsertDialog ({
   initial, tabletopId, open, onClose,
-}: HistoryUpsertDialogProps) => {
+}: HistoryUpsertDialogProps) {
   const [createHistoryEntry, {
     isLoading: creating,
     isSuccess: createSuccess,
@@ -157,5 +157,3 @@ const HistoryUpsertDialog = ({
     </Dialog>
   );
 };
-
-export default HistoryUpsertDialog;

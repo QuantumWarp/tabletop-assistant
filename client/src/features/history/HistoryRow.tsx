@@ -5,14 +5,14 @@ import {
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { HistoryEntry } from '@tabletop-assistant/common';
-import HistoryUpsertDialog from './HistoryUpsertDialog';
+import { HistoryUpsertDialog } from './HistoryUpsertDialog';
 import './HistoryRow.css';
 
 interface HistoryRowProps {
   entry: HistoryEntry,
 }
 
-const HistoryRow = ({ entry }: HistoryRowProps) => {
+export function HistoryRow({ entry }: HistoryRowProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const [editHistory, setEditHistory] = useState<HistoryEntry | undefined>();
 
@@ -60,5 +60,3 @@ const HistoryRow = ({ entry }: HistoryRowProps) => {
     </div>
   );
 };
-
-export default HistoryRow;

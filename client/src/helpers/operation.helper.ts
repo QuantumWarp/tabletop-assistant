@@ -1,14 +1,12 @@
 import { SlotMapping } from "../models/slot-mapping";
 
-enum Operations {
+export enum Operations {
   Increment = 'increment',
   Decrement = 'decrement',
   Detail = 'detail',
   SetValue = 'setValue',
   Toggle = 'toggle',
 }
-
-export default Operations;
 
 export class OperationHelper {
   static run(operation: Operations, args: SlotMapping[]): SlotMapping[] {

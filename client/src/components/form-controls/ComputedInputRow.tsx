@@ -16,9 +16,9 @@ interface ComputedInputRowProps {
   onChange: (value: ExpressionVariable) => void;
 }
 
-const ComputedInputRow = ({
+export function ComputedInputRow({
   name, value, onChange,
-}: ComputedInputRowProps) => {
+}: ComputedInputRowProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -75,5 +75,3 @@ const ComputedInputRow = ({
     </>
   );
 };
-
-export default ComputedInputRow;

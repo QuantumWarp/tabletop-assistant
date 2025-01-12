@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import ActionNodeInput from '../common/ActionNodeInput';
-import ActionNodeCenter from '../common/ActionNodeCenter';
-import ActionTreeNode from '../../../models/action-tree-node';
-import '../common/ActionNode.css';
+import { ActionNodeInput } from '../common/ActionNodeInput';
+import { ActionNodeCenter } from '../common/ActionNodeCenter';
+import { ActionTreeNode } from '../../../models/action-tree-node';
 import { EntitySummaryDialog } from '../../entity/EntitySummaryDialog';
-import ActionNodeOutput from '../common/ActionNodeOutput';
+import { ActionNodeOutput } from '../common/ActionNodeOutput';
 import { useMappingEntity } from '../../../helpers/hooks/use-mapping-entities';
+import '../common/ActionNode.css';
 
 interface ActionNodeInfoProps {
   node: ActionTreeNode;
 }
 
-const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
+export function ActionNodeInfo({ node }: ActionNodeInfoProps) {
   const [infoOpen, setInfoOpen] = useState(false);
   const entityMappings = useMappingEntity(node.entity.id);
 
@@ -42,5 +42,3 @@ const ActionNodeInfo = ({ node }: ActionNodeInfoProps) => {
     </>
   );
 };
-
-export default ActionNodeInfo;

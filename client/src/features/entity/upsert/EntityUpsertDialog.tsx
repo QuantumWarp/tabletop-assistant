@@ -18,12 +18,12 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { CreateEntity, Entity } from '@tabletop-assistant/common';
-import ExportHelper from '../../../helpers/export.helper';
-import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
-import EntityInfoTab from './EntityInfoTab';
-import EntityFieldTab from './EntityFieldTab';
-import EntityActionTab from './EntityActionTab';
-import EntityDisplayTab from './EntityDisplayTab';
+import { ExportHelper } from '../../../helpers/export.helper';
+import { DeleteConfirmDialog } from '../../../components/DeleteConfirmDialog';
+import { EntityInfoTab } from './EntityInfoTab';
+import { EntityFieldTab } from './EntityFieldTab';
+import { EntityActionTab } from './EntityActionTab';
+import { EntityDisplayTab } from './EntityDisplayTab';
 import { useCreateEntityMutation, useDeleteEntityMutation, useUpdateEntityMutation } from '../../../store/api';
 
 interface ObjectUpsertDialogProps {

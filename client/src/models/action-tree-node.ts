@@ -1,6 +1,6 @@
 import { Entity, EntityAction } from '@tabletop-assistant/common';
 
-export default interface ActionTreeNode {
+export interface ActionTreeNode {
   level: number;
   entity: Entity;
   action: EntityAction;

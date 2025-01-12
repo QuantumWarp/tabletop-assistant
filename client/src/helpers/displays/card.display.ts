@@ -1,4 +1,4 @@
-import DisplaySlot from '../../models/display-slot';
+import { DisplaySlot } from '../../models/display-slot';
 
 export const slots: DisplaySlot[] = [{
   name: 'Disabled',
@@ -44,7 +44,7 @@ export const slots: DisplaySlot[] = [{
   auto: ['action', 'use', 'cast', 'fire', 'activate'],
 }];
 
-export default interface CardDisplay {
+export interface CardDisplay {
   disabled?: boolean;
   enabled?: boolean;
   icon: string;

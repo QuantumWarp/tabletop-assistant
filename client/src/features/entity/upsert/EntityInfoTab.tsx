@@ -1,23 +1,23 @@
 import {
-  Autocomplete, Grid, TextField,
+  Autocomplete, Grid2, TextField,
 } from '@mui/material';
 import { Entity } from '@tabletop-assistant/common';
-import IconifyDropdown from '../../../components/IconifyDropdown';
-import ImageInput from '../../../components/form-controls/ImageInput';
+import { IconifyDropdown } from '../../../components/IconifyDropdown';
+import { ImageInput } from '../../../components/form-controls/ImageInput';
 
-interface ObjectInfoTabProps {
+interface EntityInfoTabProps {
   entity: Partial<Entity>,
   onChange: (entity: Partial<Entity>) => void,
 }
 
-const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
+export function EntityInfoTab({ entity, onChange }: EntityInfoTabProps) {
   const entityChange = (partial: Partial<Entity>) => {
     onChange({ ...entity, ...partial });
   };
 
   return (
-    <Grid container spacing={2} sx={{ py: 3 }}>
-      <Grid item xs={8}>
+    <Grid2 container spacing={2} sx={{ py: 3 }}>
+      <Grid2 size={8}>
         <TextField
           fullWidth
           required
@@ -25,23 +25,23 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
           value={entity.name}
           onChange={(e) => entityChange({ name: e.target.value })}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={6}>
+      <Grid2 size={6}>
         <IconifyDropdown
           value={entity.icon}
           onChange={(newValue) => entityChange({ icon: newValue })}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={6}>
+      <Grid2 size={6}>
         <ImageInput
           value={entity.imageId}
           onChange={(value) => entityChange({ imageId: value })}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={12}>
+      <Grid2 size={12}>
         <Autocomplete
           multiple
           freeSolo
@@ -58,9 +58,9 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
             />
           )}
         />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs={12}>
+      <Grid2 size={12}>
         <TextField
           fullWidth
           label="Description"
@@ -69,9 +69,7 @@ const ObjectInfoTab = ({ entity, onChange }: ObjectInfoTabProps) => {
           value={entity.description}
           onChange={(e) => entityChange({ description: e.target.value })}
         />
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 };
-
-export default ObjectInfoTab;

@@ -3,7 +3,7 @@ import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { selectTheme, setTheme } from '../store/main-slice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 
-const HomePage = () => {
+export function DarkModeToggle() {
   const dispatch = useAppDispatch();
   const themeString = useAppSelector(selectTheme);
   const preferDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -21,5 +21,3 @@ const HomePage = () => {
     </Box>
   );
 };
-
-export default HomePage;

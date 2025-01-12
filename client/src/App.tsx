@@ -3,9 +3,9 @@ import { useAppSelector } from './store/store';
 import { selectTheme } from './store/main-slice';
 import { dark, light } from './models/themes';
 import { RouterProvider } from 'react-router-dom';
-import router from './routes';
+import { router } from './routes';
 
-const App = () => {
+export function App() {
   const themeString = useAppSelector(selectTheme);
   const preferDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const currentMode = themeString || (preferDarkMode ? 'dark' : 'light');
@@ -18,5 +18,3 @@ const App = () => {
     </ThemeProvider>
   );
 };
-
-export default App;

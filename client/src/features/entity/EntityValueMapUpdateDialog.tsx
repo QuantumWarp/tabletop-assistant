@@ -9,11 +9,9 @@ import {
 import {
   Save as SaveIcon,
 } from '@mui/icons-material';
-import {
-  EntityField,
-} from '@tabletop-assistant/common';
-import ValueInput from '../../components/form-controls/ValueInput';
-import FieldType from '../../models/field.type';
+import { EntityField } from '@tabletop-assistant/common';
+import { ValueInput } from '../../components/form-controls/ValueInput';
+import { FieldType } from '../../models/field.type';
 
 interface EntityValueMapUpdateDialogProps {
   open: boolean;

@@ -1,6 +1,6 @@
 import { Typography, Container, Box } from '@mui/material';
-import DarkModeToggle from '../components/DarkModeToggle';
-import TabletopList from '../features/tabletop/TabletopList';
+import { DarkModeToggle } from '../components/DarkModeToggle';
+import { TabletopList } from '../features/tabletop/TabletopList';
 
 export function HomePage() {
   return (

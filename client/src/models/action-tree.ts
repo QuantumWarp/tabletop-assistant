@@ -1,5 +1,3 @@
-import ActionTreeNode from './action-tree-node';
+import { ActionTreeNode } from './action-tree-node';
 
-type ActionTree = ActionTreeNode[];
-
-export default ActionTree;
+export type ActionTree = ActionTreeNode[];

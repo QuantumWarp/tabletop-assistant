@@ -20,22 +20,20 @@ import {
 import { Icon } from '@iconify/react';
 import { useParams } from 'react-router-dom';
 import { Entity } from '@tabletop-assistant/common';
-import { useCreateValueMapMutation, useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
+import { useGetEntitiesQuery, useGetUserCreatedEntitiesQuery } from '../../store/api';
 
 interface ExistingEntityDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-const ExistingEntityDialog = ({
+export function ExistingEntityDialog({
   open, onClose,
-}: ExistingEntityDialogProps) => {
+}: ExistingEntityDialogProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
 
   const { data: allEntities } = useGetUserCreatedEntitiesQuery();
   const { data: entities } = useGetEntitiesQuery(tabletopId);
-
-  const [createValue] = useCreateValueMapMutation();
 
   const [filter, setFilter] = useState('');
   const [selectedEntityIds, setSelectedEntityIds] = useState<Set<string>>(new Set());
@@ -56,15 +54,6 @@ const ExistingEntityDialog = ({
     const removed = newSet.delete(entity.id);
     if (!removed) newSet.add(entity.id);
     setSelectedEntityIds(newSet);
-  };
-
-  const handleSave = async () => {
-    const createValueMaps = Array.from(selectedEntityIds)
-      .map((x) => ({ entityId: x, tabletopId, mappings: [] }));
-    for (const values of createValueMaps) {
-      await createValue(values);
-    }
-    onClose();
   };
 
   return (
@@ -119,7 +108,7 @@ const ExistingEntityDialog = ({
         <Button
           variant="outlined"
           endIcon={<SaveIcon />}
-          onClick={() => handleSave()}
+          onClick={() => onClose()}
         >
           Add
         </Button>
@@ -127,5 +116,3 @@ const ExistingEntityDialog = ({
     </Dialog>
   );
 };
-
-export default ExistingEntityDialog;

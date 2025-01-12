@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { RollCombo, RollComboGroup } from '@tabletop-assistant/common';
-import RollHelper from '../../../helpers/roll.helper';
+import { RollHelper } from '../../../helpers/roll.helper';
 import './ActionNodeRoll.css';
 
 interface ActionNodeRollInputProps {
@@ -9,9 +9,9 @@ interface ActionNodeRollInputProps {
   onGroupClick?: (group: RollComboGroup) => void;
 }
 
-const ActionNodeRollInput = ({
+export function ActionNodeRollInput({
   combo, selected, onGroupClick,
-}: ActionNodeRollInputProps) => {
+}: ActionNodeRollInputProps) {
   const simplified = RollHelper.simplifyCombo(combo);
   const sorted = simplified.sort(RollHelper.compareComboGroup);
 
@@ -45,5 +45,3 @@ const ActionNodeRollInput = ({
     </div>
   );
 };
-
-export default ActionNodeRollInput;

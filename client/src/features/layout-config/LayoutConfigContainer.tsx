@@ -1,16 +1,16 @@
 import { Box } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { Layout, LayoutPosition } from '@tabletop-assistant/common';
-import LayoutConfigBox from './LayoutConfigBox';
-import './LayoutConfigContainer.css';
-import EditLayoutEntryDialog from './EditLayoutEntryDialog';
+import { LayoutConfigBox } from './LayoutConfigBox';
+import { EditLayoutEntryDialog } from './EditLayoutEntryDialog';
 import { useUpdateLayoutMutation } from '../../store/api';
+import './LayoutConfigContainer.css';
 
 interface LayoutConfigContainerProps {
   layout: Layout,
 }
 
-const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
+export function LayoutConfigContainer({ layout }: LayoutConfigContainerProps) {
   const [newEntryPosition, setNewEntryPosition] = useState<LayoutPosition>();
 
   const [updateLayout] = useUpdateLayoutMutation();
@@ -85,5 +85,3 @@ const LayoutConfigContainer = ({ layout }: LayoutConfigContainerProps) => {
     </>
   );
 };
-
-export default LayoutConfigContainer;

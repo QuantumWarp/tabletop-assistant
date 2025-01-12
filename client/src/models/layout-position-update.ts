@@ -1,4 +1,4 @@
-export default interface LayoutPositionUpdate {
+export interface LayoutPositionUpdate {
   containerWidth: number;
   position?: {
     x: number;

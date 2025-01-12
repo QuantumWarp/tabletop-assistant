@@ -11,9 +11,9 @@ import { Icon } from '@iconify/react';
 import { Layout } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import { useDebouncedCallback } from 'use-debounce';
-import LayoutConfigContainer from '../features/layout-config/LayoutConfigContainer';
-import TopBar from '../components/TopBar';
-import LayoutUpsertDialog from '../features/layout-config/LayoutUpsertDialog';
+import { LayoutConfigContainer } from '../features/layout-config/LayoutConfigContainer';
+import { TopBar } from '../components/TopBar';
+import { LayoutUpsertDialog } from '../features/layout-config/LayoutUpsertDialog';
 import { useGetLayoutsQuery, useUpdateLayoutMutation, useUpdateLayoutOrderMutation } from '../store/api';
 
 export function LayoutConfigPage() {

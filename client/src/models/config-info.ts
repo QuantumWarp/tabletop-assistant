@@ -1,4 +1,4 @@
-export default interface ConfigInfo {
+export interface ConfigInfo {
   shortName: string;
   name: string;
   description: string;

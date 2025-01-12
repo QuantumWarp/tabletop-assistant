@@ -1,20 +1,20 @@
 import { Box, Button, Divider } from '@mui/material';
 import { Icon } from '@iconify/react';
-import './DisplayCard.css';
-import FixedActions from '../../helpers/operation.helper';
-import DisplayHelper from '../../helpers/display.helper';
+import { Operations } from '../../helpers/operation.helper';
+import { DisplayHelper } from '../../helpers/display.helper';
 import { SlotMapping } from '../../models/slot-mapping';
+import './DisplayCard.css';
 
 interface DisplayCardProps {
   preview: boolean,
   mappings: SlotMapping[],
   onAction: (slot: SlotMapping) => void,
-  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
+  onOperation: (operation: Operations, ...args: SlotMapping[]) => void,
 }
 
-const DisplayCard = ({
+export function DisplayCard({
   preview, mappings, onAction, onOperation,
-}: DisplayCardProps) => {
+}: DisplayCardProps) {
   const enabled = mappings.find((x) => x.slotKey === 'enabled');
   const disabled = mappings.find((x) => x.slotKey === 'disabled');
   const name = mappings.find((x) => x.slotKey === 'name');
@@ -40,7 +40,7 @@ const DisplayCard = ({
               className="icon"
               type="button"
               onClick={() => onOperation(
-                FixedActions.Toggle,
+                Operations.Toggle,
                 ...[enabled, disabled].filter((x): x is SlotMapping => Boolean(x)),
               )}
             >
@@ -54,7 +54,7 @@ const DisplayCard = ({
         <Button
           className="content"
           type="button"
-          onClick={() => onOperation(FixedActions.Detail)}
+          onClick={() => onOperation(Operations.Detail)}
         >
           <div className="header">
             <span>{name?.value}</span>
@@ -98,5 +98,3 @@ const DisplayCard = ({
     </div>
   );
 };
-
-export default DisplayCard;

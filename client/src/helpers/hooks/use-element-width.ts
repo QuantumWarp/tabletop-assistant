@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function useElementWidth() {
+export function useElementWidth() {
   const elementRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
 

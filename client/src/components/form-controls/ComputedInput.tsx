@@ -1,18 +1,16 @@
-import {
-  TextField,
-} from '@mui/material';
+import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { Expression } from '@tabletop-assistant/common';
-import ComputedDialog from './ComputedDialog';
+import { ComputedDialog } from './ComputedDialog';
 
 interface ComputedInputProps {
   value: Expression;
   onChange: (value: Expression) => void;
 }
 
-const ComputedInput = ({
+export function ComputedInput({
   value, onChange,
-}: ComputedInputProps) => {
+}: ComputedInputProps) {
   const [editOpen, setEditOpen] = useState(false);
 
   return (
@@ -34,5 +32,3 @@ const ComputedInput = ({
     </>
   );
 };
-
-export default ComputedInput;

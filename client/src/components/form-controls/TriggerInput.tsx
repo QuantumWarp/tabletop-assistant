@@ -9,8 +9,8 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { CreateEntity, EntityActionTrigger, UpdateEntity } from '@tabletop-assistant/common';
-import TriggerDialog from './TriggerDialog';
-import ActionTreeHelper from '../../helpers/action-tree.helper';
+import { TriggerDialog } from './TriggerDialog';
+import { ActionTreeHelper } from '../../helpers/action-tree.helper';
 import { useGetEntitiesQuery } from '../../store/api';
 
 interface TriggerInputProps {
@@ -19,9 +19,9 @@ interface TriggerInputProps {
   onChange: (triggers: EntityActionTrigger[]) => void;
 }
 
-const TriggerInput = ({
+export function TriggerInput({
   value, entity, onChange,
-}: TriggerInputProps) => {
+}: TriggerInputProps) {
   const [editTrigger, setEditTrigger] = useState<Partial<EntityActionTrigger>>();
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
@@ -73,5 +73,3 @@ const TriggerInput = ({
     </>
   );
 };
-
-export default TriggerInput;

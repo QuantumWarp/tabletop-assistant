@@ -1,6 +1,6 @@
 import { CreateEntity } from '@tabletop-assistant/common';
 
-export default class ExportHelper {
+export class ExportHelper {
   static export(entity: CreateEntity) {
     const jsonString = JSON.stringify(entity, null, 2);
     const jsString = jsonString

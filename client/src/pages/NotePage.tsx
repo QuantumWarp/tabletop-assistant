@@ -3,9 +3,9 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import TopBar from '../components/TopBar';
-import NoteList from '../features/note/NoteList';
-import NoteUpsertDialog from '../features/note/NoteUpsertDialog';
+import { TopBar } from '../components/TopBar';
+import { NoteList } from '../features/note/NoteList';
+import { NoteUpsertDialog } from '../features/note/NoteUpsertDialog';
 
 export function NotePage() {
   const { tabletopId } = useParams() as { tabletopId: string };

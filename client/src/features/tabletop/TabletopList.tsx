@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import {
-  Grid,
+  Grid2,
   Button,
   Stack,
   Container,
 } from '@mui/material';
-import TabletopUpsertDialog from './TabletopUpsertDialog';
+import { TabletopUpsertDialog } from './TabletopUpsertDialog';
 import { useGetTabletopsQuery } from '../../store/api';
-import TabletopImportDialog from './TabletopImportDialog';
-import TabletopTile from './TabletopTile';
+import { TabletopImportDialog } from './TabletopImportDialog';
+import { TabletopTile } from './TabletopTile';
 
-const TabletopList = () => {
+export function TabletopList() {
   const { data: tabletops } = useGetTabletopsQuery();
 
   const [newTabletopDialogOpen, setNewTabletopDialogOpen] = useState(false);
@@ -31,11 +31,11 @@ const TabletopList = () => {
       </Container>
 
       <Container sx={{ py: 8 }} maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid2 container spacing={4}>
           {tabletops && tabletops.map((tabletop) => (
             <TabletopTile key={tabletop.id} tabletop={tabletop} />
           ))}
-        </Grid>
+        </Grid2>
       </Container>
 
       {newTabletopDialogOpen && (
@@ -54,5 +54,3 @@ const TabletopList = () => {
     </>
   );
 };
-
-export default TabletopList;

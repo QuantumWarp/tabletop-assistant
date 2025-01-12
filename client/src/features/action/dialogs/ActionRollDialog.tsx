@@ -5,12 +5,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2,
   TextField,
 } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { ResolvedRollCombo } from '@tabletop-assistant/common';
-import ActionNodeRollInput from '../roll/ActionNodeRollInput';
+import { ActionNodeRollInput } from '../roll/ActionNodeRollInput';
 import './ActionRollDialog.css';
 
 interface ActionRollDialogProps {
@@ -20,9 +20,9 @@ interface ActionRollDialogProps {
   onClose: () => void;
 }
 
-const ActionRollDialog = ({
+export function ActionRollDialog({
   combo, open, onUpdate, onClose,
-}: ActionRollDialogProps) => {
+}: ActionRollDialogProps) {
   const [updatedCombo, setUpdatedCombo] = useState(combo);
 
   const updateStaticValue = (value: number) => {
@@ -67,12 +67,12 @@ const ActionRollDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={12}>
             <ActionNodeRollInput combo={updatedCombo} />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <div className="common-dice">
               <div className="row">
                 <span className="title">Add</span>
@@ -94,9 +94,9 @@ const ActionRollDialog = ({
                 <Icon icon="mdi:dice-d20-outline" onClick={() => removeFromCombo(20)} />
               </div>
             </div>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={6}>
+          <Grid2 size={6}>
             <TextField
               fullWidth
               type="number"
@@ -104,8 +104,8 @@ const ActionRollDialog = ({
               value={updatedCombo.filter((x) => x.static).reduce((sum, a) => sum + a.faces, 0)}
               onChange={(e) => updateStaticValue(Number(e.target.value))}
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>

@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid,
+  Grid2,
   InputLabel,
   MenuItem,
   Select,
@@ -16,13 +16,11 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import {
-  CreateEntity, EntityAction,
-} from '@tabletop-assistant/common';
-import FieldHelper from '../../../helpers/field.helper';
-import RollInput from '../../../components/form-controls/RollInput';
-import TriggerInput from '../../../components/form-controls/TriggerInput';
-import MacroInput from '../../../components/form-controls/MacroInput';
+import { CreateEntity, EntityAction } from '@tabletop-assistant/common';
+import { FieldHelper } from '../../../helpers/field.helper';
+import { RollInput } from '../../../components/form-controls/RollInput';
+import { TriggerInput } from '../../../components/form-controls/TriggerInput';
+import { MacroInput } from '../../../components/form-controls/MacroInput';
 
 interface EditActionDialogProps {
   initial?: Partial<EntityAction>;
@@ -33,9 +31,9 @@ interface EditActionDialogProps {
   onClose: () => void;
 }
 
-const EditActionDialog = ({
+export function EditActionDialog({
   initial = {}, entity, open, onSave, onDelete, onClose,
-}: EditActionDialogProps) => {
+}: EditActionDialogProps) {
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState((initial?.roll && 'roll') || (initial?.macros && 'macros') || 'info');
   const [roll, setRoll] = useState(initial?.roll);
@@ -66,8 +64,8 @@ const EditActionDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               required
@@ -75,9 +73,9 @@ const EditActionDialog = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControl fullWidth required>
               <InputLabel>Type</InputLabel>
               <Select
@@ -90,34 +88,34 @@ const EditActionDialog = ({
                 <MenuItem value="macro">Macro</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
           {type === 'roll' && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <RollInput
                 value={roll || []}
                 onChange={(newRoll) => setRoll(newRoll)}
               />
-            </Grid>
+            </Grid2>
           )}
 
           {type === 'macro' && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <MacroInput
                 value={macros || []}
                 onChange={(newMacros) => setMacros(newMacros)}
               />
-            </Grid>
+            </Grid2>
           )}
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <TriggerInput
               value={triggers}
               entity={entity}
               onChange={(x) => setTriggers(x)}
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -150,5 +148,3 @@ const EditActionDialog = ({
     </Dialog>
   );
 };
-
-export default EditActionDialog;

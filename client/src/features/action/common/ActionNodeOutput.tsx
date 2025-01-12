@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
+import { ActionTreeHelper } from '../../../helpers/action-tree.helper';
+import { ActionTreeNode } from '../../../models/action-tree-node';
 import './ActionNode.css';
-import ActionTreeHelper from '../../../helpers/action-tree.helper';
-import ActionTreeNode from '../../../models/action-tree-node';
 
 interface ActionNodeOutputProps {
   node: ActionTreeNode,
@@ -9,29 +9,29 @@ interface ActionNodeOutputProps {
   onClick?: () => void;
 }
 
-const ActionNodeOutput = ({
+export function ActionNodeOutput({
   node, children = null, onClick = () => {},
-}: ActionNodeOutputProps) => (
-  <>
-    {!ActionTreeHelper.hasOutput(node) && <Box className="action-node-output-spacer" />}
+}: ActionNodeOutputProps) {
+  return (
+    <>
+      {!ActionTreeHelper.hasOutput(node) && <Box className="action-node-output-spacer" />}
 
-    {ActionTreeHelper.hasOutput(node) && (
-      <Box
-        className={[
-          'action-node-output',
-          ActionTreeHelper.hasOutput(node.previous) && 'has-previous',
-          ActionTreeHelper.hasOutput(node.next) && 'has-next',
-        ].join(' ')}
-        sx={{
-          borderColor: 'custom.action.border',
-          backgroundColor: 'custom.action.background',
-        }}
-        onClick={onClick}
-      >
-        {children}
-      </Box>
-    )}
-  </>
-);
-
-export default ActionNodeOutput;
+      {ActionTreeHelper.hasOutput(node) && (
+        <Box
+          className={[
+            'action-node-output',
+            ActionTreeHelper.hasOutput(node.previous) && 'has-previous',
+            ActionTreeHelper.hasOutput(node.next) && 'has-next',
+          ].join(' ')}
+          sx={{
+            borderColor: 'custom.action.border',
+            backgroundColor: 'custom.action.background',
+          }}
+          onClick={onClick}
+        >
+          {children}
+        </Box>
+      )}
+    </>
+  );
+};

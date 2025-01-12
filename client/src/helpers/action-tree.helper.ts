@@ -1,8 +1,8 @@
 import { EntityActionTrigger, CreateEntity, Entity } from '@tabletop-assistant/common';
-import ActionTree from '../models/action-tree';
-import ActionTreeNode from '../models/action-tree-node';
+import { ActionTree } from '../models/action-tree';
+import { ActionTreeNode } from '../models/action-tree-node';
 
-export default class ActionTreeHelper {
+export class ActionTreeHelper {
   static findNode(tree: ActionTree, actionId: string): ActionTreeNode {
     return this.findNodes(tree, actionId)[0];
   }

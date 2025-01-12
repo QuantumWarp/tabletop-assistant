@@ -4,22 +4,21 @@ import {
   Computer as RunIcon,
 } from '@mui/icons-material';
 import { Macro } from '@tabletop-assistant/common';
-import ActionNodeMacroInput from './ActionNodeMacroInput';
-import ActionNodeMacroOutput from './ActionNodeMacroOutput';
-import ActionNodeInput from '../common/ActionNodeInput';
-import ActionNodeCenter from '../common/ActionNodeCenter';
-import ActionNodeOutput from '../common/ActionNodeOutput';
-import ActionTreeNode from '../../../models/action-tree-node';
-import '../common/ActionNode.css';
-import './ActionNodeMacro.css';
+import { ActionNodeMacroInput } from './ActionNodeMacroInput';
+import { ActionNodeMacroOutput } from './ActionNodeMacroOutput';
+import { ActionNodeInput } from '../common/ActionNodeInput';
+import { ActionNodeCenter } from '../common/ActionNodeCenter';
+import { ActionNodeOutput } from '../common/ActionNodeOutput';
+import { ActionTreeNode } from '../../../models/action-tree-node';
 import { useMappingExpressions } from '../../../helpers/hooks/use-mapping-expressions';
 import { useUpdateValueMapMutation } from '../../../store/api';
+import '../common/ActionNode.css';
 
 interface ActionNodeMacroProps {
   node: ActionTreeNode;
 }
 
-const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
+export function ActionNodeMacro({ node }: ActionNodeMacroProps) {
   const [lastResults, setLastResults] = useState();
   const [runCount, setRunCount] = useState(0);
   const [updateMapping] = useUpdateValueMapMutation();
@@ -62,5 +61,3 @@ const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
     </>
   );
 };
-
-export default ActionNodeMacro;

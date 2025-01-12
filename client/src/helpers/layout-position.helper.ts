@@ -1,7 +1,7 @@
 import { LayoutPosition, LayoutSize } from '@tabletop-assistant/common';
-import LayoutPositionUpdate from '../models/layout-position-update';
+import { LayoutPositionUpdate } from '../models/layout-position-update';
 
-export default class LayoutPositionHelper {
+export class LayoutPositionHelper {
   static getPositionStyle(pos: LayoutPosition, containerWidth: number) {
     return {
       left: `${(containerWidth / 100) * pos.left}px`,

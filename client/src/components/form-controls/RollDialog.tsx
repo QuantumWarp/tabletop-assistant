@@ -12,9 +12,9 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import { RollCombo, RollComboGroup } from '@tabletop-assistant/common';
-import ActionNodeRollInput from '../../features/action/roll/ActionNodeRollInput';
-import RollHelper from '../../helpers/roll.helper';
-import RollGroupDialog from './RollGroupDialog';
+import { ActionNodeRollInput } from '../../features/action/roll/ActionNodeRollInput';
+import { RollHelper } from '../../helpers/roll.helper';
+import { RollGroupDialog } from './RollGroupDialog';
 
 interface RollDialogProps {
   initial: RollCombo;
@@ -23,9 +23,9 @@ interface RollDialogProps {
   onClose: () => void;
 }
 
-const RollDialog = ({
+export function RollDialog({
   initial, open, onSave, onClose,
-}: RollDialogProps) => {
+}: RollDialogProps) {
   const [updatedCombo, setUpdatedCombo] = useState(initial);
   const [selectedGroup, setSelectedGroup] = useState<RollComboGroup>();
 
@@ -141,5 +141,3 @@ const RollDialog = ({
     </Dialog>
   );
 };
-
-export default RollDialog;

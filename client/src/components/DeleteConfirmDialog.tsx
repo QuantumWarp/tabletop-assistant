@@ -15,35 +15,35 @@ interface DeleteConfirmDialogProps {
   onClose: (deleted: boolean) => void,
 }
 
-const DeleteConfirmDialog = ({
+export function DeleteConfirmDialog({
   objType, objName = '', open, onDelete, onClose,
-}: DeleteConfirmDialogProps) => (
-  <Dialog open={open} onClose={() => onClose(false)}>
-    <DialogTitle>
-      <b>
-        {'Delete '}
-        {objType}
-      </b>
-    </DialogTitle>
+}: DeleteConfirmDialogProps) {
+  return (
+    <Dialog open={open} onClose={() => onClose(false)}>
+      <DialogTitle>
+        <b>
+          {'Delete '}
+          {objType}
+        </b>
+      </DialogTitle>
 
-    <DialogContent>
-      <DialogContentText>
-        {'Are you sure you want to delete '}
-        <b>{objName}</b>
-        ?
-      </DialogContentText>
-    </DialogContent>
+      <DialogContent>
+        <DialogContentText>
+          {'Are you sure you want to delete '}
+          <b>{objName}</b>
+          ?
+        </DialogContentText>
+      </DialogContent>
 
-    <DialogActions>
-      <Button onClick={() => onClose(false)} variant="outlined">
-        Cancel
-      </Button>
+      <DialogActions>
+        <Button onClick={() => onClose(false)} variant="outlined">
+          Cancel
+        </Button>
 
-      <Button onClick={() => { onDelete(); onClose(true); }} color="error" variant="outlined">
-        Delete
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
-
-export default DeleteConfirmDialog;
+        <Button onClick={() => { onDelete(); onClose(true); }} color="error" variant="outlined">
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};

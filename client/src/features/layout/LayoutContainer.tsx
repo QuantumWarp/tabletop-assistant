@@ -1,5 +1,5 @@
 import {  Layout } from '@tabletop-assistant/common';
-import useElementWidth from '../../helpers/hooks/use-element-width';
+import { useElementWidth } from '../../helpers/hooks/use-element-width';
 import { LayoutContainerEntry } from './LayoutContainerEntry';
 import { Box } from '@mui/material';
 
@@ -7,7 +7,7 @@ interface LayoutContainerProps {
   layout: Layout,
 }
 
-const LayoutContainer = ({ layout }: LayoutContainerProps) => {
+export function LayoutContainer({ layout }: LayoutContainerProps) {
   const { elementRef, width } = useElementWidth();
 
   return (
@@ -28,6 +28,3 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
     </Box>
   );
 };
-
-
-export default LayoutContainer;

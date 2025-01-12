@@ -1,23 +1,23 @@
 import {
-  Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
+  Button, Chip, Divider, Grid2, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import { EntityField } from '@tabletop-assistant/common';
-import FieldHelper from '../../../helpers/field.helper';
-import FieldType from '../../../models/field.type';
-import EditFieldDialog from './EditFieldDialog';
+import { FieldHelper } from '../../../helpers/field.helper';
+import { FieldType } from '../../../models/field.type';
+import { EditFieldDialog } from './EditFieldDialog';
 
 interface EntityFieldTabProps {
   fields: EntityField[],
   onChange: (fields: EntityField[]) => void,
 }
 
-const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
+export function EntityFieldTab({ fields, onChange }: EntityFieldTabProps) {
   const [editField, setEditField] = useState<Partial<EntityField>>();
 
   return (
-    <Grid container spacing={2} sx={{ py: 2, height: '100%' }}>
-      <Grid item xs={8}>
+    <Grid2 container spacing={2} sx={{ py: 2, height: '100%' }}>
+      <Grid2 size={8}>
         {fields.length === 0 && (
           <Typography variant="h5" color="text.secondary">
             No Fields Created
@@ -32,13 +32,13 @@ const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
             </ListItemButton>
           </ListItem>
         ))}
-      </Grid>
+      </Grid2>
 
-      <Grid item>
+      <Grid2>
         <Divider orientation="vertical" />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs>
+      <Grid2>
         <Typography variant="body2" color="text.secondary">
           Create a field to represent properties on the object.
         </Typography>
@@ -50,7 +50,7 @@ const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
         >
           Add Field
         </Button>
-      </Grid>
+      </Grid2>
 
       {editField && (
         <EditFieldDialog
@@ -65,7 +65,7 @@ const EntityFieldTab = ({ fields, onChange }: EntityFieldTabProps) => {
           onClose={() => setEditField(undefined)}
         />
       )}
-    </Grid>
+    </Grid2>
   );
 };
 

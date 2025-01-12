@@ -8,9 +8,9 @@ interface ImageInputProps {
   onChange: (value: string) => void;
 }
 
-const ImageInput = ({
+export function ImageInput({
   value, onChange,
-}: ImageInputProps) => {
+}: ImageInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [createImage] = useCreateImageMutation();
@@ -41,5 +41,3 @@ const ImageInput = ({
       </Button>
   );
 };
-
-export default ImageInput;

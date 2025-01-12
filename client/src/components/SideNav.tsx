@@ -16,11 +16,11 @@ import {
 } from '@mui/icons-material';
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { Tabletop } from '@tabletop-assistant/common';
-import './SideNav.css';
-import TabletopUpsertDialog from '../features/tabletop/TabletopUpsertDialog';
+import { TabletopUpsertDialog } from '../features/tabletop/TabletopUpsertDialog';
 import { useGetImageQuery, useGetTabletopQuery } from '../store/api';
+import './SideNav.css';
 
-const SideNav = () => {
+export function SideNav() {
   const navigate = useNavigate();
 
   const { tabletopId } = useParams() as { tabletopId: string };
@@ -147,5 +147,3 @@ const SideNav = () => {
     </Drawer>
   );
 };
-
-export default SideNav;

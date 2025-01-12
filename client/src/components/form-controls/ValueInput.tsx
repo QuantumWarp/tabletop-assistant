@@ -2,8 +2,8 @@ import {
   FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import FieldType from '../../models/field.type';
-import useIsFirstRender from '../../utils/is-first-render';
+import { FieldType } from '../../models/field.type';
+import { useIsFirstRender } from '../../utils/is-first-render';
 
 interface ValueInputProps {
   label: string;
@@ -12,9 +12,9 @@ interface ValueInputProps {
   onChange: (value: string | number | boolean | undefined) => void;
 }
 
-const ValueInput = ({
+export function ValueInput({
   label, value, type, onChange,
-}: ValueInputProps) => {
+}: ValueInputProps) {
   const isFirstRender = useIsFirstRender();
 
   const [internal, setInternal] = useState(value === undefined ? '' : value.toString());
@@ -78,5 +78,3 @@ const ValueInput = ({
     </>
   );
 };
-
-export default ValueInput;

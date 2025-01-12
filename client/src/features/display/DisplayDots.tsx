@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import FixedActions from '../../helpers/operation.helper';
+import { Operations } from '../../helpers/operation.helper';
 import { fakeMapping, SlotMapping } from '../../models/slot-mapping';
 import './DisplayDots.css';
 
@@ -7,12 +7,12 @@ interface DisplayDotsProps {
   preview: boolean,
   mappings: SlotMapping[],
   onAction: (slot: SlotMapping) => void,
-  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
+  onOperation: (operation: Operations, ...args: SlotMapping[]) => void,
 }
 
-const DisplayDots = ({
+export function DisplayDots({
   preview, mappings, onAction, onOperation,
-}: DisplayDotsProps) => {
+}: DisplayDotsProps) {
   const name = mappings.find((x) => x.slotKey === 'name');
   const value = mappings.find((x) => x.slotKey === 'value');
   const maximum = mappings.find((x) => x.slotKey === 'maximum');
@@ -41,7 +41,7 @@ const DisplayDots = ({
               backgroundColor: filled ? 'custom.dot.background' : 'none',
             }}
             onClick={() => value && onOperation(
-              FixedActions.SetValue,
+              Operations.SetValue,
               value,
               fakeMapping(index === 0 && value?.value === 1 ? 0 : index + 1),
             )}
@@ -51,5 +51,3 @@ const DisplayDots = ({
     </div>
   );
 };
-
-export default DisplayDots;

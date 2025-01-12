@@ -7,9 +7,9 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { Redo } from '@mui/icons-material';
-import './ActionRollResultDialog.css';
 import { RollResult, RollResultDie } from '@tabletop-assistant/common';
-import RollHelper from '../../../helpers/roll.helper';
+import { RollHelper } from '../../../helpers/roll.helper';
+import './ActionRollResultDialog.css';
 
 interface ActionRollResultDialogProps {
   result: RollResult;
@@ -18,9 +18,9 @@ interface ActionRollResultDialogProps {
   onClose: () => void;
 }
 
-const ActionRollResultDialog = ({
+export function ActionRollResultDialog({
   result, open, onUpdate, onClose,
-}: ActionRollResultDialogProps) => {
+}: ActionRollResultDialogProps) {
   const [updatedResult, setUpdatedResult] = useState(result);
 
   const staticResults = updatedResult.filter((x) => x.static);
@@ -90,5 +90,3 @@ const ActionRollResultDialog = ({
     </Dialog>
   );
 };
-
-export default ActionRollResultDialog;

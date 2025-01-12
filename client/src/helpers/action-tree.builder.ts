@@ -1,13 +1,13 @@
 import { Entity } from '@tabletop-assistant/common';
-import ActionTree from '../models/action-tree';
-import ActionTreeNode from '../models/action-tree-node';
+import { ActionTree } from '../models/action-tree';
+import { ActionTreeNode } from '../models/action-tree-node';
 
 interface EntityActionId {
   entityId: string;
   actionKey: string;
 }
 
-export default class ActionTreeBuilder {
+export class ActionTreeBuilder {
   latest?: ActionTreeNode;
 
   constructor(

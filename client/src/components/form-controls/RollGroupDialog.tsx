@@ -7,7 +7,7 @@ import {
   DialogTitle,
   FormControl,
   FormLabel,
-  Grid,
+  Grid2,
   RadioGroup,
   Radio,
   FormControlLabel,
@@ -19,7 +19,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { RollComboGroup } from '@tabletop-assistant/common';
-import ComputedInput from './ComputedInput';
+import { ComputedInput } from './ComputedInput';
 
 interface RollGroupDialogProps {
   initial: RollComboGroup;
@@ -29,9 +29,9 @@ interface RollGroupDialogProps {
   onClose: () => void;
 }
 
-const RollGroupDialog = ({
+export function RollGroupDialog({
   initial, open, onSave, onClose, onDelete,
-}: RollGroupDialogProps) => {
+}: RollGroupDialogProps) {
   const [numberType, setNumberType] = useState<string>(initial?.numberComputed ? 'computed' : 'static');
   const [facesType, setFacesType] = useState<string>(initial?.facesComputed ? 'computed' : 'static');
 
@@ -60,8 +60,8 @@ const RollGroupDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={12}>
             <FormControlLabel
               label="Static"
               control={(
@@ -71,9 +71,9 @@ const RollGroupDialog = ({
                 />
               )}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControlLabel
               label="Negative"
               control={(
@@ -83,11 +83,11 @@ const RollGroupDialog = ({
                 />
               )}
             />
-          </Grid>
+          </Grid2>
 
           {!isStatic && (
             <>
-              <Grid item xs={12}>
+              <Grid2 size={12}>
                 <FormControl>
                   <FormLabel>Number</FormLabel>
                   <RadioGroup
@@ -99,9 +99,9 @@ const RollGroupDialog = ({
                     <FormControlLabel value="computed" control={<Radio />} label="Computed" />
                   </RadioGroup>
                 </FormControl>
-              </Grid>
+              </Grid2>
 
-              <Grid item xs={12}>
+              <Grid2 size={12}>
                 {numberType === 'static' && (
                   <TextField
                     fullWidth
@@ -116,11 +116,11 @@ const RollGroupDialog = ({
                     onChange={(value) => setNumberComputed(value)}
                   />
                 )}
-              </Grid>
+              </Grid2>
             </>
           )}
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControl>
               <FormLabel>{isStatic ? 'Value' : 'Faces' }</FormLabel>
               <RadioGroup
@@ -132,9 +132,9 @@ const RollGroupDialog = ({
                 <FormControlLabel value="computed" control={<Radio />} label="Computed" />
               </RadioGroup>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             {facesType === 'static' && (
               <TextField
                 fullWidth
@@ -149,8 +149,8 @@ const RollGroupDialog = ({
                 onChange={(value) => setFacesComputed(value)}
               />
             )}
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -183,5 +183,3 @@ const RollGroupDialog = ({
     </Dialog>
   );
 };
-
-export default RollGroupDialog;

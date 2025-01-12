@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid,
+  Grid2,
   InputLabel,
   MenuItem,
   Select,
@@ -18,7 +18,7 @@ import {
 import { EntityDisplayType, LayoutEntry, LayoutPosition } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
 import { useGetEntitiesQuery } from '../../store/api';
-import DisplayHelper from '../../helpers/display.helper';
+import { DisplayHelper } from '../../helpers/display.helper';
 
 interface EditLayoutEntryDialogProps {
   initial?: LayoutEntry;
@@ -29,9 +29,9 @@ interface EditLayoutEntryDialogProps {
   onClose: () => void;
 }
 
-const EditLayoutEntryDialog = ({
+export function EditLayoutEntryDialog({
   initial, position, open, onSave, onDelete, onClose,
-}: EditLayoutEntryDialogProps) => {
+}: EditLayoutEntryDialogProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -70,8 +70,8 @@ const EditLayoutEntryDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <FormControl fullWidth>
               <InputLabel>Object</InputLabel>
               <Select
@@ -87,9 +87,9 @@ const EditLayoutEntryDialog = ({
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControl fullWidth required>
               <InputLabel>Display</InputLabel>
               <Select
@@ -106,8 +106,8 @@ const EditLayoutEntryDialog = ({
                   ))}
               </Select>
             </FormControl>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -140,5 +140,3 @@ const EditLayoutEntryDialog = ({
     </Dialog>
   );
 };
-
-export default EditLayoutEntryDialog;

@@ -3,7 +3,7 @@ import {
   Card,
   CardMedia,
   CardContent,
-  Grid,
+  Grid2,
   Typography,
   CardActionArea,
 } from '@mui/material';
@@ -14,7 +14,7 @@ type TabletopTileProps = {
   tabletop: Tabletop;
 }
 
-const TabletopTile = ({ tabletop }: TabletopTileProps) => {
+export function TabletopTile({ tabletop }: TabletopTileProps) {
   const navigate = useNavigate();
   
   const { data: image } = useGetImageQuery(
@@ -23,7 +23,7 @@ const TabletopTile = ({ tabletop }: TabletopTileProps) => {
   );
 
   return (
-    <Grid item xs={4} key={tabletop.id}>
+    <Grid2 size={4} key={tabletop.id}>
       <Card>
         <CardActionArea onClick={() => navigate(`/tabletop/${tabletop.id}/layout`)}>
           <CardMedia
@@ -44,7 +44,7 @@ const TabletopTile = ({ tabletop }: TabletopTileProps) => {
           </CardContent>
         </CardActionArea>
       </Card>
-    </Grid>
+    </Grid2>
   );
 };
 

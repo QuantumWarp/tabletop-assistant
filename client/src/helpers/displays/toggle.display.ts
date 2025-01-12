@@ -1,4 +1,4 @@
-import DisplaySlot from '../../models/display-slot';
+import { DisplaySlot } from '../../models/display-slot';
 
 export const slots: DisplaySlot[] = [{
   name: 'Name',
@@ -17,7 +17,7 @@ export const slots: DisplaySlot[] = [{
   auto: ['action', 'use', 'cast', 'fire', 'activate'],
 }];
 
-export default interface ToggleDisplay {
+export interface ToggleDisplay {
   name: string;
   toggle: boolean;
   action: string;

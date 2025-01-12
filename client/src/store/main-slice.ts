@@ -26,4 +26,4 @@ export const {
 
 export const selectTheme = (state: RootState) => state.main.theme;
 
-export default mainSlice.reducer;
+export const mainReducer = mainSlice.reducer;

@@ -6,24 +6,24 @@ import {
   TextField,
 } from '@mui/material';
 import { useState } from 'react';
-import iconifyMappings from './iconify-mappings';
+import { iconMappings } from './iconify-mappings';
 
 interface IconifyDropdownProps {
   value?: string,
   onChange: (value?: string) => void,
 }
 
-const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
+export function IconifyDropdown({ value, onChange }: IconifyDropdownProps) {
   const [open, setOpen] = useState(false);
 
-  const isOption = Object.keys(iconifyMappings).find((x) => iconifyMappings[x] === value);
+  const isOption = Object.keys(iconMappings).find((x) => iconMappings[x] === value);
   const isLoaded = listIcons().find((x) => x === value);
   const loadedIcon = isOption || isLoaded;
 
   const onInputChange = (text: string) => {
-    const keys = Object.keys(iconifyMappings);
+    const keys = Object.keys(iconMappings);
     const key = keys.find((x) => x.toLowerCase() === text.toLowerCase());
-    const newValue = key ? iconifyMappings[key] : text;
+    const newValue = key ? iconMappings[key] : text;
     onChange(newValue);
   };
   return (
@@ -33,12 +33,12 @@ const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
       freeSolo
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
-      options={Object.keys(iconifyMappings)}
+      options={Object.keys(iconMappings)}
       onInputChange={(_e, text) => onInputChange(text)}
       renderOption={(props, option: string) => (
          
-        <Box {...props} component="li" key={iconifyMappings[option]}>
-          <Icon style={{ marginRight: '18px' }} icon={iconifyMappings[option]} width={30} />
+        <Box {...props} component="li" key={iconMappings[option]}>
+          <Icon style={{ marginRight: '18px' }} icon={iconMappings[option]} width={30} />
           {option}
         </Box>
       )}
@@ -62,5 +62,3 @@ const IconifyDropdown = ({ value, onChange }: IconifyDropdownProps) => {
     />
   );
 };
-
-export default IconifyDropdown;

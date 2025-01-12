@@ -8,7 +8,7 @@ import { NotePage } from "./pages/NotePage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { EntityPage } from "./pages/EntityPage";
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
@@ -44,5 +44,3 @@ const router = createBrowserRouter([
     ]
   },
 ]);
-
-export default router;

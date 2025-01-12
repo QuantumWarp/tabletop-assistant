@@ -8,7 +8,7 @@ import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
 import { actionMapping, SlotMapping } from '../models/slot-mapping';
-import FieldHelper from './field.helper';
+import { FieldHelper } from './field.helper';
 
 interface DisplaySlot {
   name: string;
@@ -18,7 +18,7 @@ interface DisplaySlot {
   auto?: string[];
 }
 
-export default class DisplayHelper {
+export class DisplayHelper {
   static isDisabled(mappings: SlotMapping[]) {
     const enabledMapping = mappings.find((x) => x.slotKey === 'enabled');
     const disabledMapping = mappings.find((x) => x.slotKey === 'disabled');

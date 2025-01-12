@@ -16,7 +16,7 @@ interface ConfigImportDialogProps {
   onClose: () => void;
 }
 
-const TabletopImportDialog = ({ open, onClose }: ConfigImportDialogProps) => {
+export function TabletopImportDialog({ open, onClose }: ConfigImportDialogProps) {
   const dispatch = useAppDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -115,5 +115,3 @@ const TabletopImportDialog = ({ open, onClose }: ConfigImportDialogProps) => {
     </Dialog>
   );
 };
-
-export default TabletopImportDialog;

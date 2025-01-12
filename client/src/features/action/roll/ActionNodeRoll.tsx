@@ -5,23 +5,23 @@ import {
   Casino as RollIcon,
 } from '@mui/icons-material';
 import './ActionNodeRoll.css';
-import ActionNodeRollInput from './ActionNodeRollInput';
-import ActionNodeInput from '../common/ActionNodeInput';
-import ActionNodeCenter from '../common/ActionNodeCenter';
-import ActionNodeOutput from '../common/ActionNodeOutput';
-import ActionRollDialog from '../dialogs/ActionRollDialog';
-import ActionTreeNode from '../../../models/action-tree-node';
-import ActionNodeRollOutput from './ActionNodeRollOutput';
-import RollHelper from '../../../helpers/roll.helper';
-import ActionRollResultDialog from '../dialogs/ActionRollResultDialog';
-import '../common/ActionNode.css';
+import { ActionNodeRollInput } from './ActionNodeRollInput';
+import { ActionNodeInput } from '../common/ActionNodeInput';
+import { ActionNodeCenter } from '../common/ActionNodeCenter';
+import { ActionNodeOutput } from '../common/ActionNodeOutput';
+import { ActionRollDialog } from '../dialogs/ActionRollDialog';
+import { ActionTreeNode } from '../../../models/action-tree-node';
+import { ActionNodeRollOutput } from './ActionNodeRollOutput';
+import { RollHelper } from '../../../helpers/roll.helper';
+import { ActionRollResultDialog } from '../dialogs/ActionRollResultDialog';
 import { useMappingExpressions } from '../../../helpers/hooks/use-mapping-expressions';
+import '../common/ActionNode.css';
 
 interface ActionNodeRollProps {
   node: ActionTreeNode;
 }
 
-const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
+export function ActionNodeRoll({ node }: ActionNodeRollProps) {
   const [editRoll, setEditRoll] = useState(false);
   const [editResult, setEditResult] = useState<RollResult | null>(null);
 
@@ -104,5 +104,3 @@ const ActionNodeRoll = ({ node }: ActionNodeRollProps) => {
     </>
   );
 };
-
-export default ActionNodeRoll;

@@ -5,7 +5,7 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { api } from './api';
-import mainReducer from './main-slice';
+import { mainReducer } from './main-slice';
 
 const reducers = combineReducers({
   main: mainReducer,
@@ -19,7 +19,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const store = configureStore({
+export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: {
@@ -33,5 +33,3 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-export default store;

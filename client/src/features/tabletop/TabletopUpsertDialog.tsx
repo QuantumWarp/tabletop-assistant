@@ -6,7 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2,
   TextField,
   CircularProgress,
 } from '@mui/material';
@@ -15,23 +15,23 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Tabletop } from '@tabletop-assistant/common';
-import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
+import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog';
 import {
   useCreateTabletopMutation,
   useDeleteTabletopMutation,
   useUpdateTabletopMutation,
 } from '../../store/api';
-import ImageInput from '../../components/form-controls/ImageInput';
+import { ImageInput } from '../../components/form-controls/ImageInput';
 
-interface TabletopUpdateDialogProps {
+interface TabletopUpsertDialogProps {
   initial?: Tabletop;
   open: boolean;
   onClose: (deleted?: boolean) => void;
 }
 
-const TabletopUpdateDialog = ({
+export function TabletopUpsertDialog({
   initial, open, onClose,
-}: TabletopUpdateDialogProps) => {
+}: TabletopUpsertDialogProps) {
   const [createTabletop, {
     isLoading: creating,
     isSuccess: createSuccess,
@@ -90,8 +90,8 @@ const TabletopUpdateDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               required
@@ -100,9 +100,9 @@ const TabletopUpdateDialog = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={6}>
+          <Grid2 size={6}>
             <TextField
               fullWidth
               required
@@ -111,16 +111,16 @@ const TabletopUpdateDialog = ({
               value={shortName}
               onChange={(e) => setShortName(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={6}>
+          <Grid2 size={6}>
             <ImageInput
               value={imageId}
               onChange={(value) => setImageId(value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               label="Description"
@@ -130,14 +130,14 @@ const TabletopUpdateDialog = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
           {error && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <Alert severity="error">An error occured</Alert>
-            </Grid>
+            </Grid2>
           )}
-        </Grid>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -183,5 +183,3 @@ const TabletopUpdateDialog = ({
     </Dialog>
   );
 };
-
-export default TabletopUpdateDialog;

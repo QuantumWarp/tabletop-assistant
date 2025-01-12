@@ -13,7 +13,7 @@ interface NoteCardProps {
   onClick: () => void;
 }
 
-const NoteCard = ({ note, onClick }: NoteCardProps) => {
+export function NoteCard({ note, onClick }: NoteCardProps) {
   const { data: image } = useGetImageQuery(
     note.imageId!,
     { skip: !note.imageId }
@@ -44,5 +44,3 @@ const NoteCard = ({ note, onClick }: NoteCardProps) => {
     </Card>
   )
 };
-
-export default NoteCard;

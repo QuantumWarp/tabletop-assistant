@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Box } from '@mui/material';
-import {
-  DraggableData, ResizableDelta, Rnd,
-} from 'react-rnd';
+import { DraggableData, ResizableDelta, Rnd } from 'react-rnd';
 import { LayoutEntry } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
-import LayoutConfigDialog from './EditLayoutEntryDialog';
-import './LayoutConfigBox.css';
-import LayoutPositionHelper from '../../helpers/layout-position.helper';
+import { EditLayoutEntryDialog } from './EditLayoutEntryDialog';
+import { LayoutPositionHelper } from '../../helpers/layout-position.helper';
 import { useGetEntitiesQuery } from '../../store/api';
+import './LayoutConfigBox.css';
 
 interface LayoutConfigBoxProps {
   containerWidth: number,
@@ -17,9 +15,9 @@ interface LayoutConfigBoxProps {
   onDelete: () => void,
 }
 
-const LayoutConfigBox = ({
+export function LayoutConfigBox ({
   containerWidth, entry, onChange, onDelete,
-}: LayoutConfigBoxProps) => {
+}: LayoutConfigBoxProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -84,7 +82,7 @@ const LayoutConfigBox = ({
         </Box>
       </Rnd>
 
-      <LayoutConfigDialog
+      <EditLayoutEntryDialog
         initial={entry}
         open={dialogOpen}
         onSave={() => setDialogOpen(false)}
@@ -94,5 +92,3 @@ const LayoutConfigBox = ({
     </>
   );
 };
-
-export default LayoutConfigBox;

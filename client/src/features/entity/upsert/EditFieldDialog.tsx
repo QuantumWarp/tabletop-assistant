@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid,
+  Grid2,
   InputLabel,
   MenuItem,
   Select,
@@ -17,10 +17,10 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { EntityField, EntityFieldType, Expression } from '@tabletop-assistant/common';
-import FieldHelper from '../../../helpers/field.helper';
-import ValueInput from '../../../components/form-controls/ValueInput';
-import FieldType from '../../../models/field.type';
-import ComputedInput from '../../../components/form-controls/ComputedInput';
+import { FieldHelper } from '../../../helpers/field.helper';
+import { ValueInput } from '../../../components/form-controls/ValueInput';
+import { FieldType } from '../../../models/field.type';
+import { ComputedInput } from '../../../components/form-controls/ComputedInput';
 
 interface EditFieldDialogProps {
   initial?: Partial<EntityField>;
@@ -30,9 +30,9 @@ interface EditFieldDialogProps {
   onClose: () => void;
 }
 
-const EditFieldDialog = ({
+export function EditFieldDialog({
   initial = {}, open, onSave, onDelete, onClose,
-}: EditFieldDialogProps) => {
+}: EditFieldDialogProps) {
   const [name, setName] = useState(initial?.name || '');
   const [type, setType] = useState(initial?.type || FieldType.String);
   const [computed, setComputed] = useState(initial?.computed || {});
@@ -66,8 +66,8 @@ const EditFieldDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               required
@@ -75,9 +75,9 @@ const EditFieldDialog = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControl fullWidth required>
               <InputLabel>Type</InputLabel>
               <Select
@@ -92,9 +92,9 @@ const EditFieldDialog = ({
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <ValueInput
               label="Initial Value"
               value={initialValue || ''}
@@ -108,26 +108,26 @@ const EditFieldDialog = ({
                 onChange={(newValue) => setComputed(newValue)}
               />
             )}
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={6}>
+          <Grid2 size={6}>
             <TextField
               fullWidth
               label="Prefix"
               value={prefix}
               onChange={(e) => setPrefix(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={6}>
+          <Grid2 size={6}>
             <TextField
               fullWidth
               label="Postfix"
               value={postfix}
               onChange={(e) => setPostfix(e.target.value)}
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>

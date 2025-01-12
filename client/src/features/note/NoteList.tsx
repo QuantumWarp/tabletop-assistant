@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import { Note } from '@tabletop-assistant/common';
 import { useParams } from 'react-router-dom';
-import NoteCard from './NoteCard';
-import NoteUpsertDialog from './NoteUpsertDialog';
+import { NoteCard } from './NoteCard';
+import { NoteUpsertDialog } from './NoteUpsertDialog';
 import { useGetNotesQuery } from '../../store/api';
 
 interface NotesListProps {
   filter: string;
 }
 
-const NoteList = ({ filter }: NotesListProps) => {
+export function NoteList({ filter }: NotesListProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const [editNote, setEditNote] = useState<Note | undefined>();
   const { data: notes } = useGetNotesQuery(tabletopId);
@@ -25,14 +25,14 @@ const NoteList = ({ filter }: NotesListProps) => {
   });
 
   return (
-    <Grid container spacing={6}>
+    <Grid2 container spacing={6}>
       {sortedNotes.map((note) => (
-        <Grid key={note.id} item xs={4}>
+        <Grid2 key={note.id} size={4}>
           <NoteCard
             note={note}
             onClick={() => setEditNote(note)}
           />
-        </Grid>
+        </Grid2>
       ))}
 
       {editNote && (
@@ -43,8 +43,6 @@ const NoteList = ({ filter }: NotesListProps) => {
           onClose={() => setEditNote(undefined)}
         />
       )}
-    </Grid>
+    </Grid2>
   );
 };
-
-export default NoteList;

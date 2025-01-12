@@ -10,7 +10,7 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
-  Grid,
+  Grid2,
   InputLabel,
   ListItem,
   ListItemButton,
@@ -26,13 +26,13 @@ import {
 import {
   CreateEntity, EntityDisplay, EntityDisplayType, SlotFieldMapping,
 } from '@tabletop-assistant/common';
-import DeleteConfirmDialog from '../../../components/DeleteConfirmDialog';
-import EditDisplayMappingDialog from './EditDisplayMappingDialog';
-import DisplayHelper from '../../../helpers/display.helper';
-import LayoutDisplay from '../../display/LayoutDisplay';
-import LayoutPositionHelper from '../../../helpers/layout-position.helper';
-import FieldHelper from '../../../helpers/field.helper';
-import useIsFirstRender from '../../../utils/is-first-render';
+import { DeleteConfirmDialog } from '../../../components/DeleteConfirmDialog';
+import { EditDisplayMappingDialog } from './EditDisplayMappingDialog';
+import { DisplayHelper } from '../../../helpers/display.helper';
+import { LayoutDisplay } from '../../display/LayoutDisplay';
+import { LayoutPositionHelper } from '../../../helpers/layout-position.helper';
+import { FieldHelper } from '../../../helpers/field.helper';
+import { useIsFirstRender } from '../../../utils/is-first-render';
 
 interface EditDisplayDialogProps {
   initial?: Partial<EntityDisplay>;
@@ -44,9 +44,9 @@ interface EditDisplayDialogProps {
   onClose: () => void;
 }
 
-const EditDisplayDialog = ({
+export function EditDisplayDialog({
   initial = {}, displays, entity, open, onSave, onDelete, onClose,
-}: EditDisplayDialogProps) => {
+}: EditDisplayDialogProps) {
   const isFirstRender = useIsFirstRender();
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editMapping, setEditMapping] = useState<Partial<SlotFieldMapping>>();
@@ -100,9 +100,9 @@ const EditDisplayDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2}>
-          <Grid item xs={5} container spacing={2} marginTop={0}>
-            <Grid item xs={12}>
+        <Grid2 container spacing={2}>
+          <Grid2 size={5} container spacing={2} marginTop={0}>
+            <Grid2 size={12}>
               <FormControl fullWidth required>
                 <InputLabel>Type</InputLabel>
                 <Select
@@ -118,9 +118,9 @@ const EditDisplayDialog = ({
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid2>
 
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <TextField
                 fullWidth
                 required
@@ -129,9 +129,9 @@ const EditDisplayDialog = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </Grid>
+            </Grid2>
 
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               {!onlyDisplay && (
                 <FormControlLabel
                   label="Default"
@@ -143,10 +143,10 @@ const EditDisplayDialog = ({
                   )}
                 />
               )}
-            </Grid>
+            </Grid2>
 
             {mappings.length > 0 && (
-              <Grid item xs={12}>
+              <Grid2 size={12}>
                 <Divider />
 
                 {mappings.map((mapping) => {
@@ -159,26 +159,26 @@ const EditDisplayDialog = ({
                       <ListItemButton
                         onClick={() => setEditMapping({ ...editMapping })}
                       >
-                        <Grid container>
-                          <Grid item xs={5} container justifyContent="flex-end">{slot?.name}</Grid>
-                          <Grid item xs={2} container justifyContent="center"><MapIcon /></Grid>
-                          <Grid item xs={5}>{slot?.type === 'action' ? action?.name : field?.name}</Grid>
-                        </Grid>
+                        <Grid2 container>
+                          <Grid2 size={5} container justifyContent="flex-end">{slot?.name}</Grid2>
+                          <Grid2 size={2} container justifyContent="center"><MapIcon /></Grid2>
+                          <Grid2 size={5}>{slot?.type === 'action' ? action?.name : field?.name}</Grid2>
+                        </Grid2>
                       </ListItemButton>
                     </ListItem>
                   );
                 })}
-              </Grid>
+              </Grid2>
             )}
 
-            <Grid item container xs={12} justifyContent="center">
+            <Grid2 size={12} justifyContent="center">
               <Button
                 variant="outlined"
                 onClick={() => setEditMapping({})}
               >
                 Add Mapping
               </Button>
-            </Grid>
+            </Grid2>
 
             {editMapping && type && (
               <EditDisplayMappingDialog
@@ -200,13 +200,13 @@ const EditDisplayDialog = ({
                 onClose={() => setEditMapping(undefined)}
               />
             )}
-          </Grid>
+          </Grid2>
 
-          <Grid item>
+          <Grid2>
             <Divider orientation="vertical" />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs container justifyContent="center" my={2}>
+          <Grid2 container justifyContent="center" my={2}>
             <Box
               sx={{ ...LayoutPositionHelper.getSizeStyle(DisplayHelper.defaultSize(type), 1000) }}
             >
@@ -217,8 +217,8 @@ const EditDisplayDialog = ({
                 entity={entity}
               />
             </Box>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -261,5 +261,3 @@ const EditDisplayDialog = ({
     </Dialog>
   );
 };
-
-export default EditDisplayDialog;

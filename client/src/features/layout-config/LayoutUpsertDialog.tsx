@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2,
   TextField,
 } from '@mui/material';
 import {
@@ -15,7 +15,7 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Layout } from '@tabletop-assistant/common';
-import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
+import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog';
 import { useCreateLayoutMutation, useDeleteLayoutMutation, useUpdateLayoutMutation } from '../../store/api';
 
 interface LayoutUpsertDialogProps {
@@ -26,9 +26,9 @@ interface LayoutUpsertDialogProps {
   onClose: (deleted?: boolean) => void;
 }
 
-const LayoutUpsertDialog = ({
+export function LayoutUpsertDialog({
   initial, tabletopId, nextOrder = 0, open, onClose,
-}: LayoutUpsertDialogProps) => {
+}: LayoutUpsertDialogProps) {
   const [createLayout, {
     isLoading: creating,
     isSuccess: createSuccess,
@@ -87,22 +87,22 @@ const LayoutUpsertDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               label="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
           {error && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <Alert severity="error">An error occured</Alert>
-            </Grid>
+            </Grid2>
           )}
-        </Grid>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -159,5 +159,3 @@ const LayoutUpsertDialog = ({
     </Dialog>
   );
 };
-
-export default LayoutUpsertDialog;

@@ -1,20 +1,19 @@
 import { Box } from '@mui/material';
-import { Mapping } from '../../../models/mapping';
-import './ActionNodeMacro.css';
+import { ValueMap } from '@tabletop-assistant/common';
 
 interface ActionNodeMacroOutputProps {
   runCount: number;
-  lastResults?: Mapping[];
+  lastResults?: ValueMap[];
 }
 
-const ActionNodeMacroOutput = ({
+export function ActionNodeMacroOutput ({
   runCount, lastResults,
-}: ActionNodeMacroOutputProps) => (
-  <Box>
-    {lastResults && 'Run'}
-    Run
-    {runCount}
-  </Box>
-);
-
-export default ActionNodeMacroOutput;
+}: ActionNodeMacroOutputProps) {
+  return (
+    <Box>
+      {lastResults && 'Run'}
+      Run
+      {runCount}
+    </Box>
+  )
+};

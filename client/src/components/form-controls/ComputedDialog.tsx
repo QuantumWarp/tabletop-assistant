@@ -5,7 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2,
   TextField,
 } from '@mui/material';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@mui/icons-material';
 import { parse, SymbolNode } from 'mathjs';
 import { Expression, ExpressionVariable } from '@tabletop-assistant/common';
-import ComputedInputRow from './ComputedInputRow';
+import { ComputedInputRow } from './ComputedInputRow';
 
 interface ComputedDialogProps {
   includeTarget?: boolean;
@@ -26,9 +26,9 @@ interface ComputedDialogProps {
   onClose: () => void;
 }
 
-const ComputedDialog = ({
-  includeTarget = false, initialTarget, initialExpression, open, onSave, onDelete, onClose,
-}: ComputedDialogProps) => {
+export function ComputedDialog({
+  includeTarget, initialTarget, initialExpression, open, onSave, onDelete, onClose,
+}: ComputedDialogProps) {
   const [target, setTarget] = useState(initialTarget);
   const [expression, setExpression] = useState(initialExpression?.expression || '');
   const [variables, setVariables] = useState<ExpressionVariable[]>(
@@ -55,7 +55,7 @@ const ComputedDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
+        <Grid2 container spacing={2} marginTop={0}>
           {includeTarget && (
             <ComputedInputRow
               name="Target"
@@ -64,7 +64,7 @@ const ComputedDialog = ({
             />
           )}
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <TextField
               error={!expressionValid}
               helperText={!expressionValid && 'Expression Invalid'}
@@ -75,7 +75,7 @@ const ComputedDialog = ({
               value={expression}
               onChange={(e) => setExpression(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
           {expressionSymbols.map((variable) => (
             <ComputedInputRow
@@ -87,7 +87,7 @@ const ComputedDialog = ({
                 .concat([newExpression]))}
             />
           ))}
-        </Grid>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -120,5 +120,3 @@ const ComputedDialog = ({
     </Dialog>
   );
 };
-
-export default ComputedDialog;

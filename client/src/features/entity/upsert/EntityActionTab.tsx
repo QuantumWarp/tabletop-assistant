@@ -1,9 +1,9 @@
 import {
-  Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
+  Button, Chip, Divider, Grid2, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import { CreateEntity, EntityAction } from '@tabletop-assistant/common';
-import EditActionDialog from './EditActionDialog';
+import { EditActionDialog } from './EditActionDialog';
 
 interface EntityActionTabProps {
   actions: EntityAction[],
@@ -11,14 +11,14 @@ interface EntityActionTabProps {
   onChange: (displays: EntityAction[]) => void,
 }
 
-const EntityActionTab = ({
+export function EntityActionTab ({
   actions, entity, onChange,
-}: EntityActionTabProps) => {
+}: EntityActionTabProps) {
   const [editAction, setEditAction] = useState<Partial<EntityAction>>();
 
   return (
-    <Grid container spacing={2} sx={{ py: 2, height: '100%' }}>
-      <Grid item xs={8}>
+    <Grid2 container spacing={2} sx={{ py: 2, height: '100%' }}>
+      <Grid2 size={8}>
         {actions.length === 0 && (
           <Typography variant="h5" color="text.secondary">
             No Actions Created
@@ -33,13 +33,13 @@ const EntityActionTab = ({
             </ListItemButton>
           </ListItem>
         ))}
-      </Grid>
+      </Grid2>
 
-      <Grid item>
+      <Grid2>
         <Divider orientation="vertical" />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs>
+      <Grid2>
         <Typography variant="body2" color="text.secondary">
           Create an action that can perform a roll or provide information when clicked.
         </Typography>
@@ -51,7 +51,7 @@ const EntityActionTab = ({
         >
           Add Action
         </Button>
-      </Grid>
+      </Grid2>
 
       {editAction && (
         <EditActionDialog
@@ -67,8 +67,6 @@ const EntityActionTab = ({
           onClose={() => setEditAction(undefined)}
         />
       )}
-    </Grid>
+    </Grid2>
   );
 };
-
-export default EntityActionTab;

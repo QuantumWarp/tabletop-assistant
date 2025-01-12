@@ -2,13 +2,13 @@ import { useState } from 'react';
 import {
   CreateEntity, EntityDisplay, ValueMap
 } from '@tabletop-assistant/common';
-import Operations, { OperationHelper } from '../../helpers/operation.helper';
-import DisplayHelper from '../../helpers/display.helper';
+import { Operations, OperationHelper } from '../../helpers/operation.helper';
+import { DisplayHelper } from '../../helpers/display.helper';
 import { EntitySummaryDialog } from '../entity/EntitySummaryDialog';
-import DisplayCard from './DisplayCard';
-import DisplayDots from './DisplayDots';
-import DisplaySquare from './DisplaySquare';
-import DisplayToggle from './DisplayToggle';
+import { DisplayCard } from './DisplayCard';
+import { DisplayDots } from './DisplayDots';
+import { DisplaySquare } from './DisplaySquare';
+import { DisplayToggle } from './DisplayToggle';
 import { SlotMapping } from '../../models/slot-mapping';
 
 interface LayoutDisplayProps {
@@ -20,10 +20,10 @@ interface LayoutDisplayProps {
   onAction?: (actionKey: string) => void,
 }
 
-const LayoutDisplay = ({
+export function LayoutDisplay({
   preview, display, entity, mappings,
   onUpdateMappings = () => {}, onAction = () => {},
-}: LayoutDisplayProps) => {
+}: LayoutDisplayProps) {
   const [entitySummaryOpen, setEntitySummaryOpen] = useState(false);
 
   const slotMappings = [
@@ -100,5 +100,3 @@ const LayoutDisplay = ({
     </>
   );
 };
-
-export default LayoutDisplay;

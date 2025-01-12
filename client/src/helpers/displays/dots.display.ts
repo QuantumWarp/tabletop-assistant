@@ -1,4 +1,4 @@
-import DisplaySlot from '../../models/display-slot';
+import { DisplaySlot } from '../../models/display-slot';
 
 export const slots: DisplaySlot[] = [{
   name: 'Name',
@@ -17,7 +17,7 @@ export const slots: DisplaySlot[] = [{
   auto: ['secondaryValue', 'maximum'],
 }];
 
-export default interface DotsDisplay {
+export interface DotsDisplay {
   name: string;
   value: number;
   maximum: number;

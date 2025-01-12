@@ -1,5 +1,4 @@
- 
-export default {
+ export const iconMappings: { [key: string]: string } = {
   'Anchor': 'mdi:anchor',
   'Apple': 'fluent:food-apple-20-filled',
   'Axe': 'mdi:axe-battle',
@@ -116,4 +115,4 @@ export default {
   'Wand': 'fa:magic',
   'Water': 'mdi:water',
   'Wind': 'fa-solid:wind',
-} as { [key: string]: string };
+};

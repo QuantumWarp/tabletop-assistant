@@ -5,7 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
+  Grid2,
   TextField,
   CircularProgress,
   Alert,
@@ -15,13 +15,13 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Note } from '@tabletop-assistant/common';
-import DeleteConfirmDialog from '../../components/DeleteConfirmDialog';
+import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog';
 import {
   useCreateNoteMutation,
   useDeleteNoteMutation,
   useUpdateNoteMutation,
 } from '../../store/api';
-import ImageInput from '../../components/form-controls/ImageInput';
+import { ImageInput } from '../../components/form-controls/ImageInput';
 
 interface NoteUpsertDialogProps {
   initial?: Note;
@@ -30,9 +30,9 @@ interface NoteUpsertDialogProps {
   onClose: (deleted?: boolean) => void;
 }
 
-const NoteUpsertDialog = ({
+export function NoteUpsertDialog({
   initial, tabletopId, open, onClose,
-}: NoteUpsertDialogProps) => {
+}: NoteUpsertDialogProps) {
   const [createNote, {
     isLoading: creating,
     isSuccess: createSuccess,
@@ -91,8 +91,8 @@ const NoteUpsertDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               required
@@ -101,9 +101,9 @@ const NoteUpsertDialog = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               label="Subtitle"
@@ -111,16 +111,16 @@ const NoteUpsertDialog = ({
               value={subtitle}
               onChange={(e) => setSubtitle(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <ImageInput
               value={imageId}
               onChange={(value) => setImageId(value)}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <TextField
               fullWidth
               label="Description"
@@ -130,14 +130,14 @@ const NoteUpsertDialog = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-          </Grid>
+          </Grid2>
 
           {error && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <Alert severity="error">An error occured</Alert>
-            </Grid>
+            </Grid2>
           )}
-        </Grid>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -183,5 +183,3 @@ const NoteUpsertDialog = ({
     </Dialog>
   );
 };
-
-export default NoteUpsertDialog;

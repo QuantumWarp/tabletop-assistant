@@ -2,7 +2,7 @@ import {
   Outlet,
 } from 'react-router-dom';
 import { Box } from '@mui/material';
-import SideNav from './SideNav';
+import { SideNav } from './SideNav';
 
 export function MainView() {
   return (

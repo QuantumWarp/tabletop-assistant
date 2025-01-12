@@ -1,9 +1,9 @@
 import { Box, Button, Container } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import ActionNode from '../features/action/ActionNode';
-import TopBar from '../components/TopBar';
+import { ActionNode } from '../features/action/ActionNode';
+import { TopBar } from '../components/TopBar';
 import { useGetEntitiesQuery } from '../store/api';
-import ActionTreeBuilder from '../helpers/action-tree.builder';
+import { ActionTreeBuilder } from '../helpers/action-tree.builder';
 
 export function ActionPage() {
   const { tabletopId } = useParams() as { tabletopId: string };

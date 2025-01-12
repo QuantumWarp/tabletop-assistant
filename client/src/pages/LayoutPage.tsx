@@ -6,9 +6,9 @@ import {
   Container,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import TopBar from '../components/TopBar';
+import { TopBar } from '../components/TopBar';
 import { useGetLayoutsQuery } from '../store/api';
-import LayoutContainer from '../features/layout/LayoutContainer';
+import { LayoutContainer } from '../features/layout/LayoutContainer';
 
 export function LayoutPage() {
   const { tabletopId } = useParams() as { tabletopId: string };

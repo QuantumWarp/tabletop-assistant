@@ -1,4 +1,4 @@
-import DisplaySlot from '../../models/display-slot';
+import { DisplaySlot } from '../../models/display-slot';
 
 export const slots: DisplaySlot[] = [{
   name: 'Disabled',
@@ -34,7 +34,7 @@ export const slots: DisplaySlot[] = [{
   auto: ['secondaryValue', 'maximum'],
 }];
 
-export default interface SquareDisplay {
+export interface SquareDisplay {
   disabled?: boolean;
   enabled?: boolean;
   icon?: string;

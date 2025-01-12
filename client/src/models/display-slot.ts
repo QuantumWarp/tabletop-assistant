@@ -1,4 +1,4 @@
-export default interface DisplaySlot {
+export interface DisplaySlot {
   name: string;
   key: string;
   type: string;

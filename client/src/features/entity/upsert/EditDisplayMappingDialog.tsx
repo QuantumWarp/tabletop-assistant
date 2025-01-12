@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  Grid,
+  Grid2,
   InputLabel,
   MenuItem,
   Select,
@@ -16,10 +16,10 @@ import {
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { CreateEntity, EntityDisplayType, SlotFieldMapping } from '@tabletop-assistant/common';
-import DisplayHelper from '../../../helpers/display.helper';
-import FieldHelper from '../../../helpers/field.helper';
+import { DisplayHelper } from '../../../helpers/display.helper';
+import { FieldHelper } from '../../../helpers/field.helper';
 
-interface EditDisplayDialogProps {
+interface EditDisplayMappingDialogProps {
   initial?: Partial<SlotFieldMapping>;
   entity: CreateEntity;
   usedSlotKeys: string[];
@@ -30,9 +30,9 @@ interface EditDisplayDialogProps {
   onClose: () => void;
 }
 
-const EditDisplayDialog = ({
+export function EditDisplayMappingDialog({
   initial = {}, entity, usedSlotKeys, type, open, onClose, onDelete, onSave,
-}: EditDisplayDialogProps) => {
+}: EditDisplayMappingDialogProps) {
   const [slotKey, setSlotKey] = useState(initial?.slotKey || '');
   const [fieldKey, setFieldKey] = useState(initial?.fieldKey || '');
 
@@ -71,8 +71,8 @@ const EditDisplayDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <FormControl fullWidth required>
               <InputLabel>Slot</InputLabel>
               <Select
@@ -88,10 +88,10 @@ const EditDisplayDialog = ({
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
           {selectedSlot?.type !== 'action' && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <FormControl fullWidth required>
                 <InputLabel>Field</InputLabel>
                 <Select
@@ -112,11 +112,11 @@ const EditDisplayDialog = ({
                   )}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid2>
           )}
 
           {selectedSlot?.type === 'action' && (
-            <Grid item xs={12}>
+            <Grid2 size={12}>
               <FormControl fullWidth required>
                 <InputLabel>Action</InputLabel>
                 <Select
@@ -136,9 +136,9 @@ const EditDisplayDialog = ({
                   )}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid2>
           )}
-        </Grid>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -171,5 +171,3 @@ const EditDisplayDialog = ({
     </Dialog>
   );
 };
-
-export default EditDisplayDialog;

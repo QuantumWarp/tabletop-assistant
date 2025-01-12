@@ -8,7 +8,7 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  Grid,
+  Grid2,
   InputLabel,
   MenuItem,
   Select,
@@ -32,9 +32,9 @@ interface TriggerDialogProps {
   onClose: () => void;
 }
 
-const TriggerDialog = ({
+export function TriggerDialog({
   initial = {}, entity, open, onSave, onDelete, onClose,
-}: TriggerDialogProps) => {
+}: TriggerDialogProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -88,8 +88,8 @@ const TriggerDialog = ({
       </DialogTitle>
 
       <DialogContent>
-        <Grid container spacing={2} marginTop={0}>
-          <Grid item xs={12}>
+        <Grid2 container spacing={2} marginTop={0}>
+          <Grid2 size={12}>
             <FormControlLabel
               label="Manual"
               control={(
@@ -99,9 +99,9 @@ const TriggerDialog = ({
                 />
               )}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControlLabel
               label="Sibling"
               disabled={manual}
@@ -112,9 +112,9 @@ const TriggerDialog = ({
                 />
               )}
             />
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControl fullWidth>
               <InputLabel>Entity</InputLabel>
               <Select
@@ -137,9 +137,9 @@ const TriggerDialog = ({
                 ))}
               </Select>
             </FormControl>
-          </Grid>
+          </Grid2>
 
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <FormControl fullWidth>
               <InputLabel>Action</InputLabel>
               <Select
@@ -164,8 +164,8 @@ const TriggerDialog = ({
                 ))}
               </Select>
             </FormControl>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </DialogContent>
 
       <DialogActions>
@@ -198,5 +198,3 @@ const TriggerDialog = ({
     </Dialog>
   );
 };
-
-export default TriggerDialog;

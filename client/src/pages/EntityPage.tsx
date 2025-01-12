@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   Box, Button, Container, Grid2, TextField,
 } from '@mui/material';
-import TopBar from '../components/TopBar';
+import { TopBar } from '../components/TopBar';
 import { EntityUpsertDialog } from '../features/entity/upsert/EntityUpsertDialog';
 import { EntityList } from '../features/entity/EntityList';
 import { useParams } from 'react-router-dom';

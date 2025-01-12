@@ -3,9 +3,9 @@ import {
   LayoutEntry,
 } from '@tabletop-assistant/common';
 import { useNavigate } from 'react-router-dom';
-import LayoutPositionHelper from '../../helpers/layout-position.helper';
+import { LayoutPositionHelper } from '../../helpers/layout-position.helper';
 import { useGetEntityQuery, useUpdateValueMapMutation } from '../../store/api';
-import LayoutDisplay from '../display/LayoutDisplay';
+import { LayoutDisplay } from '../display/LayoutDisplay';
 import { useMappingEntity } from '../../helpers/hooks/use-mapping-entities';
 
 interface LayoutContainerEntryProps {

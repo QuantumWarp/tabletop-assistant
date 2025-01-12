@@ -10,20 +10,20 @@ interface ActionNodeCenterProps {
   onClick?: () => void;
 }
 
-const ActionNodeCenter = ({
+export function ActionNodeCenter({
   children = null, noOutput = false, onClick = () => {},
-}: ActionNodeCenterProps) => (
-  <Box className="action-node-center">
-    {!noOutput && (
-      <Button
-        className="button"
-        onClick={onClick}
-      >
-        {children}
-        {!noOutput && <ArrowRightIcon />}
-      </Button>
-    )}
-  </Box>
-);
-
-export default ActionNodeCenter;
+}: ActionNodeCenterProps) {
+  return (
+    <Box className="action-node-center">
+      {!noOutput && (
+        <Button
+          className="button"
+          onClick={onClick}
+        >
+          {children}
+          {!noOutput && <ArrowRightIcon />}
+        </Button>
+      )}
+    </Box>
+  );
+};

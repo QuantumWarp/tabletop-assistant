@@ -8,7 +8,7 @@ import {
   Expression,
 } from '@tabletop-assistant/common';
 
-export default class RollHelper {
+export class RollHelper {
   static roll(combo: ResolvedRollCombo): RollResult {
     return combo
       .map((x) => RollHelper.rollGroup(x))

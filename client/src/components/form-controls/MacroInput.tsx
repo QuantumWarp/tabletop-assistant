@@ -1,23 +1,19 @@
  
-import {
-  Autocomplete,
-  Chip,
-  TextField,
-} from '@mui/material';
+import { Autocomplete, Chip, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Macro } from '@tabletop-assistant/common';
 import { useGetEntitiesQuery } from '../../store/api';
-import ComputedDialog from './ComputedDialog';
+import { ComputedDialog } from './ComputedDialog';
 
 interface MacroInputProps {
   value: Macro[];
   onChange: (macros: Macro[]) => void;
 }
 
-const MacroInput = ({
+export function MacroInput({
   value, onChange,
-}: MacroInputProps) => {
+}: MacroInputProps) {
   const { tabletopId } = useParams() as { tabletopId: string };
   const { data: entities } = useGetEntitiesQuery(tabletopId);
 
@@ -63,5 +59,3 @@ const MacroInput = ({
     </>
   );
 };
-
-export default MacroInput;

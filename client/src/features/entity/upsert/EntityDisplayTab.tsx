@@ -1,10 +1,10 @@
 import {
-  Button, Chip, Divider, Grid, ListItem, ListItemButton, ListItemText, Typography,
+  Button, Chip, Divider, Grid2, ListItem, ListItemButton, ListItemText, Typography,
 } from '@mui/material';
 import { useState } from 'react';
 import { CreateEntity, EntityDisplay, EntityDisplayType } from '@tabletop-assistant/common';
-import DisplayHelper from '../../../helpers/display.helper';
-import EditDisplayDialog from './EditDisplayDialog';
+import { DisplayHelper } from '../../../helpers/display.helper';
+import { EditDisplayDialog } from './EditDisplayDialog';
 
 interface EntityDisplayTabProps {
   displays: EntityDisplay[],
@@ -12,14 +12,14 @@ interface EntityDisplayTabProps {
   onChange: (displays: EntityDisplay[]) => void,
 }
 
-const ObjectDisplayTab = ({
+export function EntityDisplayTab({
   displays, entity, onChange,
-}: EntityDisplayTabProps) => {
+}: EntityDisplayTabProps) {
   const [editDisplay, setEditDisplay] = useState<Partial<EntityDisplay>>();
 
   return (
-    <Grid container spacing={2} sx={{ py: 2, height: '100%' }}>
-      <Grid item xs={8}>
+    <Grid2 container spacing={2} sx={{ py: 2, height: '100%' }}>
+      <Grid2 size={8}>
         {displays.length === 0 && (
           <Typography variant="h5" color="text.secondary">
             No Displays Created
@@ -36,13 +36,13 @@ const ObjectDisplayTab = ({
             </ListItemButton>
           </ListItem>
         ))}
-      </Grid>
+      </Grid2>
 
-      <Grid item>
+      <Grid2>
         <Divider orientation="vertical" />
-      </Grid>
+      </Grid2>
 
-      <Grid item xs>
+      <Grid2>
         <Typography variant="body2" color="text.secondary">
           Create a display to represent this object visually when put onto a tabletop.
         </Typography>
@@ -54,7 +54,7 @@ const ObjectDisplayTab = ({
         >
           Add Display
         </Button>
-      </Grid>
+      </Grid2>
 
       {editDisplay && (
         <EditDisplayDialog
@@ -71,8 +71,6 @@ const ObjectDisplayTab = ({
           onClose={() => setEditDisplay(undefined)}
         />
       )}
-    </Grid>
+    </Grid2>
   );
 };
-
-export default ObjectDisplayTab;

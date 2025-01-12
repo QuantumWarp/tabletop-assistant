@@ -1,7 +1,7 @@
 import { CreateEntity, EntityField } from '@tabletop-assistant/common';
-import FieldType from '../models/field.type';
+import { FieldType } from '../models/field.type';
 
-export default class FieldHelper {
+export class FieldHelper {
   static displayName(type: FieldType): string {
     switch (type) {
       case FieldType.String: return 'Text';

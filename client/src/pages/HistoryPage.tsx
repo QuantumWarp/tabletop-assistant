@@ -6,9 +6,9 @@ import {
   TextField,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import HistoryRow from '../features/history/HistoryRow';
-import TopBar from '../components/TopBar';
-import HistoryUpdateDialog from '../features/history/HistoryUpsertDialog';
+import { HistoryRow } from '../features/history/HistoryRow';
+import { TopBar } from '../components/TopBar';
+import { HistoryUpsertDialog } from '../features/history/HistoryUpsertDialog';
 import { useGetHistoryQuery } from '../store/api';
 
 export function HistoryPage() {
@@ -56,7 +56,7 @@ export function HistoryPage() {
       </Box>
 
       {newHistoryDialogOpen && (
-        <HistoryUpdateDialog
+        <HistoryUpsertDialog
           tabletopId={tabletopId}
           open={newHistoryDialogOpen}
           onClose={() => setNewHistoryDialogOpen(false)}

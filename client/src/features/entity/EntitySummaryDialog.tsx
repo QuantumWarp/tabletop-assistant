@@ -18,16 +18,15 @@ import {
 } from '@mui/icons-material';
 import { Icon } from '@iconify/react';
 import ReactMarkdown from 'react-markdown';
-import { CreateEntity, EntityField } from '@tabletop-assistant/common';
+import { CreateEntity, EntityField, ValueMap } from '@tabletop-assistant/common';
 import { EntityValueMapUpdateDialog } from './EntityValueMapUpdateDialog';
-import { Mapping } from '../../models/mapping';
 import { useGetImageQuery } from '../../store/api';
 
 interface EntitySummaryDialogProps {
   entity: CreateEntity;
-  mappings: Mapping[];
+  mappings: ValueMap[];
   open: boolean;
-  onSave?: (updates: Mapping[]) => void;
+  onSave?: (updates: ValueMap[]) => void;
   onClose: () => void;
 }
 
@@ -35,7 +34,7 @@ export function EntitySummaryDialog({
   entity, mappings, open, onSave, onClose,
 }: EntitySummaryDialogProps) {
   const [editField, setEditField] = useState<EntityField>();
-  const [updates, setUpdates] = useState<Mapping[]>([]);
+  const [updates, setUpdates] = useState<ValueMap[]>([]);
 
   const editMapping = editField && mappings.find((x) => x.fieldKey === editField.key);
 

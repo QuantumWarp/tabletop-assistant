@@ -1,19 +1,19 @@
 import { Box, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
-import './DisplaySquare.css';
-import FixedActions from '../../helpers/operation.helper';
+import { Operations } from '../../helpers/operation.helper';
 import { SlotMapping } from '../../models/slot-mapping';
-import DisplayHelper from '../../helpers/display.helper';
+import { DisplayHelper } from '../../helpers/display.helper';
+import './DisplaySquare.css';
 
 interface DisplaySquareProps {
   preview: boolean,
   mappings: SlotMapping[],
-  onOperation: (operation: FixedActions, ...args: SlotMapping[]) => void,
+  onOperation: (operation: Operations, ...args: SlotMapping[]) => void,
 }
 
-const DisplaySquare = ({
+export function DisplaySquare({
   preview, mappings, onOperation,
-}: DisplaySquareProps) => {
+}: DisplaySquareProps) {
   const name = mappings.find((x) => x.slotKey === 'name');
   const icon = mappings.find((x) => x.slotKey === 'icon');
   const value = mappings.find((x) => x.slotKey === 'value');
@@ -51,7 +51,7 @@ const DisplaySquare = ({
 
         <div
           className="name"
-          onClick={() => onOperation(FixedActions.Detail)}
+          onClick={() => onOperation(Operations.Detail)}
         >
           {name?.formattedValue}
         </div>
@@ -61,12 +61,12 @@ const DisplaySquare = ({
             <Button
               type="button"
               className="click-left"
-              onClick={() => value && onOperation(FixedActions.Decrement, value)}
+              onClick={() => value && onOperation(Operations.Decrement, value)}
             />
             <Button
               type="button"
               className="click-right"
-              onClick={() => value && onOperation(FixedActions.Increment, value)}
+              onClick={() => value && onOperation(Operations.Increment, value)}
             />
           </>
         )}
@@ -74,5 +74,3 @@ const DisplaySquare = ({
     </div>
   );
 };
-
-export default DisplaySquare;
