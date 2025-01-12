@@ -18,7 +18,7 @@ const LayoutContainer = ({ layout }: LayoutContainerProps) => {
       height: "100%",
       backgroundColor: "white",
     }}>
-      {layout.entries.map((entry) => (
+      {width !== 0 && layout.entries.map((entry) => (
         <LayoutContainerEntry
           key={entry.entityId}
           entry={entry}

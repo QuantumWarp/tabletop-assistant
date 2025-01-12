@@ -93,7 +93,7 @@ export default class DisplayHelper {
           .find((x) => x.key === displayMapping.fieldKey);
         if (!entityField) return null;
 
-        const formattedValue = (entityField?.prefix || '') + (mapping?.value || entityField.initial) + (entityField?.postfix || '');
+        const formattedValue = (entityField?.prefix || '') + (mapping?.value ?? entityField.initial) + (entityField?.postfix || '');
 
         return {
           entityId: mapping?.entityId,
