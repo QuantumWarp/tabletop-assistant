@@ -1,71 +1,33 @@
-import {
-  Entity, Layout,
-} from '@tabletop-assistant/common';
-import { useNavigate, useParams } from 'react-router-dom';
-import LayoutPositionHelper from '../../helpers/layout-position.helper';
-import './LayoutContainer.css';
-import { useGetEntitiesQuery } from '../../store/api';
-import LayoutDisplay from '../display/LayoutDisplay';
+import {  Layout } from '@tabletop-assistant/common';
 import useElementWidth from '../../helpers/hooks/use-element-width';
-import { useMappingEntities } from '../../helpers/hooks/use-mapping-entities';
-import { useMappingUpdate } from '../../helpers/hooks/use-mapping-update';
+import { LayoutContainerEntry } from './LayoutContainerEntry';
+import { Box } from '@mui/material';
 
 interface LayoutContainerProps {
   layout: Layout,
 }
 
 const LayoutContainer = ({ layout }: LayoutContainerProps) => {
-  const navigate = useNavigate();
-  const { tabletopId } = useParams() as { tabletopId: string };
-  const { data: entities } = useGetEntitiesQuery(tabletopId);
   const { elementRef, width } = useElementWidth();
 
-  const entityIds = layout.entries
-    .map((x) => x.entityId)
-    .filter((x, index, self) => self.indexOf(x) === index);
-
-  const entityMappings = useMappingEntities(entityIds);
-  const mappingUpdate = useMappingUpdate();
-
-  const actionHandler = (entity: Entity, actionKey: string) => {
-    navigate({
-      pathname: '../action',
-      search: `?entity=${entity.id}&action=${actionKey}`,
-    });
-  };
-
   return (
-    <div className="layout-container" ref={elementRef}>
-      {layout.entries.map((entry) => {
-        const entity = entities?.find((x) => entry.entityId === x.id);
-        const display = entity?.displays.find((x) => x.key === entry.displayKey);
-        const invalidEntry = !entity || !display;
-
-        return (
-          <div
-            key={`${entry.displayKey}-${entry.entityId}`}
-            className="entry"
-            style={{
-              ...LayoutPositionHelper.getPositionStyle(entry.position, width),
-              ...LayoutPositionHelper.getSizeStyle(entry.size, width),
-            }}
-          >
-            {invalidEntry && <div>Invalid entry</div>}
-
-            {!invalidEntry && (
-              <LayoutDisplay
-                display={display}
-                entity={entity}
-                mappings={entityMappings?.find((x) => x.entityId === entity.id)?.mappings || []}
-                onUpdateMappings={mappingUpdate}
-                onAction={(actionKey) => actionHandler(entity, actionKey)}
-              />
-            )}
-          </div>
-        );
-      })}
-    </div>
+    <Box ref={elementRef} sx={{
+      position: "relative",
+      flex: 1,
+      maxWidth: "1200px",
+      height: "100%",
+      backgroundColor: "white",
+    }}>
+      {layout.entries.map((entry) => (
+        <LayoutContainerEntry
+          key={entry.entityId}
+          entry={entry}
+          containerWidth={width}
+        />
+      ))}
+    </Box>
   );
 };
+
 
 export default LayoutContainer;

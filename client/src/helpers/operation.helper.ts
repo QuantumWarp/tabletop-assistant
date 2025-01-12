@@ -1,4 +1,4 @@
-import { Mapping } from '../models/mapping';
+import { SlotMapping } from "../models/slot-mapping";
 
 enum Operations {
   Increment = 'increment',
@@ -11,7 +11,7 @@ enum Operations {
 export default Operations;
 
 export class OperationHelper {
-  static run(operation: Operations, args: Mapping[]): Mapping[] {
+  static run(operation: Operations, args: SlotMapping[]): SlotMapping[] {
     switch (operation) {
       case Operations.Increment:
         return [this.increment(args[0])];
@@ -25,19 +25,19 @@ export class OperationHelper {
     }
   }
 
-  static increment(arg: Mapping): Mapping {
+  static increment(arg: SlotMapping): SlotMapping {
     return { ...arg, value: Number(arg.value) + 1 };
   }
 
-  static decrement(arg: Mapping): Mapping {
+  static decrement(arg: SlotMapping): SlotMapping {
     return { ...arg, value: Number(arg.value) - 1 };
   }
 
-  static setValue(to: Mapping, from: Mapping): Mapping {
+  static setValue(to: SlotMapping, from: SlotMapping): SlotMapping {
     return { ...to, value: from.value };
   }
 
-  static toggle(mappings: Mapping[]): Mapping[] {
+  static toggle(mappings: SlotMapping[]): SlotMapping[] {
     return mappings.map((x) => ({ ...x, value: !x.value }));
   }
 }

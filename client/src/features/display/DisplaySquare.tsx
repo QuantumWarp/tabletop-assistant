@@ -53,7 +53,7 @@ const DisplaySquare = ({
           className="name"
           onClick={() => onOperation(FixedActions.Detail)}
         >
-          {name?.value}
+          {name?.formattedValue}
         </div>
 
         {!DisplayHelper.isDisabled(mappings) && (

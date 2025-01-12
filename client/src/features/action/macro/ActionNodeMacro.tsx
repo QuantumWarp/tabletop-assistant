@@ -12,32 +12,33 @@ import ActionNodeOutput from '../common/ActionNodeOutput';
 import ActionTreeNode from '../../../models/action-tree-node';
 import '../common/ActionNode.css';
 import './ActionNodeMacro.css';
-import { useMappingUpdate } from '../../../helpers/hooks/use-mapping-update';
 import { useMappingExpressions } from '../../../helpers/hooks/use-mapping-expressions';
-import { Mapping } from '../../../models/mapping';
+import { useUpdateValueMapMutation } from '../../../store/api';
 
 interface ActionNodeMacroProps {
   node: ActionTreeNode;
 }
 
 const ActionNodeMacro = ({ node }: ActionNodeMacroProps) => {
-  const [lastResults, setLastResults] = useState<Mapping[]>();
+  const [lastResults, setLastResults] = useState();
   const [runCount, setRunCount] = useState(0);
+  const [updateMapping] = useUpdateValueMapMutation();
 
   const macros = node.action.macros as Macro[];
 
   const expressionResults = useMappingExpressions(macros.map((x) => x.expression), node.entity.id);
-  const mappingUpdate = useMappingUpdate();
 
   const runMacros = () => {
     if (!expressionResults) return;
-    const updatedMappings = macros.map((macro, index) => ({
-      ...macro.target,
-      value: expressionResults[index].result,
-    }));
-    mappingUpdate(updatedMappings);
-    setLastResults(updatedMappings);
-    setRunCount(runCount + 1);
+    // const updatedMappings = macros.map((macro, index) => ({
+    //   ...macro.target,
+    //   value: expressionResults[index].result,
+    // }));
+    // for (const mapping of updatedMappings) {
+    //   updateMapping(mapping);
+    // }
+    // setLastResults(updatedMappings);
+    // setRunCount(runCount + 1);
   };
 
   return (

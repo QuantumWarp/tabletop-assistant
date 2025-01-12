@@ -1,39 +1,25 @@
 import { useParams } from 'react-router-dom';
-import { Mapping } from '../../models/mapping.js';
-import { useGetEntitiesQuery } from '../../store/api';
-import FieldHelper from '../field.helper';
-import { useMappings } from './use-mappings';
-
-export function useMappingEntities(entityIds: string[]) {
-  const { tabletopId } = useParams() as { tabletopId: string };
-  const { data: entities } = useGetEntitiesQuery(tabletopId);
-
-  const filteredEntities = (entities || [])
-    .filter((x) => entityIds.includes(x.id));
-
-  const emptyMappings = filteredEntities
-    .reduce((arr, x) => ([
-      ...arr,
-      ...FieldHelper.getFields(x).map((field) => ({
-        entityId: x.id,
-        fieldKey: field.key,
-        value: undefined,
-      })),
-    ]), [] as Mapping[]);
-
-  const mappings = useMappings(emptyMappings);
-  if (!mappings) return undefined;
-
-  const results = entityIds.map((entityId) => ({
-    entityId,
-    mappings: mappings.filter((x) => x.entityId === entityId),
-  }));
-
-  return results;
-}
+import { useCreateValueMapMutation, useGetEntityQuery, useGetValueMapsQuery } from '../../store/api';
+import { useEffect } from 'react';
 
 export function useMappingEntity(entityId: string) {
-  const results = useMappingEntities([entityId]);
-  if (!results) return undefined;
-  return results.find((x) => x.entityId === entityId)?.mappings || [];
+  const { tabletopId } = useParams() as { tabletopId: string };
+
+  const { data: entity } = useGetEntityQuery(entityId);
+  const { data: valueMaps } = useGetValueMapsQuery(tabletopId);
+  const [createValueMap] = useCreateValueMapMutation();
+
+  useEffect(() => {
+    if (!entity) return;
+    if (!valueMaps) return;
+
+    for (const field of entity.fields) {
+      const valueMap = valueMaps.find((x) => x.fieldKey === field.key);
+      if (!valueMap) {
+        createValueMap({ entityId, fieldKey: field.key, tabletopId, value: field.initial });
+      }
+    }
+  }, [valueMaps]);
+
+  return (valueMaps || []).filter((x) => x.entityId === entityId);
 }

@@ -34,7 +34,6 @@ export type {
 
 export type {
   ValueMap,
-  FieldValueMapping,
   CreateValueMap,
   UpdateValueMap,
 } from './entity/value-map';

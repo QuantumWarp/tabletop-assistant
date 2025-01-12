@@ -92,16 +92,38 @@ export const api = createApi({
       providesTags: ['Values'],
     }),
     getValueMap: build.query<ValueMap, string>({
-      query: (entityId) => ({ url: `/value-maps/${entityId}` }),
+      query: (id) => ({ url: `/value-maps/${id}` }),
       providesTags: ['Values'],
     }),
     createValueMap: build.mutation<ValueMap, CreateValueMap>({
       query: (body) => ({ url: '/value-maps', method: 'POST', body }),
-      invalidatesTags: ['Values', 'Entity'],
+      invalidatesTags: ['Values'],
     }),
     updateValueMap: build.mutation<ValueMap, UpdateValueMap>({
       query: (body) => ({ url: '/value-maps', method: 'PUT', body }),
       invalidatesTags: [], // Invalidating Value Maps here would be very chatty
+      async onQueryStarted(valueMap, { dispatch, queryFulfilled }) {
+        dispatch(
+          api.util.updateQueryData("getValueMap", valueMap.id, (draft) => {
+            Object.assign(draft, valueMap)
+          }),
+        );
+        dispatch(
+          api.util.updateQueryData("getValueMaps", valueMap.tabletopId, 
+            (draft) => {
+              const index = draft.findIndex((x) => x.id === valueMap.id);
+              if (index !== -1) {
+                draft[index] = { ...draft[index], ...valueMap };
+              }
+            }),
+        );
+
+        try {
+          await queryFulfilled
+        } catch {
+          dispatch(api.util.invalidateTags(['Values']))
+        }
+      },
     }),
     deleteValueMap: build.mutation<void, string>({
       query: (entityId) => ({ url: `/value-maps/${entityId}`, method: 'DELETE' }),

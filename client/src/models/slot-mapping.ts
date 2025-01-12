@@ -1,5 +1,4 @@
 import { SlotFieldMapping } from '@tabletop-assistant/common';
-import { Mapping } from './mapping';
 
 export const fakeMapping = (value: string | number | boolean) => ({
   entityId: '',
@@ -19,7 +18,7 @@ export const actionMapping = (mapping: SlotFieldMapping, value: string | number 
   formattedValue: value?.toString(),
 });
 
-export interface SlotMapping extends Mapping {
+export interface SlotMapping {
   entityId: string;
   fieldKey: string;
 

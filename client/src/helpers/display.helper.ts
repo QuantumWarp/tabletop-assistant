@@ -1,13 +1,13 @@
 import {
   CreateEntity, EntityAction, EntityDisplay, EntityDisplayType,
   EntityField, SlotFieldMapping,
+  ValueMap,
 } from '@tabletop-assistant/common';
 import { slots as dotsSlots } from './displays/dots.display';
 import { slots as squareSlots } from './displays/square.display';
 import { slots as cardSlots } from './displays/card.display';
 import { slots as toggleSlots } from './displays/toggle.display';
 import { actionMapping, SlotMapping } from '../models/slot-mapping';
-import { Mapping } from '../models/mapping';
 import FieldHelper from './field.helper';
 
 interface DisplaySlot {
@@ -85,21 +85,23 @@ export default class DisplayHelper {
       .filter((x): x is SlotFieldMapping => Boolean(x));
   }
 
-  static maps(mappings: Mapping[], display: EntityDisplay, entity: CreateEntity): SlotMapping[] {
+  static maps(mappings: ValueMap[], display: EntityDisplay, entity: CreateEntity): SlotMapping[] {
     return display.mappings
       .map((displayMapping) => {
         const mapping = mappings.find((x) => x.fieldKey === displayMapping.fieldKey);
         const entityField = FieldHelper.getFields(entity)
           .find((x) => x.key === displayMapping.fieldKey);
-        if (!mapping || !entityField) return null;
+        if (!entityField) return null;
 
-        const formattedValue = (entityField?.prefix || '') + mapping?.value + (entityField?.postfix || '');
+        const formattedValue = (entityField?.prefix || '') + (mapping?.value || entityField.initial) + (entityField?.postfix || '');
 
         return {
-          ...mapping,
+          entityId: mapping?.entityId,
+          fieldKey: mapping?.fieldKey,
           displayKey: display.key,
           slotKey: displayMapping?.slotKey,
           formattedValue,
+          value: mapping?.value ?? formattedValue
         } as SlotMapping;
       })
       .filter((x): x is SlotMapping => x !== null);

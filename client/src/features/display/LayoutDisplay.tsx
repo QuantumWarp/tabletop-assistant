@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import {
-  CreateEntity, EntityDisplay,
+  CreateEntity, EntityDisplay, ValueMap
 } from '@tabletop-assistant/common';
 import Operations, { OperationHelper } from '../../helpers/operation.helper';
 import DisplayHelper from '../../helpers/display.helper';
-import { Mapping } from '../../models/mapping';
 import { EntitySummaryDialog } from '../entity/EntitySummaryDialog';
 import DisplayCard from './DisplayCard';
 import DisplayDots from './DisplayDots';
@@ -16,8 +15,8 @@ interface LayoutDisplayProps {
   preview?: boolean,
   display: EntityDisplay,
   entity: CreateEntity,
-  mappings: Mapping[],
-  onUpdateMappings?: (values: Mapping[]) => void,
+  mappings: ValueMap[],
+  onUpdateMappings?: (values: ValueMap[]) => void,
   onAction?: (actionKey: string) => void,
 }
 
@@ -45,7 +44,14 @@ const LayoutDisplay = ({
     }
 
     const updatedMappings = OperationHelper.run(operation, args);
-    onUpdateMappings(updatedMappings);
+    
+    const updateValueMaps = mappings.map((vm) => {
+      const slotMapping = updatedMappings.find((x) => vm.fieldKey === x.fieldKey);
+      if (!slotMapping) return;
+      return { ...vm, value: slotMapping.value };
+    }).filter((x) => Boolean(x)) as ValueMap[];
+
+    onUpdateMappings(updateValueMaps);
   };
 
   return (
